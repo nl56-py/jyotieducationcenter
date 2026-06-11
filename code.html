@@ -1,0 +1,757 @@
+<html lang="en"><head></head><body class="bg-background text-on-background font-body-md antialiased overflow-x-hidden">```html
+
+
+
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EduMark Pvt. Ltd. | Study Abroad</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "surface-dim": "#dcd9d9",
+                "primary-container": "#5d3fd3",
+                "outline-variant": "#c9c4d7",
+                "on-surface-variant": "#484554",
+                "on-secondary-fixed": "#002022",
+                "on-primary-fixed": "#1c0062",
+                "background": "#fcf9f8",
+                "surface-container-highest": "#e5e2e1",
+                "inverse-on-surface": "#f3f0ef",
+                "tertiary-container": "#954500",
+                "primary-fixed": "#e6deff",
+                "on-secondary-container": "#006e75",
+                "surface-container-low": "#f6f3f2",
+                "on-secondary-fixed-variant": "#004f54",
+                "secondary-container": "#7af1fc",
+                "error": "#ba1a1a",
+                "surface-bright": "#fcf9f8",
+                "inverse-surface": "#303030",
+                "surface-variant": "#e5e2e1",
+                "primary": "#451ebb",
+                "surface-tint": "#6042d6",
+                "on-primary-container": "#d8ceff",
+                "tertiary-fixed": "#ffdbc8",
+                "white": "#FFFFFF",
+                "on-surface": "#1b1b1c",
+                "on-tertiary": "#ffffff",
+                "on-secondary": "#ffffff",
+                "on-tertiary-container": "#ffc9ab",
+                "inverse-primary": "#cabeff",
+                "surface-mist": "#F2EDEB",
+                "surface": "#fcf9f8",
+                "surface-container": "#f0eded",
+                "secondary": "#006970",
+                "primary-fixed-dim": "#cabeff",
+                "on-tertiary-fixed": "#321300",
+                "tertiary-fixed-dim": "#ffb68b",
+                "secondary-fixed-dim": "#5dd8e2",
+                "secondary-fixed": "#7df4ff",
+                "on-error-container": "#93000a",
+                "surface-container-lowest": "#ffffff",
+                "on-tertiary-fixed-variant": "#743400",
+                "on-primary": "#ffffff",
+                "tertiary": "#713300",
+                "on-primary-fixed-variant": "#4723be",
+                "on-background": "#1b1b1c",
+                "heritage-red": "#DD3333",
+                "surface-container-high": "#eae7e7",
+                "outline": "#797586",
+                "on-error": "#ffffff",
+                "error-container": "#ffdad6"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+        },
+        "spacing": {
+                "margin-mobile": "16px",
+                "margin-desktop": "40px",
+                "gutter": "24px",
+                "container-max": "1280px",
+                "base": "8px"
+        },
+        "fontFamily": {
+                "display-lg": [
+                        "Plus Jakarta Sans"
+                ],
+                "body-lg": [
+                        "Plus Jakarta Sans"
+                ],
+                "title-lg": [
+                        "Plus Jakarta Sans"
+                ],
+                "body-md": [
+                        "Plus Jakarta Sans"
+                ],
+                "label-sm": [
+                        "Plus Jakarta Sans"
+                ],
+                "headline-sm": [
+                        "Plus Jakarta Sans"
+                ],
+                "headline-md": [
+                        "Plus Jakarta Sans"
+                ],
+                "display-lg-mobile": [
+                        "Plus Jakarta Sans"
+                ],
+                "label-md": [
+                        "Plus Jakarta Sans"
+                ]
+        },
+        "fontSize": {
+                "display-lg": [
+                        "48px",
+                        {
+                                "lineHeight": "56px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "700"
+                        }
+                ],
+                "body-lg": [
+                        "18px",
+                        {
+                                "lineHeight": "28px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "title-lg": [
+                        "20px",
+                        {
+                                "lineHeight": "28px",
+                                "fontWeight": "600"
+                        }
+                ],
+                "body-md": [
+                        "16px",
+                        {
+                                "lineHeight": "24px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "label-sm": [
+                        "12px",
+                        {
+                                "lineHeight": "16px",
+                                "letterSpacing": "0.05em",
+                                "fontWeight": "600"
+                        }
+                ],
+                "headline-sm": [
+                        "24px",
+                        {
+                                "lineHeight": "32px",
+                                "fontWeight": "600"
+                        }
+                ],
+                "headline-md": [
+                        "30px",
+                        {
+                                "lineHeight": "38px",
+                                "fontWeight": "600"
+                        }
+                ],
+                "display-lg-mobile": [
+                        "32px",
+                        {
+                                "lineHeight": "40px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "700"
+                        }
+                ],
+                "label-md": [
+                        "14px",
+                        {
+                                "lineHeight": "20px",
+                                "letterSpacing": "0.01em",
+                                "fontWeight": "500"
+                        }
+                ]
+        }
+},
+    },
+  }
+</script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined[data-weight="fill"] {
+            font-variation-settings: 'FILL' 1;
+        }
+        
+        /* Subtle patterns */
+        .bg-pattern-dots {
+            background-image: radial-gradient(var(--tw-colors-outline-variant) 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0.3;
+        }
+
+        /* Hide scrollbar for horizontal scrolling but keep functionality */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+    </style>
+<!-- Top Contact Bar -->
+<div class="bg-primary text-white py-2 px-margin-mobile md:px-margin-desktop text-label-sm font-label-sm flex flex-col md:flex-row justify-between items-center gap-2">
+<div class="flex items-center flex-wrap justify-center gap-4 text-primary-fixed">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">location_on</span> Araniko Bhawan, Traffic Chowk, Biratnagar-09, Nepal</span>
+<span class="hidden md:inline">|</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">call</span> 021-590823</span>
+<span class="hidden md:inline">|</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">phone_iphone</span> 9802724823 / 9807095059</span>
+</div>
+<div class="flex items-center flex-wrap justify-center gap-2 md:gap-4 text-primary-fixed-dim font-medium">
+<span>Ministry Approved</span>
+<span class="hidden sm:inline">•</span>
+<span>ECAN Member</span>
+<span class="hidden sm:inline">•</span>
+<span>Since 2012</span>
+</div>
+</div>
+<!-- Header: Main Navbar -->
+<header class="bg-white dark:bg-surface-container-highest w-full top-0 sticky z-50 shadow-sm border-b border-outline-variant/20 flex flex-col w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-4">
+<div class="flex items-center justify-between w-full">
+<!-- Brand -->
+<a class="flex items-center gap-3" href="#">
+<img alt="EduMark Logo" class="h-12 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuh0Sej-QC41yEl9_qM5hzc_OMd3-niLyt_d-NN9OtJTsjsTHy7_E1czefdK6n3LZYiKnnpCBG905XgztivY4OpuJjWi-M0yhNiPI0Vaz8xjE5yndFgewjSGaqVMKpvxWK57TGFQDFmf0beipQWWye9nqgro2xjxkNTcjm0GmX20pxoUGBhjR7TXhqOOle3RuuXKIKw6QaiED1fgRhPW10Sw5LctjVT7rWEOLtDw--hrE10sFIqwoRyIyCnlGID9fFgdR6X5xl4H17"/>
+<span class="text-title-lg font-title-lg font-bold text-primary dark:text-inverse-primary hidden sm:block italic">EduMark</span>
+</a>
+<!-- Navigation Links (Desktop) -->
+<nav class="hidden lg:flex items-center gap-6">
+<a class="text-primary dark:text-inverse-primary font-bold pb-1 text-label-md font-label-md" href="#">Home</a>
+<a class="text-on-surface-variant dark:text-on-primary-container hover:text-primary transition-colors text-label-md font-label-md hover:bg-surface-container-low px-2 py-1 rounded" href="#">About Us</a>
+<div class="relative group">
+<button class="flex items-center gap-1 text-on-surface-variant dark:text-on-primary-container hover:text-primary transition-colors text-label-md font-label-md hover:bg-surface-container-low px-2 py-1 rounded">
+        Services <span class="material-symbols-outlined text-sm">arrow_drop_down</span>
+</button>
+<div class="absolute left-0 mt-2 w-48 bg-white border border-outline-variant/20 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
+<a class="block px-4 py-2 text-label-md text-on-surface hover:bg-surface-container hover:text-primary" href="#">Career Counselling</a>
+<a class="block px-4 py-2 text-label-md text-on-surface hover:bg-surface-container hover:text-primary" href="#">Admission Guidance</a>
+<a class="block px-4 py-2 text-label-md text-on-surface hover:bg-surface-container hover:text-primary" href="#">Visa Assistance</a>
+</div>
+</div>
+<a class="text-on-surface-variant dark:text-on-primary-container hover:text-primary transition-colors text-label-md font-label-md hover:bg-surface-container-low px-2 py-1 rounded" href="#">Test Preparation</a>
+<a class="text-on-surface-variant dark:text-on-primary-container hover:text-primary transition-colors text-label-md font-label-md hover:bg-surface-container-low px-2 py-1 rounded" href="#">Entrance Preparations</a>
+<a class="text-on-surface-variant dark:text-on-primary-container hover:text-primary transition-colors text-label-md font-label-md hover:bg-surface-container-low px-2 py-1 rounded" href="#">Destinations</a>
+<a class="text-on-surface-variant dark:text-on-primary-container hover:text-primary transition-colors text-label-md font-label-md hover:bg-surface-container-low px-2 py-1 rounded" href="#">Blogs</a>
+<a class="text-on-surface-variant dark:text-on-primary-container hover:text-primary transition-colors text-label-md font-label-md hover:bg-surface-container-low px-2 py-1 rounded" href="#">Videos Gallery</a>
+<a class="text-on-surface-variant dark:text-on-primary-container hover:text-primary transition-colors text-label-md font-label-md hover:bg-surface-container-low px-2 py-1 rounded" href="#">Contact</a>
+</nav>
+<!-- Actions -->
+<div class="flex items-center gap-4">
+<button class="bg-primary text-white text-label-md font-label-md px-6 py-3 rounded-full hover:bg-primary-fixed hover:text-on-primary-fixed transition-colors shadow-sm hidden md:flex items-center gap-2 transform active:scale-95 duration-200">
+<span class="material-symbols-outlined text-sm">calendar_month</span> Book Free Consultation
+</button>
+<!-- Mobile Menu Toggle -->
+<button aria-label="Menu" class="lg:hidden p-2 text-on-surface-variant">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+</header>
+<main>
+<!-- 1. Hero Section -->
+<section class="relative bg-surface-mist pt-20 pb-32 overflow-hidden px-margin-mobile md:px-margin-desktop">
+<div class="absolute inset-0 bg-pattern-dots pointer-events-none"></div>
+<div class="max-w-container-max mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
+<div class="space-y-8">
+<div class="inline-flex flex-wrap items-center gap-3 px-4 py-2 bg-white rounded-full text-label-sm font-label-sm shadow-sm border border-outline-variant/10">
+<span class="flex items-center gap-1 text-primary"><span class="material-symbols-outlined text-sm" data-weight="fill">verified</span> Ministry Approved</span>
+<span class="text-outline-variant">•</span>
+<span class="text-secondary">ECAN Member</span>
+<span class="text-outline-variant">•</span>
+<span class="text-tertiary">14 Years</span>
+<span class="text-outline-variant">•</span>
+<span class="text-primary-container">500+ Universities</span>
+</div>
+<h1 class="text-display-lg-mobile md:text-display-lg font-display-lg-mobile md:font-display-lg text-primary-fixed-dim text-on-background leading-tight">
+    EduMark – Turning Ambition Into Achievement
+</h1>
+<p class="text-headline-sm font-headline-sm text-primary mb-4">Unleashing Potential Through Global Exposure</p>
+<p class="text-body-lg font-body-lg text-on-surface-variant max-w-xl">
+    Dreaming of Studying Abroad? Turn Your Aspirations Into Reality. We provide expert counseling and transparent processes to guide you every step of the way.
+</p>
+<div class="flex flex-col sm:flex-row gap-4 pt-4">
+<button class="bg-primary text-white text-label-md font-label-md px-8 py-4 rounded-lg hover:bg-primary/90 transition-all shadow-[0px_10px_30px_rgba(30,30,30,0.05)] transform hover:-translate-y-1">
+    Book Free Counseling
+</button>
+<button class="border border-secondary text-secondary bg-transparent text-label-md font-label-md px-8 py-4 rounded-lg hover:bg-secondary/5 transition-all flex items-center justify-center gap-2">
+    Explore Destinations
+    <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="relative h-[500px] w-full lg:h-[600px]">
+<div class="absolute inset-0 bg-gradient-to-tr from-primary/20 to-secondary/20 rounded-full blur-3xl animate-pulse"></div>
+<img alt="Smiling diverse students walking on a sunny university campus" class="absolute inset-0 w-full h-full object-cover rounded-2xl shadow-[0px_20px_40px_rgba(30,30,30,0.1)] z-10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkorN4hSZmtIWp726svRD8gkbPhDQmjH2p0wgvcoVt-sIMzoUFrbyKJb8AJ41jr29KL9X0_p2FA4w09uaU-xSb5ismhh9bjOR_E5ertO9dHez0AgAh578XHaVa_Q2Sz6H0Q48KYKW92VkqZ35Hd0JoSK2hq04O2EvfREVoUPTwyZhnllZOzFk12f-ypD8pS_CjuJXWhMajT0hozkhh_I_OlSwthyxkqbcFcSLxbA5xwfZGTP_3OLwaVTuQ6kc7ZItzGBUSQnlo-vHi"/>
+<div class="absolute -bottom-8 -left-8 bg-white p-4 rounded-xl shadow-lg border border-outline-variant/10 z-20 flex items-center gap-4">
+<div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-600">
+<span class="material-symbols-outlined" data-weight="fill">verified</span>
+</div>
+<div>
+<p class="text-label-sm font-label-sm text-on-surface-variant uppercase">Success Rate</p>
+<p class="text-title-lg font-title-lg text-on-background">98%</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 2. Destinations We Cater -->
+<section class="py-20 px-margin-mobile md:px-margin-desktop bg-white">
+<div class="max-w-container-max mx-auto">
+<div class="text-center mb-16">
+<h2 class="text-headline-md font-headline-md text-primary mb-4">Destinations We Cater</h2>
+<p class="text-body-md font-body-md text-on-surface-variant max-w-2xl mx-auto">
+    Explore world-class education opportunities across the globe. We guide you to the destination that best fits your academic and career goals.
+</p>
+</div>
+<!-- Horizontal scroll container for destinations -->
+<div class="flex overflow-x-auto gap-6 pb-8 hide-scrollbar snap-x">
+<!-- UK -->
+<div class="min-w-[280px] snap-start group relative overflow-hidden rounded-xl border border-outline-variant/20 shadow-sm hover:shadow-md transition-all bg-white flex flex-col h-full">
+<div class="h-48 w-full overflow-hidden relative">
+<img alt="Study in UK" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDH8PsjgtT5ABcvuUpx38rKAF2LXT3fL9JoaLvqtr0Jl63mgfwVn5tuNPEyib1o_I45n5pMOEqripq74C9GhdfRLHD0B54CbkiTvU9V06XGxBqlRa0U1NjlzRypm9nXsJ-PeABDGV03c5iv9w8YQeZ_mTZH_CscivDLwYVJ0Fhu7N0h2Qb4iowc0IqaN8-wl9ns3fXW7IEnxJI9Mxv3vewGZidflFrnaFf_oVCzfTJs1SxIaV9LkHw-pHh6xDcc4Wqz3Yk97DMlErz9"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+<div class="absolute top-4 right-4 bg-primary text-white text-xs px-2 py-1 rounded-full font-semibold">Sept 2026 Open</div>
+<div class="absolute bottom-4 left-4 flex items-center gap-2">
+<span class="text-2xl">🇬🇧</span>
+<h3 class="text-white font-title-lg text-title-lg z-10">UK</h3>
+</div>
+</div>
+<div class="p-4 flex-grow flex flex-col justify-between">
+<p class="text-label-sm text-on-surface-variant mb-4 flex items-center gap-1"><span class="material-symbols-outlined text-sm">payments</span> NPR 35–40 Lakh</p>
+<button class="w-full py-2 text-primary text-label-sm font-label-sm border border-primary/20 rounded hover:bg-primary/5 transition-colors">Learn More</button>
+</div>
+</div>
+<!-- USA -->
+<div class="min-w-[280px] snap-start group relative overflow-hidden rounded-xl border border-outline-variant/20 shadow-sm hover:shadow-md transition-all bg-white flex flex-col h-full">
+<div class="h-48 w-full overflow-hidden relative">
+<img alt="Study in USA" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7rWUgGGXfd5ymtI_Yw-Mgb4qQcX5izmHvPEQnif6B4HgI55TuNFiZDv8ZvvrGqrbZh9E1F6K5uczW1cf2BYauc6CVx2bnmFqmyHrcZfo4WLMRcYUr73ObXXMYh0OHKeYWM-vu-IpKO_jXUZd8jGypin8XyvUPuV_9c2i7J7kwUFAqIGOn0hxFHqPk1ZUitPyjDXY88dS1qudwi_XW1VBCLWgapNIusJKXJyN4LYLyteGhm6XxTTnpOO42MhuQb975cLm5i4BEUd9q"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+<div class="absolute top-4 right-4 bg-primary text-white text-xs px-2 py-1 rounded-full font-semibold">Fall 2026 Open</div>
+<div class="absolute bottom-4 left-4 flex items-center gap-2">
+<span class="text-2xl">🇺🇸</span>
+<h3 class="text-white font-title-lg text-title-lg z-10">USA</h3>
+</div>
+</div>
+<div class="p-4 flex-grow flex flex-col justify-between">
+<p class="text-label-sm text-on-surface-variant mb-4 flex items-center gap-1"><span class="material-symbols-outlined text-sm">payments</span> NPR 20–40 Lakh</p>
+<button class="w-full py-2 text-primary text-label-sm font-label-sm border border-primary/20 rounded hover:bg-primary/5 transition-colors">Learn More</button>
+</div>
+</div>
+<!-- Australia -->
+<div class="min-w-[280px] snap-start group relative overflow-hidden rounded-xl border border-outline-variant/20 shadow-sm hover:shadow-md transition-all bg-white flex flex-col h-full">
+<div class="h-48 w-full overflow-hidden relative">
+<img alt="Study in Australia" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDH8PsjgtT5ABcvuUpx38rKAF2LXT3fL9JoaLvqtr0Jl63mgfwVn5tuNPEyib1o_I45n5pMOEqripq74C9GhdfRLHD0B54CbkiTvU9V06XGxBqlRa0U1NjlzRypm9nXsJ-PeABDGV03c5iv9w8YQeZ_mTZH_CscivDLwYVJ0Fhu7N0h2Qb4iowc0IqaN8-wl9ns3fXW7IEnxJI9Mxv3vewGZidflFrnaFf_oVCzfTJs1SxIaV9LkHw-pHh6xDcc4Wqz3Yk97DMlErz9"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+<div class="absolute top-4 right-4 bg-primary text-white text-xs px-2 py-1 rounded-full font-semibold">Feb 2026 Open</div>
+<div class="absolute bottom-4 left-4 flex items-center gap-2">
+<span class="text-2xl">🇦🇺</span>
+<h3 class="text-white font-title-lg text-title-lg z-10">Australia</h3>
+</div>
+</div>
+<div class="p-4 flex-grow flex flex-col justify-between">
+<p class="text-label-sm text-on-surface-variant mb-4 flex items-center gap-1"><span class="material-symbols-outlined text-sm">payments</span> NPR 30–40 Lakh</p>
+<button class="w-full py-2 text-primary text-label-sm font-label-sm border border-primary/20 rounded hover:bg-primary/5 transition-colors">Learn More</button>
+</div>
+</div>
+<!-- Japan -->
+<div class="min-w-[280px] snap-start group relative overflow-hidden rounded-xl border border-outline-variant/20 shadow-sm hover:shadow-md transition-all bg-white flex flex-col h-full">
+<div class="h-48 w-full overflow-hidden relative">
+<img alt="Study in Japan" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjOIWfxv3DVXNOBvk6yeKVowo4gI-8eCJHyZ4TWsIDXNkur59wvPHFtNd2-DXxmPBw1ASNeR-q59GDpIuDa_jRTsOfjd04ftyhUHZC7B0o7qGiA76PH4uRxov-9fJojui1aLh-kNDP2CLIXW7ZbUYV_BrPM5r2Wv7AbJgHX4M9ecTZ36MJIxxDlxxFu_9VGUHH-pJnTK9wnRlTlu6fkKTZIlRdJMQPO_4nICSJZLCjVMRX_7wu6ls1GSCz-_nz_8qPMYFCMR8RaXfk"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+<div class="absolute top-4 right-4 bg-primary text-white text-xs px-2 py-1 rounded-full font-semibold">April 2026 Open</div>
+<div class="absolute bottom-4 left-4 flex items-center gap-2">
+<span class="text-2xl">🇯🇵</span>
+<h3 class="text-white font-title-lg text-title-lg z-10">Japan</h3>
+</div>
+</div>
+<div class="p-4 flex-grow flex flex-col justify-between">
+<p class="text-label-sm text-on-surface-variant mb-4 flex items-center gap-1"><span class="material-symbols-outlined text-sm">payments</span> NPR 13–16 Lakh</p>
+<button class="w-full py-2 text-primary text-label-sm font-label-sm border border-primary/20 rounded hover:bg-primary/5 transition-colors">Learn More</button>
+</div>
+</div>
+<!-- Rest of destinations in smaller cards to save space, but keeping the requested list -->
+<div class="min-w-[200px] snap-start group relative overflow-hidden rounded-xl border border-outline-variant/20 shadow-sm bg-surface-container-lowest flex flex-col h-full p-4 items-center justify-center text-center">
+<span class="text-4xl mb-2">🇫🇮</span>
+<h3 class="font-title-lg text-title-lg mb-1">Finland</h3>
+<p class="text-label-sm text-on-surface-variant mb-4">NPR 18–22 Lakh</p>
+<button class="w-full py-1 text-primary text-label-sm border border-primary/20 rounded hover:bg-primary/5">Details</button>
+</div>
+<div class="min-w-[200px] snap-start group relative overflow-hidden rounded-xl border border-outline-variant/20 shadow-sm bg-surface-container-lowest flex flex-col h-full p-4 items-center justify-center text-center">
+<span class="text-4xl mb-2">🇱🇹</span>
+<h3 class="font-title-lg text-title-lg mb-1">Lithuania</h3>
+<p class="text-label-sm text-on-surface-variant mb-4">NPR 14–16 Lakh</p>
+<button class="w-full py-1 text-primary text-label-sm border border-primary/20 rounded hover:bg-primary/5">Details</button>
+</div>
+<div class="min-w-[200px] snap-start group relative overflow-hidden rounded-xl border border-outline-variant/20 shadow-sm bg-surface-container-lowest flex flex-col h-full p-4 items-center justify-center text-center">
+<span class="text-4xl mb-2">🇰🇷</span>
+<h3 class="font-title-lg text-title-lg mb-1">South Korea</h3>
+<p class="text-label-sm text-on-surface-variant mb-4">NPR 8–12 Lakh</p>
+<button class="w-full py-1 text-primary text-label-sm border border-primary/20 rounded hover:bg-primary/5">Details</button>
+</div>
+<div class="min-w-[200px] snap-start group relative overflow-hidden rounded-xl border border-outline-variant/20 shadow-sm bg-surface-container-lowest flex flex-col h-full p-4 items-center justify-center text-center">
+<span class="text-4xl mb-2">🇲🇹</span>
+<h3 class="font-title-lg text-title-lg mb-1">Malta</h3>
+<p class="text-label-sm text-on-surface-variant mb-4">European Hub</p>
+<button class="w-full py-1 text-primary text-label-sm border border-primary/20 rounded hover:bg-primary/5">Details</button>
+</div>
+<div class="min-w-[200px] snap-start group relative overflow-hidden rounded-xl border border-outline-variant/20 shadow-sm bg-surface-container-lowest flex flex-col h-full p-4 items-center justify-center text-center">
+<span class="text-4xl mb-2">🇦🇪</span>
+<h3 class="font-title-lg text-title-lg mb-1">Dubai</h3>
+<p class="text-label-sm text-on-surface-variant mb-4">Global Hub</p>
+<button class="w-full py-1 text-primary text-label-sm border border-primary/20 rounded hover:bg-primary/5">Details</button>
+</div>
+<div class="min-w-[200px] snap-start group relative overflow-hidden rounded-xl border border-outline-variant/20 shadow-sm bg-surface-container-lowest flex flex-col h-full p-4 items-center justify-center text-center">
+<span class="text-4xl mb-2">🇮🇳</span>
+<h3 class="font-title-lg text-title-lg mb-1">India</h3>
+<p class="text-label-sm text-on-surface-variant mb-4">INR 5–8 Lakh+</p>
+<button class="w-full py-1 text-primary text-label-sm border border-primary/20 rounded hover:bg-primary/5">Details</button>
+</div>
+</div>
+</div>
+</section>
+<!-- 3. Test Preparation Preview -->
+<section class="py-20 bg-surface-container-low px-margin-mobile md:px-margin-desktop">
+<div class="max-w-container-max mx-auto">
+<div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
+<div>
+<h2 class="text-headline-md font-headline-md text-primary mb-2">Test Preparation</h2>
+<p class="text-body-md text-on-surface-variant max-w-2xl">Certified teachers, weekly mock tests, and personalized guidance to help you score high.</p>
+</div>
+<a class="text-primary font-label-md flex items-center gap-1 hover:gap-2 transition-all" href="#">Explore All Tests <span class="material-symbols-outlined text-sm">arrow_forward</span></a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- IELTS -->
+<div class="bg-white p-6 rounded-xl border border-outline-variant/20 shadow-sm hover:shadow-md transition-shadow">
+<div class="w-12 h-12 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center mb-4 text-xl font-bold">IELTS</div>
+<h3 class="font-title-lg text-title-lg mb-2">IELTS</h3>
+<p class="text-body-sm text-on-surface-variant mb-6 h-12">International English Language Testing System. Academic &amp; General training.</p>
+<button class="w-full py-2 bg-surface-container-low text-primary font-label-sm rounded hover:bg-primary/10 transition-colors">Learn More</button>
+</div>
+<!-- PTE -->
+<div class="bg-white p-6 rounded-xl border border-outline-variant/20 shadow-sm hover:shadow-md transition-shadow">
+<div class="w-12 h-12 bg-green-100 text-green-700 rounded-lg flex items-center justify-center mb-4 text-xl font-bold">PTE</div>
+<h3 class="font-title-lg text-title-lg mb-2">PTE</h3>
+<p class="text-body-sm text-on-surface-variant mb-6 h-12">Pearson Test of English. Computer-based test for international study.</p>
+<button class="w-full py-2 bg-surface-container-low text-primary font-label-sm rounded hover:bg-primary/10 transition-colors">Learn More</button>
+</div>
+<!-- TOEFL -->
+<div class="bg-white p-6 rounded-xl border border-outline-variant/20 shadow-sm hover:shadow-md transition-shadow">
+<div class="w-12 h-12 bg-purple-100 text-purple-700 rounded-lg flex items-center justify-center mb-4 text-xl font-bold">TOEFL</div>
+<h3 class="font-title-lg text-title-lg mb-2">TOEFL</h3>
+<p class="text-body-sm text-on-surface-variant mb-6 h-12">Test of English as a Foreign Language. Widely accepted globally.</p>
+<button class="w-full py-2 bg-surface-container-low text-primary font-label-sm rounded hover:bg-primary/10 transition-colors">Learn More</button>
+</div>
+<!-- SAT -->
+<div class="bg-white p-6 rounded-xl border border-outline-variant/20 shadow-sm hover:shadow-md transition-shadow">
+<div class="w-12 h-12 bg-orange-100 text-orange-700 rounded-lg flex items-center justify-center mb-4 text-xl font-bold">SAT</div>
+<h3 class="font-title-lg text-title-lg mb-2">SAT</h3>
+<p class="text-body-sm text-on-surface-variant mb-6 h-12">Scholastic Assessment Test. Required for undergraduate admissions in USA.</p>
+<button class="w-full py-2 bg-surface-container-low text-primary font-label-sm rounded hover:bg-primary/10 transition-colors">Learn More</button>
+</div>
+</div>
+</div>
+</section>
+<!-- 4. Services Preview (Asymmetric Layout) -->
+<section class="py-20 bg-white px-margin-mobile md:px-margin-desktop">
+<div class="max-w-container-max mx-auto">
+<div class="text-center mb-12">
+<h2 class="text-headline-md font-headline-md text-primary mb-4">Our Services</h2>
+<p class="text-body-md text-on-surface-variant max-w-2xl mx-auto">Comprehensive support from your first counseling session to your arrival at the university.</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- Large Card -->
+<div class="lg:col-span-2 bg-primary-fixed-dim/20 rounded-2xl p-8 border border-primary/10 flex flex-col justify-between relative overflow-hidden group">
+<div class="absolute right-0 top-0 w-64 h-64 bg-primary/5 rounded-full -translate-y-1/2 translate-x-1/3 group-hover:scale-110 transition-transform duration-700"></div>
+<div class="relative z-10">
+<div class="w-16 h-16 bg-primary text-white rounded-xl flex items-center justify-center mb-6 shadow-md">
+<span class="material-symbols-outlined text-3xl">public</span>
+</div>
+<h3 class="text-headline-sm font-headline-sm text-on-background mb-3">Abroad Studies</h3>
+<p class="text-body-lg text-on-surface-variant mb-6 max-w-md">Multi-destination counseling, university selection, admission guidance, and visa assistance for 500+ global universities.</p>
+<ul class="space-y-2 mb-8">
+<li class="flex items-center gap-2 text-on-surface-variant"><span class="material-symbols-outlined text-primary text-sm">check_circle</span> Career Counselling</li>
+<li class="flex items-center gap-2 text-on-surface-variant"><span class="material-symbols-outlined text-primary text-sm">check_circle</span> Admission Guidance</li>
+<li class="flex items-center gap-2 text-on-surface-variant"><span class="material-symbols-outlined text-primary text-sm">check_circle</span> Visa Assistance</li>
+</ul>
+</div>
+<a class="inline-flex items-center gap-2 text-primary font-label-md w-fit hover:bg-primary/10 px-4 py-2 rounded-lg transition-colors -ml-4 relative z-10" href="#">Explore Service <span class="material-symbols-outlined text-sm">arrow_forward</span></a>
+</div>
+<!-- Two Smaller Cards -->
+<div class="flex flex-col gap-6">
+<div class="bg-surface-container-low rounded-2xl p-8 border border-outline-variant/20 flex-grow">
+<div class="w-12 h-12 bg-secondary/10 text-secondary rounded-xl flex items-center justify-center mb-4">
+<span class="material-symbols-outlined">menu_book</span>
+</div>
+<h3 class="text-title-lg font-title-lg mb-2">Test Preparation</h3>
+<p class="text-body-sm text-on-surface-variant mb-4">Expert coaching for IELTS, PTE, TOEFL, and SAT with certified instructors.</p>
+<a class="text-secondary font-label-sm flex items-center gap-1 hover:underline" href="#">View Classes</a>
+</div>
+<div class="bg-surface-container-low rounded-2xl p-8 border border-outline-variant/20 flex-grow">
+<div class="w-12 h-12 bg-tertiary-container/10 text-tertiary-container rounded-xl flex items-center justify-center mb-4">
+<span class="material-symbols-outlined">school</span>
+</div>
+<h3 class="text-title-lg font-title-lg mb-2">Entrance Preparation</h3>
+<p class="text-body-sm text-on-surface-variant mb-4">Ministry-approved CEE and CMAT preparation classes for +2 graduates.</p>
+<a class="text-tertiary-container font-label-sm flex items-center gap-1 hover:underline" href="#">View Programs</a>
+</div>
+</div>
+</div>
+<div class="mt-10 text-center">
+<a class="inline-block border-2 border-primary text-primary font-label-md px-8 py-3 rounded-lg hover:bg-primary hover:text-white transition-colors" href="#">Explore All Services</a>
+</div>
+</div>
+</section>
+<!-- 5. Why Choose EduMark? -->
+<section class="py-20 bg-surface-mist px-margin-mobile md:px-margin-desktop">
+<div class="max-w-container-max mx-auto">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+<div>
+<h2 class="text-headline-md font-headline-md text-primary mb-6">Why Choose EduMark?</h2>
+<p class="text-body-lg text-on-surface-variant mb-8">We don't just process applications; we build careers. Here is why thousands of students trust us with their global education journey.</p>
+<div class="space-y-6">
+<!-- 6 Points with icons -->
+<div class="flex gap-4">
+<div class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center flex-shrink-0 mt-1"><span class="material-symbols-outlined text-lg">workspace_premium</span></div>
+<div>
+<h4 class="font-title-lg text-on-background mb-1">Legacy of Success</h4>
+<p class="text-body-sm text-on-surface-variant">Guiding students toward international academic opportunities since 2012 A.D.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center flex-shrink-0 mt-1"><span class="material-symbols-outlined text-lg">verified_user</span></div>
+<div>
+<h4 class="font-title-lg text-on-background mb-1">Government Approved</h4>
+<p class="text-body-sm text-on-surface-variant">Approved from Ministry of Education and an active member of ECAN.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center flex-shrink-0 mt-1"><span class="material-symbols-outlined text-lg">psychology</span></div>
+<div>
+<h4 class="font-title-lg text-on-background mb-1">Certified Counselors</h4>
+<p class="text-body-sm text-on-surface-variant">Multi-destination experienced &amp; certified counselors (TITI trained).</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center flex-shrink-0 mt-1"><span class="material-symbols-outlined text-lg">edit_document</span></div>
+<div>
+<h4 class="font-title-lg text-on-background mb-1">Personalized Support</h4>
+<p class="text-body-sm text-on-surface-variant">Comprehensive assistance with Documentation, SOP writing, CV preparation, and Interview prep.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center flex-shrink-0 mt-1"><span class="material-symbols-outlined text-lg">gavel</span></div>
+<div>
+<h4 class="font-title-lg text-on-background mb-1">Transparent &amp; Ethical</h4>
+<p class="text-body-sm text-on-surface-variant">Clear, honest processes with no hidden fees or misleading promises.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center flex-shrink-0 mt-1"><span class="material-symbols-outlined text-lg">flight_takeoff</span></div>
+<div>
+<h4 class="font-title-lg text-on-background mb-1">End-to-End Support</h4>
+<p class="text-body-sm text-on-surface-variant">We are with you from your first counseling session to your departure and beyond.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="relative h-full min-h-[400px] rounded-2xl overflow-hidden shadow-lg border border-outline-variant/20 hidden lg:block">
+<img alt="Counseling session" class="absolute inset-0 w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkorN4hSZmtIWp726svRD8gkbPhDQmjH2p0wgvcoVt-sIMzoUFrbyKJb8AJ41jr29KL9X0_p2FA4w09uaU-xSb5ismhh9bjOR_E5ertO9dHez0AgAh578XHaVa_Q2Sz6H0Q48KYKW92VkqZ35Hd0JoSK2hq04O2EvfREVoUPTwyZhnllZOzFk12f-ypD8pS_CjuJXWhMajT0hozkhh_I_OlSwthyxkqbcFcSLxbA5xwfZGTP_3OLwaVTuQ6kc7ZItzGBUSQnlo-vHi"/>
+<div class="absolute inset-0 bg-primary/20 mix-blend-multiply"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- 6. Our Process Timeline -->
+<section class="py-20 bg-white px-margin-mobile md:px-margin-desktop overflow-hidden">
+<div class="max-w-container-max mx-auto">
+<div class="text-center mb-16">
+<h2 class="text-headline-md font-headline-md text-primary mb-4">Our Process</h2>
+<p class="text-body-md font-body-md text-on-surface-variant max-w-2xl mx-auto">
+    A streamlined, transparent six-step journey from your first counseling session to your arrival at the university.
+</p>
+</div>
+<div class="relative max-w-6xl mx-auto pb-8 overflow-x-auto hide-scrollbar">
+<!-- Connecting Line -->
+<div class="absolute top-10 left-10 right-10 h-1 bg-outline-variant/30 z-0 min-w-[800px]"></div>
+<div class="flex justify-between relative z-10 min-w-[800px] gap-4">
+<!-- Step 1 -->
+<div class="flex flex-col items-center text-center w-32 shrink-0">
+<div class="w-20 h-20 rounded-full bg-white border-4 border-surface-mist shadow-[0px_5px_15px_rgba(0,0,0,0.08)] flex items-center justify-center text-primary mb-4 relative">
+<div class="absolute -top-2 -right-2 w-6 h-6 bg-primary text-white rounded-full text-xs flex items-center justify-center font-bold">1</div>
+<span class="material-symbols-outlined text-3xl" data-weight="fill">support_agent</span>
+</div>
+<h4 class="text-label-md font-label-md font-bold text-on-background mb-1">Free Counseling</h4>
+</div>
+<!-- Step 2 -->
+<div class="flex flex-col items-center text-center w-32 shrink-0">
+<div class="w-20 h-20 rounded-full bg-white border-4 border-surface-mist shadow-[0px_5px_15px_rgba(0,0,0,0.08)] flex items-center justify-center text-secondary mb-4 relative">
+<div class="absolute -top-2 -right-2 w-6 h-6 bg-secondary text-white rounded-full text-xs flex items-center justify-center font-bold">2</div>
+<span class="material-symbols-outlined text-3xl" data-weight="fill">travel_explore</span>
+</div>
+<h4 class="text-label-md font-label-md font-bold text-on-background mb-1">Selection</h4>
+<p class="text-label-sm text-on-surface-variant">Course &amp; Country</p>
+</div>
+<!-- Step 3 -->
+<div class="flex flex-col items-center text-center w-32 shrink-0">
+<div class="w-20 h-20 rounded-full bg-white border-4 border-surface-mist shadow-[0px_5px_15px_rgba(0,0,0,0.08)] flex items-center justify-center text-tertiary-container mb-4 relative">
+<div class="absolute -top-2 -right-2 w-6 h-6 bg-tertiary-container text-white rounded-full text-xs flex items-center justify-center font-bold">3</div>
+<span class="material-symbols-outlined text-3xl" data-weight="fill">app_registration</span>
+</div>
+<h4 class="text-label-md font-label-md font-bold text-on-background mb-1">Application</h4>
+<p class="text-label-sm text-on-surface-variant">Submission</p>
+</div>
+<!-- Step 4 -->
+<div class="flex flex-col items-center text-center w-32 shrink-0">
+<div class="w-20 h-20 rounded-full bg-white border-4 border-surface-mist shadow-[0px_5px_15px_rgba(0,0,0,0.08)] flex items-center justify-center text-primary-fixed-dim mb-4 relative">
+<div class="absolute -top-2 -right-2 w-6 h-6 bg-primary-fixed-dim text-on-primary-fixed rounded-full text-xs flex items-center justify-center font-bold">4</div>
+<span class="material-symbols-outlined text-3xl" data-weight="fill">contract</span>
+</div>
+<h4 class="text-label-md font-label-md font-bold text-on-background mb-1">Documentation</h4>
+<p class="text-label-sm text-on-surface-variant">Offer Letters</p>
+</div>
+<!-- Step 5 -->
+<div class="flex flex-col items-center text-center w-32 shrink-0">
+<div class="w-20 h-20 rounded-full bg-white border-4 border-surface-mist shadow-[0px_5px_15px_rgba(0,0,0,0.08)] flex items-center justify-center text-heritage-red mb-4 relative">
+<div class="absolute -top-2 -right-2 w-6 h-6 bg-heritage-red text-white rounded-full text-xs flex items-center justify-center font-bold">5</div>
+<span class="material-symbols-outlined text-3xl" data-weight="fill">fact_check</span>
+</div>
+<h4 class="text-label-md font-label-md font-bold text-on-background mb-1">Visa Processing</h4>
+</div>
+<!-- Step 6 -->
+<div class="flex flex-col items-center text-center w-32 shrink-0">
+<div class="w-20 h-20 rounded-full bg-white border-4 border-surface-mist shadow-[0px_5px_15px_rgba(0,0,0,0.08)] flex items-center justify-center text-secondary-fixed-dim mb-4 relative">
+<div class="absolute -top-2 -right-2 w-6 h-6 bg-secondary-fixed-dim text-on-secondary-fixed rounded-full text-xs flex items-center justify-center font-bold">6</div>
+<span class="material-symbols-outlined text-3xl" data-weight="fill">flight_takeoff</span>
+</div>
+<h4 class="text-label-md font-label-md font-bold text-on-background mb-1">Pre-Departure</h4>
+<p class="text-label-sm text-on-surface-variant">Support</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 7. Blogs Preview -->
+<section class="py-20 bg-surface-container-low px-margin-mobile md:px-margin-desktop">
+<div class="max-w-container-max mx-auto">
+<div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
+<div>
+<h2 class="text-headline-md font-headline-md text-primary mb-2">Latest Insights &amp; Blogs</h2>
+<p class="text-body-md text-on-surface-variant">Stay updated with study abroad tips, university news, and visa updates.</p>
+</div>
+<a class="text-primary font-label-md flex items-center gap-1 hover:gap-2 transition-all" href="#">Read All Articles <span class="material-symbols-outlined text-sm">arrow_forward</span></a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Blog Card 1 -->
+<div class="bg-white rounded-xl overflow-hidden border border-outline-variant/20 shadow-sm group">
+<div class="h-48 bg-surface-dim relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-tr from-primary/10 to-transparent"></div>
+<div class="absolute top-4 left-4 bg-primary text-white text-xs px-3 py-1 rounded-full font-semibold">Study Abroad</div>
+</div>
+<div class="p-6">
+<p class="text-label-sm text-outline mb-2">October 15, 2023</p>
+<h3 class="font-title-lg mb-3 group-hover:text-primary transition-colors line-clamp-2">Top 10 Universities in the UK for International Students in 2024</h3>
+<p class="text-body-sm text-on-surface-variant mb-4 line-clamp-3">A comprehensive guide to the highest-ranking institutions in the United Kingdom, focusing on international student support, scholarships, and post-study work opportunities.</p>
+</div>
+</div>
+<!-- Blog Card 2 -->
+<div class="bg-white rounded-xl overflow-hidden border border-outline-variant/20 shadow-sm group">
+<div class="h-48 bg-surface-dim relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-tr from-secondary/10 to-transparent"></div>
+<div class="absolute top-4 left-4 bg-secondary text-white text-xs px-3 py-1 rounded-full font-semibold">Visa Tips</div>
+</div>
+<div class="p-6">
+<p class="text-label-sm text-outline mb-2">November 02, 2023</p>
+<h3 class="font-title-lg mb-3 group-hover:text-primary transition-colors line-clamp-2">Navigating the Australian Student Visa Process: A Step-by-Step Guide</h3>
+<p class="text-body-sm text-on-surface-variant mb-4 line-clamp-3">Everything you need to know about the Subclass 500 visa, including required documentation, financial proof, and how to write a compelling Genuine Temporary Entrant (GTE) statement.</p>
+</div>
+</div>
+<!-- Blog Card 3 -->
+<div class="bg-white rounded-xl overflow-hidden border border-outline-variant/20 shadow-sm group">
+<div class="h-48 bg-surface-dim relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-tr from-tertiary/10 to-transparent"></div>
+<div class="absolute top-4 left-4 bg-tertiary-container text-white text-xs px-3 py-1 rounded-full font-semibold">Test Prep</div>
+</div>
+<div class="p-6">
+<p class="text-label-sm text-outline mb-2">November 18, 2023</p>
+<h3 class="font-title-lg mb-3 group-hover:text-primary transition-colors line-clamp-2">How to Score Band 8.0+ in IELTS Speaking: Expert Strategies</h3>
+<p class="text-body-sm text-on-surface-variant mb-4 line-clamp-3">Discover the key criteria examiners look for and practice techniques to improve your fluency, vocabulary, grammatical range, and pronunciation before test day.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 8. Inquiry Form -->
+<section class="py-20 bg-primary text-white px-margin-mobile md:px-margin-desktop relative overflow-hidden">
+<div class="absolute inset-0 bg-pattern-dots opacity-20 mix-blend-overlay"></div>
+<div class="max-w-container-max mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+<div>
+<h2 class="text-display-lg-mobile md:text-display-lg font-bold mb-6">Start Your Journey Today — Free Counseling</h2>
+<p class="text-body-lg text-primary-fixed-dim mb-8">Take the first step towards your international education. Fill out the form and our expert counselors will get back to you shortly.</p>
+<div class="space-y-4">
+<div class="flex items-center gap-4 text-primary-fixed">
+<div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center">
+<span class="material-symbols-outlined">location_on</span>
+</div>
+<div>
+<h4 class="font-title-lg text-white">Visit Our Office</h4>
+<p class="text-body-sm text-primary-fixed-dim">Araniko Bhawan, Traffic Chowk, Biratnagar-09</p>
+</div>
+</div>
+<div class="flex items-center gap-4 text-primary-fixed">
+<div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center">
+<span class="material-symbols-outlined">call</span>
+</div>
+<div>
+<h4 class="font-title-lg text-white">Call Us</h4>
+<p class="text-body-sm text-primary-fixed-dim">021-590823 / 9802724823</p>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-white p-8 rounded-2xl shadow-xl text-on-surface">
+<h3 class="text-headline-sm font-headline-sm text-primary mb-6">Book Your Free Session</h3>
+<form class="space-y-4">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div>
+<label class="block text-label-sm font-label-sm text-on-surface-variant mb-1" for="name">Full Name</label>
+<input class="w-full border border-outline-variant rounded-lg px-4 py-2 focus:ring-primary focus:border-primary text-body-md" id="name" placeholder="John Doe" type="text"/>
+</div>
+<div>
+<label class="block text-label-sm font-label-sm text-on-surface-variant mb-1" for="phone">Phone Number</label>
+<input class="w-full border border-outline-variant rounded-lg px-4 py-2 focus:ring-primary focus:border-primary text-body-md" id="phone" placeholder="9800000000" type="tel"/>
+</div>
+</div>
+<div>
+<label class="block text-label-sm font-label-sm text-on-surface-variant mb-1" for="email">Email Address</label>
+<input class="w-full border border-outline-variant rounded-lg px-4 py-2 focus:ring-primary focus:border-primary text-body-md" id="email" placeholder="john@example.com" type="email"/>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div>
+<label class="block text-label-sm font-label-sm text-on-surface-variant mb-1" for="destination">Preferred Destination</label>
+<select class="w-full border border-outline-variant rounded-lg px-4 py-2 focus:ring-primary focus:border-primary text-body-md" id="destination">
+<option>Select Country</option>
+<option>UK</option>
+<option>USA</option>
+<option>Australia</option>
+<option>Japan</option>
+<option>Others</option>
+</select>
+</div>
+<div>
+<label class="block text-label-sm font-label-sm text-on-surface-variant mb-1" for="course">Course of Interest</label>
+</div></div></form></div></div></section></main></body></html>
