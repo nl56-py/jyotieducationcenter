@@ -1,0 +1,21 @@
+export const assets = {
+  logo: "/images/brand/edumark-logo.jpg",
+  heroGenerated: "/images/generated/study-hero.png",
+  destinations: "/images/generated/destinations.png",
+  counselling: "/images/generated/counselling.png",
+  testPrep: "/images/generated/test-prep.png",
+  success: "/images/generated/student-success.png",
+  brochureHero: "/images/brochure/hero-background.jpg",
+  whyChoose: "/images/brochure/why-choose-us.jpg",
+  europe: "/images/brochure/europe-study.jpg",
+  entrance: "/images/brochure/entrance-prep.jpg",
+  entranceOffer: "/images/brochure/entrance-offer.jpg",
+  cee: "/images/brochure/cee.jpg",
+  cmat: "/images/brochure/cmat.jpg",
+  leaders: [
+    "/images/brand/leader-ravi-gupta.jpg",
+    "/images/brand/leader-kabiraj-paudel.jpg",
+    "/images/brand/leader-dipendra-mehta.jpg",
+    "/images/brand/leader-tilak-thapa.jpg",
+  ],
+};
