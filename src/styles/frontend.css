@@ -127,6 +127,48 @@ video {
   justify-content: center;
 }
 
+.nav-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.nav-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 220px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: 0 12px 32px rgba(8, 31, 61, 0.14);
+  padding: 6px;
+  z-index: 100;
+  flex-direction: column;
+}
+
+.nav-group:hover .nav-menu {
+  display: flex;
+}
+
+.nav-subitem {
+  display: block;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+
+.nav-subitem:hover {
+  background: #fff1f2;
+  color: var(--red);
+}
+
 .nav-item,
 .mobile-link,
 .footer-link {
@@ -244,7 +286,7 @@ video {
   border-radius: 8px;
   background: var(--white);
   box-shadow: var(--shadow);
-  display: none;
+  display: grid;
 }
 
 .mobile-link {
@@ -256,6 +298,23 @@ video {
   color: var(--ink);
   font-weight: 800;
   border-bottom: 1px solid var(--line);
+}
+
+.mobile-sublink {
+  padding-left: 24px;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--muted);
+  min-height: 40px;
+}
+
+.mobile-sublink:hover {
+  color: var(--red);
+}
+
+.mobile-group {
+  display: flex;
+  flex-direction: column;
 }
 
 .hero {
@@ -1230,9 +1289,7 @@ video {
     align-items: center;
   }
 
-  .mobile-panel {
-    display: grid;
-  }
+  /* mobile-panel is conditionally rendered via React, no override needed */
 
   .hero,
   .page-hero,
