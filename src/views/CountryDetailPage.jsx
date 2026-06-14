@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AppLink } from "../components/AppLink.jsx";
 import { SectionIntro } from "../components/SectionIntro.jsx";
 import { BulletList } from "../components/BulletList.jsx";
@@ -30,6 +30,14 @@ const brochurePageMap = {
 
 export function CountryDetailPage({ country }) {
   const [activeFaq, setActiveFaq] = useState(null);
+
+  useEffect(() => {
+    setActiveFaq(null);
+    const sidebar = document.querySelector('.country-sidebar');
+    if (sidebar) {
+      sidebar.scrollTop = 0;
+    }
+  }, [country.slug]);
 
   // Sort countries to show the primary 8 first for a cleaner sidebar
   const primarySlugs = ["uk", "usa", "australia", "finland", "lithuania", "south-korea", "japan", "india"];
@@ -153,7 +161,7 @@ export function CountryDetailPage({ country }) {
                 style={{ "--country-color": c.accent }}
               >
                 <div className="country-sidebar-flag-wrapper">
-                  <span className="flag-code" style={{ zIndex: 2 }}>{c.code}</span>
+                  <span className="flag-code" style={{ zIndex: 2 }}>{c.code === "UK" ? "GB" : c.code}</span>
                   <svg className="sidebar-airplane-loop" viewBox="0 0 40 40" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none" }}>
                     <circle cx="20" cy="20" r="14" stroke="currentColor" strokeWidth="1" strokeDasharray="3 3" fill="none" opacity="0.25"/>
                     <g className="sidebar-looping-plane-group" style={{ transformOrigin: "20px 20px" }}>
