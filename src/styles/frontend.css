@@ -4515,4 +4515,180 @@ video {
   }
 }
 
+/* ==========================================
+   Premium Country Transition Styles
+   ========================================== */
+
+/* 1. Backdrop Overlay */
+.airplane-transition-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at center, rgba(247, 248, 251, 0) 0%, rgba(247, 248, 251, 0) 100%);
+  backdrop-filter: blur(0px);
+  pointer-events: none;
+  overflow: hidden;
+  transition: backdrop-filter 0.5s cubic-bezier(0.25, 1, 0.5, 1), background 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.airplane-transition-overlay.active {
+  pointer-events: all;
+  background: radial-gradient(circle at center, rgba(247, 248, 251, 0.15) 0%, rgba(247, 248, 251, 0.55) 100%);
+  backdrop-filter: blur(8px);
+}
+
+/* 2. Paper Airplane Element */
+.transition-airplane-container {
+  position: absolute;
+  width: 260px;
+  height: 130px;
+  left: 0;
+  top: 50%;
+  margin-top: -65px;
+  transform: translate3d(-300px, 0, 0);
+  will-change: transform, opacity, filter;
+  pointer-events: none;
+}
+
+.airplane-transition-overlay.active .transition-airplane-container {
+  animation: flyAcrossMain 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+/* 3. Aerodynamic Wind Trails */
+.airplane-wind-trails {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.wind-trail-line {
+  stroke-dasharray: 120;
+  stroke-dashoffset: 120;
+  opacity: 0;
+  will-change: stroke-dashoffset, opacity;
+}
+
+.airplane-transition-overlay.active .wind-trail-line {
+  animation: windTrailFlow 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.wind-trail-line-1 {
+  animation-delay: 0.1s;
+}
+.wind-trail-line-2 {
+  animation-delay: 0s;
+}
+.wind-trail-line-3 {
+  animation-delay: 0.15s;
+}
+
+/* 4. Page Content Transition Animations (Reveal Wipe) */
+.destinations-transition-container {
+  position: relative;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.old-page-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.new-page-wrapper {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+
+.new-page-wrapper.transition-reveal-active {
+  animation: revealWipe 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  will-change: clip-path;
+}
+
+/* 5. Keyframes */
+@keyframes flyAcrossMain {
+  0% {
+    transform: translate3d(-300px, 15vh, 0) scale(0.5) rotate(-15deg) rotateX(15deg);
+    filter: blur(6px);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+    filter: blur(1.5px);
+  }
+  45% {
+    transform: translate3d(calc(50vw - 130px), -12vh, 0) scale(1.55) rotate(6deg) rotateX(25deg) rotateY(-20deg);
+    filter: blur(0px);
+  }
+  55% {
+    transform: translate3d(calc(60vw - 130px), -10vh, 0) scale(1.55) rotate(1deg) rotateX(20deg) rotateY(-10deg);
+    filter: blur(0px);
+  }
+  80% {
+    filter: blur(2px);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(100vw, -35vh, 0) scale(0.6) rotate(15deg) rotateX(5deg);
+    filter: blur(8px);
+    opacity: 0;
+  }
+}
+
+@keyframes revealWipe {
+  0% {
+    clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+  }
+  15% {
+    clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+  }
+  45% {
+    clip-path: polygon(0 0, 58% 0, 48% 100%, 0 100%);
+  }
+  55% {
+    clip-path: polygon(0 0, 68% 0, 58% 100%, 0 100%);
+  }
+  80% {
+    clip-path: polygon(0 0, 100% 0, 95% 100%, 0 100%);
+  }
+  90% {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+  100% {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+}
+
+@keyframes windTrailFlow {
+  0% {
+    stroke-dashoffset: 120;
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.7;
+  }
+  50% {
+    stroke-dashoffset: 0;
+    opacity: 0.8;
+  }
+  80% {
+    opacity: 0.4;
+  }
+  100% {
+    stroke-dashoffset: -120;
+    opacity: 0;
+  }
+}
+
+
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { AppLink } from "../components/AppLink.jsx";
 import { SectionIntro } from "../components/SectionIntro.jsx";
 import { BulletList } from "../components/BulletList.jsx";
@@ -8,6 +8,7 @@ import { PageHero } from "../components/PageHero.jsx";
 import { InquiryBand } from "../components/InquiryBand.jsx";
 import { assets } from "../data/assets.js";
 import { countries } from "../data/countries.js";
+import { TransitionContext } from "../app/(public)/destinations/layout";
 
 const flagMap = {
   UK: "🇬🇧", US: "🇺🇸", AU: "🇦🇺", JP: "🇯🇵",
@@ -30,6 +31,7 @@ const brochurePageMap = {
 
 export function CountryDetailPage({ country }) {
   const [activeFaq, setActiveFaq] = useState(null);
+  const transitionContext = useContext(TransitionContext);
 
   useEffect(() => {
     setActiveFaq(null);
@@ -159,6 +161,12 @@ export function CountryDetailPage({ country }) {
                 to={`/destinations/${c.slug}`}
                 className={`country-sidebar-item ${c.slug === country.slug ? "active" : ""}`}
                 style={{ "--country-color": c.accent }}
+                onClick={(e) => {
+                  if (transitionContext) {
+                    e.preventDefault();
+                    transitionContext.startTransition(c, `/destinations/${c.slug}`);
+                  }
+                }}
               >
                 <div className="country-sidebar-flag-wrapper">
                   <span className="flag-code" style={{ zIndex: 2 }}>{c.code === "UK" ? "GB" : c.code}</span>
