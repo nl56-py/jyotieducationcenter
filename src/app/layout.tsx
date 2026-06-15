@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import "@/styles/frontend.css";
+import Cursor from "@/components/Cursor";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,7 +16,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "EduMark Education Consultancy | Biratnagar, Nepal",
-  description: "Study abroad, test preparations, and visa counseling assistance services from Biratnagar.",
+  description:
+    "Study abroad, test preparations, and visa counseling assistance services from Biratnagar.",
 };
 
 export default function RootLayout({
@@ -24,8 +26,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body>{children}</body>
+    <html
+      lang="en"
+      className={`${geistSans.variable} ${geistMono.variable}`}
+    >
+      <body>
+        <Cursor />
+        {children}
+      </body>
     </html>
   );
 }
