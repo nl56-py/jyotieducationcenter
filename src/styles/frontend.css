@@ -2407,38 +2407,75 @@ video {
   margin: 0 auto;
 }
 
-.dest-v2-scroll {
-  display: flex;
-  overflow-x: auto;
-  gap: 24px;
-  padding-bottom: 32px;
-  scroll-snap-type: x mandatory;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+.dest-marquee-container {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+  padding: 12px 0;
 }
 
-.dest-v2-scroll::-webkit-scrollbar {
-  display: none;
+.dest-marquee-container::before,
+.dest-marquee-container::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 120px;
+  height: 100%;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.dest-marquee-container::before {
+  left: 0;
+  background: linear-gradient(to right, var(--dm-on-primary) 0%, transparent 100%);
+}
+
+.dest-marquee-container::after {
+  right: 0;
+  background: linear-gradient(to left, var(--dm-on-primary) 0%, transparent 100%);
+}
+
+.dest-marquee-track {
+  display: flex;
+  width: max-content;
+  gap: 24px;
+  padding: 16px 0 32px;
+  animation: destMarquee 42s linear infinite;
+}
+
+.dest-marquee-container:hover .dest-marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes destMarquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
 }
 
 .dest-card-v2 {
-  min-width: 280px;
-  scroll-snap-align: start;
+  min-width: 320px;
+  width: 320px;
   overflow: hidden;
   border-radius: 12px;
   border: 1px solid rgba(201, 196, 215, 0.2);
+  border-top: 3px solid var(--accent-color, var(--dm-primary));
   box-shadow: var(--dm-shadow-soft);
   background: var(--dm-on-primary);
   display: flex;
   flex-direction: column;
-  transition: box-shadow 0.3s;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
   cursor: pointer;
   text-align: left;
   padding: 0;
 }
 
 .dest-card-v2:hover {
-  box-shadow: var(--dm-shadow-card);
+  transform: translateY(-6px);
+  box-shadow: var(--dm-shadow-soft), 0 12px 30px rgba(0, 0, 0, 0.08);
 }
 
 .dest-card-v2-img {
@@ -2452,11 +2489,11 @@ video {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s;
+  transition: transform 0.5s ease;
 }
 
 .dest-card-v2:hover .dest-card-v2-img img {
-  transform: scale(1.05);
+  transform: scale(1.06);
 }
 
 .dest-card-v2-gradient {
@@ -2469,12 +2506,15 @@ video {
   position: absolute;
   top: 16px;
   right: 16px;
-  background: var(--dm-primary);
-  color: var(--dm-on-primary);
-  font-size: 12px;
-  font-weight: 600;
-  padding: 4px 8px;
+  background: var(--accent-color, var(--dm-primary));
+  color: var(--white);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 6px 12px;
   border-radius: 9999px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .dest-card-v2-name {
@@ -2500,81 +2540,62 @@ video {
 }
 
 .dest-card-v2-body {
-  padding: 16px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   flex-grow: 1;
 }
 
+.dest-card-v2-details {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
 .dest-card-v2-cost {
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
   line-height: 16px;
   letter-spacing: 0.05em;
-  color: var(--dm-on-surface-variant);
-  margin-bottom: 16px;
+  color: var(--dm-secondary);
+  text-transform: uppercase;
+  margin: 0 0 10px;
   display: flex;
   align-items: center;
   gap: 4px;
 }
 
+.dest-card-v2-highlight {
+  font-size: 13.5px;
+  line-height: 20px;
+  color: var(--dm-on-surface-variant);
+  margin: 0 0 20px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 40px;
+}
+
 .dest-card-v2-btn {
   width: 100%;
-  padding: 8px;
-  border: 1px solid rgba(69, 30, 187, 0.2);
-  border-radius: 4px;
+  padding: 10px;
+  border: 1.5px solid var(--accent-color, var(--dm-primary));
+  border-radius: 8px;
   background: transparent;
-  color: var(--dm-primary);
-  font-size: 12px;
-  font-weight: 600;
+  color: var(--accent-color, var(--dm-primary));
+  font-size: 13px;
+  font-weight: 700;
   line-height: 16px;
   letter-spacing: 0.05em;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all 0.25s ease;
 }
 
 .dest-card-v2-btn:hover {
-  background: rgba(69, 30, 187, 0.05);
-}
-
-/* Mini destination cards */
-.dest-mini-v2 {
-  min-width: 200px;
-  scroll-snap-align: start;
-  overflow: hidden;
-  border-radius: 12px;
-  border: 1px solid rgba(201, 196, 215, 0.2);
-  box-shadow: var(--dm-shadow-soft);
-  background: var(--dm-surface);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 16px;
-  cursor: pointer;
-}
-
-.dest-mini-v2 .flag {
-  font-size: 32px;
-  margin-bottom: 8px;
-}
-
-.dest-mini-v2 h3 {
-  font-size: 20px;
-  font-weight: 600;
-  line-height: 28px;
-  margin: 0 0 4px;
-  color: var(--dm-on-background);
-}
-
-.dest-mini-v2 .cost-label {
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  color: var(--dm-on-surface-variant);
-  margin-bottom: 16px;
+  background: var(--accent-color, var(--dm-primary));
+  color: var(--white);
 }
 
 /* ── 3. TEST PREPARATION SECTION V2 ── */

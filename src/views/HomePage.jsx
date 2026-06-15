@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { AppLink } from "../components/AppLink.jsx";
 import { ContactForm } from "../components/ContactForm.jsx";
 import { assets } from "../data/assets.js";
@@ -158,12 +158,7 @@ function HeroSection({ navigate }) {
   );
 }
 
-/* ─────────────────── 2. DESTINATIONS ─────────────────── */
-
 function DestinationsV2({ navigate }) {
-  const featured = countries.slice(0, 4);
-  const rest = countries.slice(4);
-
   return (
     <section className="dest-v2">
       <div className="dest-v2-header">
@@ -173,40 +168,63 @@ function DestinationsV2({ navigate }) {
           We guide you to the destination that best fits your academic and career goals.
         </p>
       </div>
-      <div className="dest-v2-scroll">
-        {featured.map((country) => (
-          <article
-            className="dest-card-v2"
-            key={country.slug}
-            onClick={() => navigate(`/destinations/${country.slug}`)}
-          >
-            <div className="dest-card-v2-img">
-              <img src={assets.destinations} alt={`Study in ${country.name}`} />
-              <div className="dest-card-v2-gradient" />
-              <div className="dest-card-v2-intake">{country.intake.split(",")[0]} Open</div>
-              <div className="dest-card-v2-name">
-                <span className="flag">{flagMap[country.code]}</span>
-                <h3>{country.code === "UK" ? "UK" : country.code === "US" ? "USA" : country.name}</h3>
+
+      <div className="dest-marquee-container">
+        <div className="dest-marquee-track">
+          {/* First Set of Cards */}
+          {countries.map((country, index) => (
+            <article
+              className="dest-card-v2"
+              key={`${country.slug}-1`}
+              onClick={() => navigate(`/destinations/${country.slug}`)}
+              style={{ "--accent-color": country.accent }}
+            >
+              <div className="dest-card-v2-img">
+                <img src={`/images/generated/destination${(index % 3) + 1}.jpg`} alt={`Study in ${country.name}`} />
+                <div className="dest-card-v2-gradient" />
+                <div className="dest-card-v2-intake">{country.intake.split(",")[0]} Open</div>
+                <div className="dest-card-v2-name">
+                  <span className="flag">{flagMap[country.code]}</span>
+                  <h3>{country.code === "UK" ? "UK" : country.code === "US" ? "USA" : country.name}</h3>
+                </div>
               </div>
-            </div>
-            <div className="dest-card-v2-body">
-              <p className="dest-card-v2-cost">💰 {country.cost}</p>
-              <button className="dest-card-v2-btn" type="button">Learn More</button>
-            </div>
-          </article>
-        ))}
-        {rest.map((country) => (
-          <article
-            className="dest-mini-v2"
-            key={country.slug}
-            onClick={() => navigate(`/destinations/${country.slug}`)}
-          >
-            <span className="flag">{flagMap[country.code]}</span>
-            <h3>{country.name}</h3>
-            <p className="cost-label">{country.cost}</p>
-            <button className="dest-card-v2-btn" type="button">Details</button>
-          </article>
-        ))}
+              <div className="dest-card-v2-body">
+                <div className="dest-card-v2-details">
+                  <p className="dest-card-v2-cost">💰 {country.cost}</p>
+                  <p className="dest-card-v2-highlight">🎯 {country.highlight}</p>
+                </div>
+                <button className="dest-card-v2-btn" type="button">Learn More</button>
+              </div>
+            </article>
+          ))}
+
+          {/* Duplicated Second Set for Infinite Loop */}
+          {countries.map((country, index) => (
+            <article
+              className="dest-card-v2"
+              key={`${country.slug}-2`}
+              onClick={() => navigate(`/destinations/${country.slug}`)}
+              style={{ "--accent-color": country.accent }}
+            >
+              <div className="dest-card-v2-img">
+                <img src={`/images/generated/destination${(index % 3) + 1}.jpg`} alt={`Study in ${country.name}`} />
+                <div className="dest-card-v2-gradient" />
+                <div className="dest-card-v2-intake">{country.intake.split(",")[0]} Open</div>
+                <div className="dest-card-v2-name">
+                  <span className="flag">{flagMap[country.code]}</span>
+                  <h3>{country.code === "UK" ? "UK" : country.code === "US" ? "USA" : country.name}</h3>
+                </div>
+              </div>
+              <div className="dest-card-v2-body">
+                <div className="dest-card-v2-details">
+                  <p className="dest-card-v2-cost">💰 {country.cost}</p>
+                  <p className="dest-card-v2-highlight">🎯 {country.highlight}</p>
+                </div>
+                <button className="dest-card-v2-btn" type="button">Learn More</button>
+              </div>
+            </article>
+          ))}
+        </div>
       </div>
     </section>
   );
