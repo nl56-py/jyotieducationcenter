@@ -94,7 +94,7 @@ export default function PTEPage() {
                             <tr>
                                 <td>Exam Format</td>
                                 <td>
-                                    Speaking • Writing • Reading • Listening
+                                    Speaking • Writing • Reading • Listening • Integrated tasks
                                 </td>
                             </tr>
 
@@ -115,7 +115,7 @@ export default function PTEPage() {
 
                             <tr>
                                 <td>Duration</td>
-                                <td>Approximately 2 Hours</td>
+                                <td>4 to 6 weeks</td>
                             </tr>
                         </tbody>
                     </table>
@@ -166,18 +166,15 @@ export default function PTEPage() {
                     Listening skills.
                 </p>
 
-                <h3>2. PTE General</h3>
+                <h3>PTE UKVI</h3>
 
                 <p>
-                    PTE General evaluates practical English communication
-                    abilities used in everyday situations and workplaces.
-                </p>
-
-                <h3>3. PTE Young Learners</h3>
-
-                <p>
-                    Designed for younger learners to develop and assess
-                    practical English communication skills.
+                    PTE UKVI (Pearson Test of English for UK Visas and Immigration) is a
+                    Secure English Language Test (SELT) approved by the UK Home Office.
+                    It is accepted for various UK visa and immigration applications,
+                    including study, work, and settlement routes. The test follows the
+                    same computer-based format as PTE Academic but is conducted in
+                    approved UKVI test centers and includes additional security measures.
                 </p>
             </section>
             <h2>PTE Academic Exam: Structure Overview</h2>

@@ -69,33 +69,24 @@ export default function IELTSPage() {
 
                         <tbody>
                             <tr>
-                                <td>IELTS Academic & General Training</td>
+                                <td>IELTS Academic </td>
                                 <td>NPR something</td>
                                 <td>NPR something</td>
                             </tr>
 
                             <tr>
-                                <td>IELTS UKVI</td>
+                                <td>General Training</td>
                                 <td>NPR something</td>
                                 <td>NPR something</td>
                             </tr>
                         </tbody>
                     </table>
 
-
-                    <h2>IELTS Exam Cancellation Policy</h2>
-
-                    <ul>
-                        <li>75% refund if cancelled more than 14 days before test date.</li>
-                        <li>50% refund if cancelled within 14 days.</li>
-                        <li>25% refund if cancelled 1-2 days before test.</li>
-                    </ul>
-
-
-                    <h2>IELTS Rescheduling Policy</h2>
+                    <h2>Course Overview</h2>
 
                     <p>
-                        You may request rescheduling at least five weeks before the exam date.
+                        IELTS measures listening, reading, writing, and speaking for academic and
+                        migration-focused English requirements.
                     </p>
 
 
@@ -129,7 +120,6 @@ export default function IELTSPage() {
                 <ul className="ielts-types-list">
                     <li>IELTS Academic Test (IELTS-A)</li>
                     <li>IELTS General Training Test (IELTS-GT)</li>
-                    <li>IELTS for UKVI</li>
                     <li>IELTS Life Skills</li>
                 </ul>
 
@@ -140,17 +130,31 @@ export default function IELTSPage() {
                     setting where English is the primary language.
                 </p>
 
-                <h3>IELTS General Training Test</h3>
-                <p>
-                    The purpose of the IELTS General Training Test is to evaluate your
-                    everyday English proficiency for use in the workplace and migration.
-                </p>
+                <h3>Key Characteristics</h3>
 
-                <h3>IELTS for UKVI</h3>
-                <p>
-                    IELTS for UKVI is approved by the UK government for visa and
-                    immigration applications.
-                </p>
+                <ul className="ielts-characteristics-list">
+                    {[
+                        "Face-to-face speaking practice",
+                        "Band descriptors",
+                        "Writing task correction",
+                        "Timed reading and listening drills",
+                    ].map((item) => (
+                        <li key={item}>{item}</li>
+                    ))}
+                </ul>
+
+                <h3>Course Features</h3>
+
+                <ul className="ielts-feature-list">
+                    {[
+                        "Certified teachers",
+                        "Weekly mock tests",
+                        "Extra classes for weak students",
+                        "Personal feedback",
+                    ].map((feature) => (
+                        <li key={feature}>{feature}</li>
+                    ))}
+                </ul>
 
                 <h3>IELTS Life Skills</h3>
                 <p>
@@ -191,10 +195,9 @@ export default function IELTSPage() {
                         </tr>
 
                         <tr>
-                            <td>Recognition</td>
+                            <td>Duration</td>
                             <td>
-                                Accepted in 140+ countries including the UK, Australia,
-                                New Zealand, USA, and Canada.
+                                6 to 8 weeks
                             </td>
                         </tr>
 
@@ -213,20 +216,28 @@ export default function IELTSPage() {
 
                         <tr>
                             <td>Exam Format</td>
-                            <td>Paper-based and Computer-based</td>
+                            <td>
+                                Listening,
+                                Reading,
+                                Writing,
+                                Speaking
+
+                            </td>
                         </tr>
 
                         <tr>
-                            <td>Exam Fee in Nepal</td>
+                            <td>Module</td>
                             <td>
-                                Paper-based: NPR 36,200 <br />
-                                Computer-based: NPR 33,000
+                                Listening labs,<br />
+                                Speaking rooms, <br />
+                                Writing correction, <br />
+                                Mock tests
                             </td>
                         </tr>
 
                         <tr>
                             <td>Score Range</td>
-                            <td>Band scores from 1 to 9</td>
+                            <td>Band-focused preparation</td>
                         </tr>
                     </tbody>
                 </table>
