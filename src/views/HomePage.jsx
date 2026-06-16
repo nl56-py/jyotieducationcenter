@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { AppLink } from "../components/AppLink.jsx";
 import { ContactForm } from "../components/ContactForm.jsx";
 import { assets } from "../data/assets.js";
@@ -19,48 +19,138 @@ const flagMap = {
 
 /* ─────────────────── 1. HERO ─────────────────── */
 
+function CountUp({ end, duration = 2000 }) {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    let startTime = null;
+    const startValue = 0;
+    const animate = (timestamp) => {
+      if (!startTime) startTime = timestamp;
+      const progress = timestamp - startTime;
+      const percentage = Math.min(progress / duration, 1);
+      const easeProgress = percentage * (2 - percentage);
+      setCount(Math.floor(easeProgress * (end - startValue) + startValue));
+      if (progress < duration) {
+        requestAnimationFrame(animate);
+      } else {
+        setCount(end);
+      }
+    };
+    requestAnimationFrame(animate);
+  }, [end, duration]);
+
+  return <span>{count.toLocaleString()}</span>;
+}
+
 function HeroSection({ navigate }) {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const slidesData = [
+    {
+      image: "/images/generated/hero0.png",
+      title: "EduMark: Turning Ambition to Achievement",
+      subtitle: "Dreaming of studying abroad? Turn your aspirations into reality with our expert guidance and transparent counseling process.",
+      //tag: "✓ Ministry Approved"
+    },
+    {
+      image: "/images/generated/hero1.jpg",
+      title: "Ministry Approved, TITI Certified, ECAN Member",
+      subtitle: "We are authorized by the Ministry of Education and staffed by certified counselors to offer ethical and professional mentorship.",
+      //tag: "ECAN Member"
+    },
+    {
+      image: "/images/generated/hero2.png.jpg",
+      title: "Ethical and Transparent Service",
+      subtitle: "Our process is clear, honest, and professional, with zero hidden fees or misleading promises, helping you every step of the way.",
+      //tag: "14+ Years of Trust"
+    }
+  ];
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slidesData.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const activeSlide = slidesData[currentSlide];
+
   return (
-    <section className="hero-v2">
-      <div className="hero-v2-dots" />
-      <div className="hero-v2-grid">
-        <div className="hero-v2-content">
-          <div className="hero-v2-trust">
-            <span className="trust-item trust-primary">✓ Ministry Approved</span>
-            <span className="trust-dot">•</span>
-            <span className="trust-item trust-secondary">ECAN Member</span>
-            <span className="trust-dot">•</span>
-            <span className="trust-item trust-tertiary">14 Years</span>
-            <span className="trust-dot">•</span>
-            <span className="trust-item trust-container">500+ Universities</span>
-          </div>
-          <h1>EduMark – Turning Ambition Into Achievement</h1>
-          <p className="hero-v2-tagline">Unleashing Potential Through Global Exposure</p>
-          <p className="hero-v2-desc">
-            Dreaming of Studying Abroad? Turn Your Aspirations Into Reality.
-            We provide expert counseling and transparent processes to guide you every step of the way.
+    <section className="hero-fullscreen">
+      {/* Slides Background */}
+      <div className="hero-slides-container">
+        {slidesData.map((slide, index) => (
+          <div
+            key={index}
+            className={`hero-slide ${index === currentSlide ? "active" : ""}`}
+            style={{ backgroundImage: `url(${slide.image})` }}
+          />
+        ))}
+      </div>
+      <div className="hero-dark-overlay" />
+
+      {/* Left-Aligned Container */}
+      <div className="hero-fullscreen-container">
+        <div key={currentSlide} className="hero-fullscreen-content">
+          <h1 className="hero-fullscreen-title animate-fade-in">
+            {activeSlide.title}
+          </h1>
+          <p className="hero-fullscreen-subtitle animate-fade-in-delayed">
+            {activeSlide.subtitle}
           </p>
-          <div className="hero-v2-actions">
-            <AppLink to="/book-free-consultation" navigate={navigate} className="hero-v2-btn-primary">
+          <div className="hero-fullscreen-actions animate-fade-in-delayed">
+            <AppLink to="/book-free-consultation" navigate={navigate} className="hero-btn-primary">
               Book Free Counseling
             </AppLink>
-            <AppLink to="/destinations" navigate={navigate} className="hero-v2-btn-secondary">
+            <AppLink to="/destinations" navigate={navigate} className="hero-btn-secondary">
               Explore Destinations →
             </AppLink>
           </div>
         </div>
-        <div className="hero-v2-media">
-          <div className="hero-v2-glow" />
-          <img
-            src={assets.heroGenerated}
-            alt="Smiling diverse students walking on a sunny university campus"
+      </div>
+
+      {/* Carousel Indicators at Bottom-Left */}
+      <div className="hero-carousel-indicators">
+        {slidesData.map((_, index) => (
+          <button
+            key={index}
+            className={`hero-indicator-bar ${index === currentSlide ? "active" : ""}`}
+            onClick={() => setCurrentSlide(index)}
+            aria-label={`Go to slide ${index + 1}`}
           />
-          <div className="hero-v2-badge">
-            <div className="hero-v2-badge-icon">✓</div>
-            <div>
-              <p className="hero-v2-badge-label">Success Rate</p>
-              <p className="hero-v2-badge-value">98%</p>
-            </div>
+        ))}
+      </div>
+
+      {/* White Stats Band */}
+      <div className="hero-stats-band">
+        <div className="hero-stats-container">
+          <div className="hero-stat-item">
+            <span className="hero-stat-number">
+              <CountUp end={14} />
+              <span className="hero-stat-suffix">+</span>
+            </span>
+            <span className="hero-stat-label">Years of Excellence</span>
+          </div>
+          <div className="hero-stat-item">
+            <span className="hero-stat-number">
+              <CountUp end={10000} />
+              <span className="hero-stat-suffix">+</span>
+            </span>
+            <span className="hero-stat-label">Students Counseled</span>
+          </div>
+          <div className="hero-stat-item">
+            <span className="hero-stat-number">
+              <CountUp end={98} />
+              <span className="hero-stat-suffix">%</span>
+            </span>
+            <span className="hero-stat-label">Success Rate</span>
+          </div>
+          <div className="hero-stat-item">
+            <span className="hero-stat-number">
+              <CountUp end={500} />
+              <span className="hero-stat-suffix">+</span>
+            </span>
+            <span className="hero-stat-label">University Partnerships</span>
           </div>
         </div>
       </div>
@@ -68,12 +158,7 @@ function HeroSection({ navigate }) {
   );
 }
 
-/* ─────────────────── 2. DESTINATIONS ─────────────────── */
-
 function DestinationsV2({ navigate }) {
-  const featured = countries.slice(0, 4);
-  const rest = countries.slice(4);
-
   return (
     <section className="dest-v2">
       <div className="dest-v2-header">
@@ -83,40 +168,63 @@ function DestinationsV2({ navigate }) {
           We guide you to the destination that best fits your academic and career goals.
         </p>
       </div>
-      <div className="dest-v2-scroll">
-        {featured.map((country) => (
-          <article
-            className="dest-card-v2"
-            key={country.slug}
-            onClick={() => navigate(`/destinations/${country.slug}`)}
-          >
-            <div className="dest-card-v2-img">
-              <img src={assets.destinations} alt={`Study in ${country.name}`} />
-              <div className="dest-card-v2-gradient" />
-              <div className="dest-card-v2-intake">{country.intake.split(",")[0]} Open</div>
-              <div className="dest-card-v2-name">
-                <span className="flag">{flagMap[country.code]}</span>
-                <h3>{country.code === "UK" ? "UK" : country.code === "US" ? "USA" : country.name}</h3>
+
+      <div className="dest-marquee-container">
+        <div className="dest-marquee-track">
+          {/* First Set of Cards */}
+          {countries.map((country, index) => (
+            <article
+              className="dest-card-v2"
+              key={`${country.slug}-1`}
+              onClick={() => navigate(`/destinations/${country.slug}`)}
+              style={{ "--accent-color": country.accent }}
+            >
+              <div className="dest-card-v2-img">
+                <img src={`/images/generated/destination${(index % 3) + 1}.jpg`} alt={`Study in ${country.name}`} />
+                <div className="dest-card-v2-gradient" />
+                <div className="dest-card-v2-intake">{country.intake.split(",")[0]} Open</div>
+                <div className="dest-card-v2-name">
+                  <span className="flag">{flagMap[country.code]}</span>
+                  <h3>{country.code === "UK" ? "UK" : country.code === "US" ? "USA" : country.name}</h3>
+                </div>
               </div>
-            </div>
-            <div className="dest-card-v2-body">
-              <p className="dest-card-v2-cost">💰 {country.cost}</p>
-              <button className="dest-card-v2-btn" type="button">Learn More</button>
-            </div>
-          </article>
-        ))}
-        {rest.map((country) => (
-          <article
-            className="dest-mini-v2"
-            key={country.slug}
-            onClick={() => navigate(`/destinations/${country.slug}`)}
-          >
-            <span className="flag">{flagMap[country.code]}</span>
-            <h3>{country.name}</h3>
-            <p className="cost-label">{country.cost}</p>
-            <button className="dest-card-v2-btn" type="button">Details</button>
-          </article>
-        ))}
+              <div className="dest-card-v2-body">
+                <div className="dest-card-v2-details">
+                  <p className="dest-card-v2-cost">💰 {country.cost}</p>
+                  <p className="dest-card-v2-highlight">🎯 {country.highlight}</p>
+                </div>
+                <button className="dest-card-v2-btn" type="button">Learn More</button>
+              </div>
+            </article>
+          ))}
+
+          {/* Duplicated Second Set for Infinite Loop */}
+          {countries.map((country, index) => (
+            <article
+              className="dest-card-v2"
+              key={`${country.slug}-2`}
+              onClick={() => navigate(`/destinations/${country.slug}`)}
+              style={{ "--accent-color": country.accent }}
+            >
+              <div className="dest-card-v2-img">
+                <img src={`/images/generated/destination${(index % 3) + 1}.jpg`} alt={`Study in ${country.name}`} />
+                <div className="dest-card-v2-gradient" />
+                <div className="dest-card-v2-intake">{country.intake.split(",")[0]} Open</div>
+                <div className="dest-card-v2-name">
+                  <span className="flag">{flagMap[country.code]}</span>
+                  <h3>{country.code === "UK" ? "UK" : country.code === "US" ? "USA" : country.name}</h3>
+                </div>
+              </div>
+              <div className="dest-card-v2-body">
+                <div className="dest-card-v2-details">
+                  <p className="dest-card-v2-cost">💰 {country.cost}</p>
+                  <p className="dest-card-v2-highlight">🎯 {country.highlight}</p>
+                </div>
+                <button className="dest-card-v2-btn" type="button">Learn More</button>
+              </div>
+            </article>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -124,7 +232,13 @@ function DestinationsV2({ navigate }) {
 
 /* ─────────────────── 3. TEST PREPARATION ─────────────────── */
 
-const testColors = ["blue", "green", "purple", "orange"];
+const testImages = {
+  ielts: "/images/generated/ielts.png",
+  pte: "/images/generated/PTE.png",
+  toefl: "/images/generated/toefl.png",
+  sat: "/images/generated/SAT.png",
+};
+
 const testDescriptions = [
   "International English Language Testing System. Academic & General training.",
   "Pearson Test of English. Computer-based test for international study.",
@@ -133,32 +247,59 @@ const testDescriptions = [
 ];
 
 function TestPrepV2({ navigate }) {
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.15 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className="test-v2">
-      <div className="test-v2-head">
-        <div>
-          <h2>Test Preparation</h2>
-          <p>Certified teachers, weekly mock tests, and personalized guidance to help you score high.</p>
-        </div>
-        <AppLink to="/test-preparation" navigate={navigate} className="test-v2-link">
-          Explore All Tests →
-        </AppLink>
+    <section className="test-v2" ref={sectionRef}>
+      <div className="test-v2-header">
+        <h2>Test Preparation</h2>
+        <p>Certified teachers, weekly mock tests, and personalized guidance to help you score high.</p>
       </div>
       <div className="test-v2-grid">
         {testCourses.map((course, i) => (
-          <article className="test-card-v2" key={course.slug}>
-            <div className={`test-card-v2-icon ${testColors[i]}`}>{course.name}</div>
-            <h3>{course.name}</h3>
-            <p>{testDescriptions[i]}</p>
-            <AppLink
-              to={`/test-preparation/${course.slug}`}
-              navigate={navigate}
-              className="test-card-v2-cta"
-            >
-              Learn More
-            </AppLink>
+          <article
+            className={`test-card-v2 ${isVisible ? "animate-card-fade-in" : "init-hidden"}`}
+            key={course.slug}
+          >
+            <div className="test-card-v2-img">
+              <img src={testImages[course.slug]} alt={`${course.name} Prep`} />
+            </div>
+            <div className="test-card-v2-body">
+              <p>{testDescriptions[i]}</p>
+              <AppLink
+                to={`/test-preparation/${course.slug}`}
+                navigate={navigate}
+                className="test-card-v2-cta"
+              >
+                Learn More
+              </AppLink>
+            </div>
           </article>
         ))}
+      </div>
+      <div className="test-v2-footer">
+        <AppLink to="/test-preparation" navigate={navigate} className="test-v2-link">
+          Explore All Tests →
+        </AppLink>
       </div>
     </section>
   );

@@ -5142,7 +5142,9 @@ video {
   .floating-card {
     display: none;
   }
-}/* -- COUNTRY DETAIL LAYOUT & SIDEBAR REDESIGN -- */
+}
+
+/* -- COUNTRY DETAIL LAYOUT & SIDEBAR REDESIGN -- */
 .country-detail-container {
   display: grid;
   grid-template-columns: 280px 1fr;
@@ -6267,6 +6269,3 @@ video {
     opacity: 0;
   }
 }
-
-
-

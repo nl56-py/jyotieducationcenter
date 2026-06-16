@@ -1,63 +1,100 @@
+
 import { AppLink } from "../components/AppLink.jsx";
-import { SectionIntro } from "../components/SectionIntro.jsx";
-import { BulletList } from "../components/BulletList.jsx";
-import { PageHero } from "../components/PageHero.jsx";
-import { assets } from "../data/assets.js";
+import { testCourses } from "../data/testCourses.js";
 
 export function TestCoursePage({ course, navigate }) {
   return (
     <main>
-      <PageHero
-        eyebrow={`${course.name} Course`}
-        title={`${course.name} preparation with guided practice and review`}
-        text={`${course.duration} course plan with ${course.score.toLowerCase()}.`}
-        image={assets.testPrep}
-      />
-      <section className="section split-section">
-        <div>
-          <SectionIntro eyebrow={`What is ${course.name}?`} title={course.fullName} text={course.overview} />
-          <BulletList items={course.characteristics} />
-        </div>
-        <div className="info-panel">
-          <span>Test Types</span>
-          {course.types.map((type) => (
-            <strong key={type}>{type}</strong>
-          ))}
+      {/* Hero Banner */}
+      <section className="course-hero">
+        <div className="course-hero-overlay">
+          <h1>{course.name} Preparation Classes</h1>
+
+          <div className="breadcrumb">
+            EduMark Education Consultancy / {course.name}
+          </div>
         </div>
       </section>
-      <section className="section">
-        <SectionIntro eyebrow="Exam Format" title="The sections students practice" text="Each page follows the planned IELTS template and adapts it for the selected test." />
-        <div className="detail-grid">
-          {course.format.map((module) => (
-            <article key={module}>
-              <span>Section</span>
-              <h2>{module}</h2>
-              <p>Practice sessions include timed drills, feedback, and progress review with the preparation team.</p>
-            </article>
+
+      {/* Main Layout */}
+      <section className="course-layout">
+        {/* Sidebar */}
+        <aside className="course-sidebar">
+          {testCourses.map((item) => (
+            <AppLink
+              key={item.slug}
+              to={`/test-preparation/${item.slug}`}
+              navigate={navigate}
+              className={
+                item.slug === course.slug
+                  ? "sidebar-item active"
+                  : "sidebar-item"
+              }
+            >
+              {item.name}
+            </AppLink>
           ))}
+        </aside>
+
+        {/* Content */}
+        <div className="course-content">
+          <h2>What Does {course.name} Stand For?</h2>
+
+          <p>{course.overview}</p>
+
+          <h3>Course Information</h3>
+
+          <table className="course-table">
+            <tbody>
+              <tr>
+                <td>Full Name</td>
+                <td>{course.fullName}</td>
+              </tr>
+
+              <tr>
+                <td>Duration</td>
+                <td>{course.duration}</td>
+              </tr>
+
+              <tr>
+                <td>Score Focus</td>
+                <td>{course.score}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Course Features</h3>
+
+          <ul className="course-list">
+            {course.features.map((feature) => (
+              <li key={feature}>{feature}</li>
+            ))}
+          </ul>
+
+          <h3>Exam Format</h3>
+
+          <ul className="course-list">
+            {course.format.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+
+          <h3>Modules</h3>
+
+          <ul className="course-list">
+            {course.modules.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+
+          <AppLink
+            to="/book-free-consultation"
+            navigate={navigate}
+            className="primary-button"
+          >
+            Enroll For Classes
+          </AppLink>
         </div>
-      </section>
-      <section className="section callout-panel">
-        <div>
-          <span>How EduMark Prepares You</span>
-          <h2>{course.name} classes with mocks, feedback, and extra support</h2>
-          <p>Students get a structured routine and clear improvement signals before booking the real exam.</p>
-        </div>
-        <div className="module-grid">
-          {course.features.map((feature) => (
-            <small key={feature}>{feature}</small>
-          ))}
-        </div>
-      </section>
-      <section className="section disclaimer-box">
-        <h3>Important note</h3>
-        <p>
-          Test formats, fees, and acceptance rules can change. Students should confirm final requirements with the
-          official test body and target institution before booking.
-        </p>
-        <AppLink to="/book-free-consultation" navigate={navigate} className="primary-button">
-          Enroll For Classes
-        </AppLink>
       </section>
     </main>
   );
