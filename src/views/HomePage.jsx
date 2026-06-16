@@ -232,7 +232,13 @@ function DestinationsV2({ navigate }) {
 
 /* ─────────────────── 3. TEST PREPARATION ─────────────────── */
 
-const testColors = ["blue", "green", "purple", "orange"];
+const testImages = {
+  ielts: "/images/generated/ielts.png",
+  pte: "/images/generated/PTE.png",
+  toefl: "/images/generated/toefl.png",
+  sat: "/images/generated/SAT.png",
+};
+
 const testDescriptions = [
   "International English Language Testing System. Academic & General training.",
   "Pearson Test of English. Computer-based test for international study.",
@@ -241,32 +247,59 @@ const testDescriptions = [
 ];
 
 function TestPrepV2({ navigate }) {
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.15 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className="test-v2">
-      <div className="test-v2-head">
-        <div>
-          <h2>Test Preparation</h2>
-          <p>Certified teachers, weekly mock tests, and personalized guidance to help you score high.</p>
-        </div>
-        <AppLink to="/test-preparation" navigate={navigate} className="test-v2-link">
-          Explore All Tests →
-        </AppLink>
+    <section className="test-v2" ref={sectionRef}>
+      <div className="test-v2-header">
+        <h2>Test Preparation</h2>
+        <p>Certified teachers, weekly mock tests, and personalized guidance to help you score high.</p>
       </div>
       <div className="test-v2-grid">
         {testCourses.map((course, i) => (
-          <article className="test-card-v2" key={course.slug}>
-            <div className={`test-card-v2-icon ${testColors[i]}`}>{course.name}</div>
-            <h3>{course.name}</h3>
-            <p>{testDescriptions[i]}</p>
-            <AppLink
-              to={`/test-preparation/${course.slug}`}
-              navigate={navigate}
-              className="test-card-v2-cta"
-            >
-              Learn More
-            </AppLink>
+          <article
+            className={`test-card-v2 ${isVisible ? "animate-card-fade-in" : "init-hidden"}`}
+            key={course.slug}
+          >
+            <div className="test-card-v2-img">
+              <img src={testImages[course.slug]} alt={`${course.name} Prep`} />
+            </div>
+            <div className="test-card-v2-body">
+              <p>{testDescriptions[i]}</p>
+              <AppLink
+                to={`/test-preparation/${course.slug}`}
+                navigate={navigate}
+                className="test-card-v2-cta"
+              >
+                Learn More
+              </AppLink>
+            </div>
           </article>
         ))}
+      </div>
+      <div className="test-v2-footer">
+        <AppLink to="/test-preparation" navigate={navigate} className="test-v2-link">
+          Explore All Tests →
+        </AppLink>
       </div>
     </section>
   );
