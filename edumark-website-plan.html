@@ -1,989 +1,3376 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EduMark Website Planning Document</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300..800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-<style>
-:root,[data-theme="light"]{
-  --color-bg:#f7f6f2;--color-surface:#f9f8f5;--color-surface-2:#ffffff;
-  --color-surface-offset:#f0ede8;--color-divider:#dcd9d5;--color-border:#d4d1ca;
-  --color-text:#28251d;--color-text-muted:#6b6860;--color-text-faint:#b5b3ae;
-  --color-primary:#01696f;--color-primary-hover:#0c4e54;--color-primary-light:#e0f0f1;
-  --color-accent:#c45c1a;--color-accent-light:#fdeee5;
-  --color-gold:#b38600;--color-gold-light:#fdf6e0;
-  --color-purple:#5c3fa0;--color-purple-light:#ede8f8;
-  --color-green:#2e6e1e;--color-green-light:#e8f5e4;
-  --color-blue:#0a5490;--color-blue-light:#e2eef8;
-  --color-divider-strong:#c8c5bf;
-  --radius-sm:0.375rem;--radius-md:0.5rem;--radius-lg:0.75rem;--radius-xl:1rem;--radius-full:9999px;
-  --shadow-sm:0 1px 3px rgba(40,37,29,0.08);--shadow-md:0 4px 12px rgba(40,37,29,0.10);--shadow-lg:0 12px 32px rgba(40,37,29,0.13);
-  --font-display:'Instrument Serif',Georgia,serif;
-  --font-body:'Plus Jakarta Sans','Helvetica Neue',sans-serif;
-  --text-xs:clamp(0.72rem,0.68rem + 0.2vw,0.82rem);
-  --text-sm:clamp(0.85rem,0.8rem + 0.3vw,0.95rem);
-  --text-base:clamp(0.95rem,0.9rem + 0.25vw,1.05rem);
-  --text-lg:clamp(1.1rem,1rem + 0.6vw,1.35rem);
-  --text-xl:clamp(1.4rem,1.1rem + 1.2vw,2rem);
-  --text-2xl:clamp(1.9rem,1.2rem + 2.2vw,3rem);
-  --space-1:0.25rem;--space-2:0.5rem;--space-3:0.75rem;--space-4:1rem;
-  --space-5:1.25rem;--space-6:1.5rem;--space-8:2rem;--space-10:2.5rem;
-  --space-12:3rem;--space-16:4rem;--space-20:5rem;
-}
-[data-theme="dark"]{
-  --color-bg:#14130f;--color-surface:#1a1915;--color-surface-2:#201f1b;
-  --color-surface-offset:#1e1d18;--color-divider:#2a2926;--color-border:#333129;
-  --color-text:#d8d6d0;--color-text-muted:#888680;--color-text-faint:#55534e;
-  --color-primary:#4f9ea4;--color-primary-hover:#2b828a;--color-primary-light:#1a2e30;
-  --color-accent:#e07a45;--color-accent-light:#2e1f14;
-  --color-gold:#d4a828;--color-gold-light:#2a2214;
-  --color-purple:#9070d4;--color-purple-light:#21183a;
-  --color-green:#6db050;--color-green-light:#192814;
-  --color-blue:#5499d4;--color-blue-light:#142035;
-  --color-divider-strong:#3a3830;
-  --shadow-sm:0 1px 3px rgba(0,0,0,0.3);--shadow-md:0 4px 12px rgba(0,0,0,0.4);--shadow-lg:0 12px 32px rgba(0,0,0,0.5);
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;scroll-padding-top:5rem}
-body{font-family:var(--font-body);font-size:var(--text-base);color:var(--color-text);background:var(--color-bg);line-height:1.65;min-height:100dvh}
-img{display:block;max-width:100%;height:auto}
-h1,h2,h3,h4,h5{text-wrap:balance;line-height:1.2;font-family:var(--font-display)}
-p,li{text-wrap:pretty;max-width:72ch}
-a{color:var(--color-primary);text-decoration:none}
-a:hover{color:var(--color-primary-hover)}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduMark Website Planning Document</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300..800&family=Instrument+Serif:ital@0;1&display=swap"
+    rel="stylesheet">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- AOS Animation Library -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+  <style>
+    :root,
+    [data-theme="light"] {
+      --color-bg: #f7f6f2;
+      --color-surface: #f9f8f5;
+      --color-surface-2: #ffffff;
+      --color-surface-offset: #f0ede8;
+      --color-divider: #dcd9d5;
+      --color-border: #d4d1ca;
+      --color-text: #28251d;
+      --color-text-muted: #6b6860;
+      --color-text-faint: #b5b3ae;
+      --color-primary: #01696f;
+      --color-primary-hover: #0c4e54;
+      --color-primary-light: #e0f0f1;
+      --color-accent: #c45c1a;
+      --color-accent-light: #fdeee5;
+      --color-gold: #b38600;
+      --color-gold-light: #fdf6e0;
+      --color-purple: #5c3fa0;
+      --color-purple-light: #ede8f8;
+      --color-green: #2e6e1e;
+      --color-green-light: #e8f5e4;
+      --color-blue: #0a5490;
+      --color-blue-light: #e2eef8;
+      --color-divider-strong: #c8c5bf;
+      --radius-sm: 0.375rem;
+      --radius-md: 0.5rem;
+      --radius-lg: 0.75rem;
+      --radius-xl: 1rem;
+      --radius-full: 9999px;
+      --shadow-sm: 0 1px 3px rgba(40, 37, 29, 0.08);
+      --shadow-md: 0 4px 12px rgba(40, 37, 29, 0.10);
+      --shadow-lg: 0 12px 32px rgba(40, 37, 29, 0.13);
+      --font-display: 'Instrument Serif', Georgia, serif;
+      --font-body: 'Plus Jakarta Sans', 'Helvetica Neue', sans-serif;
+      --text-xs: clamp(0.72rem, 0.68rem + 0.2vw, 0.82rem);
+      --text-sm: clamp(0.85rem, 0.8rem + 0.3vw, 0.95rem);
+      --text-base: clamp(0.95rem, 0.9rem + 0.25vw, 1.05rem);
+      --text-lg: clamp(1.1rem, 1rem + 0.6vw, 1.35rem);
+      --text-xl: clamp(1.4rem, 1.1rem + 1.2vw, 2rem);
+      --text-2xl: clamp(1.9rem, 1.2rem + 2.2vw, 3rem);
+      --space-1: 0.25rem;
+      --space-2: 0.5rem;
+      --space-3: 0.75rem;
+      --space-4: 1rem;
+      --space-5: 1.25rem;
+      --space-6: 1.5rem;
+      --space-8: 2rem;
+      --space-10: 2.5rem;
+      --space-12: 3rem;
+      --space-16: 4rem;
+      --space-20: 5rem;
+    }
 
-/* ── TOP BAR ── */
-.top-bar{background:var(--color-primary);color:#fff;padding:var(--space-2) var(--space-6);font-size:var(--text-xs);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--space-2)}
-.top-bar a{color:#e0f5f5}
+    [data-theme="dark"] {
+      --color-bg: #14130f;
+      --color-surface: #1a1915;
+      --color-surface-2: #201f1b;
+      --color-surface-offset: #1e1d18;
+      --color-divider: #2a2926;
+      --color-border: #333129;
+      --color-text: #d8d6d0;
+      --color-text-muted: #888680;
+      --color-text-faint: #55534e;
+      --color-primary: #4f9ea4;
+      --color-primary-hover: #2b828a;
+      --color-primary-light: #1a2e30;
+      --color-accent: #e07a45;
+      --color-accent-light: #2e1f14;
+      --color-gold: #d4a828;
+      --color-gold-light: #2a2214;
+      --color-purple: #9070d4;
+      --color-purple-light: #21183a;
+      --color-green: #6db050;
+      --color-green-light: #192814;
+      --color-blue: #5499d4;
+      --color-blue-light: #142035;
+      --color-divider-strong: #3a3830;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+      --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.5);
+    }
 
-/* ── STICKY NAV ── */
-.main-nav{position:sticky;top:0;z-index:100;background:var(--color-surface);border-bottom:1px solid var(--color-border);box-shadow:var(--shadow-sm)}
-.nav-inner{max-width:1280px;margin:0 auto;padding:0 var(--space-6);display:flex;align-items:center;justify-content:space-between;height:3.8rem;gap:var(--space-4)}
-.nav-logo{font-family:var(--font-display);font-size:var(--text-lg);color:var(--color-primary);font-style:italic;letter-spacing:-0.01em;white-space:nowrap}
-.nav-links{display:flex;align-items:center;gap:var(--space-1);list-style:none;flex-wrap:wrap}
-.nav-links li a{padding:var(--space-2) var(--space-3);border-radius:var(--radius-md);font-size:var(--text-xs);font-weight:600;color:var(--color-text-muted);transition:all 0.18s;white-space:nowrap}
-.nav-links li a:hover{color:var(--color-primary);background:var(--color-primary-light)}
-.nav-links li a.cta-btn{background:var(--color-primary);color:#fff;border-radius:var(--radius-full);padding:var(--space-2) var(--space-4)}
-.nav-links li a.cta-btn:hover{background:var(--color-primary-hover)}
-.nav-dropdown{position:relative}
-.nav-dropdown:hover .dropdown-menu{display:block}
-.dropdown-menu{display:none;position:absolute;top:100%;left:0;background:var(--color-surface-2);border:1px solid var(--color-border);border-radius:var(--radius-lg);box-shadow:var(--shadow-md);min-width:200px;padding:var(--space-2);z-index:200}
-.dropdown-menu li a{display:block;padding:var(--space-2) var(--space-3);border-radius:var(--radius-md);color:var(--color-text);font-size:var(--text-xs);font-weight:500}
-.dropdown-menu li a:hover{background:var(--color-primary-light);color:var(--color-primary)}
-.theme-toggle{background:none;border:1px solid var(--color-border);border-radius:var(--radius-full);padding:var(--space-2);cursor:pointer;color:var(--color-text-muted);width:36px;height:36px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.theme-toggle:hover{border-color:var(--color-primary);color:var(--color-primary)}
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
 
-/* ── LAYOUT ── */
-.page-wrap{max-width:1100px;margin:0 auto;padding:var(--space-12) var(--space-6)}
-.doc-title{font-size:var(--text-2xl);color:var(--color-primary);margin-bottom:var(--space-2);font-style:italic}
-.doc-subtitle{font-size:var(--text-base);color:var(--color-text-muted);margin-bottom:var(--space-12);border-bottom:2px solid var(--color-primary);padding-bottom:var(--space-6)}
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      scroll-padding-top: 5rem
+    }
 
-/* ── SECTION HEADERS ── */
-.plan-section{margin-bottom:var(--space-16)}
-.section-label{display:inline-flex;align-items:center;gap:var(--space-2);font-size:var(--text-xs);font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-primary);background:var(--color-primary-light);padding:var(--space-1) var(--space-3);border-radius:var(--radius-full);margin-bottom:var(--space-4)}
-.section-title{font-size:var(--text-xl);color:var(--color-text);margin-bottom:var(--space-3)}
-.section-desc{font-size:var(--text-base);color:var(--color-text-muted);margin-bottom:var(--space-8);max-width:68ch}
-.divider{height:1px;background:var(--color-divider);margin:var(--space-10) 0}
+    body {
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      color: var(--color-text);
+      background: var(--color-bg);
+      line-height: 1.65;
+      min-height: 100dvh
+    }
 
-/* ── PAGE LAYOUT BOXES ── */
-.page-plan{background:var(--color-surface-2);border:1px solid var(--color-border);border-radius:var(--radius-xl);margin-bottom:var(--space-8);overflow:hidden;box-shadow:var(--shadow-sm)}
-.page-plan-header{padding:var(--space-5) var(--space-6);border-bottom:1px solid var(--color-divider);display:flex;align-items:center;gap:var(--space-3)}
-.page-badge{font-size:var(--text-xs);font-weight:700;padding:var(--space-1) var(--space-3);border-radius:var(--radius-full);white-space:nowrap}
-.badge-home{background:var(--color-primary-light);color:var(--color-primary)}
-.badge-about{background:var(--color-purple-light);color:var(--color-purple)}
-.badge-services{background:var(--color-accent-light);color:var(--color-accent)}
-.badge-dest{background:var(--color-gold-light);color:var(--color-gold)}
-.badge-test{background:var(--color-blue-light);color:var(--color-blue)}
-.badge-entrance{background:var(--color-green-light);color:var(--color-green)}
-.badge-blog{background:var(--color-surface-offset);color:var(--color-text-muted)}
-.badge-contact{background:var(--color-primary-light);color:var(--color-primary)}
-.page-plan-title{font-size:var(--text-lg);font-family:var(--font-display);font-style:italic;color:var(--color-text)}
-.page-plan-body{padding:var(--space-6)}
+    img {
+      display: block;
+      max-width: 100%;
+      height: auto
+    }
 
-/* ── SECTION BLOCKS ── */
-.sections-list{display:flex;flex-direction:column;gap:var(--space-3)}
-.section-block{background:var(--color-surface);border:1px solid var(--color-divider);border-radius:var(--radius-lg);padding:var(--space-4) var(--space-5);display:grid;grid-template-columns:auto 1fr;gap:var(--space-4);align-items:start}
-.section-num{width:32px;height:32px;border-radius:var(--radius-full);background:var(--color-primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:var(--text-xs);font-weight:700;flex-shrink:0}
-.section-num.accent{background:var(--color-accent)}
-.section-num.gold{background:var(--color-gold)}
-.section-num.purple{background:var(--color-purple)}
-.section-num.green{background:var(--color-green)}
-.section-num.blue{background:var(--color-blue)}
-.section-num.grey{background:var(--color-text-faint)}
-.section-content-name{font-weight:700;font-size:var(--text-sm);color:var(--color-text);margin-bottom:var(--space-1)}
-.section-content-desc{font-size:var(--text-xs);color:var(--color-text-muted);line-height:1.6}
-.section-content-desc ul{margin-top:var(--space-2);padding-left:var(--space-4);display:flex;flex-direction:column;gap:var(--space-1)}
-.section-content-desc li{max-width:100%;font-size:var(--text-xs)}
-.sub-items{margin-top:var(--space-3);display:flex;flex-wrap:wrap;gap:var(--space-2)}
-.sub-tag{background:var(--color-surface-offset);border:1px solid var(--color-divider);border-radius:var(--radius-full);font-size:var(--text-xs);padding:2px 10px;color:var(--color-text-muted);white-space:nowrap}
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+      text-wrap: balance;
+      line-height: 1.2;
+      font-family: var(--font-display)
+    }
 
-/* ── TEAM CARDS ── */
-.team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:var(--space-5)}
-.team-card{background:var(--color-surface-2);border:1px solid var(--color-border);border-radius:var(--radius-xl);padding:var(--space-6);text-align:center;box-shadow:var(--shadow-sm)}
-.team-avatar{width:64px;height:64px;border-radius:var(--radius-full);background:var(--color-primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:var(--text-xl);font-family:var(--font-display);margin:0 auto var(--space-3)}
-.team-name{font-weight:700;font-size:var(--text-sm);color:var(--color-text);margin-bottom:var(--space-1)}
-.team-role{font-size:var(--text-xs);color:var(--color-primary);font-weight:600;margin-bottom:var(--space-2)}
-.team-desc{font-size:var(--text-xs);color:var(--color-text-muted);line-height:1.55}
+    p,
+    li {
+      text-wrap: pretty;
+      max-width: 72ch
+    }
 
-/* ── NAV MAP ── */
-.nav-map{background:var(--color-surface-2);border:1px solid var(--color-border);border-radius:var(--radius-xl);padding:var(--space-6);box-shadow:var(--shadow-sm)}
-.nav-map-title{font-size:var(--text-sm);font-weight:700;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:var(--space-5)}
-.nav-row{display:flex;flex-wrap:wrap;gap:var(--space-3);align-items:flex-start;margin-bottom:var(--space-4);padding-bottom:var(--space-4);border-bottom:1px solid var(--color-divider)}
-.nav-row:last-child{border:none;margin-bottom:0;padding-bottom:0}
-.nav-item-main{font-weight:700;font-size:var(--text-sm);color:var(--color-text);background:var(--color-surface-offset);padding:var(--space-2) var(--space-4);border-radius:var(--radius-md);border:1px solid var(--color-border)}
-.nav-item-sub{font-size:var(--text-xs);color:var(--color-text-muted);background:var(--color-surface);padding:var(--space-1) var(--space-3);border-radius:var(--radius-md);border:1px dashed var(--color-divider-strong)}
-.nav-arrow{color:var(--color-text-faint);font-size:var(--text-base);align-self:center}
+    a {
+      color: var(--color-primary);
+      text-decoration: none
+    }
 
-/* ── CONTACT BOX ── */
-.contact-box{background:var(--color-primary);color:#fff;border-radius:var(--radius-xl);padding:var(--space-8);margin-top:var(--space-8);display:grid;grid-template-columns:1fr 1fr;gap:var(--space-8)}
-.contact-box h3{font-size:var(--text-lg);font-family:var(--font-display);font-style:italic;margin-bottom:var(--space-4)}
-.contact-detail{display:flex;flex-direction:column;gap:var(--space-2)}
-.contact-row{display:flex;align-items:flex-start;gap:var(--space-3);font-size:var(--text-sm)}
-.contact-icon{opacity:0.7;flex-shrink:0;margin-top:2px}
+    a:hover {
+      color: var(--color-primary-hover)
+    }
 
-/* ── DEST/TEST TEMPLATE ── */
-.template-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-6)}
-.template-card{background:var(--color-surface-2);border:1px solid var(--color-border);border-radius:var(--radius-xl);overflow:hidden;box-shadow:var(--shadow-sm)}
-.template-card-header{padding:var(--space-4) var(--space-5);border-bottom:1px solid var(--color-divider)}
-.template-card-title{font-size:var(--text-sm);font-weight:700;color:var(--color-text)}
-.template-card-sub{font-size:var(--text-xs);color:var(--color-text-muted);margin-top:var(--space-1)}
-.template-sections{padding:var(--space-4) var(--space-5);display:flex;flex-direction:column;gap:var(--space-2)}
-.template-section-item{display:flex;align-items:center;gap:var(--space-3);padding:var(--space-2) var(--space-3);background:var(--color-surface);border-radius:var(--radius-md);border:1px solid var(--color-divider)}
-.template-dot{width:8px;height:8px;border-radius:var(--radius-full);flex-shrink:0}
-.dot-primary{background:var(--color-primary)}
-.dot-gold{background:var(--color-gold)}
-.dot-blue{background:var(--color-blue)}
-.dot-accent{background:var(--color-accent)}
-.template-section-name{font-size:var(--text-xs);font-weight:600;color:var(--color-text)}
+    /* ── TOP BAR ── */
+    .top-bar {
+      background: var(--color-primary);
+      color: #fff;
+      padding: var(--space-2) var(--space-6);
+      font-size: var(--text-xs);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--space-2)
+    }
 
-/* ── SITEMAP TABLE ── */
-.sitemap-table{width:100%;border-collapse:collapse;font-size:var(--text-xs);margin-top:var(--space-6)}
-.sitemap-table th{background:var(--color-primary);color:#fff;padding:var(--space-3) var(--space-4);text-align:left;font-weight:700;letter-spacing:0.04em;font-size:var(--text-xs)}
-.sitemap-table td{padding:var(--space-3) var(--space-4);border-bottom:1px solid var(--color-divider);vertical-align:top}
-.sitemap-table tr:nth-child(even) td{background:var(--color-surface)}
-.sitemap-table tr:hover td{background:var(--color-primary-light)}
+    .top-bar a {
+      color: #e0f5f5
+    }
 
-/* ── CTA BLOCK ── */
-.cta-preview{background:linear-gradient(135deg,var(--color-primary) 0%,var(--color-primary-hover) 100%);color:#fff;border-radius:var(--radius-xl);padding:var(--space-8);text-align:center;margin:var(--space-6) 0}
-.cta-preview h3{font-size:var(--text-lg);font-family:var(--font-display);font-style:italic;margin-bottom:var(--space-3)}
-.cta-preview p{font-size:var(--text-sm);opacity:0.88;margin-bottom:var(--space-5);max-width:48ch;margin-left:auto;margin-right:auto}
-.cta-btns{display:flex;gap:var(--space-3);justify-content:center;flex-wrap:wrap}
-.btn-white{background:#fff;color:var(--color-primary);border-radius:var(--radius-full);padding:var(--space-3) var(--space-6);font-weight:700;font-size:var(--text-sm);font-family:var(--font-body);cursor:pointer;border:none}
-.btn-outline-white{background:transparent;color:#fff;border:2px solid rgba(255,255,255,0.5);border-radius:var(--radius-full);padding:var(--space-3) var(--space-6);font-weight:700;font-size:var(--text-sm);font-family:var(--font-body);cursor:pointer}
+    /* ── STICKY NAV ── */
+    .main-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--color-surface);
+      border-bottom: 1px solid var(--color-border);
+      box-shadow: var(--shadow-sm)
+    }
 
-/* ── RESPONSIVE ── */
-@media(max-width:768px){
-  .template-grid{grid-template-columns:1fr}
-  .contact-box{grid-template-columns:1fr}
-  .nav-inner{overflow-x:auto}
-  .nav-links{flex-wrap:nowrap;overflow-x:auto}
-  .page-wrap{padding:var(--space-8) var(--space-4)}
-}
-</style>
+    .nav-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 var(--space-6);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 3.8rem;
+      gap: var(--space-4)
+    }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: var(--text-lg);
+      color: var(--color-primary);
+      font-style: italic;
+      letter-spacing: -0.01em;
+      white-space: nowrap
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: var(--space-1);
+      list-style: none;
+      flex-wrap: wrap
+    }
+
+    .nav-links li a {
+      padding: var(--space-2) var(--space-3);
+      border-radius: var(--radius-md);
+      font-size: var(--text-xs);
+      font-weight: 600;
+      color: var(--color-text-muted);
+      transition: all 0.18s;
+      white-space: nowrap
+    }
+
+    .nav-links li a:hover {
+      color: var(--color-primary);
+      background: var(--color-primary-light)
+    }
+
+    .nav-links li a.cta-btn {
+      background: var(--color-primary);
+      color: #fff;
+      border-radius: var(--radius-full);
+      padding: var(--space-2) var(--space-4)
+    }
+
+    .nav-links li a.cta-btn:hover {
+      background: var(--color-primary-hover)
+    }
+
+    .nav-dropdown {
+      position: relative
+    }
+
+    .nav-dropdown:hover .dropdown-menu {
+      display: block
+    }
+
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: var(--color-surface-2);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      min-width: 200px;
+      padding: var(--space-2);
+      z-index: 200
+    }
+
+    .dropdown-menu li a {
+      display: block;
+      padding: var(--space-2) var(--space-3);
+      border-radius: var(--radius-md);
+      color: var(--color-text);
+      font-size: var(--text-xs);
+      font-weight: 500
+    }
+
+    .dropdown-menu li a:hover {
+      background: var(--color-primary-light);
+      color: var(--color-primary)
+    }
+
+    .theme-toggle {
+      background: none;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-full);
+      padding: var(--space-2);
+      cursor: pointer;
+      color: var(--color-text-muted);
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0
+    }
+
+    .theme-toggle:hover {
+      border-color: var(--color-primary);
+      color: var(--color-primary)
+    }
+
+    /* ── LAYOUT ── */
+    .page-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: var(--space-12) var(--space-6)
+    }
+
+    .doc-title {
+      font-size: var(--text-2xl);
+      color: var(--color-primary);
+      margin-bottom: var(--space-2);
+      font-style: italic
+    }
+
+    .doc-subtitle {
+      font-size: var(--text-base);
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-12);
+      border-bottom: 2px solid var(--color-primary);
+      padding-bottom: var(--space-6)
+    }
+
+    /* ── SECTION HEADERS ── */
+    .plan-section {
+      margin-bottom: var(--space-16)
+    }
+
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: var(--text-xs);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-primary);
+      background: var(--color-primary-light);
+      padding: var(--space-1) var(--space-3);
+      border-radius: var(--radius-full);
+      margin-bottom: var(--space-4)
+    }
+
+    .section-title {
+      font-size: var(--text-xl);
+      color: var(--color-text);
+      margin-bottom: var(--space-3)
+    }
+
+    .section-desc {
+      font-size: var(--text-base);
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-8);
+      max-width: 68ch
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--color-divider);
+      margin: var(--space-10) 0
+    }
+
+    /* ── PAGE LAYOUT BOXES ── */
+    .page-plan {
+      background: var(--color-surface-2);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      margin-bottom: var(--space-8);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm)
+    }
+
+    .page-plan-header {
+      padding: var(--space-5) var(--space-6);
+      border-bottom: 1px solid var(--color-divider);
+      display: flex;
+      align-items: center;
+      gap: var(--space-3)
+    }
+
+    .page-badge {
+      font-size: var(--text-xs);
+      font-weight: 700;
+      padding: var(--space-1) var(--space-3);
+      border-radius: var(--radius-full);
+      white-space: nowrap
+    }
+
+    .badge-home {
+      background: var(--color-primary-light);
+      color: var(--color-primary)
+    }
+
+    .badge-about {
+      background: var(--color-purple-light);
+      color: var(--color-purple)
+    }
+
+    .badge-services {
+      background: var(--color-accent-light);
+      color: var(--color-accent)
+    }
+
+    .badge-dest {
+      background: var(--color-gold-light);
+      color: var(--color-gold)
+    }
+
+    .badge-test {
+      background: var(--color-blue-light);
+      color: var(--color-blue)
+    }
+
+    .badge-entrance {
+      background: var(--color-green-light);
+      color: var(--color-green)
+    }
+
+    .badge-blog {
+      background: var(--color-surface-offset);
+      color: var(--color-text-muted)
+    }
+
+    .badge-contact {
+      background: var(--color-primary-light);
+      color: var(--color-primary)
+    }
+
+    .page-plan-title {
+      font-size: var(--text-lg);
+      font-family: var(--font-display);
+      font-style: italic;
+      color: var(--color-text)
+    }
+
+    .page-plan-body {
+      padding: var(--space-6)
+    }
+
+    /* ── SECTION BLOCKS ── */
+    .sections-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3)
+    }
+
+    .section-block {
+      background: var(--color-surface);
+      border: 1px solid var(--color-divider);
+      border-radius: var(--radius-lg);
+      padding: var(--space-4) var(--space-5);
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: var(--space-4);
+      align-items: start
+    }
+
+    .section-num {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-full);
+      background: var(--color-primary);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--text-xs);
+      font-weight: 700;
+      flex-shrink: 0
+    }
+
+    .section-num.accent {
+      background: var(--color-accent)
+    }
+
+    .section-num.gold {
+      background: var(--color-gold)
+    }
+
+    .section-num.purple {
+      background: var(--color-purple)
+    }
+
+    .section-num.green {
+      background: var(--color-green)
+    }
+
+    .section-num.blue {
+      background: var(--color-blue)
+    }
+
+    .section-num.grey {
+      background: var(--color-text-faint)
+    }
+
+    .section-content-name {
+      font-weight: 700;
+      font-size: var(--text-sm);
+      color: var(--color-text);
+      margin-bottom: var(--space-1)
+    }
+
+    .section-content-desc {
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
+      line-height: 1.6
+    }
+
+    .section-content-desc ul {
+      margin-top: var(--space-2);
+      padding-left: var(--space-4);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1)
+    }
+
+    .section-content-desc li {
+      max-width: 100%;
+      font-size: var(--text-xs)
+    }
+
+    .sub-items {
+      margin-top: var(--space-3);
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2)
+    }
+
+    .sub-tag {
+      background: var(--color-surface-offset);
+      border: 1px solid var(--color-divider);
+      border-radius: var(--radius-full);
+      font-size: var(--text-xs);
+      padding: 2px 10px;
+      color: var(--color-text-muted);
+      white-space: nowrap
+    }
+
+    /* ── TEAM CARDS ── */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: var(--space-5)
+    }
+
+    .team-card {
+      background: var(--color-surface-2);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      padding: var(--space-6);
+      text-align: center;
+      box-shadow: var(--shadow-sm)
+    }
+
+    .team-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: var(--radius-full);
+      background: var(--color-primary);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--text-xl);
+      font-family: var(--font-display);
+      margin: 0 auto var(--space-3)
+    }
+
+    .team-name {
+      font-weight: 700;
+      font-size: var(--text-sm);
+      color: var(--color-text);
+      margin-bottom: var(--space-1)
+    }
+
+    .team-role {
+      font-size: var(--text-xs);
+      color: var(--color-primary);
+      font-weight: 600;
+      margin-bottom: var(--space-2)
+    }
+
+    .team-desc {
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
+      line-height: 1.55
+    }
+
+    /* ── NAV MAP ── */
+    .nav-map {
+      background: var(--color-surface-2);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      padding: var(--space-6);
+      box-shadow: var(--shadow-sm)
+    }
+
+    .nav-map-title {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: var(--space-5)
+    }
+
+    .nav-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      align-items: flex-start;
+      margin-bottom: var(--space-4);
+      padding-bottom: var(--space-4);
+      border-bottom: 1px solid var(--color-divider)
+    }
+
+    .nav-row:last-child {
+      border: none;
+      margin-bottom: 0;
+      padding-bottom: 0
+    }
+
+    .nav-item-main {
+      font-weight: 700;
+      font-size: var(--text-sm);
+      color: var(--color-text);
+      background: var(--color-surface-offset);
+      padding: var(--space-2) var(--space-4);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--color-border)
+    }
+
+    .nav-item-sub {
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
+      background: var(--color-surface);
+      padding: var(--space-1) var(--space-3);
+      border-radius: var(--radius-md);
+      border: 1px dashed var(--color-divider-strong)
+    }
+
+    .nav-arrow {
+      color: var(--color-text-faint);
+      font-size: var(--text-base);
+      align-self: center
+    }
+
+    /* ── CONTACT BOX ── */
+    .contact-box {
+      background: var(--color-primary);
+      color: #fff;
+      border-radius: var(--radius-xl);
+      padding: var(--space-8);
+      margin-top: var(--space-8);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-8)
+    }
+
+    .contact-box h3 {
+      font-size: var(--text-lg);
+      font-family: var(--font-display);
+      font-style: italic;
+      margin-bottom: var(--space-4)
+    }
+
+    .contact-detail {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2)
+    }
+
+    .contact-row {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-3);
+      font-size: var(--text-sm)
+    }
+
+    .contact-icon {
+      opacity: 0.7;
+      flex-shrink: 0;
+      margin-top: 2px
+    }
+
+    /* ── DEST/TEST TEMPLATE ── */
+    .template-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-6)
+    }
+
+    .template-card {
+      background: var(--color-surface-2);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm)
+    }
+
+    .template-card-header {
+      padding: var(--space-4) var(--space-5);
+      border-bottom: 1px solid var(--color-divider)
+    }
+
+    .template-card-title {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      color: var(--color-text)
+    }
+
+    .template-card-sub {
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
+      margin-top: var(--space-1)
+    }
+
+    .template-sections {
+      padding: var(--space-4) var(--space-5);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2)
+    }
+
+    .template-section-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-2) var(--space-3);
+      background: var(--color-surface);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--color-divider)
+    }
+
+    .template-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: var(--radius-full);
+      flex-shrink: 0
+    }
+
+    .dot-primary {
+      background: var(--color-primary)
+    }
+
+    .dot-gold {
+      background: var(--color-gold)
+    }
+
+    .dot-blue {
+      background: var(--color-blue)
+    }
+
+    .dot-accent {
+      background: var(--color-accent)
+    }
+
+    .template-section-name {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      color: var(--color-text)
+    }
+
+    /* ── SITEMAP TABLE ── */
+    .sitemap-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: var(--text-xs);
+      margin-top: var(--space-6)
+    }
+
+    .sitemap-table th {
+      background: var(--color-primary);
+      color: #fff;
+      padding: var(--space-3) var(--space-4);
+      text-align: left;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      font-size: var(--text-xs)
+    }
+
+    .sitemap-table td {
+      padding: var(--space-3) var(--space-4);
+      border-bottom: 1px solid var(--color-divider);
+      vertical-align: top
+    }
+
+    .sitemap-table tr:nth-child(even) td {
+      background: var(--color-surface)
+    }
+
+    .sitemap-table tr:hover td {
+      background: var(--color-primary-light)
+    }
+
+    /* ── CTA BLOCK ── */
+    .cta-preview {
+      background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-hover) 100%);
+      color: #fff;
+      border-radius: var(--radius-xl);
+      padding: var(--space-8);
+      text-align: center;
+      margin: var(--space-6) 0
+    }
+
+    .cta-preview h3 {
+      font-size: var(--text-lg);
+      font-family: var(--font-display);
+      font-style: italic;
+      margin-bottom: var(--space-3)
+    }
+
+    .cta-preview p {
+      font-size: var(--text-sm);
+      opacity: 0.88;
+      margin-bottom: var(--space-5);
+      max-width: 48ch;
+      margin-left: auto;
+      margin-right: auto
+    }
+
+    .cta-btns {
+      display: flex;
+      gap: var(--space-3);
+      justify-content: center;
+      flex-wrap: wrap
+    }
+
+    .btn-white {
+      background: #fff;
+      color: var(--color-primary);
+      border-radius: var(--radius-full);
+      padding: var(--space-3) var(--space-6);
+      font-weight: 700;
+      font-size: var(--text-sm);
+      font-family: var(--font-body);
+      cursor: pointer;
+      border: none
+    }
+
+    .btn-outline-white {
+      background: transparent;
+      color: #fff;
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      border-radius: var(--radius-full);
+      padding: var(--space-3) var(--space-6);
+      font-weight: 700;
+      font-size: var(--text-sm);
+      font-family: var(--font-body);
+      cursor: pointer
+    }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:768px) {
+      .template-grid {
+        grid-template-columns: 1fr
+      }
+
+      .contact-box {
+        grid-template-columns: 1fr
+      }
+
+      .nav-inner {
+        overflow-x: auto
+      }
+
+      .nav-links {
+        flex-wrap: nowrap;
+        overflow-x: auto
+      }
+
+      .page-wrap {
+        padding: var(--space-8) var(--space-4)
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- TOP CONTACT BAR -->
-<div class="top-bar">
-  <span>📍 Araniko Bhawan, Traffic Chowk, Biratnagar-09, Nepal &nbsp;|&nbsp; ☎ 021-590823 &nbsp;|&nbsp; 📱 9802724823 / 9807095059</span>
-  <span>Approved by Ministry of Education &nbsp;•&nbsp; ECAN Member &nbsp;•&nbsp; Since 2012</span>
-</div>
-
-<!-- NAVBAR -->
-<nav class="main-nav">
-  <div class="nav-inner">
-    <div class="nav-logo">EduMark</div>
-    <ul class="nav-links">
-      <li><a href="#home-page">Home</a></li>
-      <li><a href="#about-page">About Us</a></li>
-      <li class="nav-dropdown">
-        <a href="#services-page">Services ▾</a>
-        <ul class="dropdown-menu">
-          <li><a href="#service-career">Career Counselling</a></li>
-          <li><a href="#service-admission">Admission Guidance</a></li>
-          <li><a href="#service-visa">Visa Assistance</a></li>
-        </ul>
-      </li>
-      <li><a href="#test-pages">Test Preparation</a></li>
-      <li><a href="#entrance-page">Entrance Preparations</a></li>
-      <li><a href="#destinations-page">Destinations</a></li>
-      <li><a href="#blogs-page">Blogs</a></li>
-      <li><a href="#videos-page">Videos Gallery</a></li>
-      <li><a href="#contact-page">Contact</a></li>
-      <li><a href="#consultation" class="cta-btn">📅 Book Free Counseling</a></li>
-    </ul>
-    <button class="theme-toggle" data-theme-toggle aria-label="Toggle dark mode">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
-    </button>
+  <!-- TOP CONTACT BAR -->
+  <div class="top-bar">
+    <span>📍 Araniko Bhawan, Traffic Chowk, Biratnagar-09, Nepal &nbsp;|&nbsp; ☎ 021-590823 &nbsp;|&nbsp; 📱 9802724823
+      / 9807095059</span>
+    <span>Approved by Ministry of Education &nbsp;•&nbsp; ECAN Member &nbsp;•&nbsp; Since 2012</span>
   </div>
-</nav>
 
-<!-- MAIN CONTENT -->
-<div class="page-wrap">
+  <!-- NAVBAR -->
+  <nav class="main-nav">
+    <div class="nav-inner">
+      <div class="nav-logo">EduMark</div>
+      <ul class="nav-links">
+        <li><a href="#home-page">Home</a></li>
+        <li><a href="#about-page">About Us</a></li>
+        <li><a href="#services-page">Services ▾</a></li>
+        <li><a href="#test-pages">Test Preparation</a></li>
+        <li><a href="#entrance-page">Entrance Preparations</a></li>
+        <li><a href="#destinations-page">Destinations</a></li>
+        <li><a href="#blogs-page">Blogs</a></li>
+        <li><a href="#videos-page">Videos Gallery</a></li>
+        <li><a href="#contact-page">Contact</a></li>
+        <li><a href="#consultation" class="cta-btn">📅 Book Free Counseling</a></li>
+      </ul>
+      <button class="theme-toggle" data-theme-toggle aria-label="Toggle dark mode">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5" />
+          <path
+            d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+        </svg>
+      </button>
+    </div>
+  </nav>
 
-  <div style="margin-bottom:var(--space-4)">
-    <span class="section-label">Website Planning Document</span>
-  </div>
-  <h1 class="doc-title">EduMark Pvt. Ltd. — Complete Website Structure</h1>
-  <p class="doc-subtitle">A comprehensive page-by-page website plan covering all sections, content blocks, navigation, team, destinations, test pages, and service structure. Every section drawn from the official brochure and promotional content.</p>
+  <!-- MAIN CONTENT -->
+  <div class="page-wrap">
 
-  <!-- ════════════════════════ SITE STRUCTURE / NAVBAR ════════════════════════ -->
-  <div class="plan-section" id="nav-structure">
-    <span class="section-label">Global Structure</span>
-    <h2 class="section-title">Header, Top Bar & Navigation</h2>
-    <p class="section-desc">Two-tier header: a slim contact bar on top, then the main sticky navbar with dropdown and CTA button.</p>
+    <div style="margin-bottom:var(--space-4)">
+      <span class="section-label">Website Planning Document</span>
+    </div>
+    <h1 class="doc-title">EduMark Pvt. Ltd. — Complete Website Structure</h1>
+    <p class="doc-subtitle">A comprehensive page-by-page website plan covering all sections, content blocks, navigation,
+      team, destinations, test pages, and service structure. Every section drawn from the official brochure and
+      promotional content.</p>
 
-    <div class="nav-map">
-      <div class="nav-map-title">📌 Top Contact Bar (Always Visible)</div>
-      <div class="nav-row">
-        <span class="nav-item-main">📍 Address</span><span class="nav-arrow">—</span><span class="nav-item-sub">Araniko Bhawan, Traffic Chowk, Biratnagar-09</span>
-        <span class="nav-item-main">☎ 021-590823</span>
-        <span class="nav-item-main">📱 9802724823</span>
-        <span class="nav-item-main">📱 9807095059</span>
-        <span class="nav-item-main">Trust Badges</span><span class="nav-arrow">→</span><span class="nav-item-sub">Ministry Approved &nbsp;|&nbsp; ECAN Member &nbsp;|&nbsp; Since 2012</span>
+    <!-- ════════════════════════ SITE STRUCTURE / NAVBAR ════════════════════════ -->
+    <div class="plan-section" id="nav-structure">
+      <span class="section-label">Global Structure</span>
+      <h2 class="section-title">Header, Top Bar & Navigation</h2>
+      <p class="section-desc">Two-tier header: a slim contact bar on top, then the main sticky navbar with dropdown and
+        CTA button.</p>
+
+      <div class="nav-map">
+        <div class="nav-map-title">📌 Top Contact Bar (Always Visible)</div>
+        <div class="nav-row">
+          <span class="nav-item-main">📍 Address</span><span class="nav-arrow">—</span><span
+            class="nav-item-sub">Araniko Bhawan, Traffic Chowk, Biratnagar-09</span>
+          <span class="nav-item-main">☎ 021-590823</span>
+          <span class="nav-item-main">📱 9802724823</span>
+          <span class="nav-item-main">📱 9807095059</span>
+          <span class="nav-item-main">Trust Badges</span><span class="nav-arrow">→</span><span
+            class="nav-item-sub">Ministry Approved &nbsp;|&nbsp; ECAN Member &nbsp;|&nbsp; Since 2012</span>
+        </div>
+      </div>
+
+      <div style="height:var(--space-5)"></div>
+
+      <div class="nav-map">
+        <div class="nav-map-title">🧭 Main Navbar Items</div>
+        <div class="nav-row">
+          <span class="nav-item-main">Home</span>
+          <span class="nav-item-main">About Us</span>
+          <span class="nav-item-main">Services ▾</span>
+        </div>
+        <div class="nav-row">
+          <span class="nav-item-main">Test Preparation</span>
+          <span class="nav-item-main">Entrance Preparations</span>
+          <span class="nav-item-main">Destinations</span>
+          <span class="nav-item-main">Blogs</span>
+          <span class="nav-item-main">Videos Gallery</span>
+          <span class="nav-item-main">Contact</span>
+          <span class="nav-item-main" style="background:var(--color-primary);color:#fff">📅 Book Free Consultation
+            (CTA)</span>
+        </div>
       </div>
     </div>
 
-    <div style="height:var(--space-5)"></div>
+    <div class="divider"></div>
 
-    <div class="nav-map">
-      <div class="nav-map-title">🧭 Main Navbar Items</div>
-      <div class="nav-row">
-        <span class="nav-item-main">Home</span>
-        <span class="nav-item-main">About Us</span>
-        <span class="nav-item-main">Services ▾</span>
-        <span class="nav-arrow">→ Dropdown:</span>
-        <span class="nav-item-sub">Career Counselling</span>
-        <span class="nav-item-sub">Admission Guidance</span>
-        <span class="nav-item-sub">Visa Assistance</span>
-      </div>
-      <div class="nav-row">
-        <span class="nav-item-main">Test Preparation</span>
-        <span class="nav-item-main">Entrance Preparations</span>
-        <span class="nav-item-main">Destinations</span>
-        <span class="nav-item-main">Blogs</span>
-        <span class="nav-item-main">Videos Gallery</span>
-        <span class="nav-item-main">Contact</span>
-        <span class="nav-item-main" style="background:var(--color-primary);color:#fff">📅 Book Free Consultation (CTA)</span>
-      </div>
-    </div>
-  </div>
+    <!-- ════════════════════════ KEY PERSONNEL ════════════════════════ -->
+    <div class="plan-section" id="team">
+      <span class="section-label">Leadership Team</span>
+      <h2 class="section-title">Key Personnel — EduMark Pvt. Ltd.</h2>
+      <p class="section-desc">These four leaders will be featured in the About Us page with dedicated bio sections and a
+        message from the CEO.</p>
 
-  <div class="divider"></div>
-
-  <!-- ════════════════════════ KEY PERSONNEL ════════════════════════ -->
-  <div class="plan-section" id="team">
-    <span class="section-label">Leadership Team</span>
-    <h2 class="section-title">Key Personnel — EduMark Pvt. Ltd.</h2>
-    <p class="section-desc">These four leaders will be featured in the About Us page with dedicated bio sections and a message from the CEO.</p>
-
-    <div class="team-grid">
-      <div class="team-card">
-        <div class="team-avatar" style="background:var(--color-primary)">RG</div>
-        <div class="team-name">Ravi Gupta</div>
-        <div class="team-role">Founder & CEO</div>
-        <div class="team-desc">Visionary behind EduMark since 2012. Leads the overall strategy, institutional partnerships, and long-term growth of the consultancy across Koshi Province.</div>
-      </div>
-      <div class="team-card">
-        <div class="team-avatar" style="background:var(--color-purple)">KP</div>
-        <div class="team-name">Kabiraj Paudel</div>
-        <div class="team-role">Operational Director</div>
-        <div class="team-desc">Oversees the day-to-day operations, counseling quality, and student pipeline management, ensuring smooth service delivery from inquiry to departure.</div>
-      </div>
-      <div class="team-card">
-        <div class="team-avatar" style="background:var(--color-accent)">DM</div>
-        <div class="team-name">Dipendra Mehta</div>
-        <div class="team-role">Marketing Director</div>
-        <div class="team-desc">Drives brand awareness, digital campaigns, social media presence, and student outreach across Koshi Province and beyond.</div>
-      </div>
-      <div class="team-card">
-        <div class="team-avatar" style="background:var(--color-gold)">TT</div>
-        <div class="team-name">Tilak Thapa</div>
-        <div class="team-role">Director — Abroad Studies</div>
-        <div class="team-desc">Heads all international study programs, university partnerships, visa guidance, and the end-to-end study abroad journey for students.</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="divider"></div>
-
-  <!-- ════════════════════════ HOME PAGE ════════════════════════ -->
-  <div class="plan-section" id="home-page">
-    <span class="section-label">Page 01</span>
-    <h2 class="section-title">Home Page</h2>
-    <p class="section-desc">The primary conversion page. Starts with aspiration, moves through destinations, services, and proof, then drives inquiry. 9 sections total.</p>
-
-    <div class="page-plan">
-      <div class="page-plan-header">
-        <span class="page-badge badge-home">HOME</span>
-        <span class="page-plan-title">/ (Root Page) — Primary Entry & Conversion</span>
-      </div>
-      <div class="page-plan-body">
-        <div class="sections-list">
-
-          <div class="section-block">
-            <div class="section-num">1</div>
-            <div>
-              <div class="section-content-name">🎯 Hero Section</div>
-              <div class="section-content-desc">
-                Full-viewport hero with a bold headline: "Dreaming of Studying Abroad? Turn Your Aspirations Into Reality." Background: vivid world map or destination imagery. Includes a short subline about 14 years of excellence and ECAN membership, plus two CTAs: <strong>Book Free Counseling</strong> and <strong>Explore Destinations</strong>.
-                <ul>
-                  <li>Headline: "EduMark – Turning Ambition Into Achievement"</li>
-                  <li>Tagline: "Unleashing Potential Through Global Exposure"</li>
-                  <li>Trust badges: Ministry Approved • ECAN Member • 14 Years • 500+ Universities</li>
-                  <li>Dual CTA: Book Free Counseling + Explore Destinations</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <div class="section-block">
-            <div class="section-num">2</div>
-            <div>
-              <div class="section-content-name">🌍 Destinations We Cater</div>
-              <div class="section-content-desc">
-                Horizontal scrollable or grid of destination cards. Each card shows the country flag, country name, a key stat (e.g., cost range), and a "Learn More" button linking to the individual destination page.
-                <ul>
-                  <li>UK • USA • Australia • Japan • Finland • Lithuania • South Korea • Malta • Dubai • India</li>
-                  <li>Each card links to its dedicated destination page</li>
-                  <li>Show intake badges (e.g., "September 2026 Open")</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <div class="section-block">
-            <div class="section-num accent">3</div>
-            <div>
-              <div class="section-content-name">📝 Test Preparation Preview</div>
-              <div class="section-content-desc">
-                Visual cards for IELTS, PTE, TOEFL, and SAT. Each shows a quick description and "Learn More" button to its individual test page. Highlight certified teachers and weekly mock tests.
-              </div>
-            </div>
-          </div>
-
-          <div class="section-block">
-            <div class="section-num accent">4</div>
-            <div>
-              <div class="section-content-name">🎓 Services Preview</div>
-              <div class="section-content-desc">
-                Short visual overview of the three main service pillars. Use an asymmetric layout (one large card + two smaller) instead of a three-column identical grid.
-                <ul>
-                  <li>Abroad Studies — multi-destination, 500+ universities</li>
-                  <li>Test Preparation — IELTS, PTE, TOEFL, SAT</li>
-                  <li>Entrance Preparation — CEE, CMAT</li>
-                  <li>CTA: "Explore All Services →"</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <div class="section-block">
-            <div class="section-num gold">5</div>
-            <div>
-              <div class="section-content-name">✅ Why Choose EduMark?</div>
-              <div class="section-content-desc">
-                Drawn directly from the brochure's "Why EduMark?" section. Use icon + text rows rather than icon-in-circle cards.
-                <ul>
-                  <li>Legacy of success since 2012 A.D.</li>
-                  <li>Approved from Ministry of Education, member of ECAN</li>
-                  <li>Multi-destination experienced & certified counselors (TITI)</li>
-                  <li>Personalized support: Documentation, SOP, CV, Interview</li>
-                  <li>Transparent & Ethical Process</li>
-                  <li>End-to-End Support: Counseling to Departure</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <div class="section-block">
-            <div class="section-num gold">6</div>
-            <div>
-              <div class="section-content-name">🔄 Our Process</div>
-              <div class="section-content-desc">
-                6-step visual horizontal timeline with connecting lines or arrows. Use numbered steps with clear icons.
-                <ul>
-                  <li>Step 1: Free Counseling</li>
-                  <li>Step 2: Course & Country Selection</li>
-                  <li>Step 3: Application Submission</li>
-                  <li>Step 4: Offer Letter & Documentation</li>
-                  <li>Step 5: Visa Processing</li>
-                  <li>Step 6: Pre-Departure Support → Fly to Your Destination ✈</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <div class="section-block">
-            <div class="section-num purple">7</div>
-            <div>
-              <div class="section-content-name">📰 Blogs Section (Preview)</div>
-              <div class="section-content-desc">
-                Show 3 latest blog post cards: title, category tag, date, and short excerpt. Include a "Read All Articles →" link.
-              </div>
-            </div>
-          </div>
-
-          <div class="section-block">
-            <div class="section-num purple">8</div>
-            <div>
-              <div class="section-content-name">📬 Inquiry / Lead Form</div>
-              <div class="section-content-desc">
-                Simple, high-converting form with a strong headline: "Start Your Journey Today — Free Counseling."
-                <ul>
-                  <li>Fields: Full Name, Phone Number, Email, Preferred Destination, Course of Interest, Message</li>
-                  <li>Submit CTA: "Book My Free Counseling Session"</li>
-                  <li>Office address + phone displayed alongside the form</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <div class="section-block">
-            <div class="section-num grey">9</div>
-            <div>
-              <div class="section-content-name">⭐ Testimonials</div>
-              <div class="section-content-desc">
-                Student success stories. Photo, name, destination country, and a short quote. Horizontal scroll or auto-carousel of 4–6 cards.
-              </div>
-            </div>
-          </div>
-
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="team-avatar" style="background:var(--color-primary)">RG</div>
+          <div class="team-name">Ravi Gupta</div>
+          <div class="team-role">Founder & CEO</div>
+          <div class="team-desc">Visionary behind EduMark since 2012. Leads the overall strategy, institutional
+            partnerships, and long-term growth of the consultancy across Koshi Province.</div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar" style="background:var(--color-purple)">KP</div>
+          <div class="team-name">Kabiraj Paudel</div>
+          <div class="team-role">Operational Director</div>
+          <div class="team-desc">Oversees the day-to-day operations, counseling quality, and student pipeline
+            management, ensuring smooth service delivery from inquiry to departure.</div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar" style="background:var(--color-accent)">DM</div>
+          <div class="team-name">Dipendra Mehta</div>
+          <div class="team-role">Marketing Director</div>
+          <div class="team-desc">Drives brand awareness, digital campaigns, social media presence, and student outreach
+            across Koshi Province and beyond.</div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar" style="background:var(--color-gold)">TT</div>
+          <div class="team-name">Tilak Thapa</div>
+          <div class="team-role">Director — Abroad Studies</div>
+          <div class="team-desc">Heads all international study programs, university partnerships, visa guidance, and the
+            end-to-end study abroad journey for students.</div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="divider"></div>
+    <div class="divider"></div>
 
-  <!-- ════════════════════════ ABOUT US ════════════════════════ -->
-  <div class="plan-section" id="about-page">
-    <span class="section-label">Page 02</span>
-    <h2 class="section-title">About Us Page</h2>
-    <p class="section-desc">Builds trust, tells the EduMark story, introduces the leadership, and establishes credibility through milestones and accreditations.</p>
-
-    <div class="page-plan">
-      <div class="page-plan-header">
-        <span class="page-badge badge-about">ABOUT US</span>
-        <span class="page-plan-title">/about — Company Story, Leadership & Trust</span>
-      </div>
-      <div class="page-plan-body">
-        <div class="sections-list">
-
-          <div class="section-block">
-            <div class="section-num purple">1</div>
-            <div>
-              <div class="section-content-name">🏛 Hero / Page Intro</div>
-              <div class="section-content-desc">Short hero with headline "The Most Trusted Consultancy in Koshi Province" and subline about dedication since 2012. Background: office or team imagery.</div>
-            </div>
-          </div>
-
-          <div class="section-block">
-            <div class="section-num purple">2</div>
-            <div>
-              <div class="section-content-name">📖 About EduMark</div>
-              <div class="section-content-desc">
-                Full company description:
-                <ul>
-                  <li>EduMark Pvt. Ltd. — leading multi-destination education consultancy</li>
-                  <li>Guided hundreds of students toward the best international academic opportunities</li>
-                  <li>Expert counseling, transparent processes, strong institutional partnerships</li>
-                  <li>Specializes in career counseling, university selection, admission processing, visa guidance, pre-departure support</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <div class="section-block">
-            <div class="section-num purple">3</div>
-            <div>
-              <div class="section-content-name">🎯 Mission & Vision</div>
-              <div class="section-content-desc">Mission: To guide every student toward the best international opportunity through expert, ethical, and personalized support. Vision: "Unleashing Potential Through Global Exposure."</div>
-            </div>
-          </div>
-
-          <div class="section-block">
-            <div class="section-num purple">4</div>
-            <div>
-              <div class="section-content-name">💬 Message from the CEO — Ravi Gupta</div>
-              <div class="section-content-desc">Prominent quote/letter from the CEO in an editorial pull-quote layout. Large italic display typography. Photo of Ravi Gupta alongside the message. Signature. Closing CTA to book free counseling.</div>
-            </div>
-          </div>
-
-          <div class="section-block">
-            <div class="section-num purple">5</div>
-            <div>
-              <div class="section-content-name">👥 Our Key Individuals</div>
-              <div class="section-content-desc">
-                Team grid with photo (or avatar), name, role, and short bio for each:
-                <ul>
-                  <li>Ravi Gupta — Founder & CEO</li>
-                  <li>Kabiraj Paudel — Operational Director</li>
-                  <li>Dipendra Mehta — Marketing Director</li>
-                  <li>Tilak Thapa — Director, Abroad Studies</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <div class="section-block">
-            <div class="section-num purple">6</div>
-            <div>
-              <div class="section-content-name">📅 Milestones & History</div>
-              <div class="section-content-desc">Timeline: Founded 2012 → ECAN membership → Ministry approval → 14 years of excellence → 500+ partner universities → hundreds of students placed.</div>
-            </div>
-          </div>
-
-          <div class="section-block">
-            <div class="section-num purple">7</div>
-            <div>
-              <div class="section-content-name">🏅 Accreditations & Trust</div>
-              <div class="section-content-desc">
-                <ul>
-                  <li>Approved: Ministry of Education, Nepal</li>
-                  <li>Member: ECAN (Educational Consultancy Association of Nepal)</li>
-                  <li>Certified Counselors: TITI (Training Institute for Technical Instruction)</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <div class="section-block">
-            <div class="section-num grey">8</div>
-            <div>
-              <div class="section-content-name">📋 CTA — Book Your Counseling</div>
-              <div class="section-content-desc">"Ready to Begin Your Journey? Talk to our expert counselors for free." → Button: Book Free Counseling.</div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="divider"></div>
-
-  <!-- ════════════════════════ SERVICES PAGE ════════════════════════ -->
-  <div class="plan-section" id="services-page">
-    <span class="section-label">Page 03</span>
-    <h2 class="section-title">Services Page</h2>
-    <p class="section-desc">One full-length page showing all service areas in order with individual named sections, a mid-page CTA, and supporting information blocks.</p>
-
-    <div class="page-plan">
-      <div class="page-plan-header">
-        <span class="page-badge badge-services">SERVICES</span>
-        <span class="page-plan-title">/services — Complete Service Offerings</span>
-      </div>
-      <div class="page-plan-body">
-        <div class="sections-list">
-
-          <div class="section-block">
-            <div class="section-num accent">1</div>
-            <div>
-              <div class="section-content-name">🧭 Services Intro</div>
-              <div class="section-content-desc">Overview of EduMark's student support model. Mention 500+ colleges/universities, multi-destination support, and end-to-end guidance.</div>
-            </div>
-          </div>
-
-          <div id="service-career" class="section-block">
-            <div class="section-num accent">2</div>
-            <div>
-              <div class="section-content-name">🎓 Career Counselling</div>
-              <div class="section-content-desc">Personalized counseling to help students identify the right country, course, and university based on their academic background, goals, and budget.</div>
-            </div>
-          </div>
-
-          <div id="service-admission" class="section-block">
-            <div class="section-num accent">3</div>
-            <div>
-              <div class="section-content-name">📄 Admission Guidance</div>
-              <div class="section-content-desc">Full application support: university selection, entry requirement checks, SOP writing, CV preparation, reference letters, and application submission.</div>
-            </div>
-          </div>
-
-          <div id="service-visa" class="section-block">
-            <div class="section-num accent">4</div>
-            <div>
-              <div class="section-content-name">🛂 Visa Assistance</div>
-              <div class="section-content-desc">End-to-end visa documentation support, financial document preparation, interview preparation, and visa filing for all supported study destinations.</div>
-            </div>
-          </div>
-
-          <div class="section-block" style="background:var(--color-accent-light);border-color:var(--color-accent)">
-            <div class="section-num accent">✦</div>
-            <div>
-              <div class="section-content-name">⚡ Tricky CTA Block (Mid-Page)</div>
-              <div class="section-content-desc">"Last Chance Alert — Limited Seats for October & September 2026 Intakes! Book your free counseling now." Strong urgency message with a DM/call-to-action button. This is placed between Visa Assistance and the next section.</div>
-            </div>
-          </div>
-
-          <div class="section-block">
-            <div class="section-num accent">5</div>
-            <div>
-              <div class="section-content-name">🏫 Information on Institutions</div>
-              <div class="section-content-desc">Guidance on comparing universities, understanding accreditations (NIRF, NBA, AICTE, QS Rankings, THE Rankings), and making an informed final choice.</div>
-            </div>
-          </div>
-
-          <div class="section-block">
-            <div class="section-num accent">6</div>
-            <div>
-              <div class="section-content-name">✈ Travel Assistance</div>
-              <div class="section-content-desc">Support with travel planning, flight booking guidance, and airport procedures for students flying to their chosen destination.</div>
-            </div>
-          </div>
-
-          <div class="section-block">
-            <div class="section-num accent">7</div>
-            <div>
-              <div class="section-content-name">🏠 Accommodation Assistance</div>
-              <div class="section-content-desc">Help finding suitable student housing, hostels, or university accommodation arrangements before departure.</div>
-            </div>
-          </div>
-
-          <div class="section-block">
-            <div class="section-num accent">8</div>
-            <div>
-              <div class="section-content-name">🧳 Pre-Departure Briefings</div>
-              <div class="section-content-desc">Comprehensive pre-departure session covering: destination country culture, weather, academic norms, financial management tips, emergency contacts, and what to pack.</div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="divider"></div>
-
-  <!-- ════════════════════════ DESTINATIONS ════════════════════════ -->
-  <div class="plan-section" id="destinations-page">
-    <span class="section-label">Page 04 + Sub-Pages</span>
-    <h2 class="section-title">Destinations Page & Individual Country Pages</h2>
-    <p class="section-desc">A main grid listing all countries, plus a dedicated individual page for each destination following a reusable section template.</p>
-
-    <h3 style="font-size:var(--text-sm);font-weight:700;margin-bottom:var(--space-4);color:var(--color-text-muted);text-transform:uppercase;letter-spacing:0.05em">Individual Destination Page Template (Used for Each Country)</h3>
-
-    <div class="template-grid">
-      <div class="template-card">
-        <div class="template-card-header">
-          <div class="template-card-title">🇬🇧 Example: Study in UK</div>
-          <div class="template-card-sub">/destinations/united-kingdom</div>
-        </div>
-        <div class="template-sections">
-          <div class="template-section-item"><div class="template-dot dot-primary"></div><span class="template-section-name">1. Hero Section — "Your UK Dream Starts Here!"</span></div>
-          <div class="template-section-item"><div class="template-dot dot-primary"></div><span class="template-section-name">2. Why Study in the UK?</span></div>
-          <div class="template-section-item"><div class="template-dot dot-gold"></div><span class="template-section-name">3. Education System & Available Courses</span></div>
-          <div class="template-section-item"><div class="template-dot dot-gold"></div><span class="template-section-name">4. Popular Universities</span></div>
-          <div class="template-section-item"><div class="template-dot dot-blue"></div><span class="template-section-name">5. Estimated Cost of Education (NPR)</span></div>
-          <div class="template-section-item"><div class="template-dot dot-blue"></div><span class="template-section-name">6. Visa & Documentation Support</span></div>
-          <div class="template-section-item"><div class="template-dot dot-accent"></div><span class="template-section-name">7. Current Intake Dates / Deadlines</span></div>
-          <div class="template-section-item"><div class="template-dot dot-accent"></div><span class="template-section-name">8. FAQs</span></div>
-          <div class="template-section-item"><div class="template-dot dot-primary"></div><span class="template-section-name">9. CTA — Apply Now / Book Counseling</span></div>
-        </div>
-      </div>
-
-      <div class="template-card">
-        <div class="template-card-header">
-          <div class="template-card-title">🗺 All Destination Sub-Pages</div>
-          <div class="template-card-sub">Each country follows the same template above</div>
-        </div>
-        <div class="template-sections">
-          <div class="template-section-item"><div class="template-dot dot-primary"></div><span class="template-section-name">🇬🇧 United Kingdom — NPR 35–40 Lakh</span></div>
-          <div class="template-section-item"><div class="template-dot dot-primary"></div><span class="template-section-name">🇺🇸 United States — NPR 20–40 Lakh</span></div>
-          <div class="template-section-item"><div class="template-dot dot-primary"></div><span class="template-section-name">🇦🇺 Australia — NPR 30–40 Lakh</span></div>
-          <div class="template-section-item"><div class="template-dot dot-gold"></div><span class="template-section-name">🇯🇵 Japan — NPR 13–16 Lakh</span></div>
-          <div class="template-section-item"><div class="template-dot dot-gold"></div><span class="template-section-name">🇫🇮 Finland — NPR 18–22 Lakh</span></div>
-          <div class="template-section-item"><div class="template-dot dot-gold"></div><span class="template-section-name">🇱🇹 Lithuania — NPR 14–16 Lakh</span></div>
-          <div class="template-section-item"><div class="template-dot dot-blue"></div><span class="template-section-name">🇰🇷 South Korea — NPR 8–12 Lakh</span></div>
-          <div class="template-section-item"><div class="template-dot dot-blue"></div><span class="template-section-name">🇲🇹 Malta — European Hub</span></div>
-          <div class="template-section-item"><div class="template-dot dot-accent"></div><span class="template-section-name">🇦🇪 Dubai — Global Education Hub</span></div>
-          <div class="template-section-item"><div class="template-dot dot-accent"></div><span class="template-section-name">🇮🇳 India — INR 5–8 Lakh+</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="divider"></div>
-
-  <!-- ════════════════════════ TEST PREPARATION ════════════════════════ -->
-  <div class="plan-section" id="test-pages">
-    <span class="section-label">Page 05 + Sub-Pages</span>
-    <h2 class="section-title">Test Preparation Page & Individual Test Pages</h2>
-    <p class="section-desc">A main overview page listing all tests, plus an individual page for each test following a reusable content template.</p>
-
-    <div class="template-grid">
-      <div class="template-card">
-        <div class="template-card-header">
-          <div class="template-card-title">📘 Example: IELTS Individual Page</div>
-          <div class="template-card-sub">/test-preparation/ielts</div>
-        </div>
-        <div class="template-sections">
-          <div class="template-section-item"><div class="template-dot dot-blue"></div><span class="template-section-name">1. Hero — "Master IELTS with EduMark"</span></div>
-          <div class="template-section-item"><div class="template-dot dot-blue"></div><span class="template-section-name">2. What is IELTS?</span></div>
-          <div class="template-section-item"><div class="template-dot dot-primary"></div><span class="template-section-name">3. Test Types (Academic / General Training)</span></div>
-          <div class="template-section-item"><div class="template-dot dot-primary"></div><span class="template-section-name">4. Key Characteristics</span></div>
-          <div class="template-section-item"><div class="template-dot dot-gold"></div><span class="template-section-name">5. Exam Format (Listening, Reading, Writing, Speaking)</span></div>
-          <div class="template-section-item"><div class="template-dot dot-gold"></div><span class="template-section-name">6. How EduMark Prepares You</span></div>
-          <div class="template-section-item"><div class="template-dot dot-accent"></div><span class="template-section-name">7. ⚠ Disclaimer Section</span></div>
-          <div class="template-section-item"><div class="template-dot dot-accent"></div><span class="template-section-name">8. CTA — Enroll for Classes</span></div>
-        </div>
-      </div>
-
-      <div class="template-card">
-        <div class="template-card-header">
-          <div class="template-card-title">📋 All Test Sub-Pages</div>
-          <div class="template-card-sub">Same template applied to each test</div>
-        </div>
-        <div class="template-sections">
-          <div class="template-section-item"><div class="template-dot dot-blue"></div><span class="template-section-name">IELTS — International English Language Testing</span></div>
-          <div class="template-section-item"><div class="template-dot dot-primary"></div><span class="template-section-name">PTE — Pearson Test of English</span></div>
-          <div class="template-section-item"><div class="template-dot dot-gold"></div><span class="template-section-name">TOEFL — Test of English as a Foreign Language</span></div>
-          <div class="template-section-item"><div class="template-dot dot-accent"></div><span class="template-section-name">SAT — Scholastic Assessment Test (USA)</span></div>
-        </div>
-        <div style="padding:var(--space-4) var(--space-5);border-top:1px solid var(--color-divider)">
-          <div style="font-size:var(--text-xs);color:var(--color-text-muted);font-weight:600;margin-bottom:var(--space-2)">EduMark's Test Prep Features (shown on each page):</div>
-          <div class="sub-items">
-            <span class="sub-tag">Certified Teachers</span>
-            <span class="sub-tag">Weekly Mock Tests</span>
-            <span class="sub-tag">Extra Classes for Weak Students</span>
-            <span class="sub-tag">Japanese Interview Prep</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="divider"></div>
-
-  <!-- ════════════════════════ ENTRANCE PREPARATION ════════════════════════ -->
-  <div class="plan-section" id="entrance-page">
-    <span class="section-label">Page 06</span>
-    <h2 class="section-title">Entrance Preparations Page</h2>
-    <p class="section-desc">For students in +2 preparing for national entrance exams. Ministry-approved institute. Features CEE and CMAT classes.</p>
-
-    <div class="page-plan">
-      <div class="page-plan-header">
-        <span class="page-badge badge-entrance">ENTRANCE PREP</span>
-        <span class="page-plan-title">/entrance-preparations — CEE & CMAT Classes</span>
-      </div>
-      <div class="page-plan-body">
-        <div class="sections-list">
-          <div class="section-block">
-            <div class="section-num green">1</div>
-            <div>
-              <div class="section-content-name">🎓 Hero — "Your +2 Is Just the Beginning"</div>
-              <div class="section-content-desc">Headline: "Prepare Smart. Aim High. Crack the Entrance." Subline about medical, engineering, and management entrances. Trust badge: Ministry-approved institute, Koshi Province's first CMAT institute.</div>
-            </div>
-          </div>
-          <div class="section-block">
-            <div class="section-num green">2</div>
-            <div>
-              <div class="section-content-name">🏥 CEE Medical Preparation</div>
-              <div class="section-content-desc">
-                "Your medical dream isn't far — it just needs the right preparation. CEE classes starting soon after +2."
-                <ul>
-                  <li>Expert Faculties (CEE Scholarship holders)</li>
-                  <li>Complete & Structured Preparation</li>
-                  <li>Regular Tests & Performance Analysis</li>
-                  <li>Personalized Mentorship</li>
-                  <li>Build strong concepts | Proven strategies | Time management mastery</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="section-block">
-            <div class="section-num green">3</div>
-            <div>
-              <div class="section-content-name">📊 CMAT Preparation</div>
-              <div class="section-content-desc">
-                "कोशी प्रदेश कै पहिलो र सर्वोत्कृष्ट CMAT पढाई हुने — EduMark Biratnagar"
-                <ul>
-                  <li>For TU-affiliated bachelor programs: BBA, BIM, BHM, BBM, BTTM, BMS, BCA</li>
-                  <li>Led by BBA/MBA rank holders and prep experts</li>
-                  <li>Weekly Mock Tests</li>
-                  <li>Special emphasis on weak students + soft copy practice materials</li>
-                  <li>Special Offer: NPR 5,000 for first 50 students</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="section-block">
-            <div class="section-num green">4</div>
-            <div>
-              <div class="section-content-name">🔧 Why Our Entrance Classes?</div>
-              <div class="section-content-desc">Expert faculties, structured curriculum, mock test schedule, performance tracking, and personalized mentorship for Medical, Paramedical, Engineering, and CMAT.</div>
-            </div>
-          </div>
-          <div class="section-block">
-            <div class="section-num grey">5</div>
-            <div>
-              <div class="section-content-name">📞 CTA — Enroll Now</div>
-              <div class="section-content-desc">"DM us now or visit our office to enroll. Call: 9802724823 / 9807095059." Urgency note: "Limited seats — classes starting soon!"</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="divider"></div>
-
-  <!-- ════════════════════════ REMAINING PAGES ════════════════════════ -->
-  <div class="plan-section" id="blogs-page">
-    <span class="section-label">Pages 07 – 10</span>
-    <h2 class="section-title">Blogs, Videos Gallery, Contact & Consultation</h2>
-
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-6)">
+    <!-- ════════════════════════ HOME PAGE ════════════════════════ -->
+    <div class="plan-section" id="home-page">
+      <span class="section-label">Page 01</span>
+      <h2 class="section-title">Home Page</h2>
+      <p class="section-desc">The primary conversion page. Starts with aspiration, moves through destinations, services,
+        and proof, then drives inquiry. 9 sections total.</p>
 
       <div class="page-plan">
         <div class="page-plan-header">
-          <span class="page-badge badge-blog">BLOGS</span>
-          <span class="page-plan-title">/blogs</span>
+          <span class="page-badge badge-home">HOME</span>
+          <span class="page-plan-title">/ (Root Page) — Primary Entry & Conversion</span>
         </div>
         <div class="page-plan-body">
           <div class="sections-list">
-            <div class="section-block"><div class="section-num grey">1</div><div><div class="section-content-name">Featured Article Hero</div><div class="section-content-desc">Large hero card with latest/most important article.</div></div></div>
-            <div class="section-block"><div class="section-num grey">2</div><div><div class="section-content-name">Category Filters</div><div class="section-content-desc">Study Abroad, Test Prep, Entrance, Destinations, Visa Tips, News</div></div></div>
-            <div class="section-block"><div class="section-num grey">3</div><div><div class="section-content-name">Article Grid</div><div class="section-content-desc">Cards with thumbnail, category, title, date, excerpt, and Read More link.</div></div></div>
-            <div class="section-block"><div class="section-num grey">4</div><div><div class="section-content-name">Newsletter / Alert Signup</div><div class="section-content-desc">"Get intake alerts & study tips — Subscribe."</div></div></div>
+
+            <div class="section-block">
+              <div class="section-num">1</div>
+              <div>
+                <div class="section-content-name">🎯 Hero Section</div>
+                <div class="section-content-desc">
+                  Full-viewport hero with a bold headline: "Dreaming of Studying Abroad? Turn Your Aspirations Into
+                  Reality." Background: vivid world map or destination imagery. Includes a short subline about 14 years
+                  of excellence and ECAN membership, plus two CTAs: <strong>Book Free Counseling</strong> and
+                  <strong>Explore Destinations</strong>.
+                  <ul>
+                    <li>Headline: "EduMark – Turning Ambition Into Achievement"</li>
+                    <li>Tagline: "Unleashing Potential Through Global Exposure"</li>
+                    <li>Trust badges: Ministry Approved • ECAN Member • 14 Years • 500+ Universities</li>
+                    <li>Dual CTA: Book Free Counseling + Explore Destinations</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="section-block">
+              <div class="section-num">2</div>
+              <div>
+                <div class="section-content-name">🌍 Destinations We Cater</div>
+                <div class="section-content-desc">
+                  Horizontal scrollable or grid of destination cards. Each card shows the country flag, country name, a
+                  key stat (e.g., cost range), and a "Learn More" button linking to the individual destination page.
+                  <ul>
+                    <li>UK • USA • Australia • Japan • Finland • Lithuania • South Korea • Malta • Dubai • India</li>
+                    <li>Each card links to its dedicated destination page</li>
+                    <li>Show intake badges (e.g., "September 2026 Open")</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="section-block">
+              <div class="section-num accent">3</div>
+              <div>
+                <div class="section-content-name">📝 Test Preparation Preview</div>
+                <div class="section-content-desc">
+                  Visual cards for IELTS, PTE, TOEFL, and SAT. Each shows a quick description and "Learn More" button to
+                  its individual test page. Highlight certified teachers and weekly mock tests.
+                </div>
+              </div>
+            </div>
+
+            <div class="section-block">
+              <div class="section-num accent">4</div>
+              <div>
+                <div class="section-content-name">🎓 Services Preview</div>
+                <div class="section-content-desc">
+                  Short visual overview of the three main service pillars. Use an asymmetric layout (one large card +
+                  two smaller) instead of a three-column identical grid.
+                  <ul>
+                    <li>Abroad Studies — multi-destination, 500+ universities</li>
+                    <li>Test Preparation — IELTS, PTE, TOEFL, SAT</li>
+                    <li>Entrance Preparation — CEE, CMAT</li>
+                    <li>CTA: "Explore All Services →"</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="section-block">
+              <div class="section-num gold">5</div>
+              <div>
+                <div class="section-content-name">✅ Why Choose EduMark?</div>
+                <div class="section-content-desc">
+                  Drawn directly from the brochure's "Why EduMark?" section. Use icon + text rows rather than
+                  icon-in-circle cards.
+                  <ul>
+                    <li>Legacy of success since 2012 A.D.</li>
+                    <li>Approved from Ministry of Education, member of ECAN</li>
+                    <li>Multi-destination experienced & certified counselors (TITI)</li>
+                    <li>Personalized support: Documentation, SOP, CV, Interview</li>
+                    <li>Transparent & Ethical Process</li>
+                    <li>End-to-End Support: Counseling to Departure</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="section-block">
+              <div class="section-num gold">6</div>
+              <div>
+                <div class="section-content-name">🔄 Our Process</div>
+                <div class="section-content-desc">
+                  6-step visual horizontal timeline with connecting lines or arrows. Use numbered steps with clear
+                  icons.
+                  <ul>
+                    <li>Step 1: Free Counseling</li>
+                    <li>Step 2: Course & Country Selection</li>
+                    <li>Step 3: Application Submission</li>
+                    <li>Step 4: Offer Letter & Documentation</li>
+                    <li>Step 5: Visa Processing</li>
+                    <li>Step 6: Pre-Departure Support → Fly to Your Destination ✈</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="section-block">
+              <div class="section-num purple">7</div>
+              <div>
+                <div class="section-content-name">📰 Blogs Section (Preview)</div>
+                <div class="section-content-desc">
+                  Show 3 latest blog post cards: title, category tag, date, and short excerpt. Include a "Read All
+                  Articles →" link.
+                </div>
+              </div>
+            </div>
+
+            <div class="section-block">
+              <div class="section-num purple">8</div>
+              <div>
+                <div class="section-content-name">📬 Inquiry / Lead Form</div>
+                <div class="section-content-desc">
+                  Simple, high-converting form with a strong headline: "Start Your Journey Today — Free Counseling."
+                  <ul>
+                    <li>Fields: Full Name, Phone Number, Email, Preferred Destination, Course of Interest, Message</li>
+                    <li>Submit CTA: "Book My Free Counseling Session"</li>
+                    <li>Office address + phone displayed alongside the form</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="section-block">
+              <div class="section-num grey">9</div>
+              <div>
+                <div class="section-content-name">⭐ Testimonials</div>
+                <div class="section-content-desc">
+                  Student success stories. Photo, name, destination country, and a short quote. Horizontal scroll or
+                  auto-carousel of 4–6 cards.
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
-
-      <div class="page-plan" id="videos-page">
-        <div class="page-plan-header">
-          <span class="page-badge badge-blog">VIDEOS GALLERY</span>
-          <span class="page-plan-title">/videos-gallery</span>
-        </div>
-        <div class="page-plan-body">
-          <div class="sections-list">
-            <div class="section-block"><div class="section-num grey">1</div><div><div class="section-content-name">Hero / Intro</div><div class="section-content-desc">Welcome banner: "Watch Student Success Stories & Expert Tips."</div></div></div>
-            <div class="section-block"><div class="section-num grey">2</div><div><div class="section-content-name">Category Tabs</div><div class="section-content-desc">Testimonials | Destination Guides | Test Preparation | Office Tours | Reels</div></div></div>
-            <div class="section-block"><div class="section-num grey">3</div><div><div class="section-content-name">Video Grid</div><div class="section-content-desc">Embedded YouTube/video thumbnails with title and duration.</div></div></div>
-            <div class="section-block"><div class="section-num grey">4</div><div><div class="section-content-name">CTA</div><div class="section-content-desc">Follow on social media / Subscribe for updates.</div></div></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="page-plan" id="contact-page">
-        <div class="page-plan-header">
-          <span class="page-badge badge-contact">CONTACT</span>
-          <span class="page-plan-title">/contact</span>
-        </div>
-        <div class="page-plan-body">
-          <div class="sections-list">
-            <div class="section-block"><div class="section-num">1</div><div><div class="section-content-name">Contact Details Block</div><div class="section-content-desc">Address, landline, mobile, WhatsApp, Google Map embed, office hours.</div></div></div>
-            <div class="section-block"><div class="section-num">2</div><div><div class="section-content-name">Contact / Inquiry Form</div><div class="section-content-desc">Name, Phone, Email, Subject, Message → "Send Message" button.</div></div></div>
-            <div class="section-block"><div class="section-num">3</div><div><div class="section-content-name">CTA — Book Free Consultation</div><div class="section-content-desc">Secondary CTA linking to the Consultation booking form.</div></div></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="page-plan" id="consultation">
-        <div class="page-plan-header">
-          <span class="page-badge badge-contact">FREE CONSULTATION</span>
-          <span class="page-plan-title">/book-free-consultation</span>
-        </div>
-        <div class="page-plan-body">
-          <div class="sections-list">
-            <div class="section-block"><div class="section-num">1</div><div><div class="section-content-name">Hero — "Start Your Journey Today"</div><div class="section-content-desc">Reassurance statement: "Free, no-obligation counseling with a certified expert."</div></div></div>
-            <div class="section-block"><div class="section-num">2</div><div><div class="section-content-name">Booking Form</div><div class="section-content-desc">Name, Phone, Email, Preferred Destination, Course Interest, Preferred Date/Time, Message → "Book My Session."</div></div></div>
-            <div class="section-block"><div class="section-num">3</div><div><div class="section-content-name">Reassurance Points</div><div class="section-content-desc">100% Free • Certified Counselors • End-to-End Support • Since 2012</div></div></div>
-          </div>
-        </div>
-      </div>
-
     </div>
-  </div>
 
-  <div class="divider"></div>
+    <div class="divider"></div>
 
-  <!-- ════════════════════════ COMPLETE SITEMAP ════════════════════════ -->
-  <div class="plan-section">
-    <span class="section-label">Master Sitemap</span>
-    <h2 class="section-title">Complete Page & URL Structure</h2>
-    <table class="sitemap-table">
-      <thead>
-        <tr>
-          <th>Page</th>
-          <th>URL Path</th>
-          <th>Key Sections</th>
-          <th>Priority CTA</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td><strong>Home</strong></td><td>/</td><td>Hero, Destinations, Tests Preview, Services Preview, Why Choose Us, Our Process, Blogs, Inquiry Form, Testimonials</td><td>Book Free Counseling</td></tr>
-        <tr><td><strong>About Us</strong></td><td>/about</td><td>Intro, About EduMark, Mission/Vision, CEO Message, Key Team, Milestones, Accreditations, CTA</td><td>Book Free Counseling</td></tr>
-        <tr><td><strong>Services</strong></td><td>/services</td><td>Intro, Career Counselling, Admission Guidance, Visa Assistance, CTA Block, Institutions Info, Travel, Accommodation, Pre-Departure</td><td>DM / Call Now</td></tr>
-        <tr><td><strong>Test Preparation</strong></td><td>/test-preparation</td><td>Overview, IELTS, PTE, TOEFL, SAT cards → individual pages</td><td>Enroll for Classes</td></tr>
-        <tr><td><strong>IELTS Page</strong></td><td>/test-preparation/ielts</td><td>What is IELTS, Test Types, Characteristics, Exam Format, Prep at EduMark, Disclaimer, CTA</td><td>Enroll Now</td></tr>
-        <tr><td><strong>PTE Page</strong></td><td>/test-preparation/pte</td><td>Same template as IELTS</td><td>Enroll Now</td></tr>
-        <tr><td><strong>TOEFL Page</strong></td><td>/test-preparation/toefl</td><td>Same template as IELTS</td><td>Enroll Now</td></tr>
-        <tr><td><strong>SAT Page</strong></td><td>/test-preparation/sat</td><td>Same template as IELTS</td><td>Enroll Now</td></tr>
-        <tr><td><strong>Entrance Prep</strong></td><td>/entrance-preparations</td><td>Hero, CEE, CMAT, Why Our Classes, Enroll CTA</td><td>Enroll Now</td></tr>
-        <tr><td><strong>Destinations</strong></td><td>/destinations</td><td>Destination grid with all 10 countries, intake badges, filters</td><td>Explore & Apply</td></tr>
-        <tr><td><strong>UK Page</strong></td><td>/destinations/uk</td><td>Hero, Why UK, Education System, Courses, Universities, Cost, Visa, Intake, FAQs, CTA</td><td>Apply Now</td></tr>
-        <tr><td><strong>USA Page</strong></td><td>/destinations/usa</td><td>Same template as UK</td><td>Apply Now</td></tr>
-        <tr><td><strong>Australia Page</strong></td><td>/destinations/australia</td><td>Same template as UK</td><td>Apply Now</td></tr>
-        <tr><td><strong>Japan Page</strong></td><td>/destinations/japan</td><td>Same template + Japanese Language Prep section</td><td>Apply Now</td></tr>
-        <tr><td><strong>Finland Page</strong></td><td>/destinations/finland</td><td>Same template + Scholarship section</td><td>Apply Now</td></tr>
-        <tr><td><strong>Lithuania Page</strong></td><td>/destinations/lithuania</td><td>Same template — Affordable focus</td><td>Apply Now</td></tr>
-        <tr><td><strong>South Korea Page</strong></td><td>/destinations/south-korea</td><td>Same template + Korean Language section</td><td>Apply Now</td></tr>
-        <tr><td><strong>Malta Page</strong></td><td>/destinations/malta</td><td>Same template — European gateway</td><td>Apply Now</td></tr>
-        <tr><td><strong>Dubai Page</strong></td><td>/destinations/dubai</td><td>Same template — global hub focus</td><td>Apply Now</td></tr>
-        <tr><td><strong>India Page</strong></td><td>/destinations/india</td><td>Same template + Rankings section (NIRF, NBA, AICTE, QS, THE)</td><td>Apply Now</td></tr>
-        <tr><td><strong>Blogs</strong></td><td>/blogs</td><td>Featured Hero, Category Filters, Article Grid, Newsletter Signup</td><td>Subscribe</td></tr>
-        <tr><td><strong>Videos Gallery</strong></td><td>/videos-gallery</td><td>Intro, Category Tabs, Video Grid, Social CTA</td><td>Subscribe / Follow</td></tr>
-        <tr><td><strong>Contact</strong></td><td>/contact</td><td>Details, Map, Inquiry Form, Consultation CTA</td><td>Send Message</td></tr>
-        <tr><td><strong>Book Consultation</strong></td><td>/book-free-consultation</td><td>Hero, Booking Form, Reassurance Points</td><td>Book My Session</td></tr>
-      </tbody>
-    </table>
-  </div>
+    <!-- ════════════════════════ ABOUT US ════════════════════════ -->
+    <div class="plan-section" id="about-page">
+      <span class="section-label">Page 02</span>
+      <h2 class="section-title">About Us Page</h2>
+      <p class="section-desc">Builds trust, tells the EduMark story, introduces the leadership, and establishes
+        credibility through milestones and accreditations.</p>
 
-  <div class="divider"></div>
+      <div class="page-plan">
+        <div class="page-plan-header">
+          <span class="page-badge badge-about">ABOUT US</span>
+          <span class="page-plan-title">/about — Company Story, Leadership & Trust</span>
+        </div>
+        <div class="page-plan-body">
+          <div class="sections-list">
 
-  <!-- CONTACT FOOTER INFO -->
-  <div class="contact-box">
-    <div>
-      <h3>EduMark Pvt. Ltd.</h3>
-      <div class="contact-detail">
-        <div class="contact-row"><span class="contact-icon">📍</span><span>Araniko Bhawan, Traffic Chowk,<br>Biratnagar-09, Koshi Province, Nepal</span></div>
-        <div class="contact-row"><span class="contact-icon">☎</span><span>021-590823</span></div>
-        <div class="contact-row"><span class="contact-icon">📱</span><span>+977-9802724823 &nbsp;|&nbsp; 9807095059 &nbsp;|&nbsp; 9820490823</span></div>
+            <div class="section-block">
+              <div class="section-num purple">1</div>
+              <div>
+                <div class="section-content-name">🏛 Hero / Page Intro</div>
+                <div class="section-content-desc">Short hero with headline "The Most Trusted Consultancy in Koshi
+                  Province" and subline about dedication since 2012. Background: office or team imagery.</div>
+              </div>
+            </div>
+
+            <div class="section-block">
+              <div class="section-num purple">2</div>
+              <div>
+                <div class="section-content-name">📖 About EduMark</div>
+                <div class="section-content-desc">
+                  Full company description:
+                  <ul>
+                    <li>EduMark Pvt. Ltd. — leading multi-destination education consultancy</li>
+                    <li>Guided hundreds of students toward the best international academic opportunities</li>
+                    <li>Expert counseling, transparent processes, strong institutional partnerships</li>
+                    <li>Specializes in career counseling, university selection, admission processing, visa guidance,
+                      pre-departure support</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="section-block">
+              <div class="section-num purple">3</div>
+              <div>
+                <div class="section-content-name">🎯 Mission & Vision</div>
+                <div class="section-content-desc">Mission: To guide every student toward the best international
+                  opportunity through expert, ethical, and personalized support. Vision: "Unleashing Potential Through
+                  Global Exposure."</div>
+              </div>
+            </div>
+
+            <div class="section-block">
+              <div class="section-num purple">4</div>
+              <div>
+                <div class="section-content-name">💬 Message from the CEO — Ravi Gupta</div>
+                <div class="section-content-desc">Prominent quote/letter from the CEO in an editorial pull-quote layout.
+                  Large italic display typography. Photo of Ravi Gupta alongside the message. Signature. Closing CTA to
+                  book free counseling.</div>
+              </div>
+            </div>
+
+            <div class="section-block">
+              <div class="section-num purple">5</div>
+              <div>
+                <div class="section-content-name">👥 Our Key Individuals</div>
+                <div class="section-content-desc">
+                  Team grid with photo (or avatar), name, role, and short bio for each:
+                  <ul>
+                    <li>Ravi Gupta — Founder & CEO</li>
+                    <li>Kabiraj Paudel — Operational Director</li>
+                    <li>Dipendra Mehta — Marketing Director</li>
+                    <li>Tilak Thapa — Director, Abroad Studies</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="section-block">
+              <div class="section-num purple">6</div>
+              <div>
+                <div class="section-content-name">📅 Milestones & History</div>
+                <div class="section-content-desc">Timeline: Founded 2012 → ECAN membership → Ministry approval → 14
+                  years of excellence → 500+ partner universities → hundreds of students placed.</div>
+              </div>
+            </div>
+
+            <div class="section-block">
+              <div class="section-num purple">7</div>
+              <div>
+                <div class="section-content-name">🏅 Accreditations & Trust</div>
+                <div class="section-content-desc">
+                  <ul>
+                    <li>Approved: Ministry of Education, Nepal</li>
+                    <li>Member: ECAN (Educational Consultancy Association of Nepal)</li>
+                    <li>Certified Counselors: TITI (Training Institute for Technical Instruction)</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="section-block">
+              <div class="section-num grey">8</div>
+              <div>
+                <div class="section-content-name">📋 CTA — Book Your Counseling</div>
+                <div class="section-content-desc">"Ready to Begin Your Journey? Talk to our expert counselors for free."
+                  → Button: Book Free Counseling.</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
       </div>
     </div>
-    <div>
-      <h3>Approvals & Memberships</h3>
-      <div class="contact-detail">
-        <div class="contact-row"><span class="contact-icon">✅</span><span>Approved — Ministry of Education, Nepal</span></div>
-        <div class="contact-row"><span class="contact-icon">✅</span><span>Member — ECAN</span></div>
-        <div class="contact-row"><span class="contact-icon">✅</span><span>Certified Counselors — TITI</span></div>
-        <div class="contact-row"><span class="contact-icon">🏆</span><span>14 Years of Excellence — Since 2012</span></div>
-        <div class="contact-row"><span class="contact-icon">🌍</span><span>500+ Partner Colleges & Universities</span></div>
+
+    <div class="divider"></div>
+
+    <!-- ════════════════════════ SERVICES PAGE ════════════════════════ -->
+    <div class="plan-section" id="services-page">
+      <span class="section-label">Page 03 — Redesigned Services</span>
+
+      <style>
+        /* Scoped Styles for Redesigned Premium Services Section */
+        .premium-services-container {
+          font-family: var(--font-body);
+          color: var(--color-text);
+          margin-top: var(--space-8);
+          display: flex;
+          flex-direction: column;
+          gap: var(--space-16);
+        }
+
+        /* 1. Hero Section */
+        .premium-svc-hero {
+          position: relative;
+          text-align: center;
+          padding: var(--space-16) var(--space-6);
+          background: radial-gradient(circle at 50% 50%, var(--color-surface), var(--color-bg));
+          border-radius: var(--radius-xl);
+          overflow: hidden;
+          border: 1px solid var(--color-border);
+        }
+
+        .premium-svc-hero-blob {
+          position: absolute;
+          border-radius: 50%;
+          filter: blur(80px);
+          opacity: 0.08;
+          z-index: 1;
+          pointer-events: none;
+        }
+
+        .premium-svc-hero-blob.blob-1 {
+          width: 300px;
+          height: 300px;
+          background: var(--color-primary);
+          top: -10%;
+          left: 10%;
+          animation: floatBlob1 15s infinite alternate ease-in-out;
+        }
+
+        .premium-svc-hero-blob.blob-2 {
+          width: 250px;
+          height: 250px;
+          background: var(--color-accent);
+          bottom: -10%;
+          right: 15%;
+          animation: floatBlob2 12s infinite alternate ease-in-out;
+        }
+
+        .premium-svc-badge {
+          display: inline-block;
+          font-size: var(--text-xs);
+          font-weight: 700;
+          color: var(--color-primary);
+          background: var(--color-primary-light);
+          padding: var(--space-1) var(--space-4);
+          border-radius: var(--radius-full);
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+          margin-bottom: var(--space-4);
+          position: relative;
+          z-index: 2;
+        }
+
+        .premium-svc-title {
+          font-family: var(--font-display);
+          font-size: var(--text-2xl);
+          color: var(--color-text);
+          margin-bottom: var(--space-3);
+          font-style: italic;
+          position: relative;
+          z-index: 2;
+        }
+
+        .premium-svc-subtitle {
+          font-size: var(--text-base);
+          color: var(--color-text-muted);
+          max-width: 70ch;
+          margin: 0 auto;
+          line-height: 1.7;
+          position: relative;
+          z-index: 2;
+        }
+
+        /* 2. Services Grid */
+        .premium-svc-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+          gap: var(--space-8) var(--space-6);
+        }
+
+        .pxl-item--inner {
+          background: var(--color-surface-2);
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-xl);
+          overflow: hidden;
+          box-shadow: var(--shadow-sm);
+          transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+        }
+
+        .pxl-item--inner:hover {
+          transform: translateY(-8px);
+          border-color: var(--color-primary);
+          box-shadow: var(--shadow-lg), 0 10px 25px rgba(1, 105, 111, 0.08);
+        }
+
+        .pxl-item--featured {
+          position: relative;
+          overflow: hidden;
+          width: 100%;
+          aspect-ratio: 410 / 270;
+          background-color: var(--color-surface-offset);
+        }
+
+        .pxl-item--featured img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .pxl-item--inner:hover .pxl-item--featured img {
+          transform: scale(1.08);
+        }
+
+        .pxl-item--holder {
+          position: relative;
+          padding: var(--space-8) var(--space-6) var(--space-6) var(--space-6);
+          background: var(--color-surface-2);
+          flex-grow: 1;
+          display: flex;
+          flex-direction: column;
+        }
+
+        .pxl-item--icon {
+          position: absolute;
+          top: 0;
+          left: var(--space-6);
+          transform: translateY(-50%);
+          width: 54px;
+          height: 54px;
+          background: var(--color-accent);
+          color: #ffffff;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: var(--text-lg);
+          border-radius: 12px 12px 0 0;
+          z-index: 3;
+          transition: background-color 0.3s ease;
+        }
+
+        .pxl-item--inner:hover .pxl-item--icon {
+          background: var(--color-primary);
+        }
+
+        .pxl-item--icon svg.curve-left,
+        .pxl-item--icon svg.curve-right {
+          position: absolute;
+          bottom: 0;
+          width: 9px;
+          height: 9px;
+        }
+
+        .pxl-item--icon svg.curve-left path,
+        .pxl-item--icon svg.curve-right path {
+          fill: var(--color-surface-2);
+          transition: fill 0.3s ease;
+        }
+
+        .pxl-item--icon svg.curve-left {
+          left: -9px;
+        }
+
+        .pxl-item--icon svg.curve-right {
+          right: -9px;
+        }
+
+        .pxl-item--icon .icon-svg {
+          width: 24px;
+          height: 24px;
+          stroke: #ffffff;
+          fill: none;
+          display: block;
+        }
+
+        .btn-arrow-svg {
+          width: 12px;
+          height: 12px;
+          display: inline-block;
+          vertical-align: middle;
+          margin-left: var(--space-1);
+        }
+
+        .pxl-item--title {
+          font-family: var(--font-body);
+          font-weight: 700;
+          font-size: var(--text-base);
+          margin-bottom: var(--space-3);
+          line-height: 1.4;
+        }
+
+        .pxl-item--title a {
+          color: var(--color-text);
+          transition: color 0.3s ease;
+          text-decoration: none;
+        }
+
+        .pxl-item--inner:hover .pxl-item--title a {
+          color: var(--color-primary);
+        }
+
+        .pxl-line-paper {
+          height: 1px;
+          background-color: var(--color-border);
+          margin-bottom: var(--space-4);
+          width: 100%;
+        }
+
+        .pxl-item--content {
+          font-size: var(--text-xs);
+          color: var(--color-text-muted);
+          line-height: 1.6;
+          margin-bottom: var(--space-6);
+          flex-grow: 1;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+
+        .pxl-item--button {
+          margin-top: auto;
+        }
+
+        .btn--readmore {
+          display: inline-flex;
+          align-items: center;
+          gap: var(--space-2);
+          font-size: var(--text-xs);
+          font-weight: 700;
+          color: var(--color-text);
+          transition: color 0.3s ease;
+          text-decoration: none;
+        }
+
+        .btn--readmore .btn-readmore--icon {
+          display: inline-flex;
+          align-items: center;
+          font-size: 10px;
+          transition: transform 0.2s ease;
+        }
+
+        .pxl-item--inner:hover .btn--readmore {
+          color: var(--color-primary);
+        }
+
+        .pxl-item--inner:hover .btn--readmore .btn-readmore--icon {
+          transform: translateX(4px);
+        }
+
+        /* 3. Why Choose Us */
+        .premium-svc-why-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+          gap: var(--space-6);
+        }
+
+        .premium-svc-why-card {
+          padding: var(--space-6);
+          border-radius: var(--radius-xl);
+          transition: all 0.3s ease;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .why-card-glass {
+          background: rgba(255, 255, 255, 0.45);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          border: 1px solid rgba(255, 255, 255, 0.3);
+          box-shadow: var(--shadow-sm);
+        }
+
+        [data-theme="dark"] .why-card-glass {
+          background: rgba(26, 25, 21, 0.45);
+          border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .premium-svc-why-card:hover {
+          transform: translateY(-5px);
+          box-shadow: var(--shadow-md);
+          border-color: rgba(1, 105, 111, 0.25);
+        }
+
+        .why-card-icon-container {
+          width: 44px;
+          height: 44px;
+          border-radius: var(--radius-full);
+          background: var(--color-primary-light);
+          color: var(--color-primary);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: var(--text-base);
+          margin-bottom: var(--space-4);
+          transition: transform 0.3s ease;
+        }
+
+        .premium-svc-why-card:hover .why-card-icon-container {
+          transform: rotate(360deg);
+        }
+
+        .why-card-title {
+          font-family: var(--font-body);
+          font-weight: 700;
+          font-size: var(--text-base);
+          color: var(--color-text);
+          margin-bottom: var(--space-2);
+        }
+
+        .why-card-desc {
+          font-size: var(--text-xs);
+          color: var(--color-text-muted);
+          line-height: 1.6;
+        }
+
+        /* 4. Process Timeline */
+        .premium-svc-timeline-container {
+          position: relative;
+          max-width: 1100px;
+          margin: 0 auto;
+          padding: var(--space-8) 0;
+        }
+
+        .premium-svc-timeline-line {
+          position: absolute;
+          top: 55px;
+          left: 20px;
+          right: 20px;
+          height: 3px;
+          background: var(--color-border);
+          z-index: 1;
+        }
+
+        .premium-svc-timeline-steps {
+          display: flex;
+          justify-content: space-between;
+          position: relative;
+          z-index: 2;
+          gap: var(--space-4);
+        }
+
+        .premium-svc-timeline-step {
+          flex: 1;
+          text-align: center;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .step-icon-wrapper {
+          width: 60px;
+          height: 60px;
+          border-radius: var(--radius-full);
+          background: var(--color-surface-2);
+          border: 3px solid var(--color-primary);
+          color: var(--color-primary);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: var(--text-base);
+          margin-bottom: var(--space-4);
+          position: relative;
+          box-shadow: var(--shadow-sm);
+          transition: all 0.3s ease;
+        }
+
+        .premium-svc-timeline-step:hover .step-icon-wrapper {
+          transform: scale(1.15);
+          background: var(--color-primary);
+          color: #fff;
+          box-shadow: 0 0 15px rgba(1, 105, 111, 0.3);
+        }
+
+        .step-number {
+          position: absolute;
+          top: -6px;
+          right: -6px;
+          width: 22px;
+          height: 22px;
+          border-radius: var(--radius-full);
+          background: var(--color-accent);
+          color: #fff;
+          font-size: 10px;
+          font-weight: 700;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .step-title {
+          font-family: var(--font-body);
+          font-weight: 700;
+          font-size: var(--text-sm);
+          color: var(--color-text);
+          margin-bottom: var(--space-1);
+        }
+
+        .step-desc {
+          font-size: 11px;
+          color: var(--color-text-muted);
+          line-height: 1.5;
+          max-width: 16ch;
+        }
+
+        /* 5. Statistics */
+        .premium-svc-stats-section {
+          background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
+          color: #fff;
+          border-radius: var(--radius-xl);
+          padding: var(--space-8) var(--space-6);
+          box-shadow: var(--shadow-md);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .premium-svc-stats-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: var(--space-6);
+          text-align: center;
+          position: relative;
+          z-index: 2;
+        }
+
+        .premium-svc-stat-card {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .premium-svc-stat-card .stat-icon-wrapper {
+          font-size: var(--text-lg);
+          color: var(--color-primary-light);
+          margin-bottom: var(--space-2);
+          opacity: 0.85;
+        }
+
+        .stat-counter-value {
+          font-family: var(--font-display);
+          font-size: var(--text-2xl);
+          font-weight: 700;
+          margin-bottom: var(--space-1);
+        }
+
+        .stat-label {
+          font-size: var(--text-xs);
+          color: #e0f5f5;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          font-weight: 600;
+        }
+
+        /* 6. Testimonials */
+        .premium-svc-testimonials-carousel {
+          position: relative;
+          max-width: 800px;
+          margin: 0 auto;
+          overflow: hidden;
+          background: var(--color-surface-2);
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-xl);
+          padding: var(--space-8);
+          box-shadow: var(--shadow-sm);
+        }
+
+        .testimonials-slider-inner {
+          display: flex;
+          transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+          width: 100%;
+        }
+
+        .testimonial-slide {
+          flex: 0 0 100%;
+          width: 100%;
+        }
+
+        .testimonial-content {
+          padding: 0 var(--space-4);
+          text-align: center;
+        }
+
+        .quote-icon {
+          font-size: 32px;
+          color: var(--color-primary);
+          opacity: 0.15;
+          margin-bottom: var(--space-4);
+          display: block;
+        }
+
+        .testimonial-text {
+          font-size: var(--text-base);
+          color: var(--color-text);
+          line-height: 1.7;
+          font-style: italic;
+          max-width: 65ch;
+          margin: 0 auto var(--space-6);
+        }
+
+        .testimonial-author {
+          display: inline-flex;
+          align-items: center;
+          gap: var(--space-3);
+          text-align: left;
+        }
+
+        .author-avatar {
+          font-size: 36px;
+          color: var(--color-primary);
+        }
+
+        .author-name {
+          font-weight: 700;
+          font-size: var(--text-sm);
+          color: var(--color-text);
+        }
+
+        .author-meta {
+          font-size: 11px;
+          color: var(--color-text-muted);
+        }
+
+        .testimonial-dots {
+          display: flex;
+          justify-content: center;
+          gap: var(--space-2);
+          margin-top: var(--space-6);
+        }
+
+        .testimonial-dot {
+          width: 8px;
+          height: 8px;
+          border-radius: var(--radius-full);
+          background: var(--color-border);
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+
+        .testimonial-dot.active {
+          background: var(--color-primary);
+          width: 20px;
+        }
+
+        /* 7. CTA */
+        .premium-svc-cta-section {
+          position: relative;
+          background: linear-gradient(135deg, var(--color-primary-hover) 0%, var(--color-primary) 100%);
+          color: #fff;
+          border-radius: var(--radius-xl);
+          padding: var(--space-12) var(--space-6);
+          text-align: center;
+          overflow: hidden;
+          box-shadow: var(--shadow-lg);
+        }
+
+        .cta-overlay-blobs {
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          z-index: 1;
+        }
+
+        .cta-blob {
+          position: absolute;
+          border-radius: 50%;
+          filter: blur(60px);
+          opacity: 0.15;
+        }
+
+        .cta-blob-1 {
+          width: 200px;
+          height: 200px;
+          background: var(--color-accent);
+          top: -20%;
+          left: 10%;
+        }
+
+        .cta-blob-2 {
+          width: 250px;
+          height: 250px;
+          background: var(--color-gold);
+          bottom: -20%;
+          right: 10%;
+        }
+
+        .cta-content-wrapper {
+          position: relative;
+          z-index: 2;
+          max-width: 650px;
+          margin: 0 auto;
+        }
+
+        .cta-title {
+          font-family: var(--font-display);
+          font-size: var(--text-2xl);
+          color: #fff;
+          margin-bottom: var(--space-3);
+          font-style: italic;
+        }
+
+        .cta-subtitle {
+          font-size: var(--text-base);
+          color: #e0f5f5;
+          margin-bottom: var(--space-8);
+          line-height: 1.7;
+        }
+
+        .cta-primary-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: var(--space-2);
+          background: #fff;
+          color: var(--color-primary);
+          font-weight: 700;
+          font-size: var(--text-sm);
+          padding: var(--space-3) var(--space-8);
+          border-radius: var(--radius-full);
+          box-shadow: var(--shadow-md);
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          text-decoration: none;
+        }
+
+        .cta-primary-btn:hover {
+          background: var(--color-accent-light);
+          color: var(--color-accent);
+          transform: translateY(-3px);
+          box-shadow: var(--shadow-lg);
+        }
+
+        /* Animations */
+        @keyframes floatBlob1 {
+          0% {
+            transform: translate(0, 0) scale(1);
+          }
+
+          100% {
+            transform: translate(40px, 30px) scale(1.1);
+          }
+        }
+
+        @keyframes floatBlob2 {
+          0% {
+            transform: translate(0, 0) scale(1);
+          }
+
+          100% {
+            transform: translate(-30px, -40px) scale(1.2);
+          }
+        }
+
+        /* Dark mode modifications */
+        [data-theme="dark"] .pxl-item--inner:hover {
+          box-shadow: var(--shadow-lg), 0 10px 25px rgba(79, 158, 164, 0.12);
+        }
+
+        /* Responsive Timeline */
+        @media (max-width: 768px) {
+          .premium-svc-timeline-line {
+            top: 20px;
+            bottom: 20px;
+            left: 30px;
+            right: auto;
+            width: 3px;
+            height: auto;
+          }
+
+          .premium-svc-timeline-steps {
+            flex-direction: column;
+            gap: var(--space-8);
+            align-items: flex-start;
+            padding-left: 10px;
+          }
+
+          .premium-svc-timeline-step {
+            flex-direction: row;
+            text-align: left;
+            gap: var(--space-4);
+            align-items: center;
+            width: 100%;
+          }
+
+          .step-icon-wrapper {
+            margin-bottom: 0;
+            flex-shrink: 0;
+          }
+
+          .step-desc {
+            max-width: 100%;
+          }
+        }
+      </style>
+
+      <div class="premium-services-container">
+
+        <!-- 1. Hero Services Header -->
+        <div class="premium-svc-hero" data-aos="fade-up">
+          <div class="premium-svc-hero-blob blob-1"></div>
+          <div class="premium-svc-hero-blob blob-2"></div>
+          <span class="premium-svc-badge">Global Expertise</span>
+          <h1 class="premium-svc-title">Our Professional Services</h1>
+          <p class="premium-svc-subtitle">EduMark offers end-to-end guidance and premium support to shape your global
+            career. We bridge the gap between your local ambition and top international institutions.</p>
+        </div>
+
+        <!-- 2. Services Grid (8 Cards) -->
+        <div class="premium-svc-grid">
+          <!-- Card 1 -->
+          <div class="pxl-grid-item" data-aos="fade-up" data-aos-delay="100">
+            <div class="pxl-item--inner">
+              <div class="pxl-item--featured item-image">
+                <a class="pxl-wrap-link" href="#consultation">
+                  <img decoding="async" src="/images/generated/counselling.png" alt="Educational Consulting" />
+                </a>
+              </div>
+              <div class="pxl-item--holder">
+                <div class="pxl-item--icon">
+                  <svg class="curve-left" xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9"
+                    fill="none">
+                    <path d="M0 9C6 9 8.5 3 9 0V9H0Z" />
+                  </svg>
+                  <svg class="icon-svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                    <path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5" />
+                  </svg>
+                  <svg class="curve-right" xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9"
+                    fill="none">
+                    <path d="M9 9C3 9 0.5 3 0 0V9H9Z" />
+                  </svg>
+                </div>
+                <h3 class="pxl-item--title">
+                  <a href="#consultation">Educational Consulting</a>
+                </h3>
+                <div class="pxl-line-paper"></div>
+                <div class="pxl-item--content">
+                  Personalized advice to assess your profiles, identify courses of interest, and chart out your academic
+                  path.
+                </div>
+                <div class="pxl-item--button">
+                  <a class="btn--readmore" href="#consultation">
+                    <span class="btn-readmore--text">View More</span>
+                    <span class="btn-readmore--icon"><svg class="btn-arrow-svg" viewBox="0 0 24 24" width="12"
+                        height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                        <polyline points="12 5 19 12 12 19" />
+                      </svg></span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Card 2 -->
+          <div class="pxl-grid-item" data-aos="fade-up" data-aos-delay="200">
+            <div class="pxl-item--inner">
+              <div class="pxl-item--featured item-image">
+                <a class="pxl-wrap-link" href="#consultation">
+                  <img decoding="async" src="/why%20choose%20us.jpg" alt="Career Counseling" />
+                </a>
+              </div>
+              <div class="pxl-item--holder">
+                <div class="pxl-item--icon">
+                  <svg class="curve-left" xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9"
+                    fill="none">
+                    <path d="M0 9C6 9 8.5 3 9 0V9H0Z" />
+                  </svg>
+                  <svg class="icon-svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10" />
+                    <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
+                  </svg>
+                  <svg class="curve-right" xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9"
+                    fill="none">
+                    <path d="M9 9C3 9 0.5 3 0 0V9H9Z" />
+                  </svg>
+                </div>
+                <h3 class="pxl-item--title">
+                  <a href="#consultation">Career Counseling</a>
+                </h3>
+                <div class="pxl-line-paper"></div>
+                <div class="pxl-item--content">
+                  Scientific and structured guidance mapping your psychological profile, skills, and values to modern
+                  global careers.
+                </div>
+                <div class="pxl-item--button">
+                  <a class="btn--readmore" href="#consultation">
+                    <span class="btn-readmore--text">View More</span>
+                    <span class="btn-readmore--icon"><svg class="btn-arrow-svg" viewBox="0 0 24 24" width="12"
+                        height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                        <polyline points="12 5 19 12 12 19" />
+                      </svg></span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Card 3 -->
+          <div class="pxl-grid-item" data-aos="fade-up" data-aos-delay="300">
+            <div class="pxl-item--inner">
+              <div class="pxl-item--featured item-image">
+                <a class="pxl-wrap-link" href="#destinations-page">
+                  <img decoding="async" src="/europe%20study.jpg" alt="Study Abroad Guidance" />
+                </a>
+              </div>
+              <div class="pxl-item--holder">
+                <div class="pxl-item--icon">
+                  <svg class="curve-left" xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9"
+                    fill="none">
+                    <path d="M0 9C6 9 8.5 3 9 0V9H0Z" />
+                  </svg>
+                  <svg class="icon-svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="2" y1="12" x2="22" y2="12" />
+                    <path
+                      d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                  </svg>
+                  <svg class="curve-right" xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9"
+                    fill="none">
+                    <path d="M9 9C3 9 0.5 3 0 0V9H9Z" />
+                  </svg>
+                </div>
+                <h3 class="pxl-item--title">
+                  <a href="#destinations-page">Study Abroad Guidance</a>
+                </h3>
+                <div class="pxl-line-paper"></div>
+                <div class="pxl-item--content">
+                  Country comparison, course shortlisting, cost-benefit analysis, and post-study work opportunity
+                  mappings.
+                </div>
+                <div class="pxl-item--button">
+                  <a class="btn--readmore" href="#destinations-page">
+                    <span class="btn-readmore--text">View More</span>
+                    <span class="btn-readmore--icon"><svg class="btn-arrow-svg" viewBox="0 0 24 24" width="12"
+                        height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                        <polyline points="12 5 19 12 12 19" />
+                      </svg></span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Card 4 -->
+          <div class="pxl-grid-item" data-aos="fade-up" data-aos-delay="400">
+            <div class="pxl-item--inner">
+              <div class="pxl-item--featured item-image">
+                <a class="pxl-wrap-link" href="#consultation">
+                  <img decoding="async" src="/images/generated/student-success.png" alt="Visa Assistance" />
+                </a>
+              </div>
+              <div class="pxl-item--holder">
+                <div class="pxl-item--icon">
+                  <svg class="curve-left" xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9"
+                    fill="none">
+                    <path d="M0 9C6 9 8.5 3 9 0V9H0Z" />
+                  </svg>
+                  <svg class="icon-svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                    <circle cx="12" cy="10" r="3" />
+                    <path d="M12 13v4M10 15h4" />
+                  </svg>
+                  <svg class="curve-right" xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9"
+                    fill="none">
+                    <path d="M9 9C3 9 0.5 3 0 0V9H9Z" />
+                  </svg>
+                </div>
+                <h3 class="pxl-item--title">
+                  <a href="#consultation">Visa Assistance</a>
+                </h3>
+                <div class="pxl-line-paper"></div>
+                <div class="pxl-item--content">
+                  Comprehensive visa filing checklists, financial statement reviews, mock visa interview training, and
+                  strict compliance.
+                </div>
+                <div class="pxl-item--button">
+                  <a class="btn--readmore" href="#consultation">
+                    <span class="btn-readmore--text">View More</span>
+                    <span class="btn-readmore--icon"><svg class="btn-arrow-svg" viewBox="0 0 24 24" width="12"
+                        height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                        <polyline points="12 5 19 12 12 19" />
+                      </svg></span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Card 5 -->
+          <div class="pxl-grid-item" data-aos="fade-up" data-aos-delay="100">
+            <div class="pxl-item--inner">
+              <div class="pxl-item--featured item-image">
+                <a class="pxl-wrap-link" href="#consultation">
+                  <img decoding="async" src="/images/generated/study-hero.png" alt="University Application Support" />
+                </a>
+              </div>
+              <div class="pxl-item--holder">
+                <div class="pxl-item--icon">
+                  <svg class="curve-left" xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9"
+                    fill="none">
+                    <path d="M0 9C6 9 8.5 3 9 0V9H0Z" />
+                  </svg>
+                  <svg class="icon-svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                    <line x1="16" y1="13" x2="8" y2="13" />
+                    <line x1="16" y1="17" x2="8" y2="17" />
+                    <polyline points="10 9 9 9 8 9" />
+                  </svg>
+                  <svg class="curve-right" xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9"
+                    fill="none">
+                    <path d="M9 9C3 9 0.5 3 0 0V9H9Z" />
+                  </svg>
+                </div>
+                <h3 class="pxl-item--title">
+                  <a href="#consultation">University Application Support</a>
+                </h3>
+                <div class="pxl-line-paper"></div>
+                <div class="pxl-item--content">
+                  Step-by-step assistance in preparing applications, managing deadlines, and coordinating with global
+                  university admissions.
+                </div>
+                <div class="pxl-item--button">
+                  <a class="btn--readmore" href="#consultation">
+                    <span class="btn-readmore--text">View More</span>
+                    <span class="btn-readmore--icon"><svg class="btn-arrow-svg" viewBox="0 0 24 24" width="12"
+                        height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                        <polyline points="12 5 19 12 12 19" />
+                      </svg></span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Card 6 -->
+          <div class="pxl-grid-item" data-aos="fade-up" data-aos-delay="200">
+            <div class="pxl-item--inner">
+              <div class="pxl-item--featured item-image">
+                <a class="pxl-wrap-link" href="#consultation">
+                  <img decoding="async" src="/images/generated/destinations.png" alt="Scholarship Guidance" />
+                </a>
+              </div>
+              <div class="pxl-item--holder">
+                <div class="pxl-item--icon">
+                  <svg class="curve-left" xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9"
+                    fill="none">
+                    <path d="M0 9C6 9 8.5 3 9 0V9H0Z" />
+                  </svg>
+                  <svg class="icon-svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                  </svg>
+                  <svg class="curve-right" xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9"
+                    fill="none">
+                    <path d="M9 9C3 9 0.5 3 0 0V9H9Z" />
+                  </svg>
+                </div>
+                <h3 class="pxl-item--title">
+                  <a href="#consultation">Scholarship Guidance</a>
+                </h3>
+                <div class="pxl-line-paper"></div>
+                <div class="pxl-item--content">
+                  Help in identifying merit-based, need-based, and country-specific scholarships, as well as compiling
+                  strong portfolios.
+                </div>
+                <div class="pxl-item--button">
+                  <a class="btn--readmore" href="#consultation">
+                    <span class="btn-readmore--text">View More</span>
+                    <span class="btn-readmore--icon"><svg class="btn-arrow-svg" viewBox="0 0 24 24" width="12"
+                        height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                        <polyline points="12 5 19 12 12 19" />
+                      </svg></span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Card 7 -->
+          <div class="pxl-grid-item" data-aos="fade-up" data-aos-delay="300">
+            <div class="pxl-item--inner">
+              <div class="pxl-item--featured item-image">
+                <a class="pxl-wrap-link" href="#consultation">
+                  <img decoding="async" src="/images/generated/test-prep.png" alt="Interview Preparation" />
+                </a>
+              </div>
+              <div class="pxl-item--holder">
+                <div class="pxl-item--icon">
+                  <svg class="curve-left" xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9"
+                    fill="none">
+                    <path d="M0 9C6 9 8.5 3 9 0V9H0Z" />
+                  </svg>
+                  <svg class="icon-svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                  </svg>
+                  <svg class="curve-right" xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9"
+                    fill="none">
+                    <path d="M9 9C3 9 0.5 3 0 0V9H9Z" />
+                  </svg>
+                </div>
+                <h3 class="pxl-item--title">
+                  <a href="#consultation">Interview Preparation</a>
+                </h3>
+                <div class="pxl-line-paper"></div>
+                <div class="pxl-item--content">
+                  Dedicated mock interview rounds for visa officials, university admissions, and international
+                  scholarship panels.
+                </div>
+                <div class="pxl-item--button">
+                  <a class="btn--readmore" href="#consultation">
+                    <span class="btn-readmore--text">View More</span>
+                    <span class="btn-readmore--icon"><svg class="btn-arrow-svg" viewBox="0 0 24 24" width="12"
+                        height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                        <polyline points="12 5 19 12 12 19" />
+                      </svg></span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Card 8 -->
+          <div class="pxl-grid-item" data-aos="fade-up" data-aos-delay="400">
+            <div class="pxl-item--inner">
+              <div class="pxl-item--featured item-image">
+                <a class="pxl-wrap-link" href="#consultation">
+                  <img decoding="async" src="/entrance%20prep.jpg" alt="Documentation Support" />
+                </a>
+              </div>
+              <div class="pxl-item--holder">
+                <div class="pxl-item--icon">
+                  <svg class="curve-left" xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9"
+                    fill="none">
+                    <path d="M0 9C6 9 8.5 3 9 0V9H0Z" />
+                  </svg>
+                  <svg class="icon-svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+                    <path d="M2 10h20" />
+                  </svg>
+                  <svg class="curve-right" xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9"
+                    fill="none">
+                    <path d="M9 9C3 9 0.5 3 0 0V9H9Z" />
+                  </svg>
+                </div>
+                <h3 class="pxl-item--title">
+                  <a href="#consultation">Documentation Support</a>
+                </h3>
+                <div class="pxl-line-paper"></div>
+                <div class="pxl-item--content">
+                  SOP reviews, recommendation letter guidelines, CV curation, and translations of academic credentials.
+                </div>
+                <div class="pxl-item--button">
+                  <a class="btn--readmore" href="#consultation">
+                    <span class="btn-readmore--text">View More</span>
+                    <span class="btn-readmore--icon"><svg class="btn-arrow-svg" viewBox="0 0 24 24" width="12"
+                        height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                        <polyline points="12 5 19 12 12 19" />
+                      </svg></span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Why Choose Us Section -->
+        <div class="premium-svc-why-section" data-aos="fade-up">
+          <div class="premium-svc-section-header">
+            <span class="premium-svc-badge">Why Us</span>
+            <h2 class="premium-svc-section-title">The EduMark Distinction</h2>
+            <p class="premium-svc-section-desc">Over a decade of trusted experience guiding hundreds of students towards
+              academic success.</p>
+          </div>
+
+          <div class="premium-svc-why-grid">
+            <!-- Feature 1 -->
+            <div class="premium-svc-why-card why-card-glass" data-aos="fade-up" data-aos-delay="100">
+              <div class="why-card-icon-container">
+                <i class="fa-solid fa-award"></i>
+              </div>
+              <h3 class="why-card-title">Expert Advisors</h3>
+              <p class="why-card-desc">TITI-certified counselors with deep knowledge of international university
+                admissions, financial aids, and visa regulations.</p>
+            </div>
+            <!-- Feature 2 -->
+            <div class="premium-svc-why-card why-card-glass" data-aos="fade-up" data-aos-delay="200">
+              <div class="why-card-icon-container">
+                <i class="fa-solid fa-sliders"></i>
+              </div>
+              <h3 class="why-card-title">Personalized Guidance</h3>
+              <p class="why-card-desc">Every student receives a tailor-made roadmap matching their profile, career
+                goals, budgets, and personal aspirations.</p>
+            </div>
+            <!-- Feature 3 -->
+            <div class="premium-svc-why-card why-card-glass" data-aos="fade-up" data-aos-delay="300">
+              <div class="why-card-icon-container">
+                <i class="fa-solid fa-chart-line"></i>
+              </div>
+              <h3 class="why-card-title">High Success Rate</h3>
+              <p class="why-card-desc">Proud of a 95%+ student visa approval rate and placement success in top-tier
+                global universities and colleges.</p>
+            </div>
+            <!-- Feature 4 -->
+            <div class="premium-svc-why-card why-card-glass" data-aos="fade-up" data-aos-delay="400">
+              <div class="why-card-icon-container">
+                <i class="fa-solid fa-handshake"></i>
+              </div>
+              <h3 class="why-card-title">End-to-End Support</h3>
+              <p class="why-card-desc">From shortlisting colleges and SOP writing to pre-departure briefs, flight
+                details, and initial accommodation.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Process Timeline -->
+        <div class="premium-svc-timeline-section" data-aos="fade-up">
+          <div class="premium-svc-section-header">
+            <span class="premium-svc-badge">Our Method</span>
+            <h2 class="premium-svc-section-title">The Strategic Journey</h2>
+            <p class="premium-svc-section-desc">Our clear six-step process guides you from initial consultation to
+              campus arrival.</p>
+          </div>
+
+          <div class="premium-svc-timeline-container">
+            <div class="premium-svc-timeline-line"></div>
+
+            <div class="premium-svc-timeline-steps">
+              <!-- Step 1 -->
+              <div class="premium-svc-timeline-step" data-aos="fade-up" data-aos-delay="100">
+                <div class="step-icon-wrapper">
+                  <div class="step-number">1</div>
+                  <i class="fa-solid fa-comments"></i>
+                </div>
+                <h3 class="step-title">Consultation</h3>
+                <p class="step-desc">Free assessment of profile, budget, and academic goals.</p>
+              </div>
+              <!-- Step 2 -->
+              <div class="premium-svc-timeline-step" data-aos="fade-up" data-aos-delay="200">
+                <div class="step-icon-wrapper">
+                  <div class="step-number">2</div>
+                  <i class="fa-solid fa-compass"></i>
+                </div>
+                <h3 class="step-title">Planning</h3>
+                <p class="step-desc">Selection of best-fit countries, colleges, and academic courses.</p>
+              </div>
+              <!-- Step 3 -->
+              <div class="premium-svc-timeline-step" data-aos="fade-up" data-aos-delay="300">
+                <div class="step-icon-wrapper">
+                  <div class="step-number">3</div>
+                  <i class="fa-solid fa-file-invoice"></i>
+                </div>
+                <h3 class="step-title">Documentation</h3>
+                <p class="step-desc">Drafting SOPs, recommendation letters, CVs, and translation papers.</p>
+              </div>
+              <!-- Step 4 -->
+              <div class="premium-svc-timeline-step" data-aos="fade-up" data-aos-delay="400">
+                <div class="step-icon-wrapper">
+                  <div class="step-number">4</div>
+                  <i class="fa-solid fa-paper-plane"></i>
+                </div>
+                <h3 class="step-title">Application</h3>
+                <p class="step-desc">Submitting applications and securing official university offers.</p>
+              </div>
+              <!-- Step 5 -->
+              <div class="premium-svc-timeline-step" data-aos="fade-up" data-aos-delay="500">
+                <div class="step-icon-wrapper">
+                  <div class="step-number">5</div>
+                  <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <h3 class="step-title">Approval</h3>
+                <p class="step-desc">Filing visa application, mock interviews, and final visa clearance.</p>
+              </div>
+              <!-- Step 6 -->
+              <div class="premium-svc-timeline-step" data-aos="fade-up" data-aos-delay="600">
+                <div class="step-icon-wrapper">
+                  <div class="step-number">6</div>
+                  <i class="fa-solid fa-plane-departure"></i>
+                </div>
+                <h3 class="step-title">Success</h3>
+                <p class="step-desc">Pre-departure support, ticketing, packing lists, and flying out!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. Statistics Section -->
+        <div class="premium-svc-stats-section" data-aos="fade-up">
+          <div class="premium-svc-stats-grid">
+            <!-- Stat 1 -->
+            <div class="premium-svc-stat-card">
+              <div class="stat-icon-wrapper"><i class="fa-solid fa-user-graduate"></i></div>
+              <div class="stat-counter-value" data-target="500" data-suffix="+">0+</div>
+              <p class="stat-label">Students Guided</p>
+            </div>
+            <!-- Stat 2 -->
+            <div class="premium-svc-stat-card">
+              <div class="stat-icon-wrapper"><i class="fa-solid fa-university"></i></div>
+              <div class="stat-counter-value" data-target="100" data-suffix="+">0+</div>
+              <p class="stat-label">University Partners</p>
+            </div>
+            <!-- Stat 3 -->
+            <div class="premium-svc-stat-card">
+              <div class="stat-icon-wrapper"><i class="fa-solid fa-passport"></i></div>
+              <div class="stat-counter-value" data-target="95" data-suffix="%">0%</div>
+              <p class="stat-label">Visa Success Rate</p>
+            </div>
+            <!-- Stat 4 -->
+            <div class="premium-svc-stat-card">
+              <div class="stat-icon-wrapper"><i class="fa-solid fa-calendar-check"></i></div>
+              <div class="stat-counter-value" data-target="10" data-suffix="+ Years">0+ Years</div>
+              <p class="stat-label">Experience</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. Testimonials Preview -->
+        <div class="premium-svc-testimonials-section" data-aos="fade-up">
+          <div class="premium-svc-section-header">
+            <span class="premium-svc-badge">Success Stories</span>
+            <h2 class="premium-svc-section-title">What Our Students Say</h2>
+            <p class="premium-svc-section-desc">Real stories of career success and educational progression from
+              Biratnagar to the world.</p>
+          </div>
+
+          <div class="premium-svc-testimonials-carousel">
+            <div class="testimonials-slider-inner">
+              <!-- Testimonial 1 -->
+              <div class="testimonial-slide">
+                <div class="testimonial-content">
+                  <i class="fa-solid fa-quote-left quote-icon"></i>
+                  <p class="testimonial-text">"Thanks to EduMark's documentation support and visa interview preparation,
+                    my dream of studying in Australia came true! They guided me through every hurdle transparently."</p>
+                  <div class="testimonial-author">
+                    <div class="author-avatar"><i class="fa-solid fa-user-circle"></i></div>
+                    <div class="author-info">
+                      <h4 class="author-name">Anish Shrestha</h4>
+                      <p class="author-meta">Studying in Australia (University of Sydney)</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Testimonial 2 -->
+              <div class="testimonial-slide">
+                <div class="testimonial-content">
+                  <i class="fa-solid fa-quote-left quote-icon"></i>
+                  <p class="testimonial-text">"EduMark helped me secure a 50% tuition scholarship in the UK. Their SOP
+                    review and visa interview mock rounds are incredibly thorough. Highly recommended!"</p>
+                  <div class="testimonial-author">
+                    <div class="author-avatar"><i class="fa-solid fa-user-circle"></i></div>
+                    <div class="author-info">
+                      <h4 class="author-name">Saraswoti Baral</h4>
+                      <p class="author-meta">Studying in UK (Coventry University)</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Testimonial 3 -->
+              <div class="testimonial-slide">
+                <div class="testimonial-content">
+                  <i class="fa-solid fa-quote-left quote-icon"></i>
+                  <p class="testimonial-text">"The counseling I received at EduMark was extremely helpful in
+                    shortlisting the right engineering program in India. The admission guidance made the process super
+                    smooth."</p>
+                  <div class="testimonial-author">
+                    <div class="author-avatar"><i class="fa-solid fa-user-circle"></i></div>
+                    <div class="author-info">
+                      <h4 class="author-name">Pawan Yadav</h4>
+                      <p class="author-meta">Studying in India (LPU, B.Tech)</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slider dots -->
+            <div class="testimonial-dots">
+              <span class="testimonial-dot active" data-index="0"></span>
+              <span class="testimonial-dot" data-index="1"></span>
+              <span class="testimonial-dot" data-index="2"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7. Call-To-Action (CTA) Section -->
+        <div class="premium-svc-cta-section" data-aos="fade-up">
+          <div class="cta-overlay-blobs">
+            <div class="cta-blob cta-blob-1"></div>
+            <div class="cta-blob cta-blob-2"></div>
+          </div>
+          <div class="cta-content-wrapper">
+            <h2 class="cta-title">Ready to Start Your Journey?</h2>
+            <p class="cta-subtitle">Talk to our TITI-certified counselors and get a personalized counseling roadmap
+              completely free. Your international education route starts with a single step.</p>
+            <a href="#consultation" class="cta-primary-btn">📅 Book Free Counseling <i
+                class="fa-solid fa-chevron-right"></i></a>
+          </div>
+        </div>
+
       </div>
     </div>
-  </div>
 
-</div><!-- /page-wrap -->
+    <div class="divider"></div>
 
-<script>
-(function(){
-  const t=document.querySelector('[data-theme-toggle]'),r=document.documentElement;
-  let d=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
-  r.setAttribute('data-theme',d);
-  if(t) t.addEventListener('click',()=>{
-    d=d==='dark'?'light':'dark';
-    r.setAttribute('data-theme',d);
-    t.innerHTML=d==='dark'?
-    '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>':
-    '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
-  });
-})();
-</script>
+    <!-- ════════════════════════ DESTINATIONS ════════════════════════ -->
+    <div class="plan-section" id="destinations-page">
+      <span class="section-label">Page 04 + Sub-Pages</span>
+      <h2 class="section-title">Destinations Page & Individual Country Pages</h2>
+      <p class="section-desc">A main grid listing all countries, plus a dedicated individual page for each destination
+        following a reusable section template.</p>
+
+      <h3
+        style="font-size:var(--text-sm);font-weight:700;margin-bottom:var(--space-4);color:var(--color-text-muted);text-transform:uppercase;letter-spacing:0.05em">
+        Individual Destination Page Template (Used for Each Country)</h3>
+
+      <div class="template-grid">
+        <div class="template-card">
+          <div class="template-card-header">
+            <div class="template-card-title">🇬🇧 Example: Study in UK</div>
+            <div class="template-card-sub">/destinations/united-kingdom</div>
+          </div>
+          <div class="template-sections">
+            <div class="template-section-item">
+              <div class="template-dot dot-primary"></div><span class="template-section-name">1. Hero Section — "Your UK
+                Dream Starts Here!"</span>
+            </div>
+            <div class="template-section-item">
+              <div class="template-dot dot-primary"></div><span class="template-section-name">2. Why Study in the
+                UK?</span>
+            </div>
+            <div class="template-section-item">
+              <div class="template-dot dot-gold"></div><span class="template-section-name">3. Education System &
+                Available Courses</span>
+            </div>
+            <div class="template-section-item">
+              <div class="template-dot dot-gold"></div><span class="template-section-name">4. Popular
+                Universities</span>
+            </div>
+            <div class="template-section-item">
+              <div class="template-dot dot-blue"></div><span class="template-section-name">5. Estimated Cost of
+                Education (NPR)</span>
+            </div>
+            <div class="template-section-item">
+              <div class="template-dot dot-blue"></div><span class="template-section-name">6. Visa & Documentation
+                Support</span>
+            </div>
+            <div class="template-section-item">
+              <div class="template-dot dot-accent"></div><span class="template-section-name">7. Current Intake Dates /
+                Deadlines</span>
+            </div>
+            <div class="template-section-item">
+              <div class="template-dot dot-accent"></div><span class="template-section-name">8. FAQs</span>
+            </div>
+            <div class="template-section-item">
+              <div class="template-dot dot-primary"></div><span class="template-section-name">9. CTA — Apply Now / Book
+                Counseling</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="template-card">
+          <div class="template-card-header">
+            <div class="template-card-title">🗺 All Destination Sub-Pages</div>
+            <div class="template-card-sub">Each country follows the same template above</div>
+          </div>
+          <div class="template-sections">
+            <div class="template-section-item">
+              <div class="template-dot dot-primary"></div><span class="template-section-name">🇬🇧 United Kingdom — NPR
+                35–40 Lakh</span>
+            </div>
+            <div class="template-section-item">
+              <div class="template-dot dot-primary"></div><span class="template-section-name">🇺🇸 United States — NPR
+                20–40 Lakh</span>
+            </div>
+            <div class="template-section-item">
+              <div class="template-dot dot-primary"></div><span class="template-section-name">🇦🇺 Australia — NPR 30–40
+                Lakh</span>
+            </div>
+            <div class="template-section-item">
+              <div class="template-dot dot-gold"></div><span class="template-section-name">🇯🇵 Japan — NPR 13–16
+                Lakh</span>
+            </div>
+            <div class="template-section-item">
+              <div class="template-dot dot-gold"></div><span class="template-section-name">🇫🇮 Finland — NPR 18–22
+                Lakh</span>
+            </div>
+            <div class="template-section-item">
+              <div class="template-dot dot-gold"></div><span class="template-section-name">🇱🇹 Lithuania — NPR 14–16
+                Lakh</span>
+            </div>
+            <div class="template-section-item">
+              <div class="template-dot dot-blue"></div><span class="template-section-name">🇰🇷 South Korea — NPR 8–12
+                Lakh</span>
+            </div>
+            <div class="template-section-item">
+              <div class="template-dot dot-blue"></div><span class="template-section-name">🇲🇹 Malta — European
+                Hub</span>
+            </div>
+            <div class="template-section-item">
+              <div class="template-dot dot-accent"></div><span class="template-section-name">🇦🇪 Dubai — Global
+                Education Hub</span>
+            </div>
+            <div class="template-section-item">
+              <div class="template-dot dot-accent"></div><span class="template-section-name">🇮🇳 India — INR 5–8
+                Lakh+</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ════════════════════════ TEST PREPARATION ════════════════════════ -->
+    <div class="plan-section" id="test-pages">
+      <span class="section-label">Page 05 + Sub-Pages</span>
+      <h2 class="section-title">Test Preparation Page & Individual Test Pages</h2>
+      <p class="section-desc">A main overview page listing all tests, plus an individual page for each test following a
+        reusable content template.</p>
+
+      <div class="template-grid">
+        <div class="template-card">
+          <div class="template-card-header">
+            <div class="template-card-title">📘 Example: IELTS Individual Page</div>
+            <div class="template-card-sub">/test-preparation/ielts</div>
+          </div>
+          <div class="template-sections">
+            <div class="template-section-item">
+              <div class="template-dot dot-blue"></div><span class="template-section-name">1. Hero — "Master IELTS with
+                EduMark"</span>
+            </div>
+            <div class="template-section-item">
+              <div class="template-dot dot-blue"></div><span class="template-section-name">2. What is IELTS?</span>
+            </div>
+            <div class="template-section-item">
+              <div class="template-dot dot-primary"></div><span class="template-section-name">3. Test Types (Academic /
+                General Training)</span>
+            </div>
+            <div class="template-section-item">
+              <div class="template-dot dot-primary"></div><span class="template-section-name">4. Key
+                Characteristics</span>
+            </div>
+            <div class="template-section-item">
+              <div class="template-dot dot-gold"></div><span class="template-section-name">5. Exam Format (Listening,
+                Reading, Writing, Speaking)</span>
+            </div>
+            <div class="template-section-item">
+              <div class="template-dot dot-gold"></div><span class="template-section-name">6. How EduMark Prepares
+                You</span>
+            </div>
+            <div class="template-section-item">
+              <div class="template-dot dot-accent"></div><span class="template-section-name">7. ⚠ Disclaimer
+                Section</span>
+            </div>
+            <div class="template-section-item">
+              <div class="template-dot dot-accent"></div><span class="template-section-name">8. CTA — Enroll for
+                Classes</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="template-card">
+          <div class="template-card-header">
+            <div class="template-card-title">📋 All Test Sub-Pages</div>
+            <div class="template-card-sub">Same template applied to each test</div>
+          </div>
+          <div class="template-sections">
+            <div class="template-section-item">
+              <div class="template-dot dot-blue"></div><span class="template-section-name">IELTS — International English
+                Language Testing</span>
+            </div>
+            <div class="template-section-item">
+              <div class="template-dot dot-primary"></div><span class="template-section-name">PTE — Pearson Test of
+                English</span>
+            </div>
+            <div class="template-section-item">
+              <div class="template-dot dot-gold"></div><span class="template-section-name">TOEFL — Test of English as a
+                Foreign Language</span>
+            </div>
+            <div class="template-section-item">
+              <div class="template-dot dot-accent"></div><span class="template-section-name">SAT — Scholastic Assessment
+                Test (USA)</span>
+            </div>
+          </div>
+          <div style="padding:var(--space-4) var(--space-5);border-top:1px solid var(--color-divider)">
+            <div
+              style="font-size:var(--text-xs);color:var(--color-text-muted);font-weight:600;margin-bottom:var(--space-2)">
+              EduMark's Test Prep Features (shown on each page):</div>
+            <div class="sub-items">
+              <span class="sub-tag">Certified Teachers</span>
+              <span class="sub-tag">Weekly Mock Tests</span>
+              <span class="sub-tag">Extra Classes for Weak Students</span>
+              <span class="sub-tag">Japanese Interview Prep</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ════════════════════════ ENTRANCE PREPARATION ════════════════════════ -->
+    <div class="plan-section" id="entrance-page">
+      <span class="section-label">Page 06</span>
+      <h2 class="section-title">Entrance Preparations Page</h2>
+      <p class="section-desc">For students in +2 preparing for national entrance exams. Ministry-approved institute.
+        Features CEE and CMAT classes.</p>
+
+      <div class="page-plan">
+        <div class="page-plan-header">
+          <span class="page-badge badge-entrance">ENTRANCE PREP</span>
+          <span class="page-plan-title">/entrance-preparations — CEE & CMAT Classes</span>
+        </div>
+        <div class="page-plan-body">
+          <div class="sections-list">
+            <div class="section-block">
+              <div class="section-num green">1</div>
+              <div>
+                <div class="section-content-name">🎓 Hero — "Your +2 Is Just the Beginning"</div>
+                <div class="section-content-desc">Headline: "Prepare Smart. Aim High. Crack the Entrance." Subline about
+                  medical, engineering, and management entrances. Trust badge: Ministry-approved institute, Koshi
+                  Province's first CMAT institute.</div>
+              </div>
+            </div>
+            <div class="section-block">
+              <div class="section-num green">2</div>
+              <div>
+                <div class="section-content-name">🏥 CEE Medical Preparation</div>
+                <div class="section-content-desc">
+                  "Your medical dream isn't far — it just needs the right preparation. CEE classes starting soon after
+                  +2."
+                  <ul>
+                    <li>Expert Faculties (CEE Scholarship holders)</li>
+                    <li>Complete & Structured Preparation</li>
+                    <li>Regular Tests & Performance Analysis</li>
+                    <li>Personalized Mentorship</li>
+                    <li>Build strong concepts | Proven strategies | Time management mastery</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="section-block">
+              <div class="section-num green">3</div>
+              <div>
+                <div class="section-content-name">📊 CMAT Preparation</div>
+                <div class="section-content-desc">
+                  "कोशी प्रदेश कै पहिलो र सर्वोत्कृष्ट CMAT पढाई हुने — EduMark Biratnagar"
+                  <ul>
+                    <li>For TU-affiliated bachelor programs: BBA, BIM, BHM, BBM, BTTM, BMS, BCA</li>
+                    <li>Led by BBA/MBA rank holders and prep experts</li>
+                    <li>Weekly Mock Tests</li>
+                    <li>Special emphasis on weak students + soft copy practice materials</li>
+                    <li>Special Offer: NPR 5,000 for first 50 students</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="section-block">
+              <div class="section-num green">4</div>
+              <div>
+                <div class="section-content-name">🔧 Why Our Entrance Classes?</div>
+                <div class="section-content-desc">Expert faculties, structured curriculum, mock test schedule,
+                  performance tracking, and personalized mentorship for Medical, Paramedical, Engineering, and CMAT.
+                </div>
+              </div>
+            </div>
+            <div class="section-block">
+              <div class="section-num grey">5</div>
+              <div>
+                <div class="section-content-name">📞 CTA — Enroll Now</div>
+                <div class="section-content-desc">"DM us now or visit our office to enroll. Call: 9802724823 /
+                  9807095059." Urgency note: "Limited seats — classes starting soon!"</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ════════════════════════ REMAINING PAGES ════════════════════════ -->
+    <div class="plan-section" id="blogs-page">
+      <span class="section-label">Pages 07 – 10</span>
+      <h2 class="section-title">Blogs, Videos Gallery, Contact & Consultation</h2>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-6)">
+
+        <div class="page-plan">
+          <div class="page-plan-header">
+            <span class="page-badge badge-blog">BLOGS</span>
+            <span class="page-plan-title">/blogs</span>
+          </div>
+          <div class="page-plan-body">
+            <div class="sections-list">
+              <div class="section-block">
+                <div class="section-num grey">1</div>
+                <div>
+                  <div class="section-content-name">Featured Article Hero</div>
+                  <div class="section-content-desc">Large hero card with latest/most important article.</div>
+                </div>
+              </div>
+              <div class="section-block">
+                <div class="section-num grey">2</div>
+                <div>
+                  <div class="section-content-name">Category Filters</div>
+                  <div class="section-content-desc">Study Abroad, Test Prep, Entrance, Destinations, Visa Tips, News
+                  </div>
+                </div>
+              </div>
+              <div class="section-block">
+                <div class="section-num grey">3</div>
+                <div>
+                  <div class="section-content-name">Article Grid</div>
+                  <div class="section-content-desc">Cards with thumbnail, category, title, date, excerpt, and Read More
+                    link.</div>
+                </div>
+              </div>
+              <div class="section-block">
+                <div class="section-num grey">4</div>
+                <div>
+                  <div class="section-content-name">Newsletter / Alert Signup</div>
+                  <div class="section-content-desc">"Get intake alerts & study tips — Subscribe."</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="page-plan" id="videos-page">
+          <div class="page-plan-header">
+            <span class="page-badge badge-blog">VIDEOS GALLERY</span>
+            <span class="page-plan-title">/videos-gallery</span>
+          </div>
+          <div class="page-plan-body">
+            <div class="sections-list">
+              <div class="section-block">
+                <div class="section-num grey">1</div>
+                <div>
+                  <div class="section-content-name">Hero / Intro</div>
+                  <div class="section-content-desc">Welcome banner: "Watch Student Success Stories & Expert Tips."</div>
+                </div>
+              </div>
+              <div class="section-block">
+                <div class="section-num grey">2</div>
+                <div>
+                  <div class="section-content-name">Category Tabs</div>
+                  <div class="section-content-desc">Testimonials | Destination Guides | Test Preparation | Office Tours
+                    | Reels</div>
+                </div>
+              </div>
+              <div class="section-block">
+                <div class="section-num grey">3</div>
+                <div>
+                  <div class="section-content-name">Video Grid</div>
+                  <div class="section-content-desc">Embedded YouTube/video thumbnails with title and duration.</div>
+                </div>
+              </div>
+              <div class="section-block">
+                <div class="section-num grey">4</div>
+                <div>
+                  <div class="section-content-name">CTA</div>
+                  <div class="section-content-desc">Follow on social media / Subscribe for updates.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="page-plan" id="contact-page">
+          <div class="page-plan-header">
+            <span class="page-badge badge-contact">CONTACT</span>
+            <span class="page-plan-title">/contact</span>
+          </div>
+          <div class="page-plan-body">
+            <div class="sections-list">
+              <div class="section-block">
+                <div class="section-num">1</div>
+                <div>
+                  <div class="section-content-name">Contact Details Block</div>
+                  <div class="section-content-desc">Address, landline, mobile, WhatsApp, Google Map embed, office hours.
+                  </div>
+                </div>
+              </div>
+              <div class="section-block">
+                <div class="section-num">2</div>
+                <div>
+                  <div class="section-content-name">Contact / Inquiry Form</div>
+                  <div class="section-content-desc">Name, Phone, Email, Subject, Message → "Send Message" button.</div>
+                </div>
+              </div>
+              <div class="section-block">
+                <div class="section-num">3</div>
+                <div>
+                  <div class="section-content-name">CTA — Book Free Consultation</div>
+                  <div class="section-content-desc">Secondary CTA linking to the Consultation booking form.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="page-plan" id="consultation">
+          <div class="page-plan-header">
+            <span class="page-badge badge-contact">FREE CONSULTATION</span>
+            <span class="page-plan-title">/book-free-consultation</span>
+          </div>
+          <div class="page-plan-body">
+            <div class="sections-list">
+              <div class="section-block">
+                <div class="section-num">1</div>
+                <div>
+                  <div class="section-content-name">Hero — "Start Your Journey Today"</div>
+                  <div class="section-content-desc">Reassurance statement: "Free, no-obligation counseling with a
+                    certified expert."</div>
+                </div>
+              </div>
+              <div class="section-block">
+                <div class="section-num">2</div>
+                <div>
+                  <div class="section-content-name">Booking Form</div>
+                  <div class="section-content-desc">Name, Phone, Email, Preferred Destination, Course Interest,
+                    Preferred Date/Time, Message → "Book My Session."</div>
+                </div>
+              </div>
+              <div class="section-block">
+                <div class="section-num">3</div>
+                <div>
+                  <div class="section-content-name">Reassurance Points</div>
+                  <div class="section-content-desc">100% Free • Certified Counselors • End-to-End Support • Since 2012
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ════════════════════════ COMPLETE SITEMAP ════════════════════════ -->
+    <div class="plan-section">
+      <span class="section-label">Master Sitemap</span>
+      <h2 class="section-title">Complete Page & URL Structure</h2>
+      <table class="sitemap-table">
+        <thead>
+          <tr>
+            <th>Page</th>
+            <th>URL Path</th>
+            <th>Key Sections</th>
+            <th>Priority CTA</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Home</strong></td>
+            <td>/</td>
+            <td>Hero, Destinations, Tests Preview, Services Preview, Why Choose Us, Our Process, Blogs, Inquiry Form,
+              Testimonials</td>
+            <td>Book Free Counseling</td>
+          </tr>
+          <tr>
+            <td><strong>About Us</strong></td>
+            <td>/about</td>
+            <td>Intro, About EduMark, Mission/Vision, CEO Message, Key Team, Milestones, Accreditations, CTA</td>
+            <td>Book Free Counseling</td>
+          </tr>
+          <tr>
+            <td><strong>Services</strong></td>
+            <td>/services</td>
+            <td>Intro, Career Counselling, Admission Guidance, Visa Assistance, CTA Block, Institutions Info, Travel,
+              Accommodation, Pre-Departure</td>
+            <td>DM / Call Now</td>
+          </tr>
+          <tr>
+            <td><strong>Test Preparation</strong></td>
+            <td>/test-preparation</td>
+            <td>Overview, IELTS, PTE, TOEFL, SAT cards → individual pages</td>
+            <td>Enroll for Classes</td>
+          </tr>
+          <tr>
+            <td><strong>IELTS Page</strong></td>
+            <td>/test-preparation/ielts</td>
+            <td>What is IELTS, Test Types, Characteristics, Exam Format, Prep at EduMark, Disclaimer, CTA</td>
+            <td>Enroll Now</td>
+          </tr>
+          <tr>
+            <td><strong>PTE Page</strong></td>
+            <td>/test-preparation/pte</td>
+            <td>Same template as IELTS</td>
+            <td>Enroll Now</td>
+          </tr>
+          <tr>
+            <td><strong>TOEFL Page</strong></td>
+            <td>/test-preparation/toefl</td>
+            <td>Same template as IELTS</td>
+            <td>Enroll Now</td>
+          </tr>
+          <tr>
+            <td><strong>SAT Page</strong></td>
+            <td>/test-preparation/sat</td>
+            <td>Same template as IELTS</td>
+            <td>Enroll Now</td>
+          </tr>
+          <tr>
+            <td><strong>Entrance Prep</strong></td>
+            <td>/entrance-preparations</td>
+            <td>Hero, CEE, CMAT, Why Our Classes, Enroll CTA</td>
+            <td>Enroll Now</td>
+          </tr>
+          <tr>
+            <td><strong>Destinations</strong></td>
+            <td>/destinations</td>
+            <td>Destination grid with all 10 countries, intake badges, filters</td>
+            <td>Explore & Apply</td>
+          </tr>
+          <tr>
+            <td><strong>UK Page</strong></td>
+            <td>/destinations/uk</td>
+            <td>Hero, Why UK, Education System, Courses, Universities, Cost, Visa, Intake, FAQs, CTA</td>
+            <td>Apply Now</td>
+          </tr>
+          <tr>
+            <td><strong>USA Page</strong></td>
+            <td>/destinations/usa</td>
+            <td>Same template as UK</td>
+            <td>Apply Now</td>
+          </tr>
+          <tr>
+            <td><strong>Australia Page</strong></td>
+            <td>/destinations/australia</td>
+            <td>Same template as UK</td>
+            <td>Apply Now</td>
+          </tr>
+          <tr>
+            <td><strong>Japan Page</strong></td>
+            <td>/destinations/japan</td>
+            <td>Same template + Japanese Language Prep section</td>
+            <td>Apply Now</td>
+          </tr>
+          <tr>
+            <td><strong>Finland Page</strong></td>
+            <td>/destinations/finland</td>
+            <td>Same template + Scholarship section</td>
+            <td>Apply Now</td>
+          </tr>
+          <tr>
+            <td><strong>Lithuania Page</strong></td>
+            <td>/destinations/lithuania</td>
+            <td>Same template — Affordable focus</td>
+            <td>Apply Now</td>
+          </tr>
+          <tr>
+            <td><strong>South Korea Page</strong></td>
+            <td>/destinations/south-korea</td>
+            <td>Same template + Korean Language section</td>
+            <td>Apply Now</td>
+          </tr>
+          <tr>
+            <td><strong>Malta Page</strong></td>
+            <td>/destinations/malta</td>
+            <td>Same template — European gateway</td>
+            <td>Apply Now</td>
+          </tr>
+          <tr>
+            <td><strong>Dubai Page</strong></td>
+            <td>/destinations/dubai</td>
+            <td>Same template — global hub focus</td>
+            <td>Apply Now</td>
+          </tr>
+          <tr>
+            <td><strong>India Page</strong></td>
+            <td>/destinations/india</td>
+            <td>Same template + Rankings section (NIRF, NBA, AICTE, QS, THE)</td>
+            <td>Apply Now</td>
+          </tr>
+          <tr>
+            <td><strong>Blogs</strong></td>
+            <td>/blogs</td>
+            <td>Featured Hero, Category Filters, Article Grid, Newsletter Signup</td>
+            <td>Subscribe</td>
+          </tr>
+          <tr>
+            <td><strong>Videos Gallery</strong></td>
+            <td>/videos-gallery</td>
+            <td>Intro, Category Tabs, Video Grid, Social CTA</td>
+            <td>Subscribe / Follow</td>
+          </tr>
+          <tr>
+            <td><strong>Contact</strong></td>
+            <td>/contact</td>
+            <td>Details, Map, Inquiry Form, Consultation CTA</td>
+            <td>Send Message</td>
+          </tr>
+          <tr>
+            <td><strong>Book Consultation</strong></td>
+            <td>/book-free-consultation</td>
+            <td>Hero, Booking Form, Reassurance Points</td>
+            <td>Book My Session</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- CONTACT FOOTER INFO -->
+    <div class="contact-box">
+      <div>
+        <h3>EduMark Pvt. Ltd.</h3>
+        <div class="contact-detail">
+          <div class="contact-row"><span class="contact-icon">📍</span><span>Araniko Bhawan, Traffic
+              Chowk,<br>Biratnagar-09, Koshi Province, Nepal</span></div>
+          <div class="contact-row"><span class="contact-icon">☎</span><span>021-590823</span></div>
+          <div class="contact-row"><span class="contact-icon">📱</span><span>+977-9802724823 &nbsp;|&nbsp; 9807095059
+              &nbsp;|&nbsp; 9820490823</span></div>
+        </div>
+      </div>
+      <div>
+        <h3>Approvals & Memberships</h3>
+        <div class="contact-detail">
+          <div class="contact-row"><span class="contact-icon">✅</span><span>Approved — Ministry of Education,
+              Nepal</span></div>
+          <div class="contact-row"><span class="contact-icon">✅</span><span>Member — ECAN</span></div>
+          <div class="contact-row"><span class="contact-icon">✅</span><span>Certified Counselors — TITI</span></div>
+          <div class="contact-row"><span class="contact-icon">🏆</span><span>14 Years of Excellence — Since 2012</span>
+          </div>
+          <div class="contact-row"><span class="contact-icon">🌍</span><span>500+ Partner Colleges & Universities</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /page-wrap -->
+
+  <script>
+    (function () {
+      const t = document.querySelector('[data-theme-toggle]'), r = document.documentElement;
+      let d = r.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light');
+
+      function updateTheme(theme) {
+        r.setAttribute('data-theme', theme);
+        if (t) {
+          t.innerHTML = theme === 'dark' ?
+            '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>' :
+            '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+        }
+      }
+
+      updateTheme(d);
+
+      if (t) {
+        t.addEventListener('click', () => {
+          d = d === 'dark' ? 'light' : 'dark';
+          updateTheme(d);
+        });
+      }
+    })();
+
+    document.addEventListener("DOMContentLoaded", () => {
+      // Adjust root-relative image paths if loaded via file:// protocol
+      if (window.location.protocol === 'file:') {
+        document.querySelectorAll('img[src^="/"]').forEach(img => {
+          img.src = 'public' + img.getAttribute('src');
+        });
+        document.querySelectorAll('[style*="url(\'/"]').forEach(el => {
+          const style = el.getAttribute('style');
+          el.setAttribute('style', style.replace(/url\('\//g, "url('public/"));
+        });
+      }
+
+      // Initialize Animate On Scroll (AOS)
+      if (typeof AOS !== 'undefined') {
+        AOS.init({
+          duration: 800,
+          once: true,
+          offset: 100
+        });
+      }
+
+      // Initialize Stats count-up animation
+      animateCounters();
+
+      // Initialize Testimonial Carousel
+      initTestimonials();
+    });
+
+    // Stats counter animator
+    function animateCounters() {
+      const counters = document.querySelectorAll('.stat-counter-value');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const target = entry.target;
+            const targetVal = parseInt(target.getAttribute('data-target'));
+            const suffix = target.getAttribute('data-suffix') || '';
+            const duration = 2000;
+            const startTime = performance.now();
+
+            function updateCount(currentTime) {
+              const elapsed = currentTime - startTime;
+              const progress = Math.min(elapsed / duration, 1);
+
+              // Expo ease out
+              const easeProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+              const currentVal = Math.floor(easeProgress * targetVal);
+              target.innerText = currentVal + suffix;
+
+              if (progress < 1) {
+                requestAnimationFrame(updateCount);
+              } else {
+                target.innerText = targetVal + suffix;
+              }
+            }
+
+            requestAnimationFrame(updateCount);
+            observer.unobserve(target);
+          }
+        });
+      }, { threshold: 0.3 });
+
+      counters.forEach(counter => observer.observe(counter));
+    }
+
+    // Testimonial Carousel Slideshow
+    function initTestimonials() {
+      const inner = document.querySelector('.testimonials-slider-inner');
+      const slides = document.querySelectorAll('.testimonial-slide');
+      const dots = document.querySelectorAll('.testimonial-dot');
+      if (!inner || slides.length === 0) return;
+
+      let currentIndex = 0;
+      let slideInterval;
+
+      function showSlide(index) {
+        currentIndex = index;
+        inner.style.transform = `translateX(-${currentIndex * 100}%)`;
+        dots.forEach(d => d.classList.remove('active'));
+        if (dots[currentIndex]) dots[currentIndex].classList.add('active');
+      }
+
+      function startSlideShow() {
+        slideInterval = setInterval(() => {
+          const nextIndex = (currentIndex + 1) % slides.length;
+          showSlide(nextIndex);
+        }, 4000);
+      }
+
+      function stopSlideShow() {
+        clearInterval(slideInterval);
+      }
+
+      dots.forEach((dot, idx) => {
+        dot.addEventListener('click', () => {
+          stopSlideShow();
+          showSlide(idx);
+          startSlideShow();
+        });
+      });
+
+      startSlideShow();
+    }
+  </script>
 
 </body>
+
 </html>

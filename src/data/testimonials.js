@@ -19,12 +19,30 @@ export const testimonials = [
 ];
 
 export const processSteps = [
-  "Free counselling",
-  "Course and country selection",
-  "Application submission",
-  "Offer and documentation",
-  "Visa processing",
-  "Pre-departure support",
+  {
+    title: "Free counselling",
+    text: "Personalized guidance to understand study routes, budget, and requirements."
+  },
+  {
+    title: "Course and country selection",
+    text: "Find the best match of university and country matching your academic profile."
+  },
+  {
+    title: "Application submission",
+    text: "Detailed university application processing with document checklist checks."
+  },
+  {
+    title: "Offer and documentation",
+    text: "Secure offer letters and prepare student financial evidence carefully."
+  },
+  {
+    title: "Visa processing",
+    text: "Mock interviews, visa application filing, and embassy appointment coordination."
+  },
+  {
+    title: "Pre-departure support",
+    text: "Briefings on student life, accommodation, finance setup, and arrival tips."
+  }
 ];
 
 export const videoItems = [
