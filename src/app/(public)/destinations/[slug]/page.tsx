@@ -21,5 +21,5 @@ export default async function DestinationDetailRoute({
   }
 
   // We pass a dummy navigate because CountryDetailPage only passes it down to InquiryBand
-  return <CountryDetailPage country={country} navigate={() => {}} />;
+  return <CountryDetailPage country={country} />;
 }
