@@ -79,45 +79,49 @@ export default function TOEFLPage() {
                         <li>Enhances University Admission Opportunities</li>
                     </ul>
 
-                    <h2>What Skills Are Assessed in the TOEFL Exam?</h2>
 
-                    <p>
-                        TOEFL evaluates a student's ability to understand and use English
-                        in academic environments. The exam focuses on four essential
-                        language skills.
-                    </p>
-
-                    <h3>1. Reading</h3>
-
-                    <p>
-                        Measures the ability to understand academic passages,
-                        identify key ideas, and analyze information.
-                    </p>
-
-                    <h3>2. Listening</h3>
-
-                    <p>
-                        Assesses understanding of lectures, classroom discussions,
-                        and everyday conversations in English.
-                    </p>
-
-                    <h3>3. Speaking</h3>
-
-                    <p>
-                        Evaluates pronunciation, fluency, and the ability to express
-                        ideas clearly in English.
-                    </p>
-
-                    <h3>4. Writing</h3>
-
-                    <p>
-                        Tests the ability to organize ideas, write essays,
-                        and respond effectively to academic tasks.
-                    </p>
 
                 </section>
 
             </section>
+
+            {/* NEW FULL WIDTH SKILLS SECTION */}
+            <section className="toefl-skills-section">
+
+                <h2>What Skills Are Assessed in the TOEFL Exam?</h2>
+
+                <p>
+                    TOEFL evaluates a student's ability to understand and use English
+                    in academic environments. The exam focuses on four essential
+                    language skills.
+                </p>
+
+                <h3>1. Reading</h3>
+                <p>
+                    Measures the ability to understand academic passages,
+                    identify key ideas, and analyze information.
+                </p>
+
+                <h3>2. Listening</h3>
+                <p>
+                    Assesses understanding of lectures, classroom discussions,
+                    and everyday conversations in English.
+                </p>
+
+                <h3>3. Speaking</h3>
+                <p>
+                    Evaluates pronunciation, fluency, and the ability to express
+                    ideas clearly in English.
+                </p>
+
+                <h3>4. Writing</h3>
+                <p>
+                    Tests the ability to organize ideas, write essays,
+                    and respond effectively to academic tasks.
+                </p>
+
+            </section>
+
 
             {/* Full Width Section Starts Here */}
             <section className="toefl-overview-section">
@@ -146,52 +150,43 @@ export default function TOEFLPage() {
                     proficiency tests for students planning to study abroad.
                     It evaluates Reading, Listening, Speaking, and Writing
                     skills required for academic success.
+
+
                 </p>
 
                 <table className="pte-structure-table">
-                    <thead>
-                        <tr>
-                            <th>Section</th>
-                            <th>Time Allotted</th>
-                            <th>Skills Assessed</th>
-                            <th>Score Range</th>
-                        </tr>
-                    </thead>
-
                     <tbody>
                         <tr>
-                            <td>Reading</td>
-                            <td>35 Minutes</td>
-                            <td>Reading Comprehension</td>
-                            <td>0–30</td>
+                            <td>Exam Name</td>
+                            <td>TOEFL</td>
                         </tr>
 
                         <tr>
-                            <td>Listening</td>
-                            <td>36 Minutes</td>
-                            <td>Listening & Understanding</td>
-                            <td>0–30</td>
+                            <td>Full Form</td>
+                            <td>Test of English as a Foreign Language</td>
                         </tr>
 
                         <tr>
-                            <td>Speaking</td>
-                            <td>16 Minutes</td>
-                            <td>Communication & Fluency</td>
-                            <td>0–30</td>
+                            <td>Overview</td>
+                            <td>
+                                TOEFL focuses on academic reading, listening, speaking,
+                                and writing skills used in university environments.
+                            </td>
                         </tr>
 
                         <tr>
-                            <td>Writing</td>
-                            <td>29 Minutes</td>
-                            <td>Written Communication</td>
-                            <td>0–30</td>
+                            <td>Duration</td>
+                            <td>6 Weeks</td>
                         </tr>
 
                         <tr>
-                            <td>Total Score</td>
-                            <td>Approximately 2 Hours</td>
-                            <td>Combined Performance</td>
-                            <td>0–120</td>
+                            <td>Test Format</td>
+                            <td>Reading, Listening, Speaking, Writing</td>
+                        </tr>
+
+                        <tr>
+                            <td>Accepted By</td>
+                            <td>Universities and Institutions Worldwide</td>
                         </tr>
                     </tbody>
                 </table>

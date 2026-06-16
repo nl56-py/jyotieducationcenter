@@ -839,60 +839,99 @@
   gap: 40px;
 }
 
-.toefl-info-section {
-  width: 100%;
-  padding: 0 60px;
-  margin-top: 60px;
+.toefl-info-section h2 {
+  font-size: 52px;
+  color: #0b2341;
+  margin-bottom: 25px;
+  line-height: 1.15;
+  font-weight: 700;
+}
+
+.toefl-info-section h3 {
+  font-size: 28px;
+  color: #0b2341;
+  margin-top: 30px;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.toefl-info-section p {
+  font-size: 18px;
+  line-height: 1.9;
+  color: #475569;
+  margin-bottom: 22px;
+}
+
+.toefl-benefits {
+  list-style: none;
+  padding: 0;
+  margin: 30px 0;
+}
+
+.toefl-benefits li {
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 16px;
+  font-size: 18px;
+  color: #334155;
+  line-height: 1.8;
+}
+
+.toefl-benefits li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #e53935;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.toefl-skills-section {
+  max-width: 1200px;
+  margin: 80px auto;
+  padding: 0 20px;
+}
+
+.toefl-skills-section h2 {
+  font-size: 52px;
+  color: #0b2341;
+  margin-bottom: 25px;
+  font-weight: 700;
+}
+
+.toefl-skills-section h3 {
+  font-size: 32px;
+  color: #0b2341;
+  margin-top: 35px;
+  margin-bottom: 15px;
+}
+
+.toefl-skills-section p {
+  font-size: 18px;
+  line-height: 1.9;
+  color: #475569;
 }
 
 .toefl-overview-section {
   max-width: 1200px;
-  margin: 60px auto;
+  margin: 80px auto;
   padding: 0 20px;
 }
 
-.pte-info-section h2 {
-  font-size: 48px;
+.toefl-overview-section h2 {
+  font-size: 52px;
   color: #0b2341;
-  margin-bottom: 20px;
-  line-height: 1.2;
+  margin-bottom: 25px;
+  font-weight: 700;
+  line-height: 1.15;
 }
 
-.pte-info-section h3 {
-  font-size: 32px;
-  color: #0b2341;
-  margin-top: 30px;
-  margin-bottom: 15px;
-}
-
-.pte-info-section p {
+.toefl-overview-section p {
   font-size: 18px;
   line-height: 1.9;
   color: #475569;
-  margin-bottom: 20px;
-}
-
-.pte-benefits {
-  list-style: none;
-  padding: 0;
-  margin: 25px 0 40px;
-}
-
-.pte-benefits li {
-  position: relative;
-  padding-left: 35px;
-  margin-bottom: 14px;
-  font-size: 18px;
-  color: #334155;
-}
-
-.pte-benefits li::before {
-  content: "✓";
-  position: absolute;
-  left: 0;
-  color: #e53935;
-  font-weight: bold;
-  font-size: 20px;
+  margin-bottom: 22px;
 }
 
 /* 
@@ -1188,6 +1227,135 @@
   gap: 30px;
 }
 
+/* SAT SKILLS SECTION */
+
+.sat-skills-section {
+  max-width: 1200px;
+  margin: 80px auto;
+  padding: 0 20px;
+}
+
+.sat-skills-section h2 {
+  font-size: 52px;
+  color: #0b2341;
+  margin-bottom: 25px;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.sat-skills-section h3 {
+  font-size: 32px;
+  color: #0b2341;
+  margin-top: 35px;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.sat-skills-section p {
+  font-size: 18px;
+  line-height: 1.9;
+  color: #475569;
+  margin-bottom: 22px;
+}
+
+/* SAT BENEFITS */
+
+.sat-benefits {
+  list-style: none;
+  padding: 0;
+  margin: 30px 0;
+}
+
+.sat-benefits li {
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 16px;
+  font-size: 18px;
+  color: #334155;
+  line-height: 1.8;
+}
+
+.sat-benefits li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #e53935;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* SAT OVERVIEW SECTION */
+
+.sat-overview-section {
+  max-width: 1200px;
+  margin: 80px auto;
+  padding: 0 20px;
+}
+
+.sat-overview-section h2 {
+  font-size: 52px;
+  color: #0b2341;
+  margin-bottom: 25px;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.sat-overview-section p {
+  font-size: 18px;
+  line-height: 1.9;
+  color: #475569;
+  margin-bottom: 22px;
+}
+
+/* SAT TABLE */
+
+.sat-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 35px;
+  background: #fff;
+}
+
+.sat-table th,
+.sat-table td {
+  border: 1px solid #e5e7eb;
+  padding: 20px 24px;
+  text-align: left;
+}
+
+.sat-table th {
+  background: #f8fafc;
+  color: #0b2341;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.sat-table td {
+  color: #475569;
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+
+  .sat-skills-section h2,
+  .sat-overview-section h2 {
+    font-size: 36px;
+  }
+
+  .sat-skills-section h3 {
+    font-size: 26px;
+  }
+
+  .sat-table {
+    display: block;
+    overflow-x: auto;
+  }
+}
+
 /* Sidebar */
 
 .sat-sidebar {
@@ -1242,18 +1410,29 @@
 
 /* Content */
 
+/* SAT CONTENT SECTION */
+
 .sat-main h2 {
   font-size: 52px;
+  color: #0b2341;
   margin-bottom: 25px;
-  color: #0f172a;
-  line-height: 1.2;
+  line-height: 1.15;
+  font-weight: 700;
+}
+
+.sat-main h3 {
+  font-size: 32px;
+  color: #0b2341;
+  margin-top: 35px;
+  margin-bottom: 15px;
+  font-weight: 600;
 }
 
 .sat-main p {
+  font-size: 18px;
   line-height: 1.9;
   color: #475569;
-  margin-bottom: 18px;
-  font-size: 17px;
+  margin-bottom: 22px;
 }
 
 .sat-info-section {
