@@ -163,7 +163,7 @@
 
 .ielts-hero {
   height: 500px;
-  background-image: url("/images/generated/test-prep.png") !important;
+  background-image: url("/images/generated/ielts.png") !important;
   background-size: cover;
   background-position: center;
   position: relative;
@@ -944,29 +944,7 @@
   gap: 18px;
 }
 
-.prep-card {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 
-  background: #f5f5f5;
-  color: #111827;
-
-  text-decoration: none;
-
-  padding: 22px 28px;
-  border-radius: 10px;
-
-  font-size: 18px;
-  font-weight: 500;
-
-  transition: all 0.35s ease;
-
-  position: relative;
-  overflow: hidden;
-
-  border: 1px solid transparent;
-}
 
 /* Arrow */
 
@@ -981,6 +959,7 @@
   transform: translateX(-10px);
   transition: all 0.3s ease;
 }
+
 
 /* Shine Effect */
 
@@ -1003,21 +982,41 @@
   transition: 0.7s;
 }
 
-/* Hover */
+.prep-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 22px 28px;
+
+  background: #ececec;
+  color: #0b2341 !important;
+
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 600;
+
+  opacity: 1 !important;
+  filter: none !important;
+
+  transition: all .3s ease;
+}
 
 .prep-card:hover {
-  transform: translateX(8px);
-
-  background: white;
-
+  background: #ffffff;
+  color: #0b2341 !important;
   border-color: #e53935;
-
-  box-shadow: 0 12px 30px rgba(229, 57, 53, 0.15);
 }
 
-.prep-card:hover::before {
-  left: 100%;
+.prep-card.active {
+  background: #e53935;
+  color: #ffffff !important;
+  border-color: #e53935;
 }
+
 
 .prep-card:hover::after {
   opacity: 1;
@@ -1026,15 +1025,7 @@
 
 /* Active Item */
 
-.prep-card.active {
-  background: linear-gradient(135deg,
-      #e53935,
-      #c62828);
 
-  color: white;
-
-  box-shadow: 0 12px 30px rgba(229, 57, 53, 0.25);
-}
 
 .prep-card.active::after {
   opacity: 1;
