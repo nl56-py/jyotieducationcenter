@@ -20,5 +20,5 @@ export default async function TestCourseRoute({
     notFound();
   }
 
-  return <TestCoursePage course={course} navigate={() => {}} />;
+  return <TestCoursePage course={course} />;
 }
