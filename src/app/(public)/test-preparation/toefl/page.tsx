@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import "@/styles/toefl.css";
+
 export default function TOEFLPage() {
     return (
         <main>

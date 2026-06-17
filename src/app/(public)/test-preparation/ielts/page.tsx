@@ -1,5 +1,6 @@
 
 import Link from "next/link";
+import "@/styles/ielts.css";
 
 export default function IELTSPage() {
     return (

@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import "@/styles/pte.css";
+
 export default function PTEPage() {
     return (
         <main>

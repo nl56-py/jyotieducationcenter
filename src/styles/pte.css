@@ -1,0 +1,281 @@
+/* =========================================
+   PTE PAGE
+========================================= */
+
+.pte-hero {
+    height: 420px;
+    background-image: url("/images/generated/PTE.png");
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.pte-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    padding: 0 8%;
+    color: white;
+}
+
+.pte-overlay h1 {
+    font-size: 70px;
+    font-weight: 700;
+}
+
+.pte-breadcrumb {
+    margin-top: 20px;
+}
+
+.pte-layout {
+    max-width: 1300px;
+    margin: 70px auto;
+    padding: 0 20px;
+
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 50px;
+}
+
+/* Sidebar */
+
+.pte-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.pte-sidebar a {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 20px 25px;
+
+    background: #f5f5f5;
+    color: #0b2341;
+
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 16px;
+
+    border-radius: 8px;
+
+    overflow: hidden;
+
+    transition: all 0.35s ease;
+}
+
+.pte-sidebar a::after {
+    content: "→";
+
+    opacity: 0;
+
+    transform: translateX(-10px);
+
+    transition: all 0.3s ease;
+}
+
+.pte-sidebar a::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -100%;
+
+    width: 100%;
+    height: 100%;
+
+    background: linear-gradient(120deg,
+            transparent,
+            rgba(255, 255, 255, 0.5),
+            transparent);
+
+    transition: 0.7s;
+}
+
+.pte-sidebar a:hover {
+    transform: translateX(8px);
+
+    background: #ffffff;
+
+    box-shadow: 0 10px 25px rgba(229, 57, 53, 0.15);
+
+    border-left: 4px solid #e53935;
+}
+
+.pte-sidebar a:hover::after {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.pte-sidebar a:hover::before {
+    left: 100%;
+}
+
+.pte-sidebar a.active {
+    background: linear-gradient(135deg, #e53935, #c62828);
+
+    color: white;
+
+    box-shadow: 0 10px 25px rgba(229, 57, 53, 0.25);
+}
+
+.pte-sidebar a.active::after {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Content */
+
+.pte-content h2 {
+    font-size: 38px;
+    margin-bottom: 25px;
+    color: #0b2341;
+}
+
+.pte-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.pte-table td {
+    border: 1px solid #ddd;
+    padding: 18px;
+}
+
+.pte-table td:first-child {
+    width: 260px;
+    font-weight: 600;
+    background: #fafafa;
+}
+
+.pte-structure-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+    margin-bottom: 40px;
+}
+
+.pte-structure-table th,
+.pte-structure-table td {
+    border: 1px solid #e5e7eb;
+    padding: 22px;
+    text-align: left;
+}
+
+.pte-structure-table th {
+    background: #f8fafc;
+    font-size: 22px;
+    font-weight: 700;
+    color: #334155;
+}
+
+.pte-structure-table td {
+    font-size: 18px;
+    line-height: 1.8;
+    color: #475569;
+}
+
+.pte-info-section {
+    max-width: 1300px;
+    margin: 60px auto;
+    padding: 0 20px;
+}
+
+.pte-info-section h2 {
+    font-size: 48px;
+    color: #0b2341;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.pte-info-section h3 {
+    font-size: 32px;
+    color: #0b2341;
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+.pte-info-section p {
+    font-size: 18px;
+    line-height: 1.9;
+    color: #475569;
+    margin-bottom: 20px;
+}
+
+.pte-benefits {
+    list-style: none;
+    padding: 0;
+    margin: 25px 0 40px;
+}
+
+.pte-benefits li {
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 14px;
+    font-size: 18px;
+    color: #334155;
+}
+
+.pte-benefits li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #e53935;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+/* Hero Animation */
+
+@keyframes heroZoom {
+    0% {
+        background-size: 100%;
+        background-position: center;
+    }
+
+    50% {
+        background-size: 105%;
+        background-position: center top;
+    }
+
+    100% {
+        background-size: 110%;
+        background-position: center;
+    }
+}
+
+.pte-hero {
+    animation: heroZoom 12s ease-in-out infinite alternate;
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.pte-overlay h1 {
+    animation: fadeUp 1s ease forwards;
+}
+
+.pte-overlay p {
+    animation: fadeUp 1s ease forwards;
+    animation-delay: 0.3s;
+    opacity: 0;
+}
