@@ -1,6 +1,6 @@
 import { AppLink } from "./AppLink.jsx";
 
-export function InquiryBand({ navigate }) {
+export function InquiryBand() {
   return (
     <section className="inquiry-band">
       <div>
@@ -8,10 +8,10 @@ export function InquiryBand({ navigate }) {
         <h2>Plan your next intake with EduMark.</h2>
       </div>
       <div>
-        <AppLink to="/book-free-consultation" navigate={navigate} className="light-button">
+        <AppLink to="/book-free-consultation" className="light-button">
           Book Consultation
         </AppLink>
-        <AppLink to="/contact" navigate={navigate} className="outline-light-button">
+        <AppLink to="/contact" className="outline-light-button">
           Contact Office
         </AppLink>
       </div>
