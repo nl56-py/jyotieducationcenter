@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 import { AppLink } from "../components/AppLink.jsx";
 import { testCourses } from "../data/testCourses.js";
 
-export function TestCoursePage({ course, navigate }) {
+export function TestCoursePage({ course }) {
   const sectionRef = useRef(null);
 
   useEffect(() => {
@@ -45,7 +45,6 @@ export function TestCoursePage({ course, navigate }) {
             <AppLink
               key={item.slug}
               to={`/test-preparation/${item.slug}`}
-              navigate={navigate}
               className={
                 item.slug === course.slug
                   ? "sidebar-item active"
@@ -110,7 +109,6 @@ export function TestCoursePage({ course, navigate }) {
 
           <AppLink
             to="/book-free-consultation"
-            navigate={navigate}
             className="primary-button"
           >
             Enroll For Classes
