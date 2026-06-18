@@ -7,7 +7,7 @@ export const assets = {
   success: "/images/generated/student-success.png",
   brochureHero: "/images/brochure/hero-background.jpg",
   whyChoose: "/images/brochure/Whychooseus.png",
-  europe: "/images/brochure/europe-study.jpg",
+  europe: "/images/brochure/europe-study.svg",
   entrance: "/images/brochure/entrance-prep.jpg",
   entranceOffer: "/images/brochure/entrance-offer.jpg",
   cee: "/images/brochure/cee.jpg",
