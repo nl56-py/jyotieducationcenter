@@ -45,6 +45,15 @@ export function Header({ onSearch }) {
               >
                 {item.label}
               </AppLink>
+              {item.children ? (
+                <div className="nav-menu">
+                  {item.children.map((child) => (
+                    <AppLink key={child.path} to={child.path} className="nav-subitem">
+                      {child.label}
+                    </AppLink>
+                  ))}
+                </div>
+              ) : null}
             </div>
           ))}
         </nav>
@@ -78,6 +87,18 @@ export function Header({ onSearch }) {
               >
                 {item.label}
               </AppLink>
+              {item.children
+                ? item.children.map((child) => (
+                  <AppLink
+                    key={child.path}
+                    to={child.path}
+                    className="mobile-link mobile-sublink"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    {child.label}
+                  </AppLink>
+                ))
+                : null}
             </div>
           ))}
           <AppLink
