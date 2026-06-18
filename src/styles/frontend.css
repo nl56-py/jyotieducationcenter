@@ -6571,3 +6571,41 @@ video {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* ── OBJECTIVES & CARDS ── */
+.objectives-list {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0;
+  display: grid;
+  gap: 12px;
+}
+
+.objectives-list li {
+  display: grid;
+  grid-template-columns: 20px 1fr;
+  gap: 10px;
+  align-items: start;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.objectives-list .check-mark {
+  color: var(--purple);
+  font-weight: bold;
+}
+
+.card-quote {
+  font-style: italic;
+  color: var(--purple);
+  border-left: 3px solid var(--purple);
+  padding-left: 14px;
+  margin: 16px 0;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.mt-4 {
+  margin-top: 16px;
+}
