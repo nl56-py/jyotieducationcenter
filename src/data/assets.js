@@ -6,7 +6,7 @@ export const assets = {
   testPrep: "/images/generated/test-prep.png",
   success: "/images/generated/student-success.png",
   brochureHero: "/images/brochure/hero-background.jpg",
-  whyChoose: "/images/brochure/why-choose-us.jpg",
+  whyChoose: "/images/brochure/Whychooseus.png",
   europe: "/images/brochure/europe-study.jpg",
   entrance: "/images/brochure/entrance-prep.jpg",
   entranceOffer: "/images/brochure/entrance-offer.jpg",
@@ -15,7 +15,7 @@ export const assets = {
   leaders: [
     "/images/brand/leader-ravi-gupta.jpg",
     "/images/brand/leader-kabiraj-paudel.jpg",
-    "/images/brand/leader-dipendra-mehta.jpg",
+    "/images/brand/leader-dipendra-mehta.png",
     "/images/brand/leader-tilak-thapa.jpg",
   ],
 };

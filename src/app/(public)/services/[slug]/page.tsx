@@ -20,5 +20,5 @@ export default async function ServiceDetailRoute({
     notFound();
   }
 
-  return <ServiceDetailPage service={service} navigate={() => {}} />;
+  return <ServiceDetailPage service={service} />;
 }

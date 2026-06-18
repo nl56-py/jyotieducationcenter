@@ -20,5 +20,5 @@ export default async function BlogDetailRoute({
     notFound();
   }
 
-  return <BlogDetailPage blog={blog} navigate={() => {}} />;
+  return <BlogDetailPage blog={blog} />;
 }
