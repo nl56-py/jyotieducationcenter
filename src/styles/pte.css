@@ -270,12 +270,32 @@
     }
 }
 
-.pte-overlay h1 {
-    animation: fadeUp 1s ease forwards;
-}
+@media (max-width: 900px) {
+    .pte-layout {
+        grid-template-columns: 1fr;
+    }
 
-.pte-overlay p {
-    animation: fadeUp 1s ease forwards;
-    animation-delay: 0.3s;
-    opacity: 0;
+    .pte-overlay h1 {
+        font-size: 38px;
+    }
+
+    .sidebar-banner {
+        width: 100%;
+        margin-top: 12px;
+        border-radius: 0;
+        display: block;
+        object-fit: cover;
+    }
+
+    .pte-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 25px 0;
+    }
+
+    .pte-table th,
+    .pte-table td {
+        border: 1px solid #ddd;
+        padding: 15px;
+    }
 }
