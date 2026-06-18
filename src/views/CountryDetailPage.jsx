@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import { AppLink } from "../components/AppLink.jsx";
 import { SectionIntro } from "../components/SectionIntro.jsx";
 import { BulletList } from "../components/BulletList.jsx";
@@ -32,6 +32,7 @@ const brochurePageMap = {
 export function CountryDetailPage({ country }) {
   const [activeFaq, setActiveFaq] = useState(null);
   const transitionContext = useContext(TransitionContext);
+  const sectionRef = useRef(null);
 
   useEffect(() => {
     setActiveFaq(null);
@@ -39,6 +40,22 @@ export function CountryDetailPage({ country }) {
     if (sidebar) {
       sidebar.scrollTop = 0;
     }
+  }, [country.slug]);
+
+  useEffect(() => {
+    const elements = sectionRef.current?.querySelectorAll(".animate-on-scroll");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("in-view");
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+    elements?.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
   }, [country.slug]);
 
   // Sort countries to show the primary 8 first for a cleaner sidebar
@@ -55,7 +72,7 @@ export function CountryDetailPage({ country }) {
   const brochurePage = brochurePageMap[country.slug] || null;
 
   return (
-    <main style={{ fontFamily: "var(--display-font)", "--country-color": country.accent }}>
+    <main ref={sectionRef} style={{ fontFamily: "var(--display-font)", "--country-color": country.accent, overflow: "hidden" }}>
       <style dangerouslySetInnerHTML={{ __html: `
         @keyframes spinGlobe {
           from { transform: rotate(0deg); }
@@ -189,7 +206,7 @@ export function CountryDetailPage({ country }) {
         <div className="country-content-wrapper">
           
           {/* Section 1: Intro Copy */}
-          <section className="country-intro-section">
+          <section className="country-intro-section animate-on-scroll">
             <h2 className="country-main-title">Study in {country.name} from Nepal</h2>
             <div className="country-title-divider"></div>
             
@@ -203,7 +220,7 @@ export function CountryDetailPage({ country }) {
           </section>
 
           {/* Section 2: Fast Facts Grid */}
-          <section className="fast-facts-section">
+          <section className="fast-facts-section animate-on-scroll">
             <div className="fast-facts-grid">
               <div className="fast-fact-card">
                 <span className="icon">
@@ -256,7 +273,7 @@ export function CountryDetailPage({ country }) {
           </section>
 
           {/* Section 3: Top Courses */}
-          <section className="courses-section-v2">
+          <section className="courses-section-v2 animate-on-scroll">
             <h3 className="section-heading-v2">Top Courses to Study in {country.name}</h3>
             <div className="section-divider-v2"></div>
             <p className="section-intro-text">
@@ -285,7 +302,7 @@ export function CountryDetailPage({ country }) {
 
           {/* Section 4: Universities Directory Table */}
           {country.universitiesDetail && country.universitiesDetail.length > 0 && (
-            <section className="directory-table-section">
+            <section className="directory-table-section animate-on-scroll">
               <h3 className="section-heading-v2">Top Universities & Colleges Popular Among Nepali Students</h3>
               <div className="section-divider-v2"></div>
               <p className="section-intro-text">
@@ -316,7 +333,7 @@ export function CountryDetailPage({ country }) {
 
           {/* Section 5: Creative University Showcases with Images */}
           {country.universitiesDetail && country.universitiesDetail.length > 0 && (
-            <section className="university-showcase-section">
+            <section className="university-showcase-section animate-on-scroll">
               <h3 className="section-heading-v2">Featured Campus Showcases</h3>
               <div className="section-divider-v2"></div>
               <div className="university-grid">
@@ -358,7 +375,7 @@ export function CountryDetailPage({ country }) {
           )}
 
           {/* Section 6: Why Study Here & Ideal Benefits */}
-          <section className="why-study-section-v2">
+          <section className="why-study-section-v2 animate-on-scroll">
             <h3 className="section-heading-v2">Why study in {country.name}?</h3>
             <div className="section-divider-v2"></div>
             <p className="section-intro-text">
@@ -376,7 +393,7 @@ export function CountryDetailPage({ country }) {
 
           {/* Section 7: Requirements Grid */}
           {country.requirementsDetail ? (
-            <section className="requirements-section-v2">
+            <section className="requirements-section-v2 animate-on-scroll">
               <h3 className="section-heading-v2">Requirements to Study in {country.name}</h3>
               <div className="section-divider-v2"></div>
               <p className="section-intro-text">
@@ -437,7 +454,7 @@ export function CountryDetailPage({ country }) {
               </div>
             </section>
           ) : (
-            <section className="requirements-fallback-section">
+            <section className="requirements-fallback-section animate-on-scroll">
               <h3 className="section-heading-v2">Visa & Requirements</h3>
               <div className="section-divider-v2"></div>
               <div className="requirements-fallback-list">
@@ -453,7 +470,7 @@ export function CountryDetailPage({ country }) {
 
           {/* Section 8: Intakes & Deadlines */}
           {country.intakesList && (
-            <section className="intakes-section-v2">
+            <section className="intakes-section-v2 animate-on-scroll">
               <h3 className="section-heading-v2">Intakes & Deadlines</h3>
               <div className="section-divider-v2"></div>
               <p className="section-intro-text">
@@ -486,7 +503,7 @@ export function CountryDetailPage({ country }) {
 
           {/* Section 9: Estimated Costs Breakdown */}
           {country.costsList && (
-            <section className="costs-section-v2">
+            <section className="costs-section-v2 animate-on-scroll">
               <h3 className="section-heading-v2">Cost of Studying in {country.name}</h3>
               <div className="section-divider-v2"></div>
               <p className="section-intro-text">
@@ -517,7 +534,7 @@ export function CountryDetailPage({ country }) {
 
           {/* Section 10: Scholarships & Advisor Support */}
           {country.scholarshipsList && (
-            <section className="scholarships-section-v2">
+            <section className="scholarships-section-v2 animate-on-scroll">
               <h3 className="section-heading-v2">Scholarships & Funding in {country.name}</h3>
               <div className="section-divider-v2"></div>
               <div className="scholarships-container-v2">
@@ -538,7 +555,7 @@ export function CountryDetailPage({ country }) {
           )}
 
           {/* Section 11: Interactive FAQ Accordion */}
-          <section className="faq-section-v2">
+          <section className="faq-section-v2 animate-on-scroll">
             <h3 className="section-heading-v2">Frequently Asked Questions</h3>
             <div className="section-divider-v2"></div>
             <div className="faq-accordion-v2">

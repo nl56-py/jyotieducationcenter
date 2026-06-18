@@ -1,12 +1,33 @@
 
+"use client";
+
+import { useEffect, useRef } from "react";
 import { AppLink } from "../components/AppLink.jsx";
 import { testCourses } from "../data/testCourses.js";
 
-export function TestCoursePage({ course, navigate }) {
+export function TestCoursePage({ course }) {
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const elements = sectionRef.current?.querySelectorAll(".animate-on-scroll");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("in-view");
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+    elements?.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, [course.slug]);
+
   return (
-    <main>
+    <main ref={sectionRef} style={{ overflow: "hidden" }}>
       {/* Hero Banner */}
-      <section className="course-hero">
+      <section className="course-hero animate-on-scroll">
         <div className="course-hero-overlay">
           <h1>{course.name} Preparation Classes</h1>
 
@@ -17,14 +38,13 @@ export function TestCoursePage({ course, navigate }) {
       </section>
 
       {/* Main Layout */}
-      <section className="course-layout">
+      <section className="course-layout animate-on-scroll">
         {/* Sidebar */}
         <aside className="course-sidebar">
           {testCourses.map((item) => (
             <AppLink
               key={item.slug}
               to={`/test-preparation/${item.slug}`}
-              navigate={navigate}
               className={
                 item.slug === course.slug
                   ? "sidebar-item active"
@@ -89,7 +109,6 @@ export function TestCoursePage({ course, navigate }) {
 
           <AppLink
             to="/book-free-consultation"
-            navigate={navigate}
             className="primary-button"
           >
             Enroll For Classes
