@@ -35,6 +35,54 @@ export function BookingPage() {
   const [countryCode, setCountryCode] = useState("NP");
   const selectedCountry = phoneCountries.find(c => c.code === countryCode) ?? phoneCountries[0];
 
+  const [fullName, setFullName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [preferredDestination, setPreferredDestination] = useState("");
+  const [courseInterest, setCourseInterest] = useState("");
+  const [preferredDate, setPreferredDate] = useState("");
+  const [preferredTime, setPreferredTime] = useState("");
+  const [honeypot, setHoneypot] = useState("");
+  const [status, setStatus] = useState("idle"); // idle | loading | success | error
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus("loading");
+    setErrorMsg("");
+
+    const fullPhone = `${selectedCountry.dial}${phone}`;
+
+    try {
+      const response = await fetch("/api/forms/consultation", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullName,
+          phone: fullPhone,
+          email,
+          preferredDestination: preferredDestination || undefined,
+          courseInterest: courseInterest || undefined,
+          preferredDate,
+          preferredTime,
+          honeypot,
+        }),
+      });
+
+      const result = await response.json();
+      if (response.ok && result.success) {
+        setStatus("success");
+        setSent(true);
+      } else {
+        setStatus("error");
+        setErrorMsg(result.error || "Failed to submit booking request.");
+      }
+    } catch (err) {
+      setStatus("error");
+      setErrorMsg("Failed to connect to the server. Please check your connection.");
+    }
+  };
+
 
   return (
     <main>
@@ -219,20 +267,48 @@ export function BookingPage() {
             <div className="form-success" style={{ background: "var(--white)", borderRadius: 18, padding: 40, boxShadow: "0 8px 40px rgba(91,23,125,0.10)", textAlign: "center" }}>
               <div style={{ fontSize: 48, marginBottom: 12 }}>✅</div>
               <h3 style={{ color: "var(--navy)", marginBottom: 8 }}>Consultation requested</h3>
-              <p style={{ color: "var(--muted)" }}>The production version can send this to the admin panel and trigger email or SMS confirmation.</p>
+              <p style={{ color: "var(--muted)" }}>Thank you! Your profile assessment has been scheduled. An advisor will contact you to confirm the exact time slot.</p>
             </div>
           ) : (
             <form
               className="contact-form"
               style={{ background: "var(--white)", borderRadius: 18, padding: "32px 28px", boxShadow: "0 8px 40px rgba(91,23,125,0.10)", display: "grid", gap: 18 }}
-              onSubmit={(e) => { e.preventDefault(); setSent(true); }}
+              onSubmit={handleSubmit}
             >
+              {/* Honeypot spam protection (hidden from users) */}
+              <input
+                type="text"
+                name="honeypot"
+                value={honeypot}
+                onChange={(e) => setHoneypot(e.target.value)}
+                style={{ display: "none" }}
+                tabIndex={-1}
+                autoComplete="off"
+              />
+
+              {status === "error" && (
+                <div 
+                  style={{ 
+                    background: "rgba(239, 68, 68, 0.1)", 
+                    color: "#ef4444", 
+                    padding: "12px", 
+                    borderRadius: "10px", 
+                    fontSize: "13px", 
+                    marginBottom: "6px",
+                    border: "1px solid rgba(239, 68, 68, 0.2)",
+                    fontWeight: 600
+                  }}
+                >
+                  {errorMsg}
+                </div>
+              )}
+
               {/* Student name */}
               <label style={{ display: "grid", gap: 6, fontWeight: 700, fontSize: 14, color: "var(--navy)" }}>
                 Student name
                 <div style={{ position: "relative" }}>
                   <span style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", fontSize: 16, opacity: 0.45 }}>👤</span>
-                  <input required placeholder="Full name" pattern=".*\S+.*\s+.*\S+.*" title="Please enter your full name (first and last name)" style={{ width: "100%", paddingLeft: 42, paddingRight: 14, height: 48, border: "1.5px solid var(--line)", borderRadius: 10, fontSize: 14, color: "var(--navy)", outline: "none", boxSizing: "border-box", transition: "border-color 0.18s" }}
+                  <input required placeholder="Full name" pattern=".*\S+.*\s+.*\S+.*" title="Please enter your full name (first and last name)" value={fullName} onChange={e => setFullName(e.target.value)} style={{ width: "100%", paddingLeft: 42, paddingRight: 14, height: 48, border: "1.5px solid var(--line)", borderRadius: 10, fontSize: 14, color: "var(--navy)", outline: "none", boxSizing: "border-box", transition: "border-color 0.18s" }}
                     onFocus={e => e.target.style.borderColor = "var(--purple)"}
                     onBlur={e => e.target.style.borderColor = "var(--line)"} />
                 </div>
@@ -268,6 +344,8 @@ export function BookingPage() {
         pattern={selectedCountry.pattern}
         maxLength={selectedCountry.length}
         title={`Enter a valid ${selectedCountry.length}-digit ${selectedCountry.name} mobile number`}
+        value={phone}
+        onChange={e => setPhone(e.target.value)}
         onKeyDown={e => { if (!/[0-9]/.test(e.key) && !["Backspace","Delete","ArrowLeft","ArrowRight","Tab"].includes(e.key)) e.preventDefault(); }}
         style={{ width: "100%", paddingLeft: 42, paddingRight: 14, height: 48, border: "1.5px solid var(--line)", borderRadius: 10, fontSize: 14, color: "var(--navy)", outline: "none", boxSizing: "border-box", transition: "border-color 0.18s" }}
         onFocus={e => e.target.style.borderColor = "var(--purple)"}
@@ -281,7 +359,7 @@ export function BookingPage() {
                 Email
                 <div style={{ position: "relative" }}>
                   <span style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", fontSize: 16, opacity: 0.45 }}>✉️</span>
-                  <input type="email" placeholder="you@example.com" style={{ width: "100%", paddingLeft: 42, paddingRight: 14, height: 48, border: "1.5px solid var(--line)", borderRadius: 10, fontSize: 14, color: "var(--navy)", outline: "none", boxSizing: "border-box", transition: "border-color 0.18s" }}
+                  <input type="email" placeholder="you@example.com" value={email} onChange={e => setEmail(e.target.value)} style={{ width: "100%", paddingLeft: 42, paddingRight: 14, height: 48, border: "1.5px solid var(--line)", borderRadius: 10, fontSize: 14, color: "var(--navy)", outline: "none", boxSizing: "border-box", transition: "border-color 0.18s" }}
                     onFocus={e => e.target.style.borderColor = "var(--purple)"}
                     onBlur={e => e.target.style.borderColor = "var(--line)"} />
                 </div>
@@ -292,15 +370,15 @@ export function BookingPage() {
                 Preferred route
                 <div style={{ position: "relative" }}>
                   <span style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", fontSize: 16, opacity: 0.45 }}>📍</span>
-                  <select required defaultValue="" style={{ width: "100%", paddingLeft: 42, paddingRight: 14, height: 48, border: "1.5px solid var(--line)", borderRadius: 10, fontSize: 14, color: "var(--navy)", outline: "none", boxSizing: "border-box", appearance: "none", background: "#fff url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E\") no-repeat right 16px center", transition: "border-color 0.18s" }}
+                  <select required value={preferredDestination} onChange={e => setPreferredDestination(e.target.value)} style={{ width: "100%", paddingLeft: 42, paddingRight: 14, height: 48, border: "1.5px solid var(--line)", borderRadius: 10, fontSize: 14, color: "var(--navy)", outline: "none", boxSizing: "border-box", appearance: "none", background: "#fff url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E\") no-repeat right 16px center", transition: "border-color 0.18s" }}
                     onFocus={e => e.target.style.borderColor = "var(--purple)"}
                     onBlur={e => e.target.style.borderColor = "var(--line)"}>
                     <option value="" disabled>Select route</option>
                     {countries.map((c) => (
-                      <option key={c.slug}>{c.name}</option>
+                      <option key={c.slug} value={c.name}>{c.name}</option>
                     ))}
-                    <option>Entrance Preparation</option>
-                    <option>Test Preparation</option>
+                    <option value="Entrance Preparation">Entrance Preparation</option>
+                    <option value="Test Preparation">Test Preparation</option>
                   </select>
                 </div>
               </label>
@@ -310,7 +388,18 @@ export function BookingPage() {
                 Course interest
                 <div style={{ position: "relative" }}>
                   <span style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", fontSize: 16, opacity: 0.45 }}>🎓</span>
-                  <input placeholder="Course, test, or entrance target" style={{ width: "100%", paddingLeft: 42, paddingRight: 14, height: 48, border: "1.5px solid var(--line)", borderRadius: 10, fontSize: 14, color: "var(--navy)", outline: "none", boxSizing: "border-box", transition: "border-color 0.18s" }}
+                  <input placeholder="Course, test, or entrance target" value={courseInterest} onChange={e => setCourseInterest(e.target.value)} style={{ width: "100%", paddingLeft: 42, paddingRight: 14, height: 48, border: "1.5px solid var(--line)", borderRadius: 10, fontSize: 14, color: "var(--navy)", outline: "none", boxSizing: "border-box", transition: "border-color 0.18s" }}
+                    onFocus={e => e.target.style.borderColor = "var(--purple)"}
+                    onBlur={e => e.target.style.borderColor = "var(--line)"} />
+                </div>
+              </label>
+
+              {/* Preferred date */}
+              <label style={{ display: "grid", gap: 6, fontWeight: 700, fontSize: 14, color: "var(--navy)" }}>
+                Preferred date
+                <div style={{ position: "relative" }}>
+                  <span style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", fontSize: 16, opacity: 0.45 }}>📅</span>
+                  <input required type="date" min={new Date().toISOString().split("T")[0]} value={preferredDate} onChange={e => setPreferredDate(e.target.value)} style={{ width: "100%", paddingLeft: 42, paddingRight: 14, height: 48, border: "1.5px solid var(--line)", borderRadius: 10, fontSize: 14, color: "var(--navy)", outline: "none", boxSizing: "border-box", transition: "border-color 0.18s" }}
                     onFocus={e => e.target.style.borderColor = "var(--purple)"}
                     onBlur={e => e.target.style.borderColor = "var(--line)"} />
                 </div>
@@ -321,13 +410,13 @@ export function BookingPage() {
                 Preferred time
                 <div style={{ position: "relative" }}>
                   <span style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", fontSize: 16, opacity: 0.45 }}>🕐</span>
-                  <select required defaultValue="" style={{ width: "100%", paddingLeft: 42, paddingRight: 14, height: 48, border: "1.5px solid var(--line)", borderRadius: 10, fontSize: 14, color: "var(--navy)", outline: "none", boxSizing: "border-box", appearance: "none", background: "#fff url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E\") no-repeat right 16px center", transition: "border-color 0.18s" }}
+                  <select required value={preferredTime} onChange={e => setPreferredTime(e.target.value)} style={{ width: "100%", paddingLeft: 42, paddingRight: 14, height: 48, border: "1.5px solid var(--line)", borderRadius: 10, fontSize: 14, color: "var(--navy)", outline: "none", boxSizing: "border-box", appearance: "none", background: "#fff url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E\") no-repeat right 16px center", transition: "border-color 0.18s" }}
                     onFocus={e => e.target.style.borderColor = "var(--purple)"}
                     onBlur={e => e.target.style.borderColor = "var(--line)"}>
                     <option value="" disabled>Select time</option>
-                    <option>Morning</option>
-                    <option>Afternoon</option>
-                    <option>Evening</option>
+                    <option value="Morning">Morning</option>
+                    <option value="Afternoon">Afternoon</option>
+                    <option value="Evening">Evening</option>
                   </select>
                 </div>
               </label>
@@ -336,11 +425,12 @@ export function BookingPage() {
               <div>
                 <button
                   type="submit"
-                  style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, background: "linear-gradient(135deg, var(--purple), var(--cyan))", color: "#fff", border: "none", borderRadius: 12, height: 52, fontWeight: 800, fontSize: 15, cursor: "pointer", boxShadow: "0 8px 24px rgba(91,23,125,0.28)", transition: "opacity 0.18s" }}
-                  onMouseEnter={e => e.currentTarget.style.opacity = "0.9"}
-                  onMouseLeave={e => e.currentTarget.style.opacity = "1"}
+                  disabled={status === "loading"}
+                  style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, background: "linear-gradient(135deg, var(--purple), var(--cyan))", color: "#fff", border: "none", borderRadius: 12, height: 52, fontWeight: 800, fontSize: 15, cursor: status === "loading" ? "not-allowed" : "pointer", boxShadow: "0 8px 24px rgba(91,23,125,0.28)", transition: "opacity 0.18s", opacity: status === "loading" ? 0.7 : 1 }}
+                  onMouseEnter={e => { if (status !== "loading") e.currentTarget.style.opacity = "0.9" }}
+                  onMouseLeave={e => { if (status !== "loading") e.currentTarget.style.opacity = "1" }}
                 >
-                  📅 Book My Session →
+                  {status === "loading" ? "Booking..." : "📅 Book My Session →"}
                 </button>
 
                 {/* Security note */}

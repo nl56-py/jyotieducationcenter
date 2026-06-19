@@ -93,53 +93,92 @@ export default function BlogsCMSPage() {
     setIsEditorOpen(true);
   };
 
-  const handleSave = (e: React.FormEvent) => {
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (selectedBlog) {
-      // Edit
-      setBlogs(blogs.map(b => b.id === selectedBlog.id ? {
-        ...b,
-        title,
-        slug,
-        category,
-        excerpt,
-        bodyText,
-        seoTitle,
-        seoDesc,
-        featured
-      } : b));
-    } else {
-      // Create
-      const newBlog = {
-        id: `blog-${Date.now()}`,
-        slug,
-        title,
-        excerpt,
-        category,
-        status: "draft",
-        featured,
-        published_at: null,
-        bodyText,
-        seoTitle,
-        seoDesc
-      };
-      setBlogs([newBlog, ...blogs]);
+    setLoading(true);
+    try {
+      if (selectedBlog) {
+        // Edit
+        const response = await fetch("/api/admin/blogs", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            id: selectedBlog.id,
+            title,
+            slug,
+            category,
+            excerpt,
+            bodyText,
+            seoTitle,
+            seoDesc,
+            featured,
+          }),
+        });
+        if (response.ok) {
+          const res = await fetch("/api/admin/blogs");
+          if (res.ok) {
+            const data = await res.json();
+            setBlogs(data);
+          }
+        }
+      } else {
+        // Create
+        const response = await fetch("/api/admin/blogs", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            title,
+            slug,
+            category,
+            excerpt,
+            bodyText,
+            seoTitle,
+            seoDesc,
+            featured,
+            status: "draft",
+          }),
+        });
+        if (response.ok) {
+          const res = await fetch("/api/admin/blogs");
+          if (res.ok) {
+            const data = await res.json();
+            setBlogs(data);
+          }
+        }
+      }
+    } catch (err) {
+      console.error("Failed to save blog post:", err);
     }
+    setLoading(false);
     setIsEditorOpen(false);
   };
 
-  const handlePublishToggle = (blogId: string) => {
-    setBlogs(blogs.map(b => {
-      if (b.id === blogId) {
-        const isPublished = b.status === "published";
-        return {
-          ...b,
-          status: isPublished ? "archived" : "published",
-          published_at: isPublished ? b.published_at : new Date().toLocaleDateString()
-        };
+  const handlePublishToggle = async (blogId: string) => {
+    const blog = blogs.find(b => b.id === blogId);
+    if (!blog) return;
+
+    const newStatus = blog.status === "published" ? "archived" : "published";
+
+    try {
+      const response = await fetch("/api/admin/blogs", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: blogId,
+          status: newStatus,
+        }),
+      });
+
+      if (response.ok) {
+        const res = await fetch("/api/admin/blogs");
+        if (res.ok) {
+          const data = await res.json();
+          setBlogs(data);
+        }
       }
-      return b;
-    }));
+    } catch (err) {
+      console.error("Failed to toggle publish status:", err);
+    }
   };
 
   const filteredBlogs = blogs.filter(b => b.title.toLowerCase().includes(search.toLowerCase()));
