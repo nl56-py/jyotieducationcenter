@@ -8,6 +8,7 @@ import { services } from "../data/services.js";
 import { blogs } from "../data/blogs.js";
 import { site } from "../data/site.js";
 import { testimonials } from "../data/testimonials.js";
+import { ProcessIcon } from "../components/ProcessIcons.jsx";
 
 /* ─────────────────── FLAG MAP ─────────────────── */
 
@@ -417,43 +418,121 @@ function WhyChooseV2() {
 
 /* ─────────────────── 6. PROCESS TIMELINE ─────────────────── */
 
-const processData = [
-  { icon: "🧑‍💼", label: "Free Counseling", sub: "", color: "#451ebb", num: 1 },
-  { icon: "🌍", label: "Selection", sub: "Course & Country", color: "#006970", num: 2 },
-  { icon: "📋", label: "Application", sub: "Submission", color: "#954500", num: 3 },
-  { icon: "📄", label: "Documentation", sub: "Offer Letters", color: "#cabeff", numColor: "#1c0062", num: 4 },
-  { icon: "✅", label: "Visa Processing", sub: "", color: "#DD3333", num: 5 },
-  { icon: "✈️", label: "Pre-Departure", sub: "Support", color: "#5dd8e2", numColor: "#002022", num: 6 },
+const processSteps = [
+  {
+    num: 1,
+    title: "FREE COUNSELING",
+    position: "bottom",
+    color: "#7e3794", // Purple
+    bg: "#ffffff",
+    border: "#7e3794",
+    iconColor: "#7e3794",
+  },
+  {
+    num: 2,
+    title: "COURSE & COUNTRY SELECTION",
+    position: "top",
+    color: "#bd1e5c", // Pink/Magenta
+    bg: "#ffffff",
+    border: "#bd1e5c",
+    iconColor: "#bd1e5c",
+  },
+  {
+    num: 3,
+    title: "APPLICATION SUBMISSION",
+    position: "bottom",
+    color: "#f2a900", // Yellow/Orange
+    bg: "#f2a900", // Solid Yellow
+    border: "#f2a900",
+    iconColor: "#ffffff",
+  },
+  {
+    num: 4,
+    title: "OFFER LETTER & DOCUMENTATION",
+    position: "top",
+    color: "#22408c", // Dark Navy
+    bg: "#22408c", // Solid Navy
+    border: "#22408c",
+    iconColor: "#ffffff",
+  },
+  {
+    num: 5,
+    title: "VISA PROCESSING",
+    position: "bottom",
+    color: "#e31b23", // Red
+    bg: "#ffffff",
+    border: "#e31b23",
+    iconColor: "#e31b23",
+  },
+  {
+    num: 6,
+    title: "PRE-DEPARTURE SUPPORT",
+    position: "top",
+    color: "#3a559f", // Blue
+    bg: "#3a559f", // Solid Blue
+    border: "#3a559f",
+    iconColor: "#ffffff",
+  },
 ];
 
 function ProcessV2() {
   return (
     <section className="process-v2">
       <div className="process-v2-header">
-        <h2>Our Process</h2>
-        <p>
-          A streamlined, transparent six-step journey from your first counseling session
-          to your arrival at the university.
-        </p>
+        <span className="process-v2-subtitle">“Unleashing Potential Through Global Exposure”</span>
+        <h2>OUR PROCESS</h2>
+        <div className="process-v2-header-underline" />
       </div>
       <div className="process-v2-track">
-        <div className="process-v2-line" />
         <div className="process-v2-steps">
-          {processData.map((step) => (
-            <div className="process-v2-step" key={step.num}>
-              <div className="process-v2-circle" style={{ color: step.color }}>
+          {processSteps.map((step, index) => {
+            const isTop = step.position === "top";
+            return (
+              <div
+                className={`process-brochure-step ${isTop ? "step-top" : "step-bottom"}`}
+                key={step.num}
+                style={{ "--step-color": step.color }}
+              >
+                {isTop && (
+                  <div className="process-label-wrapper top">
+                    <span className="process-label-text">{step.title}</span>
+                    <div className="process-connector-line">
+                      <span className="process-connector-dot" style={{ backgroundColor: step.color }} />
+                    </div>
+                  </div>
+                )}
+
+                {!isTop && <div className="process-spacer" />}
+
                 <div
-                  className="process-v2-num"
-                  style={{ background: step.color, color: step.numColor || "#fff" }}
+                  className="process-circle"
+                  style={{
+                    backgroundColor: step.bg,
+                    borderColor: step.border,
+                    color: step.iconColor,
+                  }}
                 >
-                  {step.num}
+                  <div className="process-circle-num" style={{ backgroundColor: step.color }}>
+                    {step.num}
+                  </div>
+                  <div className="process-circle-icon-container">
+                    <ProcessIcon index={index} />
+                  </div>
                 </div>
-                <span style={{ fontSize: 28 }}>{step.icon}</span>
+
+                {!isTop && (
+                  <div className="process-label-wrapper bottom">
+                    <div className="process-connector-line">
+                      <span className="process-connector-dot" style={{ backgroundColor: step.color }} />
+                    </div>
+                    <span className="process-label-text">{step.title}</span>
+                  </div>
+                )}
+
+                {isTop && <div className="process-spacer" />}
               </div>
-              <h4>{step.label}</h4>
-              {step.sub && <small>{step.sub}</small>}
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

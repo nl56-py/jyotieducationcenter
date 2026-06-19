@@ -55,7 +55,7 @@ export default function BookingsPage() {
           }
         }
       } catch (err) {
-        // use fallback
+        console.warn("API Bookings fetch failed, using mock data.");
       }
       setBookings(mockBookings);
       setLoading(false);
@@ -63,10 +63,30 @@ export default function BookingsPage() {
     fetchBookings();
   }, []);
 
-  const handleStatusChange = (bookingId: string, newStatus: string) => {
-    setBookings(bookings.map(b => b.id === bookingId ? { ...b, status: newStatus } : b));
-    if (selectedBooking && selectedBooking.id === bookingId) {
-      setSelectedBooking({ ...selectedBooking, status: newStatus });
+  const handleStatusChange = async (bookingId: string, newStatus: string) => {
+    try {
+      const response = await fetch("/api/admin/bookings", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: bookingId,
+          status: newStatus,
+        }),
+      });
+
+      if (response.ok) {
+        const res = await fetch("/api/admin/bookings");
+        if (res.ok) {
+          const data = await res.json();
+          setBookings(data);
+          const updated = data.find((b: any) => b.id === bookingId);
+          if (updated && selectedBooking && selectedBooking.id === bookingId) {
+            setSelectedBooking(updated);
+          }
+        }
+      }
+    } catch (err) {
+      console.error("Failed to change booking status:", err);
     }
   };
 

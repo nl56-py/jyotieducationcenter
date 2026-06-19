@@ -14,11 +14,14 @@ import {
 } from "lucide-react";
 
 export default function LeadsPage() {
+  const [currentUser, setCurrentUser] = useState<any>(null);
   const [leads, setLeads] = useState<any[]>([]);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [destFilter, setDestFilter] = useState("all");
   const [loading, setLoading] = useState(false);
+  
+  const canDelete = currentUser && (currentUser.role === "super_admin" || currentUser.role === "admin");
   
   // Modals state
   const [isCreateOpen, setIsCreateOpen] = useState(false);
@@ -81,9 +84,18 @@ export default function LeadsPage() {
   ];
 
   useEffect(() => {
-    // Load leads (from Supabase or Mock)
     setLoading(true);
-    const fetchLeads = async () => {
+    const loadData = async () => {
+      // 1. Fetch Session
+      try {
+        const sessionRes = await fetch("/api/auth/session");
+        const sessionData = await sessionRes.json();
+        setCurrentUser(sessionData.user);
+      } catch (err) {
+        console.error("Failed to load session", err);
+      }
+
+      // 2. Fetch Leads (from Supabase or Mock fallback)
       try {
         const response = await fetch("/api/admin/leads");
         if (response.ok) {
@@ -101,38 +113,38 @@ export default function LeadsPage() {
       setLoading(false);
     };
 
-    fetchLeads();
+    loadData();
   }, []);
 
   const handleCreateLead = async (e: React.FormEvent) => {
     e.preventDefault();
-    const newLead = {
-      id: `lead-${Date.now()}`,
-      full_name: fullName,
-      phone,
-      email: email || null,
-      preferred_destination: preferredDestination,
-      course_interest: courseInterest || null,
-      message: message || null,
-      source: "manual_entry",
-      status: "new",
-      assigned_name: "Unassigned",
-      notes: [{ id: `note-${Date.now()}`, note: "Lead manually registered in admin panel.", author: "You", created_at: new Date().toISOString() }],
-      created_at: new Date().toISOString(),
-    };
-
-    // Attempt Server Action or Mock save
+    setLoading(true);
     try {
-      await fetch("/api/admin/leads", {
+      const response = await fetch("/api/admin/leads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newLead),
+        body: JSON.stringify({
+          full_name: fullName,
+          phone,
+          email: email || null,
+          preferred_destination: preferredDestination,
+          course_interest: courseInterest || null,
+          message: message || "Lead manually registered in admin panel.",
+          source: "manual_entry",
+        }),
       });
-    } catch (e) {
-      console.warn("Mocking lead save");
-    }
 
-    setLeads([newLead, ...leads]);
+      if (response.ok) {
+        const res = await fetch("/api/admin/leads");
+        if (res.ok) {
+          const data = await res.json();
+          setLeads(data);
+        }
+      }
+    } catch (err) {
+      console.error("Failed to save lead:", err);
+    }
+    setLoading(false);
     setIsCreateOpen(false);
     // Reset form
     setFullName("");
@@ -142,47 +154,94 @@ export default function LeadsPage() {
     setMessage("");
   };
 
-  const handleAddNote = (e: React.FormEvent) => {
+  const handleAddNote = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!noteText.trim() || !selectedLead) return;
 
-    const newNote = {
-      id: `note-${Date.now()}`,
-      note: noteText,
-      author: "You",
-      created_at: new Date().toISOString(),
-    };
+    try {
+      const response = await fetch("/api/admin/leads", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: selectedLead.id,
+          note: noteText,
+        }),
+      });
 
-    const updatedLead = {
-      ...selectedLead,
-      notes: [newNote, ...selectedLead.notes],
-    };
-
-    setSelectedLead(updatedLead);
-    setLeads(leads.map(l => l.id === selectedLead.id ? updatedLead : l));
+      if (response.ok) {
+        const res = await fetch("/api/admin/leads");
+        if (res.ok) {
+          const data = await res.json();
+          setLeads(data);
+          const updated = data.find((l: any) => l.id === selectedLead.id);
+          if (updated) {
+            setSelectedLead(updated);
+          }
+        }
+      }
+    } catch (err) {
+      console.error("Failed to add note:", err);
+    }
     setNoteText("");
   };
 
-  const handleUpdateStatus = (leadId: string, newStatus: string) => {
-    setLeads(leads.map(l => {
-      if (l.id === leadId) {
-        const updated = { 
-          ...l, 
+  const handleUpdateStatus = async (leadId: string, newStatus: string) => {
+    try {
+      const response = await fetch("/api/admin/leads", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: leadId,
           status: newStatus,
-          notes: [{
-            id: `note-${Date.now()}`,
-            note: `Status changed to ${newStatus.replace("_", " ")}.`,
-            author: "You",
-            created_at: new Date().toISOString()
-          }, ...l.notes]
-        };
-        if (selectedLead && selectedLead.id === leadId) {
-          setSelectedLead(updated);
+        }),
+      });
+
+      if (response.ok) {
+        const res = await fetch("/api/admin/leads");
+        if (res.ok) {
+          const data = await res.json();
+          setLeads(data);
+          if (selectedLead && selectedLead.id === leadId) {
+            const updated = data.find((l: any) => l.id === leadId);
+            if (updated) {
+              setSelectedLead(updated);
+            }
+          }
         }
-        return updated;
       }
-      return l;
-    }));
+    } catch (err) {
+      console.error("Failed to update status:", err);
+    }
+  };
+
+  const handleDeleteLead = async (leadId: string) => {
+    if (!window.confirm("Are you sure you want to permanently delete this lead? This action cannot be undone.")) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/admin/leads?id=${leadId}`, {
+        method: "DELETE",
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success) {
+          setLeads(leads.filter((l) => l.id !== leadId));
+          if (selectedLead && selectedLead.id === leadId) {
+            setSelectedLead(null);
+          }
+        } else {
+          alert(data.error || "Failed to delete lead");
+        }
+      } else {
+        const errData = await response.json();
+        alert(errData.error || "Failed to delete lead");
+      }
+    } catch (err) {
+      console.error("Failed to delete lead:", err);
+      alert("Failed to delete lead due to network error.");
+    }
   };
 
   // Filter logic
@@ -338,6 +397,16 @@ export default function LeadsPage() {
                           <option value="lost">Lost</option>
                           <option value="spam">Spam</option>
                         </select>
+                        {canDelete && (
+                          <button 
+                            className="btn btn-danger" 
+                            style={{ height: "30px", width: "30px", padding: 0, display: "flex", alignItems: "center", justifyContent: "center", minWidth: "30px" }}
+                            onClick={() => handleDeleteLead(lead.id)}
+                            title="Delete Lead"
+                          >
+                            <Trash2 size={14} />
+                          </button>
+                        )}
                       </div>
                     </td>
                   </tr>
@@ -354,7 +423,18 @@ export default function LeadsPage() {
           <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: "700px" }}>
             <div className="modal-header">
               <h3 className="modal-title">Lead Timeline & Counselor Notes</h3>
-              <button className="btn btn-light" style={{ height: "32px", padding: "0 10px" }} onClick={() => setSelectedLead(null)}>X</button>
+              <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+                {canDelete && (
+                  <button 
+                    className="btn btn-danger" 
+                    style={{ height: "32px", padding: "0 12px", display: "flex", alignItems: "center", gap: "6px", fontSize: "12px" }}
+                    onClick={() => handleDeleteLead(selectedLead.id)}
+                  >
+                    <Trash2 size={14} /> Delete Lead
+                  </button>
+                )}
+                <button className="btn btn-light" style={{ height: "32px", padding: "0 10px" }} onClick={() => setSelectedLead(null)}>X</button>
+              </div>
             </div>
             
             <div className="modal-body" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px" }}>

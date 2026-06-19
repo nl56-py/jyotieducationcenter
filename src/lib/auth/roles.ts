@@ -7,6 +7,7 @@ export type Permission =
   | 'manage:content'    // Edit CMS pages, blogs, destinations, services, tests
   | 'read:leads'        // View student leads
   | 'manage:leads'      // Update lead status, assign counselor, edit notes
+  | 'delete:leads'      // Delete student lead records
   | 'read:bookings'     // View consultation bookings
   | 'manage:bookings'   // Update bookings, schedule times
   | 'export:leads'      // Export lead CSV
@@ -20,6 +21,7 @@ export const ROLE_PERMISSIONS: Record<AdminRole, Permission[]> = {
     'manage:content',
     'read:leads',
     'manage:leads',
+    'delete:leads',
     'read:bookings',
     'manage:bookings',
     'export:leads',
@@ -30,6 +32,7 @@ export const ROLE_PERMISSIONS: Record<AdminRole, Permission[]> = {
     'manage:content',
     'read:leads',
     'manage:leads',
+    'delete:leads',
     'read:bookings',
     'manage:bookings',
     'export:leads',
