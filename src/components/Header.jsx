@@ -8,7 +8,7 @@ import { assets } from "../data/assets.js";
 import { navItems } from "../data/site.js";
 import { ChevronDown, ArrowRight, ArrowUpRight } from "lucide-react";
 
-export function Header() {
+export function Header({ onSearch }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
 
