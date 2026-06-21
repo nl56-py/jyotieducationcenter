@@ -1,0 +1,451 @@
+/* ==========================
+   PREMIUM BOOKING FORM
+========================== */
+
+.contact-form-premium {
+    background: linear-gradient(135deg, #B18FCF 0%, #D8C8F2 50%, #F2D4EC 100%);
+    border-radius: 24px;
+    padding: 36px;
+    display: grid;
+    gap: 22px;
+    box-shadow: 0 25px 60px rgba(123, 58, 237, 0.18);
+    border: 1px solid rgba(255, 255, 255, .25);
+}
+
+/* Labels */
+
+.contact-form-premium label {
+    display: grid;
+    gap: 8px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+/* =====================
+   INPUTS
+===================== */
+
+.contact-form-premium input,
+.contact-form-premium textarea,
+.contact-form-premium select {
+
+    width: 100%;
+    height: 52px;
+
+    padding: 0 16px;
+
+    background: #F3E8FF;
+
+    color: #1E293B;
+
+    border: 1.5px solid #D8B4FE;
+
+    border-radius: 14px;
+
+    outline: none;
+
+    transition: all .35s ease;
+
+    box-sizing: border-box;
+}
+
+/* Textarea */
+
+.contact-form-premium textarea {
+
+    min-height: 130px;
+
+    padding-top: 14px;
+
+    resize: vertical;
+
+}
+
+/* Placeholder */
+
+.contact-form-premium input::placeholder,
+.contact-form-premium textarea::placeholder {
+
+    color: #64748B;
+
+}
+
+/* Focus */
+
+.contact-form-premium input:focus,
+.contact-form-premium textarea:focus,
+.contact-form-premium select:focus {
+
+    background: #FFFFFF;
+
+    border-color: #7C3AED;
+
+    box-shadow: 0 0 0 5px rgba(124, 58, 237, .15);
+
+}
+
+/* Hover */
+
+.contact-form-premium input:hover,
+.contact-form-premium textarea:hover,
+.contact-form-premium select:hover {
+
+    border-color: #A855F7;
+
+}
+
+/* =====================
+   SELECT
+===================== */
+
+.contact-form-premium select {
+
+    appearance: none;
+
+    cursor: pointer;
+
+}
+
+.contact-form-premium option {
+
+    background: #ffffff;
+
+    color: #1E293B;
+
+}
+
+/* =====================
+   BUTTON
+===================== */
+
+.contact-form-premium button {
+
+    width: 100%;
+    height: 56px;
+
+    border: none;
+
+    border-radius: 14px;
+
+    background: linear-gradient(135deg, #7C3AED, #9333EA);
+
+    color: #fff;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: all .35s ease;
+
+    box-shadow: 0 12px 30px rgba(124, 58, 237, .25);
+
+}
+
+.contact-form-premium button:hover {
+
+    transform: translateY(-3px);
+
+    background: linear-gradient(135deg, #6D28D9, #7E22CE);
+
+    box-shadow: 0 20px 40px rgba(124, 58, 237, .35);
+
+}
+
+.contact-form-premium button:active {
+
+    transform: scale(.98);
+
+}
+
+.contact-form-premium button:disabled {
+
+    opacity: .7;
+
+    cursor: not-allowed;
+
+}
+
+/* =====================
+   SUCCESS CARD
+===================== */
+
+.form-success-premium {
+
+    background: linear-gradient(135deg, #7C3AED, #9333EA);
+
+    border-radius: 24px;
+
+    padding: 50px 35px;
+
+    text-align: center;
+
+    color: white;
+
+    box-shadow: 0 20px 50px rgba(124, 58, 237, .30);
+
+    animation: popup .5s ease;
+
+}
+
+.form-success-premium h3 {
+
+    font-size: 28px;
+
+    margin-bottom: 12px;
+
+    color: #fff;
+
+}
+
+.form-success-premium p {
+
+    color: rgba(255, 255, 255, .90);
+
+    line-height: 1.8;
+
+}
+
+/* =====================
+   ERROR
+===================== */
+
+.error-box {
+
+    background: #FEE2E2;
+
+    color: #DC2626;
+
+    border: 1px solid #FCA5A5;
+
+    padding: 14px;
+
+    border-radius: 12px;
+
+    font-size: 14px;
+
+}
+
+/* =====================
+   ANIMATIONS
+===================== */
+
+@keyframes popup {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateY(25px) scale(.95);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: translateY(0) scale(1);
+
+    }
+
+}
+
+.contact-form-premium {
+
+    animation: popup .6s ease;
+
+}
+
+/* =====================
+   RESPONSIVE
+===================== */
+
+@media (max-width:768px) {
+
+    .contact-form-premium {
+
+        padding: 24px;
+
+        border-radius: 18px;
+
+    }
+
+    .contact-form-premium input,
+    .contact-form-premium textarea,
+    .contact-form-premium select {
+
+        height: 48px;
+
+        font-size: 14px;
+
+    }
+
+    .contact-form-premium textarea {
+
+        min-height: 110px;
+
+    }
+
+    .contact-form-premium button {
+
+        height: 50px;
+
+    }
+
+}
+
+/* =====================
+   ICON INSIDE INPUT
+===================== */
+
+.contact-form-premium label div {
+
+    position: relative;
+
+}
+
+.contact-form-premium label span {
+
+    transition: .3s;
+
+}
+
+.contact-form-premium input:focus+span,
+.contact-form-premium textarea:focus+span {
+
+    color: #7C3AED;
+
+}
+
+/* =====================
+   GLASS EFFECT
+===================== */
+
+.contact-form-premium {
+
+    backdrop-filter: blur(12px);
+
+    -webkit-backdrop-filter: blur(12px);
+
+}
+
+/* ===== Individual Input Style ===== */
+
+.premium-input {
+    width: 100%;
+    height: 52px;
+
+    padding-left: 55px;
+    /* THIS is the important line */
+
+    padding-right: 16px;
+
+    border: 1.5px solid #D8B4FE;
+
+    border-radius: 12px;
+
+    background: #F3E8FF;
+
+    color: #1E293B;
+
+    font-size: 15px;
+
+    outline: none;
+
+    box-sizing: border-box;
+}
+
+.premium-input:focus {
+
+    background: #FFFFFF;
+
+    border-color: #7C3AED;
+
+}
+
+/* Premium Select */
+
+.premium-select {
+
+    width: 100%;
+
+    height: 52px;
+
+    padding-left: 52px;
+
+    padding-right: 45px;
+
+    border: 1.5px solid #D8B4FE;
+
+    border-radius: 12px;
+
+    background: #F3E8FF;
+
+    color: #1E293B;
+
+    font-size: 15px;
+
+    outline: none;
+
+    appearance: none;
+
+    cursor: pointer;
+
+    transition: all .3s ease;
+
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+
+    background-repeat: no-repeat;
+
+    background-position: right 16px center;
+
+    box-sizing: border-box;
+}
+
+.premium-select:focus {
+
+    background-color: #FFFFFF;
+
+    border-color: #7C3AED;
+
+    box-shadow: 0 0 0 4px rgba(124, 58, 237, .15);
+
+}
+
+.premium-select option {
+
+    background: #FFFFFF;
+
+    color: #1E293B;
+
+}
+
+@keyframes gradientMove {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes arrowMove {
+    0% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(6px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
