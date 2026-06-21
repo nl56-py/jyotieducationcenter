@@ -132,6 +132,9 @@ export function ContactForm({
             <span className="input-icon">👤</span>
             <input
               className="premium-input"
+              style={{
+                paddingLeft: "52px"
+              }}
               required
               placeholder="Enter your full name"
               value={fullName}
@@ -147,6 +150,9 @@ export function ContactForm({
             <span className="input-icon">📞</span>
             <input
               className="premium-input"
+              style={{
+                paddingLeft: "52px"
+              }}
               required
               placeholder="98XXXXXXXX"
               value={phone}
@@ -162,6 +168,9 @@ export function ContactForm({
             <span className="input-icon">✉️</span>
             <input
               className="premium-input"
+              style={{
+                paddingLeft: "52px"
+              }}
               type="email"
               placeholder="you@example.com"
               value={email}
@@ -194,10 +203,6 @@ export function ContactForm({
                 Visa Guidance
               </option>
             </select>
-
-            <span className="dropdown-arrow">
-              ▼
-            </span>
           </div>
         </label>
 
