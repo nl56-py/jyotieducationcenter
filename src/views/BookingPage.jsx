@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { assets } from "../data/assets.js";
 import { countries } from "../data/countries.js";
+import "@/styles/BookingPage.css";
 
 const slotConfig = [
   { icon: "🎓", label: "Study Abroad" },
@@ -19,16 +20,16 @@ const trustItems = [
 ];
 
 const phoneCountries = [
-  { code: "NP", name: "Nepal",       flag: "🇳🇵", dial: "+977", length: 10, pattern: "(98|97|96)[0-9]{8}" },
-  { code: "IN", name: "India",       flag: "🇮🇳", dial: "+91",  length: 10, pattern: "[0-9]{10}" },
-  { code: "US", name: "USA/Canada",  flag: "🇺🇸", dial: "+1",   length: 10, pattern: "[0-9]{10}" },
-  { code: "GB", name: "UK",          flag: "🇬🇧", dial: "+44",  length: 10, pattern: "[0-9]{10}" },
-  { code: "AU", name: "Australia",   flag: "🇦🇺", dial: "+61",  length: 9,  pattern: "[0-9]{9}" },
-  { code: "JP", name: "Japan",       flag: "🇯🇵", dial: "+81",  length: 10, pattern: "[0-9]{10}" },
-  { code: "KR", name: "South Korea", flag: "🇰🇷", dial: "+82",  length: 10, pattern: "[0-9]{10}" },
-  { code: "DE", name: "Germany",     flag: "🇩🇪", dial: "+49",  length: 10, pattern: "[0-9]{10}" },
-  { code: "CN", name: "China",       flag: "🇨🇳", dial: "+86",  length: 11, pattern: "[0-9]{11}" },
-  { code: "AE", name: "UAE",         flag: "🇦🇪", dial: "+971", length: 9,  pattern: "[0-9]{9}" },
+  { code: "NP", name: "Nepal", flag: "🇳🇵", dial: "+977", length: 10, pattern: "(98|97|96)[0-9]{8}" },
+  { code: "IN", name: "India", flag: "🇮🇳", dial: "+91", length: 10, pattern: "[0-9]{10}" },
+  { code: "US", name: "USA/Canada", flag: "🇺🇸", dial: "+1", length: 10, pattern: "[0-9]{10}" },
+  { code: "GB", name: "UK", flag: "🇬🇧", dial: "+44", length: 10, pattern: "[0-9]{10}" },
+  { code: "AU", name: "Australia", flag: "🇦🇺", dial: "+61", length: 9, pattern: "[0-9]{9}" },
+  { code: "JP", name: "Japan", flag: "🇯🇵", dial: "+81", length: 10, pattern: "[0-9]{10}" },
+  { code: "KR", name: "South Korea", flag: "🇰🇷", dial: "+82", length: 10, pattern: "[0-9]{10}" },
+  { code: "DE", name: "Germany", flag: "🇩🇪", dial: "+49", length: 10, pattern: "[0-9]{10}" },
+  { code: "CN", name: "China", flag: "🇨🇳", dial: "+86", length: 11, pattern: "[0-9]{11}" },
+  { code: "AE", name: "UAE", flag: "🇦🇪", dial: "+971", length: 9, pattern: "[0-9]{9}" },
 ];
 export function BookingPage() {
   const [sent, setSent] = useState(false);
@@ -264,15 +265,14 @@ export function BookingPage() {
         {/* Right column — form */}
         <div style={{ position: "relative", zIndex: 1 }}>
           {sent ? (
-            <div className="form-success" style={{ background: "var(--white)", borderRadius: 18, padding: 40, boxShadow: "0 8px 40px rgba(91,23,125,0.10)", textAlign: "center" }}>
+            <div className="form-success-premium">
               <div style={{ fontSize: 48, marginBottom: 12 }}>✅</div>
               <h3 style={{ color: "var(--navy)", marginBottom: 8 }}>Consultation requested</h3>
               <p style={{ color: "var(--muted)" }}>Thank you! Your profile assessment has been scheduled. An advisor will contact you to confirm the exact time slot.</p>
             </div>
           ) : (
             <form
-              className="contact-form"
-              style={{ background: "var(--white)", borderRadius: 18, padding: "32px 28px", boxShadow: "0 8px 40px rgba(91,23,125,0.10)", display: "grid", gap: 18 }}
+              className="contact-form-premium"
               onSubmit={handleSubmit}
             >
               {/* Honeypot spam protection (hidden from users) */}
@@ -287,13 +287,13 @@ export function BookingPage() {
               />
 
               {status === "error" && (
-                <div 
-                  style={{ 
-                    background: "rgba(239, 68, 68, 0.1)", 
-                    color: "#ef4444", 
-                    padding: "12px", 
-                    borderRadius: "10px", 
-                    fontSize: "13px", 
+                <div
+                  style={{
+                    background: "rgba(239, 68, 68, 0.1)",
+                    color: "#ef4444",
+                    padding: "12px",
+                    borderRadius: "10px",
+                    fontSize: "13px",
                     marginBottom: "6px",
                     border: "1px solid rgba(239, 68, 68, 0.2)",
                     fontWeight: 600
@@ -302,57 +302,185 @@ export function BookingPage() {
                   {errorMsg}
                 </div>
               )}
-
               {/* Student name */}
-              <label style={{ display: "grid", gap: 6, fontWeight: 700, fontSize: 14, color: "var(--navy)" }}>
+              <label
+                style={{
+                  display: "grid",
+                  gap: 6,
+                  fontWeight: 700,
+                  fontSize: 14,
+                  color: "var(--navy)"
+                }}
+              >
                 Student name
+
                 <div style={{ position: "relative" }}>
-                  <span style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", fontSize: 16, opacity: 0.45 }}>👤</span>
-                  <input required placeholder="Full name" pattern=".*\S+.*\s+.*\S+.*" title="Please enter your full name (first and last name)" value={fullName} onChange={e => setFullName(e.target.value)} style={{ width: "100%", paddingLeft: 42, paddingRight: 14, height: 48, border: "1.5px solid var(--line)", borderRadius: 10, fontSize: 14, color: "var(--navy)", outline: "none", boxSizing: "border-box", transition: "border-color 0.18s" }}
-                    onFocus={e => e.target.style.borderColor = "var(--purple)"}
-                    onBlur={e => e.target.style.borderColor = "var(--line)"} />
+                  <span
+                    style={{
+                      position: "absolute",
+                      left: 16,
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      fontSize: 18,
+                      color: "#8B5CF6",
+                      pointerEvents: "none",
+                      zIndex: 2
+                    }}
+                  >
+                    👤
+                  </span>
+
+                  <input
+                    required
+                    placeholder="Full name"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    className="premium-input"
+                    style={{
+                      paddingLeft: "52px"
+                    }}
+
+                  />
                 </div>
               </label>
 
               {/* Mobile */}
-<label style={{ display: "grid", gap: 6, fontWeight: 700, fontSize: 14, color: "var(--navy)" }}>
-  Mobile number
-  <div style={{ display: "flex", gap: 8 }}>
-    {/* Country / dial code selector */}
-    <div style={{ position: "relative", flexShrink: 0, width: 108 }}>
-      <select
-        value={countryCode}
-        onChange={e => setCountryCode(e.target.value)}
-        style={{ width: "100%", height: 48, paddingLeft: 12, paddingRight: 26, border: "1.5px solid var(--line)", borderRadius: 10, fontSize: 13, fontWeight: 700, color: "var(--navy)", outline: "none", boxSizing: "border-box", appearance: "none", cursor: "pointer", background: "#fff url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E\") no-repeat right 10px center", transition: "border-color 0.18s" }}
-        onFocus={e => e.target.style.borderColor = "var(--purple)"}
-        onBlur={e => e.target.style.borderColor = "var(--line)"}
-      >
-        {phoneCountries.map(c => (
-          <option key={c.code} value={c.code}>{c.flag} {c.dial}</option>
-        ))}
-      </select>
-    </div>
+              <label
+                style={{
+                  display: "grid",
+                  gap: 6,
+                  fontWeight: 700,
+                  fontSize: 14,
+                  color: "var(--navy)"
+                }}
+              >
+                Mobile number
 
-    {/* Phone number input */}
-    <div style={{ position: "relative", flex: 1 }}>
-      <span style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", fontSize: 16, opacity: 0.45 }}>📞</span>
-      <input
-        required
-        type="tel"
-        inputMode="numeric"
-        placeholder={selectedCountry.code === "NP" ? "98XXXXXXXX" : `${selectedCountry.length}-digit number`}
-        pattern={selectedCountry.pattern}
-        maxLength={selectedCountry.length}
-        title={`Enter a valid ${selectedCountry.length}-digit ${selectedCountry.name} mobile number`}
-        value={phone}
-        onChange={e => setPhone(e.target.value)}
-        onKeyDown={e => { if (!/[0-9]/.test(e.key) && !["Backspace","Delete","ArrowLeft","ArrowRight","Tab"].includes(e.key)) e.preventDefault(); }}
-        style={{ width: "100%", paddingLeft: 42, paddingRight: 14, height: 48, border: "1.5px solid var(--line)", borderRadius: 10, fontSize: 14, color: "var(--navy)", outline: "none", boxSizing: "border-box", transition: "border-color 0.18s" }}
-        onFocus={e => e.target.style.borderColor = "var(--purple)"}
-        onBlur={e => e.target.style.borderColor = "var(--line)"} />
-    </div>
-  </div>
-</label>
+                <div style={{ display: "flex", gap: 8 }}>
+
+                  {/* Country Code */}
+                  <div
+                    style={{
+                      position: "relative",
+                      flexShrink: 0,
+                      width: 110
+                    }}
+                  >
+                    <select
+                      value={countryCode}
+                      onChange={(e) => setCountryCode(e.target.value)}
+                      style={{
+                        width: "100%",
+                        height: 48,
+                        paddingLeft: 12,
+                        paddingRight: 28,
+                        border: "1.5px solid var(--line)",
+                        borderRadius: 10,
+                        fontSize: 13,
+                        fontWeight: 700,
+                        color: "var(--navy)",
+                        backgroundColor: "#F3E8FF",
+                        backgroundImage:
+                          "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E\")",
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "right 10px center",
+                        appearance: "none",
+                        cursor: "pointer",
+                        outline: "none",
+                        transition: "all .3s ease"
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.backgroundColor = "#FFFFFF";
+                        e.target.style.borderColor = "var(--purple)";
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.backgroundColor = "#F3E8FF";
+                        e.target.style.borderColor = "var(--line)";
+                      }}
+                    >
+                      {phoneCountries.map((c) => (
+                        <option key={c.code} value={c.code}>
+                          {c.flag} {c.dial}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Phone Number */}
+                  <div
+                    style={{
+                      position: "relative",
+                      flex: 1
+                    }}
+                  >
+                    <span
+                      style={{
+                        position: "absolute",
+                        left: 14,
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        fontSize: 16,
+                        opacity: 0.45
+                      }}
+                    >
+                      📞
+                    </span>
+
+                    <input
+                      required
+                      type="tel"
+                      inputMode="numeric"
+                      placeholder={
+                        selectedCountry.code === "NP"
+                          ? "98XXXXXXXX"
+                          : `${selectedCountry.length}-digit number`
+                      }
+                      pattern={selectedCountry.pattern}
+                      maxLength={selectedCountry.length}
+                      title={`Enter a valid ${selectedCountry.length}-digit ${selectedCountry.name} mobile number`}
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (
+                          !/[0-9]/.test(e.key) &&
+                          ![
+                            "Backspace",
+                            "Delete",
+                            "ArrowLeft",
+                            "ArrowRight",
+                            "Tab"
+                          ].includes(e.key)
+                        ) {
+                          e.preventDefault();
+                        }
+                      }}
+                      style={{
+                        width: "100%",
+                        paddingLeft: 42,
+                        paddingRight: 14,
+                        height: 48,
+                        border: "1.5px solid var(--line)",
+                        borderRadius: 10,
+                        fontSize: 14,
+                        color: "var(--navy)",
+                        background: "#F3E8FF",
+                        outline: "none",
+                        boxSizing: "border-box",
+                        transition: "all .3s ease"
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.background = "#FFFFFF";
+                        e.target.style.borderColor = "var(--purple)";
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.background = "#F3E8FF";
+                        e.target.style.borderColor = "var(--line)";
+                      }}
+                    />
+                  </div>
+
+                </div>
+              </label>
 
               {/* Email */}
               <label style={{ display: "grid", gap: 6, fontWeight: 700, fontSize: 14, color: "var(--navy)" }}>
@@ -365,32 +493,143 @@ export function BookingPage() {
                 </div>
               </label>
 
-              {/* Preferred route */}
-              <label style={{ display: "grid", gap: 6, fontWeight: 700, fontSize: 14, color: "var(--navy)" }}>
-                Preferred route
+              {/* Preferred Route */}
+              <label
+                style={{
+                  display: "grid",
+                  gap: 6,
+                  fontWeight: 700,
+                  fontSize: 14,
+                  color: "var(--navy)",
+                }}
+              >
+                Preferred Route
+
                 <div style={{ position: "relative" }}>
-                  <span style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", fontSize: 16, opacity: 0.45 }}>📍</span>
-                  <select required value={preferredDestination} onChange={e => setPreferredDestination(e.target.value)} style={{ width: "100%", paddingLeft: 42, paddingRight: 14, height: 48, border: "1.5px solid var(--line)", borderRadius: 10, fontSize: 14, color: "var(--navy)", outline: "none", boxSizing: "border-box", appearance: "none", background: "#fff url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E\") no-repeat right 16px center", transition: "border-color 0.18s" }}
-                    onFocus={e => e.target.style.borderColor = "var(--purple)"}
-                    onBlur={e => e.target.style.borderColor = "var(--line)"}>
-                    <option value="" disabled>Select route</option>
+                  {/* Icon */}
+                  <span
+                    style={{
+                      position: "absolute",
+                      left: 16,
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      fontSize: 18,
+                      color: "#8B5CF6",
+                      pointerEvents: "none",
+                      zIndex: 2,
+                    }}
+                  >
+                    📍
+                  </span>
+
+                  <select
+                    required
+                    value={preferredDestination}
+                    onChange={(e) => setPreferredDestination(e.target.value)}
+                    className="premium-select"
+                    style={{
+                      paddingLeft: "52px"
+                    }}
+                  >
+                    <option value="" disabled>
+                      Select route
+                    </option>
+
                     {countries.map((c) => (
-                      <option key={c.slug} value={c.name}>{c.name}</option>
+                      <option key={c.slug} value={c.name}>
+                        {c.name}
+                      </option>
                     ))}
-                    <option value="Entrance Preparation">Entrance Preparation</option>
-                    <option value="Test Preparation">Test Preparation</option>
+
+                    <option value="Entrance Preparation">
+                      Entrance Preparation
+                    </option>
+
+                    <option value="Test Preparation">
+                      Test Preparation
+                    </option>
                   </select>
                 </div>
               </label>
 
-              {/* Course interest */}
-              <label style={{ display: "grid", gap: 6, fontWeight: 700, fontSize: 14, color: "var(--navy)" }}>
-                Course interest
+              {/* Course Interest */}
+              <label
+                style={{
+                  display: "grid",
+                  gap: 6,
+                  fontWeight: 700,
+                  fontSize: 14,
+                  color: "var(--navy)"
+                }}
+              >
+                Course Interest
+
                 <div style={{ position: "relative" }}>
-                  <span style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", fontSize: 16, opacity: 0.45 }}>🎓</span>
-                  <input placeholder="Course, test, or entrance target" value={courseInterest} onChange={e => setCourseInterest(e.target.value)} style={{ width: "100%", paddingLeft: 42, paddingRight: 14, height: 48, border: "1.5px solid var(--line)", borderRadius: 10, fontSize: 14, color: "var(--navy)", outline: "none", boxSizing: "border-box", transition: "border-color 0.18s" }}
-                    onFocus={e => e.target.style.borderColor = "var(--purple)"}
-                    onBlur={e => e.target.style.borderColor = "var(--line)"} />
+                  {/* Left Icon */}
+                  <span
+                    style={{
+                      position: "absolute",
+                      left: 16,
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      fontSize: 18,
+                      color: "#8B5CF6",
+                      pointerEvents: "none",
+                      zIndex: 2
+                    }}
+                  >
+                    🎓
+                  </span>
+
+                  <select
+                    value={courseInterest}
+                    onChange={(e) => setCourseInterest(e.target.value)}
+                    onFocus={(e) => {
+                      e.target.style.backgroundColor = "#FFFFFF";
+                      e.target.style.borderColor = "#7C3AED";
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.backgroundColor = "#F3E8FF";
+                      e.target.style.borderColor = "var(--line)";
+                    }}
+                    style={{
+                      width: "100%",
+                      height: 48,
+                      paddingLeft: 50,
+                      paddingRight: 45,
+                      border: "1.5px solid var(--line)",
+                      borderRadius: 10,
+                      fontSize: 14,
+                      color: "var(--navy)",
+                      backgroundColor: "#F3E8FF",
+                      outline: "none",
+                      appearance: "none",
+                      cursor: "pointer",
+                      transition: "all .3s ease",
+                      boxSizing: "border-box"
+                    }}
+                  >
+                    <option value="">Select one</option>
+                    <option value="Study Abroad">Study Abroad</option>
+                    <option value="Test Preparation">Test Preparation</option>
+                    <option value="Entrance Preparation">Entrance Preparation</option>
+                    <option value="Visa Guidance">Visa Guidance</option>
+                  </select>
+
+                  {/* Right Arrow */}
+                  <span
+                    style={{
+                      position: "absolute",
+                      right: 16,
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      pointerEvents: "none",
+                      color: "#64748B",
+                      fontSize: 14
+                    }}
+                  >
+                    ▼
+                  </span>
                 </div>
               </label>
 
@@ -405,19 +644,87 @@ export function BookingPage() {
                 </div>
               </label>
 
-              {/* Preferred time */}
-              <label style={{ display: "grid", gap: 6, fontWeight: 700, fontSize: 14, color: "var(--navy)" }}>
-                Preferred time
+              {/* Preferred Time */}
+              <label
+                style={{
+                  display: "grid",
+                  gap: 6,
+                  fontWeight: 700,
+                  fontSize: 14,
+                  color: "var(--navy)"
+                }}
+              >
+                Preferred Time
+
                 <div style={{ position: "relative" }}>
-                  <span style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", fontSize: 16, opacity: 0.45 }}>🕐</span>
-                  <select required value={preferredTime} onChange={e => setPreferredTime(e.target.value)} style={{ width: "100%", paddingLeft: 42, paddingRight: 14, height: 48, border: "1.5px solid var(--line)", borderRadius: 10, fontSize: 14, color: "var(--navy)", outline: "none", boxSizing: "border-box", appearance: "none", background: "#fff url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E\") no-repeat right 16px center", transition: "border-color 0.18s" }}
-                    onFocus={e => e.target.style.borderColor = "var(--purple)"}
-                    onBlur={e => e.target.style.borderColor = "var(--line)"}>
-                    <option value="" disabled>Select time</option>
-                    <option value="Morning">Morning</option>
-                    <option value="Afternoon">Afternoon</option>
-                    <option value="Evening">Evening</option>
+                  {/* Left Icon */}
+                  <span
+                    style={{
+                      position: "absolute",
+                      left: 16,
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      fontSize: 18,
+                      color: "#8B5CF6",
+                      pointerEvents: "none",
+                      zIndex: 2
+                    }}
+                  >
+                    🕐
+                  </span>
+
+                  <select
+                    required
+                    value={preferredTime}
+                    onChange={(e) => setPreferredTime(e.target.value)}
+                    onFocus={(e) => {
+                      e.target.style.backgroundColor = "#FFFFFF";
+                      e.target.style.borderColor = "#7C3AED";
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.backgroundColor = "#F3E8FF";
+                      e.target.style.borderColor = "var(--line)";
+                    }}
+                    style={{
+                      width: "100%",
+                      height: 48,
+                      paddingLeft: 50,
+                      paddingRight: 45,
+                      border: "1.5px solid var(--line)",
+                      borderRadius: 10,
+                      fontSize: 14,
+                      color: "var(--navy)",
+                      backgroundColor: "#F3E8FF",
+                      outline: "none",
+                      appearance: "none",
+                      cursor: "pointer",
+                      transition: "all .3s ease",
+                      boxSizing: "border-box"
+                    }}
+                  >
+                    <option value="" disabled>
+                      Select time
+                    </option>
+
+                    <option value="Morning">🌅 Morning</option>
+                    <option value="Afternoon">☀️ Afternoon</option>
+                    <option value="Evening">🌙 Evening</option>
                   </select>
+
+                  {/* Right Arrow */}
+                  <span
+                    style={{
+                      position: "absolute",
+                      right: 16,
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      pointerEvents: "none",
+                      color: "#64748B",
+                      fontSize: 14
+                    }}
+                  >
+                    ▼
+                  </span>
                 </div>
               </label>
 
@@ -426,11 +733,59 @@ export function BookingPage() {
                 <button
                   type="submit"
                   disabled={status === "loading"}
-                  style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, background: "linear-gradient(135deg, var(--purple), var(--cyan))", color: "#fff", border: "none", borderRadius: 12, height: 52, fontWeight: 800, fontSize: 15, cursor: status === "loading" ? "not-allowed" : "pointer", boxShadow: "0 8px 24px rgba(91,23,125,0.28)", transition: "opacity 0.18s", opacity: status === "loading" ? 0.7 : 1 }}
-                  onMouseEnter={e => { if (status !== "loading") e.currentTarget.style.opacity = "0.9" }}
-                  onMouseLeave={e => { if (status !== "loading") e.currentTarget.style.opacity = "1" }}
+                  style={{
+                    width: "100%",
+                    height: 56,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 10,
+                    border: "none",
+                    borderRadius: 14,
+                    cursor: status === "loading" ? "not-allowed" : "pointer",
+                    color: "#fff",
+                    fontWeight: 700,
+                    fontSize: 16,
+                    letterSpacing: ".3px",
+                    background:
+                      "linear-gradient(135deg,#7C3AED,#A855F7,#EC4899)",
+                    backgroundSize: "200% 200%",
+                    boxShadow: "0 12px 35px rgba(124,58,237,.35)",
+                    transition: "all .35s ease",
+                    animation: "gradientMove 4s ease infinite",
+                    opacity: status === "loading" ? .7 : 1
+                  }}
+                  onMouseEnter={(e) => {
+                    if (status !== "loading") {
+                      e.currentTarget.style.transform = "translateY(-4px) scale(1.02)";
+                      e.currentTarget.style.boxShadow =
+                        "0 18px 40px rgba(124,58,237,.45)";
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (status !== "loading") {
+                      e.currentTarget.style.transform = "translateY(0)";
+                      e.currentTarget.style.boxShadow =
+                        "0 12px 35px rgba(124,58,237,.35)";
+                    }
+                  }}
                 >
-                  {status === "loading" ? "Booking..." : "📅 Book My Session →"}
+                  {status === "loading" ? (
+                    <>⏳ Booking...</>
+                  ) : (
+                    <>
+                      📅 Book My Session
+                      <span
+                        style={{
+                          display: "inline-block",
+                          transition: ".3s",
+                          animation: "arrowMove 1s infinite"
+                        }}
+                      >
+                        →
+                      </span>
+                    </>
+                  )}
                 </button>
 
                 {/* Security note */}
@@ -442,7 +797,7 @@ export function BookingPage() {
             </form>
           )}
         </div>
-      </section>
-    </main>
+      </section >
+    </main >
   );
 }
