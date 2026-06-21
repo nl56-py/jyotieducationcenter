@@ -9,6 +9,21 @@ import { blogs } from "../data/blogs.js";
 import { site } from "../data/site.js";
 import { testimonials } from "../data/testimonials.js";
 import { ProcessIcon } from "../components/ProcessIcons.jsx";
+import {
+  GraduationCap,
+  ShieldCheck,
+  Headphones,
+  Send,
+  Users,
+  Landmark,
+  Star,
+  Heart,
+  ArrowRight,
+  Globe,
+  BookOpen,
+  Check
+} from "lucide-react";
+
 
 /* ─────────────────── FLAG MAP ─────────────────── */
 
@@ -315,59 +330,91 @@ function ServicesV2({ navigate }) {
     <section className="svc-v2">
       <div className="svc-v2-header">
         <h2>Our Services</h2>
-        <p>Comprehensive support from your first counseling session to your arrival at the university.</p>
+        <p>From career counselling and university selection to visa processing and pre-departure support, everything is managed through one guided journey.</p>
       </div>
+
       <div className="svc-v2-grid">
         {/* Large Featured Card */}
         <div className="svc-featured-v2">
-          <div className="svc-featured-v2-circle" />
-          <div className="svc-featured-v2-content">
-            <div className="svc-featured-v2-icon">🌍</div>
-            <h3>Abroad Studies</h3>
-            <p>
-              Multi-destination counseling, university selection, admission guidance,
-              and visa assistance for 500+ global universities.
+          <img 
+            src={assets.Servicepage} 
+            alt="Abroad Studies - Multi-destination counseling, university selection, admission guidance, and visa assistance for 500+ global universities. Checklist: Academic profile review, Budget and family priority mapping, Country and course comparison, Parent-facing counselling." 
+            className="svc-featured-bg-img" 
+          />
+
+          <div className="svc-featured-content-overlay">
+            <div className="svc-featured-icon-wrapper">
+              <Globe size={24} className="svc-featured-icon" />
+            </div>
+            
+            <h3 className="svc-featured-title">
+              Abroad <span className="svc-featured-highlight">Studies</span>
+            </h3>
+            
+            <div className="svc-featured-underline" />
+            
+            <p className="svc-featured-desc">
+              Multi-destination counseling, university selection, admission guidance, and visa assistance for 500+ global universities.
             </p>
+            
             <ul className="svc-checklist-v2">
               {abroad.bullets.map((bullet) => (
-                <li key={bullet}>
-                  <span className="check-icon">✓</span> {bullet}
+                <li key={bullet} className="svc-checklist-item">
+                  <div className="svc-check-wrapper">
+                    <Check size={12} strokeWidth={3} className="svc-check-icon" />
+                  </div>
+                  <span className="svc-checklist-text">{bullet}</span>
                 </li>
               ))}
             </ul>
           </div>
-          <AppLink
-            to={`/services/${abroad.slug}`}
-            navigate={navigate}
-            className="svc-featured-v2-link"
-          >
-            Explore Service →
-          </AppLink>
         </div>
 
         {/* Two Smaller Cards */}
         <div className="svc-small-stack-v2">
-          <div className="svc-small-card-v2">
-            <div className="svc-small-icon-v2 teal">📖</div>
-            <h3>Test Preparation</h3>
-            <p>Expert coaching for IELTS, PTE, TOEFL, and SAT with certified instructors.</p>
+          {/* Card 1: Test Preparation */}
+          <div className="svc-small-card-v2 test-prep-card">
+            <div className="svc-card-dots" />
+            
+            <div className="svc-small-icon-wrapper teal">
+              <BookOpen size={20} className="svc-small-icon" />
+            </div>
+            
+            <h3 className="svc-small-title">Test Preparation</h3>
+            
+            <p className="svc-small-desc">
+              Expert coaching for IELTS, PTE, TOEFL, and SAT with certified instructors.
+            </p>
+            
             <AppLink to="/test-preparation" navigate={navigate} className="svc-small-link-v2 teal">
-              View Classes
+              View Classes <ArrowRight size={14} className="svc-link-arrow" />
             </AppLink>
           </div>
-          <div className="svc-small-card-v2">
-            <div className="svc-small-icon-v2 amber">🎓</div>
-            <h3>Entrance Preparation</h3>
-            <p>Ministry-approved CEE and CMAT preparation classes for +2 graduates.</p>
-            <AppLink to="/entrance-preparations" navigate={navigate} className="svc-small-link-v2 amber">
-              View Programs
+
+          {/* Card 2: Entrance Preparation */}
+          <div className="svc-small-card-v2 entrance-prep-card">
+            <div className="svc-card-dots" />
+            
+            <div className="svc-small-icon-wrapper orange">
+              <GraduationCap size={20} className="svc-small-icon" />
+            </div>
+            
+            <h3 className="svc-small-title">Entrance Preparation</h3>
+            
+            <p className="svc-small-desc">
+              Ministry-approved CEE and CMAT preparation classes for +2 graduates.
+            </p>
+            
+            <AppLink to="/entrance-preparations" navigate={navigate} className="svc-small-link-v2 orange">
+              View Programs <ArrowRight size={14} className="svc-link-arrow" />
             </AppLink>
           </div>
         </div>
       </div>
+      
       <div className="svc-v2-cta">
         <AppLink to="/services" navigate={navigate} className="svc-v2-cta-btn">
-          Explore All Services
+          Explore All Services <ArrowRight size={16} className="svc-btn-arrow" />
         </AppLink>
       </div>
     </section>
@@ -376,40 +423,113 @@ function ServicesV2({ navigate }) {
 
 /* ─────────────────── 5. WHY CHOOSE EDUMARK ─────────────────── */
 
-const whyReasons = [
-  { icon: "🏆", title: "Legacy of Success", text: "Guiding students toward international academic opportunities since 2012 A.D." },
-  { icon: "🛡️", title: "Government Approved", text: "Approved from Ministry of Education and an active member of ECAN." },
-  { icon: "🧠", title: "Certified Counselors", text: "Multi-destination experienced & certified counselors (TITI trained)." },
-  { icon: "📝", title: "Personalized Support", text: "Comprehensive assistance with Documentation, SOP writing, CV preparation, and Interview prep." },
-  { icon: "⚖️", title: "Transparent & Ethical", text: "Clear, honest processes with no hidden fees or misleading promises." },
-  { icon: "✈️", title: "End-to-End Support", text: "We are with you from your first counseling session to your departure and beyond." },
-];
-
 function WhyChooseV2() {
+  const cards = [
+    {
+      icon: GraduationCap,
+      title: "Expert Counselors",
+      desc: "Experienced and certified professionals guiding you at every step of your journey.",
+    },
+    {
+      icon: ShieldCheck,
+      title: "Government Approved",
+      desc: "Trusted and recognized by the Ministry of Education and leading authorities.",
+    },
+    {
+      icon: Headphones,
+      title: "Personalized Support",
+      desc: "Tailored assistance for documentation, SOP, interviews, and beyond.",
+    },
+    {
+      icon: Send,
+      title: "End-to-End Guidance",
+      desc: "From choosing the right university to landing at your dream destination.",
+    },
+  ];
+
+  const stats = [
+    {
+      icon: Users,
+      value: "10,000+",
+      label: "Students Guided",
+      type: "purple",
+    },
+    {
+      icon: Landmark,
+      value: "50+",
+      label: "Top Universities Worldwide",
+      type: "teal",
+    },
+    {
+      icon: Star,
+      value: "12+",
+      label: "Years of Excellence",
+      type: "purple",
+    },
+    {
+      icon: Heart,
+      value: "98%",
+      label: "Student Satisfaction",
+      type: "teal",
+    },
+  ];
+
   return (
     <section className="why-v2">
-      <div className="why-v2-grid">
-        <div>
-          <h2>Why Choose EduMark?</h2>
-          <p>
-            We don't just process applications; we build careers.
-            Here is why thousands of students trust us with their global education journey.
-          </p>
-          <div className="why-v2-list">
-            {whyReasons.map((reason) => (
-              <div className="why-v2-item" key={reason.title}>
-                <div className="why-v2-icon">{reason.icon}</div>
-                <div>
-                  <h4>{reason.title}</h4>
-                  <p>{reason.text}</p>
-                </div>
-              </div>
-            ))}
+      <div className="why-v2-container">
+        {/* Main Grid */}
+        <div className="why-v2-grid">
+          {/* Left Column */}
+          <div className="why-v2-content-col">
+            <span className="why-v2-subtitle">WHY CHOOSE US</span>
+            <h2 className="why-v2-title">
+              Why Choose <span className="why-v2-highlight">EduMark?</span>
+            </h2>
+            <div className="why-v2-underline" />
+            <p className="why-v2-desc">
+              We don't just process applications; we build careers. Here is why thousands of students trust us with their global education journey.
+            </p>
+
+            {/* Cards Grid */}
+            <div className="why-v2-cards-grid">
+              {cards.map((card, i) => {
+                const Icon = card.icon;
+                return (
+                  <div key={i} className="why-card-v2">
+                    <div className="why-card-icon-wrapper">
+                      <Icon size={24} className="why-card-icon" />
+                    </div>
+                    <h3 className="why-card-title">{card.title}</h3>
+                    <p className="why-card-desc">{card.desc}</p>
+                    <ArrowRight size={16} className="why-card-arrow" />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Right Column */}
+          <div className="why-v2-image-col">
+            <div className="why-v2-illustration">
+              <img src={assets.Whychoose} alt="Why Choose EduMark" />
+            </div>
           </div>
         </div>
-        <div className="why-v2-image">
-          <img src={assets.whyChoose} alt="Counseling session" />
-          <div className="why-v2-image-overlay" />
+
+        {/* Bottom Stats Bar */}
+        <div className="why-v2-stats-bar">
+          {stats.map((stat, i) => {
+            const Icon = stat.icon;
+            return (
+              <div key={i} className="why-v2-stat-item">
+                <div className={`why-v2-stat-icon-wrapper ${stat.type}`}>
+                  <Icon size={20} className="why-v2-stat-icon" />
+                </div>
+                <div className="why-v2-stat-number">{stat.value}</div>
+                <div className="why-v2-stat-label">{stat.label}</div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
