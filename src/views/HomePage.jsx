@@ -64,7 +64,7 @@ function HeroSection({ navigate }) {
   const slidesData = [
     {
       image: "/images/generated/hero0.png",
-      title: "EduMark: Turning Ambition to Achievement",
+      title: "EduMark: Turn Your Dream of Studying Abroad Into Reality",
       subtitle: "Dreaming of studying abroad? Turn your aspirations into reality with our expert guidance and transparent counseling process.",
       //tag: "✓ Ministry Approved"
     },
