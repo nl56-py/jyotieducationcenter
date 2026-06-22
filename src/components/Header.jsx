@@ -1,15 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { AppLink } from "./AppLink.jsx";
 import { assets } from "../data/assets.js";
 import { navItems, site } from "../data/site.js";
-import { ChevronDown, ArrowRight, ArrowUpRight } from "lucide-react";
+import { ChevronDown, ArrowRight, ArrowUpRight, Menu, X, Phone, MapPin } from "lucide-react";
 
 export function Header({ onSearch }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
   const pathname = usePathname();
 
   const active = (target) => {
@@ -17,117 +18,171 @@ export function Header({ onSearch }) {
     return pathname.startsWith(target);
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
+      if (totalScroll > 0) {
+        setScrollProgress((window.pageYOffset / totalScroll) * 100);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <header className="site-header">
-      <div className="top-strip">
-        <div className="top-strip-inner">
-          <span>{site.address}</span>
-          <span>{site.phone}</span>
-          <span>{site.hours}</span>
-          <span>Ministry Approved | TITI Certified | ECAN Member</span>
+    <>
+      {/* Scroll Progress indicator bar */}
+      <div 
+        className="scroll-progress-indicator" 
+        style={{ width: `${scrollProgress}%` }} 
+      />
+
+      <header className="site-header">
+        {/* Top bar with contact info and accreditation */}
+        <div className="top-strip">
+          <div className="top-strip-inner">
+            <div className="top-strip-left">
+              <span style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
+                <MapPin size={13} style={{ color: "var(--accent-orange-red)" }} />
+                {site.address}
+              </span>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
+                <Phone size={13} style={{ color: "var(--accent-orange-red)" }} />
+                {site.phone} / {site.alternateMobile || site.mobile}
+              </span>
+            </div>
+            <div className="top-strip-right">
+              <span>Approved by Ministry of Education • ECAN Member • Since 2012</span>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div className="nav-shell">
-        <Link href="/" className="brand" style={{ display: "flex", textDecoration: "none" }}>
-          <img src={assets.logo} alt="EduMark logo"
-            style={{
-              height: "56px",
-              width: "auto",
-              transition: ".3s"
-            }}
+        {/* Navigation Bar */}
+        <div className="nav-shell">
+          <Link href="/" className="brand">
+            <img 
+              src={assets.logo} 
+              alt="EduMark logo"
+              style={{
+                height: "50px",
+                width: "auto",
+                transition: "transform 0.3s ease"
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "scale(1.08)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "scale(1)";
+              }}
+            />
+            <span>
+              <strong>EduMark</strong>
+              <small>Education Consultancy</small>
+            </span>
+          </Link>
 
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = "scale(1.08)";
-            }}
-
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = "scale(1)";
-            }} />
-          <span>
-            <strong>EduMark</strong>
-            <small>Education Consultancy</small>
-          </span>
-        </Link>
-
-        <nav className="desktop-nav" aria-label="Primary navigation">
-          {navItems.map((item) => (
-            <div className="nav-group" key={item.path}>
-              <AppLink
-                to={item.path}
-                className={active(item.path) ? "nav-item nav-item-active" : "nav-item"}
-              >
-                <span className="nav-item-label">{item.label}</span>
-                {item.children ? <ChevronDown size={14} className="nav-chevron" /> : null}
-              </AppLink>
-              {item.children ? (
-                <>
-                  <div className="nav-dropdown-bridge" />
+          {/* Desktop Navigation links */}
+          <nav className="desktop-nav" aria-label="Primary navigation">
+            {navItems.map((item) => (
+              <div className="nav-group" key={item.path}>
+                <AppLink
+                  to={item.path}
+                  className={active(item.path) ? "nav-item nav-item-active" : "nav-item"}
+                >
+                  {item.label}
+                  {item.children ? <ChevronDown size={14} className="nav-chevron" /> : null}
+                </AppLink>
+                {item.children ? (
                   <div className="nav-menu">
                     {item.children.map((child) => (
                       <AppLink key={child.path} to={child.path} className="nav-subitem">
                         <span>{child.label}</span>
-                        <ArrowUpRight size={14} className="nav-subitem-arrow" />
+                        <ArrowUpRight size={13} />
                       </AppLink>
                     ))}
                   </div>
-                </>
-              ) : null}
-            </div>
-          ))}
-        </nav>
+                ) : null}
+              </div>
+            ))}
+          </nav>
 
-        <div className="nav-actions">
-          <AppLink to="/book-free-consultation" className="book-now-button">
-            Book Now
-            <ArrowRight size={15} className="book-now-arrow" />
-          </AppLink>
-          <button
-            className="menu-button"
-            type="button"
-            aria-expanded={menuOpen}
-            onClick={() => setMenuOpen((value) => !value)}
-          >
-            Menu
-          </button>
+          {/* Call-to-action button */}
+          <div className="nav-actions">
+            <AppLink to="/book-free-consultation" className="book-now-button">
+              Book Free Counseling
+              <ArrowRight size={15} />
+            </AppLink>
+            <button
+              className="menu-button"
+              type="button"
+              aria-label="Open navigation menu"
+              onClick={() => setMenuOpen(true)}
+            >
+              <Menu size={28} />
+            </button>
+          </div>
         </div>
-      </div>
 
-      {menuOpen ? (
-        <div className="mobile-panel">
-          {navItems.map((item) => (
-            <div className="mobile-group" key={item.path}>
-              <AppLink
-                to={item.path}
-                className="mobile-link"
-                onClick={() => setMenuOpen(false)}
-              >
-                {item.label}
-              </AppLink>
-              {item.children
-                ? item.children.map((child) => (
-                  <AppLink
-                    key={child.path}
-                    to={child.path}
-                    className="mobile-link mobile-sublink"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    {child.label}
-                  </AppLink>
-                ))
-                : null}
+        {/* Mobile Navigation Drawer Panel */}
+        <div 
+          className={`mobile-overlay-bg ${menuOpen ? "open" : ""}`} 
+          onClick={() => setMenuOpen(false)}
+        />
+        <div className={`mobile-overlay-drawer ${menuOpen ? "open" : ""}`}>
+          <div className="mobile-drawer-header">
+            <div className="brand">
+              <img src={assets.logo} alt="EduMark logo" style={{ height: "40px" }} />
+              <span>
+                <strong>EduMark</strong>
+              </span>
             </div>
-          ))}
+            <button
+              className="mobile-drawer-close"
+              type="button"
+              aria-label="Close navigation menu"
+              onClick={() => setMenuOpen(false)}
+            >
+              <X size={26} />
+            </button>
+          </div>
+
+          <div className="mobile-drawer-links">
+            {navItems.map((item) => (
+              <div key={item.path} style={{ display: "flex", flexDirection: "column" }}>
+                <AppLink
+                  to={item.path}
+                  className="mobile-drawer-item"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {item.label}
+                </AppLink>
+                {item.children
+                  ? item.children.map((child) => (
+                      <AppLink
+                        key={child.path}
+                        to={child.path}
+                        className="mobile-drawer-subitem"
+                        onClick={() => setMenuOpen(false)}
+                      >
+                        {child.label}
+                      </AppLink>
+                    ))
+                  : null}
+              </div>
+            ))}
+          </div>
+
           <AppLink
             to="/book-free-consultation"
-            className="book-now-button full"
+            className="book-now-button"
+            style={{ width: "100%", justifyContent: "center", marginTop: "20px" }}
             onClick={() => setMenuOpen(false)}
           >
-            Book Now
-            <ArrowRight size={15} className="book-now-arrow" />
+            Book Free Counseling
+            <ArrowRight size={15} />
           </AppLink>
         </div>
-      ) : null}
-    </header>
+      </header>
+    </>
   );
 }

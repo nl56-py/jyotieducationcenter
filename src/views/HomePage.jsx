@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState, useRef } from "react";
 import { AppLink } from "../components/AppLink.jsx";
 import { ContactForm } from "../components/ContactForm.jsx";
@@ -7,7 +9,6 @@ import { testCourses } from "../data/testCourses.js";
 import { services } from "../data/services.js";
 import { blogs } from "../data/blogs.js";
 import { site } from "../data/site.js";
-import { testimonials } from "../data/testimonials.js";
 import { ProcessIcon } from "../components/ProcessIcons.jsx";
 import {
   GraduationCap,
@@ -19,34 +20,47 @@ import {
   Star,
   Heart,
   ArrowRight,
+  ArrowUpRight,
   Globe,
   BookOpen,
-  Check
+  Check,
+  ChevronDown,
+  Play
 } from "lucide-react";
 
-
-/* ─────────────────── FLAG MAP ─────────────────── */
-
-const flagMap = {
-  UK: "🇬🇧", US: "🇺🇸", AU: "🇦🇺", JP: "🇯🇵",
-  FI: "🇫🇮", LT: "🇱🇹", KR: "🇰🇷", MT: "🇲🇹",
-  AE: "🇦🇪", IN: "🇮🇳",
-};
-
-/* ─────────────────── 1. HERO ─────────────────── */
-
-function CountUp({ end, duration = 2000 }) {
+/* ─────────────────── DYNAMIC COUNT-UP SUB-COMPONENT ─────────────────── */
+function AnimatedCounter({ end, duration = 2000 }) {
   const [count, setCount] = useState(0);
+  const elementRef = useRef(null);
+  const [hasStarted, setHasStarted] = useState(false);
 
   useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasStarted) {
+          setHasStarted(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (elementRef.current) {
+      observer.observe(elementRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [hasStarted]);
+
+  useEffect(() => {
+    if (!hasStarted) return;
+
     let startTime = null;
-    const startValue = 0;
     const animate = (timestamp) => {
       if (!startTime) startTime = timestamp;
       const progress = timestamp - startTime;
       const percentage = Math.min(progress / duration, 1);
       const easeProgress = percentage * (2 - percentage);
-      setCount(Math.floor(easeProgress * (end - startValue) + startValue));
+      setCount(Math.floor(easeProgress * end));
       if (progress < duration) {
         requestAnimationFrame(animate);
       } else {
@@ -54,783 +68,745 @@ function CountUp({ end, duration = 2000 }) {
       }
     };
     requestAnimationFrame(animate);
-  }, [end, duration]);
+  }, [hasStarted, end, duration]);
 
-  return <span>{count.toLocaleString()}</span>;
+  return <span ref={elementRef}>{count.toLocaleString()}</span>;
 }
 
-function HeroSection({ navigate }) {
+/* ─────────────────── SECTION WRAPPERS & DETAILS ─────────────────── */
+
+export function HomePage({ navigate }) {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [visaActivePage, setVisaActivePage] = useState(0);
+  const [activeCountry, setActiveCountry] = useState(0);
+  const [activeFaq, setActiveFaq] = useState(0);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  // Hero slideshow slides data
   const slidesData = [
     {
-      image: "/images/generated/hero0.png",
-      title: "EduMark: Turn Your Dream of Studying Abroad Into Reality",
-      subtitle: "Dreaming of studying abroad? Turn your aspirations into reality with our expert guidance and transparent counseling process.",
-      //tag: "✓ Ministry Approved"
+      image: assets.heroGenerated,
+      title: "Dreaming of Studying Abroad?",
+      subtitle: "Turn your aspirations into reality with our expert guidance, transparent counseling process, and extensive partner university network.",
+      eyebrow: "🏆 14+ Years of Trust",
+      align: "left"
     },
     {
-      image: "/images/generated/hero1.jpg",
-      title: "Ministry Approved, TITI Certified, ECAN Member",
+      image: assets.whyChoose,
+      title: "Ministry Approved & TITI Certified",
       subtitle: "We are authorized by the Ministry of Education and staffed by certified counselors to offer ethical and professional mentorship.",
-      //tag: "ECAN Member"
+      eyebrow: "🎓 Approved & Certified",
+      align: "right"
     },
     {
-      image: "/images/generated/hero2.png.jpg",
-      title: "Ethical and Transparent Service",
+      image: assets.Servicepage,
+      title: "Ethical & Transparent Service",
       subtitle: "Our process is clear, honest, and professional, with zero hidden fees or misleading promises, helping you every step of the way.",
-      //tag: "14+ Years of Trust"
+      eyebrow: "🤝 100% Ethical Process",
+      align: "left"
     }
   ];
 
+  // Visa services data
+  const visaServices = [
+    {
+      badge: "SERVICE 01",
+      title: "Visa Counseling & Eligibility Assessment",
+      image: assets.counselling
+    },
+    {
+      badge: "SERVICE 02",
+      title: "Document Preparation & SOP Guidance",
+      image: assets.testPrep
+    },
+    {
+      badge: "SERVICE 03",
+      title: "Visa Application Filing & Support",
+      image: assets.success
+    },
+    {
+      badge: "SERVICE 04",
+      title: "Embassy Visa Interview Preparation",
+      image: assets.destinations
+    }
+  ];
+
+  // Alternating Preparation Classes info
+  const prepClasses = [
+    {
+      title: "IELTS Preparation Classes",
+      tag: "ENGLISH PROFICIENCY",
+      desc: "Get score-driven preparation with weekly mock tests, certified instructors, and comprehensive learning materials. Focus on listening, reading, writing, and speaking bands.",
+      image: assets.testPrep,
+      slug: "ielts"
+    },
+    {
+      title: "PTE Academic Prep Training",
+      tag: "COMPUTER-BASED TEST",
+      desc: "Learn from digital prep experts. Our specialized PTE labs, artificial intelligence scoring templates, and computerized mock testing schedules ensure you achieve your target scores.",
+      image: assets.success,
+      slug: "pte"
+    },
+    {
+      title: "JLPT Language Courses",
+      tag: "JAPANESE LANGUAGE",
+      desc: "Accelerate your Japanese language skills for study in Japan. Detailed JLPT N5/N4 levels training led by expert native-fluent teachers, matching embassy standards.",
+      image: assets.destinations,
+      slug: "japan"
+    }
+  ];
+
+  // FAQ list data
+  const faqData = [
+    {
+      q: "What services does EduMark provide?",
+      a: "EduMark provides complete end-to-end support for international education: including certified career counseling, university and course selection, application assistance, documentation checks, visa filing support, pre-departure orientation, and accommodation guidance."
+    },
+    {
+      q: "Is IELTS mandatory for studying in the UK or Australia?",
+      a: "Not always. Many universities accept alternative tests like PTE Academic or TOEFL. In some cases, universities offer English proficiency waivers if you achieved high grades in your high school English board exams. We will review your profile to find suitable pathways."
+    },
+    {
+      q: "What documents are required for university applications?",
+      a: "Standard requirements include your high school and college transcripts/certificates, character certificates, a valid passport copy, a Statement of Purpose (SOP), recommendation letters, and English proficiency test scores (IELTS/PTE)."
+    },
+    {
+      q: "How does EduMark help with the student visa interview?",
+      a: "We conduct intensive, personalized mock interview sessions replicating the exact environment of embassies (such as the US or Australian high commission). We guide you on articulating your goals, explaining finances, and demonstrating genuine student intent."
+    }
+  ];
+
+  // Accreditations/Badges
+  const awardsList = [
+    { name: "Ministry Approved", desc: "Approved by Ministry of Education, Nepal" },
+    { name: "ECAN Member", desc: "Educational Consultancy Association of Nepal" },
+    { name: "TITI Certified", desc: "Training Institute for Technical Instruction" },
+    { name: "ICEF Screened", desc: "Global Educator Accreditation Network" },
+    { name: "14+ Years Legacy", desc: "Guiding students successfully since 2012" },
+    { name: "500+ Partner Universities", desc: "Direct institutional collaborations globally" }
+  ];
+
   useEffect(() => {
-    const timer = setInterval(() => {
+    // Autoplay slideshow timer
+    const slideTimer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slidesData.length);
     }, 5000);
-    return () => clearInterval(timer);
+
+    // Scroll listener for scroll-to-top button
+    const handleScrollTopBtn = () => {
+      if (window.pageYOffset > 300) {
+        setShowScrollTop(true);
+      } else {
+        setShowScrollTop(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScrollTopBtn);
+    return () => {
+      clearInterval(slideTimer);
+      window.removeEventListener("scroll", handleScrollTopBtn);
+    };
   }, []);
 
-  const activeSlide = slidesData[currentSlide];
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
-    <section className="hero-fullscreen">
-      {/* Slides Background */}
-      <div className="hero-slides-container">
-        {slidesData.map((slide, index) => (
-          <div
-            key={index}
-            className={`hero-slide ${index === currentSlide ? "active" : ""}`}
-            style={{ backgroundImage: `url(${slide.image})` }}
-          />
-        ))}
-      </div>
-      <div className="hero-dark-overlay" />
-
-      {/* Left-Aligned Container */}
-      <div className="hero-fullscreen-container">
-        <div key={currentSlide} className="hero-fullscreen-content">
-          <h1 className="hero-fullscreen-title animate-fade-in">
-            {activeSlide.title}
-          </h1>
-          <p className="hero-fullscreen-subtitle animate-fade-in-delayed">
-            {activeSlide.subtitle}
-          </p>
-          <div className="hero-fullscreen-actions animate-fade-in-delayed">
-            <AppLink to="/book-free-consultation" navigate={navigate} className="hero-btn-primary">
-              Book Free Counseling
-            </AppLink>
-            <AppLink to="/destinations" navigate={navigate} className="hero-btn-secondary">
-              Explore Destinations →
-            </AppLink>
-          </div>
-        </div>
-      </div>
-
-      {/* Carousel Indicators at Bottom-Left */}
-      <div className="hero-carousel-indicators">
-        {slidesData.map((_, index) => (
-          <button
-            key={index}
-            className={`hero-indicator-bar ${index === currentSlide ? "active" : ""}`}
-            onClick={() => setCurrentSlide(index)}
-            aria-label={`Go to slide ${index + 1}`}
-          />
-        ))}
-      </div>
-
-      {/* White Stats Band */}
-      <div className="hero-stats-band">
-        <div className="hero-stats-container">
-          <div className="hero-stat-item">
-            <span className="hero-stat-number">
-              <CountUp end={14} />
-              <span className="hero-stat-suffix">+</span>
-            </span>
-            <span className="hero-stat-label">Years of Excellence</span>
-          </div>
-          <div className="hero-stat-item">
-            <span className="hero-stat-number">
-              <CountUp end={10000} />
-              <span className="hero-stat-suffix">+</span>
-            </span>
-            <span className="hero-stat-label">Students Counseled</span>
-          </div>
-          <div className="hero-stat-item">
-            <span className="hero-stat-number">
-              <CountUp end={98} />
-              <span className="hero-stat-suffix">%</span>
-            </span>
-            <span className="hero-stat-label">Success Rate</span>
-          </div>
-          <div className="hero-stat-item">
-            <span className="hero-stat-number">
-              <CountUp end={500} />
-              <span className="hero-stat-suffix">+</span>
-            </span>
-            <span className="hero-stat-label">University Partnerships</span>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function DestinationsV2({ navigate }) {
-  return (
-    <section className="dest-v2">
-      <div className="dest-v2-header">
-        <h2>Destinations We Cater</h2>
-        <p>
-          Explore world-class education opportunities across the globe.
-          We guide you to the destination that best fits your academic and career goals.
-        </p>
-      </div>
-
-      <div className="dest-marquee-container">
-        <div className="dest-marquee-track">
-          {/* First Set of Cards */}
-          {countries.map((country, index) => (
-            <article
-              className="dest-card-v2"
-              key={`${country.slug}-1`}
-              onClick={() => navigate(`/destinations/${country.slug}`)}
-              style={{ "--accent-color": country.accent }}
-            >
-              <div className="dest-card-v2-img">
-                <img src={`/images/generated/destination${(index % 3) + 1}.jpg`} alt={`Study in ${country.name}`} />
-                <div className="dest-card-v2-gradient" />
-                <div className="dest-card-v2-intake">{country.intake.split(",")[0]} Open</div>
-                <div className="dest-card-v2-name">
-                  <span className="flag">{flagMap[country.code]}</span>
-                  <h3>{country.code === "UK" ? "UK" : country.code === "US" ? "USA" : country.name}</h3>
-                </div>
-              </div>
-              <div className="dest-card-v2-body">
-                <div className="dest-card-v2-details">
-                  <p className="dest-card-v2-cost">💰 {country.cost}</p>
-                  <p className="dest-card-v2-highlight">🎯 {country.highlight}</p>
-                </div>
-                <button className="dest-card-v2-btn" type="button">Learn More</button>
-              </div>
-            </article>
-          ))}
-
-          {/* Duplicated Second Set for Infinite Loop */}
-          {countries.map((country, index) => (
-            <article
-              className="dest-card-v2"
-              key={`${country.slug}-2`}
-              onClick={() => navigate(`/destinations/${country.slug}`)}
-              style={{ "--accent-color": country.accent }}
-            >
-              <div className="dest-card-v2-img">
-                <img src={`/images/generated/destination${(index % 3) + 1}.jpg`} alt={`Study in ${country.name}`} />
-                <div className="dest-card-v2-gradient" />
-                <div className="dest-card-v2-intake">{country.intake.split(",")[0]} Open</div>
-                <div className="dest-card-v2-name">
-                  <span className="flag">{flagMap[country.code]}</span>
-                  <h3>{country.code === "UK" ? "UK" : country.code === "US" ? "USA" : country.name}</h3>
-                </div>
-              </div>
-              <div className="dest-card-v2-body">
-                <div className="dest-card-v2-details">
-                  <p className="dest-card-v2-cost">💰 {country.cost}</p>
-                  <p className="dest-card-v2-highlight">🎯 {country.highlight}</p>
-                </div>
-                <button className="dest-card-v2-btn" type="button">Learn More</button>
-              </div>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ─────────────────── 3. TEST PREPARATION ─────────────────── */
-
-const testImages = {
-  ielts: "/images/generated/ielts.png",
-  pte: "/images/generated/PTE.png",
-  toefl: "/images/generated/toefl.png",
-  sat: "/images/generated/SAT.png",
-};
-
-const testDescriptions = [
-  "International English Language Testing System. Academic & General training.",
-  "Pearson Test of English. Computer-based test for international study.",
-  "Test of English as a Foreign Language. Widely accepted globally.",
-  "Scholastic Assessment Test. Required for undergraduate admissions in USA.",
-];
-
-function TestPrepV2({ navigate }) {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.15 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
-  return (
-    <section className="test-v2" ref={sectionRef}>
-      <div className="test-v2-header">
-        <h2>Test Preparation</h2>
-        <p>Certified teachers, weekly mock tests, and personalized guidance to help you score high.</p>
-      </div>
-      <div className="test-v2-grid">
-        {testCourses.map((course, i) => (
-          <article
-            className={`test-card-v2 ${isVisible ? "animate-card-fade-in" : "init-hidden"}`}
-            key={course.slug}
-          >
-            <div className="test-card-v2-img">
-              <img src={testImages[course.slug]} alt={`${course.name} Prep`} />
-            </div>
-            <div className="test-card-v2-body">
-              <p>{testDescriptions[i]}</p>
-              <AppLink
-                to={`/test-preparation/${course.slug}`}
-                navigate={navigate}
-                className="test-card-v2-cta"
-              >
-                Learn More
-              </AppLink>
-            </div>
-          </article>
-        ))}
-      </div>
-      <div className="test-v2-footer">
-        <AppLink to="/test-preparation" navigate={navigate} className="test-v2-link">
-          Explore All Tests →
-        </AppLink>
-      </div>
-    </section>
-  );
-}
-
-/* ─────────────────── 4. SERVICES PREVIEW ─────────────────── */
-
-function ServicesV2({ navigate }) {
-  const abroad = services[0];
-
-  return (
-    <section className="svc-v2">
-      <div className="svc-v2-header">
-        <h2>Our Services</h2>
-        <p>From career counselling and university selection to visa processing and pre-departure support, everything is managed through one guided journey.</p>
-      </div>
-
-      <div className="svc-v2-grid">
-        {/* Large Featured Card */}
-        <div className="svc-featured-v2">
-          <img 
-            src={assets.Servicepage} 
-            alt="Abroad Studies - Multi-destination counseling, university selection, admission guidance, and visa assistance for 500+ global universities. Checklist: Academic profile review, Budget and family priority mapping, Country and course comparison, Parent-facing counselling." 
-            className="svc-featured-bg-img" 
-          />
-
-          <div className="svc-featured-content-overlay">
-            <div className="svc-featured-icon-wrapper">
-              <Globe size={24} className="svc-featured-icon" />
-            </div>
-            
-            <h3 className="svc-featured-title">
-              Abroad <span className="svc-featured-highlight">Studies</span>
-            </h3>
-            
-            <div className="svc-featured-underline" />
-            
-            <p className="svc-featured-desc">
-              Multi-destination counseling, university selection, admission guidance, and visa assistance for 500+ global universities.
-            </p>
-            
-            <ul className="svc-checklist-v2">
-              {abroad.bullets.map((bullet) => (
-                <li key={bullet} className="svc-checklist-item">
-                  <div className="svc-check-wrapper">
-                    <Check size={12} strokeWidth={3} className="svc-check-icon" />
-                  </div>
-                  <span className="svc-checklist-text">{bullet}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        {/* Two Smaller Cards */}
-        <div className="svc-small-stack-v2">
-          {/* Card 1: Test Preparation */}
-          <div className="svc-small-card-v2 test-prep-card">
-            <div className="svc-card-dots" />
-            
-            <div className="svc-small-icon-wrapper teal">
-              <BookOpen size={20} className="svc-small-icon" />
-            </div>
-            
-            <h3 className="svc-small-title">Test Preparation</h3>
-            
-            <p className="svc-small-desc">
-              Expert coaching for IELTS, PTE, TOEFL, and SAT with certified instructors.
-            </p>
-            
-            <AppLink to="/test-preparation" navigate={navigate} className="svc-small-link-v2 teal">
-              View Classes <ArrowRight size={14} className="svc-link-arrow" />
-            </AppLink>
-          </div>
-
-          {/* Card 2: Entrance Preparation */}
-          <div className="svc-small-card-v2 entrance-prep-card">
-            <div className="svc-card-dots" />
-            
-            <div className="svc-small-icon-wrapper orange">
-              <GraduationCap size={20} className="svc-small-icon" />
-            </div>
-            
-            <h3 className="svc-small-title">Entrance Preparation</h3>
-            
-            <p className="svc-small-desc">
-              Ministry-approved CEE and CMAT preparation classes for +2 graduates.
-            </p>
-            
-            <AppLink to="/entrance-preparations" navigate={navigate} className="svc-small-link-v2 orange">
-              View Programs <ArrowRight size={14} className="svc-link-arrow" />
-            </AppLink>
-          </div>
-        </div>
-      </div>
+    <main style={{ background: "var(--white)", position: "relative" }}>
       
-      <div className="svc-v2-cta">
-        <AppLink to="/services" navigate={navigate} className="svc-v2-cta-btn">
-          Explore All Services <ArrowRight size={16} className="svc-btn-arrow" />
-        </AppLink>
-      </div>
-    </section>
-  );
-}
-
-/* ─────────────────── 5. WHY CHOOSE EDUMARK ─────────────────── */
-
-function WhyChooseV2() {
-  const cards = [
-    {
-      icon: GraduationCap,
-      title: "Expert Counselors",
-      desc: "Experienced and certified professionals guiding you at every step of your journey.",
-    },
-    {
-      icon: ShieldCheck,
-      title: "Government Approved",
-      desc: "Trusted and recognized by the Ministry of Education and leading authorities.",
-    },
-    {
-      icon: Headphones,
-      title: "Personalized Support",
-      desc: "Tailored assistance for documentation, SOP, interviews, and beyond.",
-    },
-    {
-      icon: Send,
-      title: "End-to-End Guidance",
-      desc: "From choosing the right university to landing at your dream destination.",
-    },
-  ];
-
-  const stats = [
-    {
-      icon: Users,
-      value: "10,000+",
-      label: "Students Guided",
-      type: "purple",
-    },
-    {
-      icon: Landmark,
-      value: "50+",
-      label: "Top Universities Worldwide",
-      type: "teal",
-    },
-    {
-      icon: Star,
-      value: "12+",
-      label: "Years of Excellence",
-      type: "purple",
-    },
-    {
-      icon: Heart,
-      value: "98%",
-      label: "Student Satisfaction",
-      type: "teal",
-    },
-  ];
-
-  return (
-    <section className="why-v2">
-      <div className="why-v2-container">
-        {/* Main Grid */}
-        <div className="why-v2-grid">
-          {/* Left Column */}
-          <div className="why-v2-content-col">
-            <span className="why-v2-subtitle">WHY CHOOSE US</span>
-            <h2 className="why-v2-title">
-              Why Choose <span className="why-v2-highlight">EduMark?</span>
-            </h2>
-            <div className="why-v2-underline" />
-            <p className="why-v2-desc">
-              We don't just process applications; we build careers. Here is why thousands of students trust us with their global education journey.
-            </p>
-
-            {/* Cards Grid */}
-            <div className="why-v2-cards-grid">
-              {cards.map((card, i) => {
-                const Icon = card.icon;
-                return (
-                  <div key={i} className="why-card-v2">
-                    <div className="why-card-icon-wrapper">
-                      <Icon size={24} className="why-card-icon" />
-                    </div>
-                    <h3 className="why-card-title">{card.title}</h3>
-                    <p className="why-card-desc">{card.desc}</p>
-                    <ArrowRight size={16} className="why-card-arrow" />
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Right Column */}
-          <div className="why-v2-image-col">
-            <div className="why-v2-illustration">
-              <img src={assets.Whychoose} alt="Why Choose EduMark" />
-            </div>
-          </div>
-        </div>
-
-        {/* Bottom Stats Bar */}
-        <div className="why-v2-stats-bar">
-          {stats.map((stat, i) => {
-            const Icon = stat.icon;
-            return (
-              <div key={i} className="why-v2-stat-item">
-                <div className={`why-v2-stat-icon-wrapper ${stat.type}`}>
-                  <Icon size={20} className="why-v2-stat-icon" />
-                </div>
-                <div className="why-v2-stat-number">{stat.value}</div>
-                <div className="why-v2-stat-label">{stat.label}</div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ─────────────────── 6. PROCESS TIMELINE ─────────────────── */
-
-const processSteps = [
-  {
-    num: 1,
-    title: "FREE COUNSELING",
-    position: "bottom",
-    color: "#7e3794", // Purple
-    bg: "#ffffff",
-    border: "#7e3794",
-    iconColor: "#7e3794",
-  },
-  {
-    num: 2,
-    title: "COURSE & COUNTRY SELECTION",
-    position: "top",
-    color: "#bd1e5c", // Pink/Magenta
-    bg: "#ffffff",
-    border: "#bd1e5c",
-    iconColor: "#bd1e5c",
-  },
-  {
-    num: 3,
-    title: "APPLICATION SUBMISSION",
-    position: "bottom",
-    color: "#f2a900", // Yellow/Orange
-    bg: "#f2a900", // Solid Yellow
-    border: "#f2a900",
-    iconColor: "#ffffff",
-  },
-  {
-    num: 4,
-    title: "OFFER LETTER & DOCUMENTATION",
-    position: "top",
-    color: "#22408c", // Dark Navy
-    bg: "#22408c", // Solid Navy
-    border: "#22408c",
-    iconColor: "#ffffff",
-  },
-  {
-    num: 5,
-    title: "VISA PROCESSING",
-    position: "bottom",
-    color: "#e31b23", // Red
-    bg: "#ffffff",
-    border: "#e31b23",
-    iconColor: "#e31b23",
-  },
-  {
-    num: 6,
-    title: "PRE-DEPARTURE SUPPORT",
-    position: "top",
-    color: "#3a559f", // Blue
-    bg: "#3a559f", // Solid Blue
-    border: "#3a559f",
-    iconColor: "#ffffff",
-  },
-];
-
-function ProcessV2() {
-  return (
-    <section className="process-v2">
-      <div className="process-v2-header">
-        <span className="process-v2-subtitle">“Unleashing Potential Through Global Exposure”</span>
-        <h2>OUR PROCESS</h2>
-        <div className="process-v2-header-underline" />
-      </div>
-      <div className="process-v2-track">
-        <div className="process-v2-steps">
-          {processSteps.map((step, index) => {
-            const isTop = step.position === "top";
-            return (
-              <div
-                className={`process-brochure-step ${isTop ? "step-top" : "step-bottom"}`}
-                key={step.num}
-                style={{ "--step-color": step.color }}
-              >
-                {isTop && (
-                  <div className="process-label-wrapper top">
-                    <span className="process-label-text">{step.title}</span>
-                    <div className="process-connector-line">
-                      <span className="process-connector-dot" style={{ backgroundColor: step.color }} />
-                    </div>
-                  </div>
-                )}
-
-                {!isTop && <div className="process-spacer" />}
-
-                <div
-                  className="process-circle"
-                  style={{
-                    backgroundColor: step.bg,
-                    borderColor: step.border,
-                    color: step.iconColor,
-                  }}
-                >
-                  <div className="process-circle-num" style={{ backgroundColor: step.color }}>
-                    {step.num}
-                  </div>
-                  <div className="process-circle-icon-container">
-                    <ProcessIcon index={index} />
-                  </div>
-                </div>
-
-                {!isTop && (
-                  <div className="process-label-wrapper bottom">
-                    <div className="process-connector-line">
-                      <span className="process-connector-dot" style={{ backgroundColor: step.color }} />
-                    </div>
-                    <span className="process-label-text">{step.title}</span>
-                  </div>
-                )}
-
-                {isTop && <div className="process-spacer" />}
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ─────────────────── 7. BLOGS PREVIEW ─────────────────── */
-
-const blogColors = [
-  { tag: "#451ebb", gradient: "linear-gradient(to top right, rgba(69,30,187,0.1), transparent)" },
-  { tag: "#006970", gradient: "linear-gradient(to top right, rgba(0,105,112,0.1), transparent)" },
-  { tag: "#954500", gradient: "linear-gradient(to top right, rgba(113,51,0,0.1), transparent)" },
-];
-
-function BlogsPreviewV2({ navigate }) {
-  return (
-    <section className="blog-v2">
-      <div className="blog-v2-head">
-        <div>
-          <h2>Latest Insights &amp; Blogs</h2>
-          <p>Stay updated with study abroad tips, university news, and visa updates.</p>
-        </div>
-        <AppLink to="/blogs" navigate={navigate} className="test-v2-link">
-          Read All Articles →
-        </AppLink>
-      </div>
-      <div className="blog-v2-grid">
-        {blogs.slice(0, 3).map((blog, i) => (
-          <article
-            className="blog-card-v2"
-            key={blog.slug}
-            onClick={() => navigate(`/blogs/${blog.slug}`)}
-          >
-            <div className="blog-card-v2-img" style={{ background: "#dcd9d9" }}>
-              <div
-                className="blog-card-v2-gradient"
-                style={{ background: blogColors[i].gradient }}
-              />
-              <div
-                className="blog-card-v2-tag"
-                style={{ background: blogColors[i].tag }}
-              >
-                {blog.category}
-              </div>
-            </div>
-            <div className="blog-card-v2-body">
-              <p className="blog-card-v2-date">{blog.date}</p>
-              <h3>{blog.title}</h3>
-              <p>{blog.excerpt}</p>
-            </div>
-          </article>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-/* ─────────────────── 8. INQUIRY FORM ─────────────────── */
-
-function InquiryFormV2() {
-  return (
-    <section className="inquiry-v2">
-      <div className="inquiry-v2-dots" />
-      <div className="inquiry-v2-grid">
-        <div>
-          <h2>Start Your Journey Today — Free Counseling</h2>
-          <p>
-            Take the first step towards your international education.
-            Fill out the form and our expert counselors will get back to you shortly.
-          </p>
-          <div className="inquiry-v2-contact">
-            <div className="inquiry-v2-contact-item">
-              <div className="inquiry-v2-contact-icon">📍</div>
-              <div>
-                <h4>Visit Our Office</h4>
-                <small>{site.address}</small>
-              </div>
-            </div>
-            <div className="inquiry-v2-contact-item">
-              <div className="inquiry-v2-contact-icon">📞</div>
-              <div>
-                <h4>Call Us</h4>
-                <small>{site.phone} / {site.mobile}</small>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="inquiry-v2-form">
-          <h3>Book Your Free Session</h3>
-          <ContactForm buttonText="Book My Free Counseling Session" />
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ─────────────────── 9. TESTIMONIALS ─────────────────── */
-
-const avatarColors = ["#451ebb", "#006970", "#954500", "#5d3fd3"];
-
-function TestimonialsV2() {
-  const [index, setIndex] = useState(0);
-
-  useEffect(() => {
-    const timer = window.setInterval(() => {
-      setIndex((prev) => (prev + 1) % testimonials.length);
-    }, 5000);
-    return () => window.clearInterval(timer);
-  }, []);
-
-  const t = testimonials[index];
-  const initials = t.name.split(" ").map((w) => w[0]).join("").slice(0, 2);
-
-  return (
-    <section className="testimonials-v2">
-      <div className="testimonials-v2-header">
-        <h2>Student Success Stories</h2>
-        <p>Hear from students who turned their study abroad dreams into reality with EduMark.</p>
-      </div>
-      <div className="testimonials-v2-carousel">
-        <div className="testimonial-v2-card">
-          <div
-            className="testimonial-v2-avatar"
-            style={{ background: avatarColors[index % avatarColors.length] }}
-          >
-            {initials}
-          </div>
-          <p className="testimonial-v2-quote">{t.quote}</p>
-          <div className="testimonial-v2-name">{t.name}</div>
-          <div className="testimonial-v2-route">{t.route}</div>
-        </div>
-        <div className="testimonial-v2-dots">
-          {testimonials.map((item, i) => (
-            <button
-              key={item.name}
-              type="button"
-              className={`testimonial-v2-dot ${i === index ? "active" : ""}`}
-              aria-label={`Show testimonial ${i + 1}`}
-              onClick={() => setIndex(i)}
+      {/* 1. HERO SLIDESHOW BANNER */}
+      <section className="hero-fullscreen">
+        <div className="hero-slides-container">
+          {slidesData.map((slide, idx) => (
+            <div
+              key={idx}
+              className={`hero-slide ${idx === currentSlide ? "active" : ""}`}
+              style={{ backgroundImage: `url(${slide.image})` }}
             />
           ))}
         </div>
-      </div>
-    </section>
-  );
-}
+        <div className="hero-dark-overlay" />
 
-/* ─────────────────── HOME PAGE (assembled) ─────────────────── */
+        <div className="hero-fullscreen-container">
+          {slidesData.map((slide, idx) => (
+            idx === currentSlide && (
+              <div 
+                key={idx} 
+                className={`hero-fullscreen-content animate-slide-up ${slide.align === "right" ? "right-align" : ""}`}
+              >
+                <span className="em-eyebrow" style={{ color: "var(--accent-orange-red)", background: "rgba(255,255,255,0.1)", padding: "4px 10px", borderRadius: "4px" }}>
+                  {slide.eyebrow}
+                </span>
+                <h1 className="hero-fullscreen-title" style={{ marginTop: "10px" }}>
+                  {slide.title}
+                </h1>
+                <p className="hero-fullscreen-subtitle">
+                  {slide.subtitle}
+                </p>
+                <div className="hero-fullscreen-actions">
+                  <AppLink to="/book-free-consultation" navigate={navigate} className="hero-btn-primary">
+                    Book Free Counseling
+                    <ArrowRight size={16} />
+                  </AppLink>
+                  <AppLink to="/destinations" navigate={navigate} className="hero-btn-secondary">
+                    Explore Destinations
+                  </AppLink>
+                </div>
+              </div>
+            )
+          ))}
+        </div>
 
-export function HomePage({ navigate }) {
-  return (
-    <main>
-      {/* 1 — Hero */}
-      <HeroSection navigate={navigate} />
+        {/* Carousel indicators */}
+        <div className="hero-dots-pagination">
+          {slidesData.map((_, idx) => (
+            <button
+              key={idx}
+              className={`hero-dot ${idx === currentSlide ? "active" : ""}`}
+              onClick={() => setCurrentSlide(idx)}
+              aria-label={`Go to slide ${idx + 1}`}
+            />
+          ))}
+        </div>
+      </section>
 
-      {/* 2 — Destinations */}
-      <DestinationsV2 navigate={navigate} />
+      {/* 2. ABOUT US / STATS BAND */}
+      <section className="about-stats-section">
+        <div className="about-stats-grid">
+          
+          {/* Left: Stacked images and stats widget */}
+          <div className="about-stats-left">
+            <div className="about-image-stack">
+              <img src={assets.counselling} alt="EduMark Office Counseling" className="about-img-1" />
+              <img src={assets.success} alt="EduMark Student Success Story" className="about-img-2" />
+            </div>
 
-      {/* 3 — Test Preparation */}
-      <TestPrepV2 navigate={navigate} />
+            {/* Circular Donut Widget */}
+            <div className="about-donut-widget">
+              <div className="about-donut-icon">
+                <svg width="40" height="40" viewBox="0 0 36 36">
+                  <circle cx="18" cy="18" r="15.915" fill="transparent" stroke="var(--secondary-fill)" strokeWidth="3" />
+                  <circle cx="18" cy="18" r="15.915" fill="transparent" stroke="var(--accent-orange-red)" strokeWidth="3" strokeDasharray="98 2" strokeDashoffset="25" />
+                  <text x="18" y="20.5" fontSize="7.5" fontWeight="800" textAnchor="middle" fill="var(--primary-navy)">98%</text>
+                </svg>
+              </div>
+              <div className="about-donut-info">
+                <h4>10,000+ Placements</h4>
+                <p>98% Successful Visas</p>
+              </div>
+            </div>
+          </div>
 
-      {/* 4 — Services (Asymmetric) */}
-      <ServicesV2 navigate={navigate} />
+          {/* Right: Description & Underline Decoration */}
+          <div className="about-stats-right">
+            <div className="em-section-title-wrapper left">
+              <span className="em-eyebrow">✈ ABOUT US</span>
+              <h2 className="em-h2">
+                EduMark Educational <span className="em-h2-light">Consultancy</span>
+              </h2>
+              <span className="em-title-line-decor" />
+            </div>
 
-      {/* 5 — Why Choose EduMark */}
-      <WhyChooseV2 />
+            <p className="about-stats-text">
+              Since 2012, EduMark has been a guiding lighthouse for students across Koshi Province seeking international academic excellence. Based in Traffic Chowk, Biratnagar, we are fully approved by the Ministry of Education and staffed with certified counselors. 
+              <br /><br />
+              We believe in building careers rather than just processing documents. Through our institutional relationships with over 500 universities in the UK, USA, Australia, Japan, and Europe, we provide genuine, transparent, and step-by-step guidance.
+            </p>
 
-      {/* 6 — Process Timeline */}
-      <ProcessV2 />
+            <AppLink to="/about" navigate={navigate} className="learn-more-btn">
+              Learn More About Us
+            </AppLink>
+          </div>
 
-      {/* 7 — Blogs Preview */}
-      <BlogsPreviewV2 navigate={navigate} />
+        </div>
+      </section>
 
-      {/* 8 — Inquiry Form */}
-      <InquiryFormV2 />
+      {/* 3. VISA SERVICES SECTION */}
+      <section className="visa-services-section">
+        <div className="visa-services-container">
+          
+          <div className="em-section-title-wrapper">
+            <span className="em-eyebrow">✈ VISA SERVICES</span>
+            <h2 className="em-h2">We Provide The Best Consultancy Services</h2>
+            <span className="em-title-line-decor" />
+          </div>
 
-      {/* 9 — Testimonials */}
-      <TestimonialsV2 />
+          <div className="visa-slider-wrapper">
+            <div 
+              className="visa-slider-track"
+              style={{ transform: `translateX(-${visaActivePage * 50}%)` }}
+            >
+              {visaServices.map((svc, idx) => (
+                <div 
+                  key={idx} 
+                  className="visa-card-v2"
+                  onClick={() => navigate("/services")}
+                >
+                  <div className="visa-card-bg" style={{ backgroundImage: `url(${svc.image})` }} />
+                  <div className="visa-card-overlay">
+                    <span className="visa-card-badge">{svc.badge}</span>
+                    <div className="visa-card-bottom">
+                      <h3 className="visa-card-title">{svc.title}</h3>
+                      <button className="visa-card-arrow-btn" aria-label="View Details">
+                        <ArrowRight size={20} />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Dots Pagination */}
+          <div className="visa-slider-pagination">
+            <button 
+              className={`visa-pagination-dot ${visaActivePage === 0 ? "active" : ""}`}
+              onClick={() => setVisaActivePage(0)}
+              aria-label="Visa services page 1"
+            />
+            <button 
+              className={`visa-pagination-dot ${visaActivePage === 1 ? "active" : ""}`}
+              onClick={() => setVisaActivePage(1)}
+              aria-label="Visa services page 2"
+            />
+          </div>
+
+        </div>
+      </section>
+
+      {/* 4. STUDY DESTINATIONS ACCORDION */}
+      <section className="destinations-accordion-section">
+        <div className="destinations-accordion-container">
+          
+          <div className="em-section-title-wrapper">
+            <span className="em-eyebrow">✈ STUDY DESTINATIONS</span>
+            <h2 className="em-h2">Select the Country of Your Choice</h2>
+            <span className="em-title-line-decor" />
+          </div>
+
+          <div className="dest-accordion">
+            {countries.slice(0, 6).map((country, idx) => (
+              <div 
+                key={country.slug}
+                className={`dest-accordion-item ${activeCountry === idx ? "active" : ""}`}
+              >
+                <button 
+                  className="dest-accordion-header"
+                  onClick={() => setActiveCountry(idx)}
+                  aria-expanded={activeCountry === idx}
+                >
+                  <div className="dest-accordion-title">
+                    <span className="dest-accordion-flag">
+                      {country.slug === "uk" ? "🇬🇧" : country.slug === "usa" ? "🇺🇸" : country.slug === "australia" ? "🇦🇺" : country.slug === "japan" ? "🇯🇵" : country.slug === "finland" ? "🇫🇮" : "🇱🇹"}
+                    </span>
+                    {country.name}
+                  </div>
+                  <ChevronDown size={18} className="dest-accordion-arrow" />
+                </button>
+
+                <div className="dest-accordion-collapse">
+                  <div className="dest-accordion-content">
+                    
+                    <div className="dest-accordion-details">
+                      <h3>Study in {country.name}</h3>
+                      <h4>Intakes: {country.intake}</h4>
+                      <p style={{ fontSize: "14px", lineHeight: "1.6", color: "var(--muted)", marginBottom: "20px" }}>
+                        {country.highlight || "Explore top university course options, scholarships, and pathway structures."}
+                      </p>
+
+                      <div className="dest-accordion-list">
+                        {country.why.slice(0, 4).map((point, pIdx) => (
+                          <div key={pIdx} className="dest-accordion-list-item">
+                            <div className="dest-accordion-check">
+                              <Check size={12} strokeWidth={3} />
+                            </div>
+                            {point}
+                          </div>
+                        ))}
+                      </div>
+
+                      <AppLink 
+                        to={`/destinations/${country.slug}`} 
+                        navigate={navigate}
+                        className="hero-btn-primary" 
+                        style={{ marginTop: "24px" }}
+                      >
+                        Explore More Details
+                        <ArrowRight size={15} />
+                      </AppLink>
+                    </div>
+
+                    <div className="dest-accordion-photo">
+                      <img src={`/images/generated/destination${(idx % 3) + 1}.jpg`} alt={`Study in ${country.name}`} />
+                    </div>
+
+                  </div>
+                </div>
+
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* 5. PREPARATION CLASSES SECTION */}
+      <section className="prep-classes-section">
+        <div className="prep-classes-container">
+          
+          <div className="em-section-title-wrapper">
+            <span className="em-eyebrow">✈ PREPARATION CLASSES</span>
+            <h2 className="em-h2">Get the Best Trainings You Deserve</h2>
+            <span className="em-title-line-decor" />
+          </div>
+
+          <div className="prep-classes-grid">
+            {prepClasses.map((item, idx) => (
+              <div 
+                key={idx} 
+                className={`prep-class-row ${idx % 2 !== 0 ? "flipped" : ""}`}
+              >
+                
+                <div className="prep-class-image">
+                  <img src={item.image} alt={item.title} />
+                </div>
+
+                <div className="prep-class-content">
+                  <div className="prep-class-icon-wrapper">
+                    <BookOpen size={24} />
+                  </div>
+                  <span className="prep-class-tag">{item.tag}</span>
+                  <h3 className="prep-class-title">{item.title}</h3>
+                  <p className="prep-class-desc">{item.desc}</p>
+                  <AppLink 
+                    to={`/test-preparation/${item.slug}`} 
+                    navigate={navigate}
+                    className="prep-class-readmore"
+                  >
+                    READ MORE &rarr;
+                  </AppLink>
+                </div>
+
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* 6. STATISTICS / COUNTER SECTION (Dark) */}
+      <section className="dark-stats-section">
+        <div className="dark-stats-watermark" />
+        <div className="dark-stats-grid">
+          
+          <div className="dark-stat-box">
+            <div className="dark-stat-number">
+              <AnimatedCounter end={14} />+
+            </div>
+            <span className="dark-stat-label">Years of Excellence</span>
+          </div>
+
+          <div className="dark-stat-box">
+            <div className="dark-stat-number">
+              <AnimatedCounter end={50} />+
+            </div>
+            <span className="dark-stat-label">Partner Countries</span>
+          </div>
+
+          <div className="dark-stat-box">
+            <div className="dark-stat-number">
+              <AnimatedCounter end={10000} />+
+            </div>
+            <span className="dark-stat-label">Students Guided</span>
+          </div>
+
+          <div className="dark-stat-box">
+            <div className="dark-stat-number">
+              <AnimatedCounter end={98} />%
+            </div>
+            <span className="dark-stat-label">Visa Success Rate</span>
+          </div>
+
+        </div>
+      </section>
+
+      {/* 7. WHY CHOOSE US SECTION */}
+      <section className="why-choose-section">
+        <div className="why-choose-grid">
+          
+          <div className="why-choose-left">
+            <div className="em-section-title-wrapper left">
+              <span className="em-eyebrow">✈ WHY CHOOSE US</span>
+              <h2 className="em-h2">Reasons To Choose Us</h2>
+              <span className="em-title-line-decor" />
+            </div>
+
+            <div className="why-choose-list">
+              <div className="why-choose-item">
+                <div className="why-choose-check"><Check size={14} strokeWidth={3} /></div>
+                <span className="why-choose-text">Approved by the Ministry of Education (MOEST) & ECAN Member</span>
+              </div>
+              <div className="why-choose-item">
+                <div className="why-choose-check"><Check size={14} strokeWidth={3} /></div>
+                <span className="why-choose-text">Certified & experienced counselors with TITI credentials</span>
+              </div>
+              <div className="why-choose-item">
+                <div className="why-choose-check"><Check size={14} strokeWidth={3} /></div>
+                <span className="why-choose-text">Proven track record of high student visa approvals since 2012</span>
+              </div>
+              <div className="why-choose-item">
+                <div className="why-choose-check"><Check size={14} strokeWidth={3} /></div>
+                <span className="why-choose-text">Comprehensive SOP review, CV mapping, and documentation checking</span>
+              </div>
+              <div className="why-choose-item">
+                <div className="why-choose-check"><Check size={14} strokeWidth={3} /></div>
+                <span className="why-choose-text">100% transparent counseling with zero hidden agency costs</span>
+              </div>
+              <div className="why-choose-item">
+                <div className="why-choose-check"><Check size={14} strokeWidth={3} /></div>
+                <span className="why-choose-text">Pre-departure briefings and post-arrival emergency contact network</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="why-choose-right">
+            <img src={assets.whyChoose} alt="Successful EduMark Student" className="why-choose-photo" />
+          </div>
+
+        </div>
+      </section>
+
+      {/* 8. STEP-BY-STEP PROCESS TIMELINE */}
+      <section className="visa-process-section">
+        <div className="visa-process-container">
+          
+          <div className="em-section-title-wrapper">
+            <span className="em-eyebrow">✈ STEP-BY-STEP PROCESS</span>
+            <h2 className="em-h2">Our Guided Admission & Visa Workflow</h2>
+            <span className="em-title-line-decor" />
+          </div>
+
+          <div className="process-timeline-wrapper">
+            <div className="process-timeline-line" />
+            
+            <div className="process-timeline-steps">
+              <div className="process-timeline-step">
+                <div className="process-step-photo">
+                  <span className="process-step-num">1</span>
+                  <img src={assets.counselling} alt="Free Counseling" />
+                </div>
+                <h4 className="process-step-title">Free Counseling</h4>
+              </div>
+
+              <div className="process-timeline-step">
+                <div className="process-step-photo">
+                  <span className="process-step-num">2</span>
+                  <img src={assets.destinations} alt="Country Selection" />
+                </div>
+                <h4 className="process-step-title">Country & Course Selection</h4>
+              </div>
+
+              <div className="process-timeline-step">
+                <div className="process-step-photo">
+                  <span className="process-step-num">3</span>
+                  <img src={assets.heroGenerated} alt="Application" />
+                </div>
+                <h4 className="process-step-title">Application Submission</h4>
+              </div>
+
+              <div className="process-timeline-step">
+                <div className="process-step-photo">
+                  <span className="process-step-num">4</span>
+                  <img src={assets.testPrep} alt="Documentation" />
+                </div>
+                <h4 className="process-step-title">Offer Letter & Docs</h4>
+              </div>
+
+              <div className="process-timeline-step">
+                <div className="process-step-photo">
+                  <span className="process-step-num">5</span>
+                  <img src={assets.success} alt="Visa Processing" />
+                </div>
+                <h4 className="process-step-title">Visa Processing</h4>
+              </div>
+
+              <div className="process-timeline-step">
+                <div className="process-step-photo">
+                  <span className="process-step-num">6</span>
+                  <img src={assets.brochureHero} alt="Departure" />
+                </div>
+                <h4 className="process-step-title">Fly Abroad ✈</h4>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      {/* 9. VIDEO GALLERY */}
+      <section className="video-gallery-section">
+        <div className="video-gallery-container">
+          
+          <div className="em-section-title-wrapper">
+            <span className="em-eyebrow">✈ VIDEO GALLERY</span>
+            <h2 className="em-h2">Hear From Our Successful Students</h2>
+            <span className="em-title-line-decor" />
+          </div>
+
+          <div className="video-grid">
+            <div className="video-card">
+              <iframe 
+                src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+                title="EduMark Student Review 1"
+                allowFullScreen
+              />
+            </div>
+            <div className="video-card">
+              <iframe 
+                src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+                title="EduMark Student Review 2"
+                allowFullScreen
+              />
+            </div>
+            <div className="video-card">
+              <iframe 
+                src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+                title="EduMark Testimonial 3"
+                allowFullScreen
+              />
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* 10. FAQ SECTION */}
+      <section className="faq-accordion-section">
+        <div className="faq-accordion-container">
+          
+          <div className="em-section-title-wrapper">
+            <span className="em-eyebrow">✈ FAQ</span>
+            <h2 className="em-h2">Clear Your Doubts Before Beginning</h2>
+            <span className="em-title-line-decor" />
+          </div>
+
+          <div className="faq-accordion-list">
+            {faqData.map((item, idx) => (
+              <div 
+                key={idx}
+                className={`faq-accordion-item ${activeFaq === idx ? "active" : ""}`}
+              >
+                <button 
+                  className="faq-accordion-header"
+                  onClick={() => setActiveFaq(idx === activeFaq ? -1 : idx)}
+                  aria-expanded={activeFaq === idx}
+                >
+                  <h3>{item.q}</h3>
+                  <ChevronDown size={16} className="faq-accordion-chevron" />
+                </button>
+
+                <div className="faq-accordion-collapse">
+                  <div className="faq-accordion-content">
+                    {item.a}
+                  </div>
+                </div>
+
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* 11. LATEST BLOGS PREVIEW */}
+      <section className="latest-blog-section">
+        <div className="latest-blog-container">
+          
+          <div className="em-section-title-wrapper">
+            <span className="em-eyebrow">✈ LATEST BLOGS</span>
+            <h2 className="em-h2">Latest Insights & Updates</h2>
+            <span className="em-title-line-decor" />
+          </div>
+
+          <div className="blog-grid-v2">
+            {blogs.slice(0, 3).map((blog, idx) => (
+              <article 
+                key={blog.slug} 
+                className="blog-card-v2"
+                onClick={() => navigate(`/blogs/${blog.slug}`)}
+              >
+                <div className="blog-card-img">
+                  <img src={`/images/generated/destination${(idx % 3) + 1}.jpg`} alt={blog.title} />
+                  <span className="blog-card-date-badge">{blog.date.split(" ")[0]} {blog.date.split(" ")[1]}</span>
+                </div>
+                <div className="blog-card-body">
+                  <span className="blog-card-tag">{blog.category}</span>
+                  <h3 className="blog-card-title">{blog.title}</h3>
+                  <p className="blog-card-excerpt">{blog.excerpt}</p>
+                  <AppLink to={`/blogs/${blog.slug}`} navigate={navigate} className="blog-card-link">
+                    Read More <ArrowRight size={13} />
+                  </AppLink>
+                </div>
+              </article>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* 12. AWARDS / ACCREDITATIONS GRID */}
+      <section className="awards-section">
+        <div className="awards-container">
+          
+          <div className="em-section-title-wrapper">
+            <span className="em-eyebrow">✈ ACCREDITATIONS</span>
+            <h2 className="em-h2">Recognitions & Trust Badges</h2>
+            <span className="em-title-line-decor" />
+          </div>
+
+          <div className="awards-grid">
+            {awardsList.map((item, idx) => (
+              <div key={idx} className="award-box">
+                <div style={{ textAlign: "center" }}>
+                  <h4 style={{ color: "var(--primary-navy)", margin: "0 0 4px 0", fontSize: "16px", fontWeight: "700" }}>{item.name}</h4>
+                  <small style={{ color: "var(--muted)", fontSize: "11px", fontWeight: "500" }}>{item.desc}</small>
+                </div>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* 13. ORANGE-RED CONTACT STRIP */}
+      <section className="contact-strip-section">
+        <div className="contact-strip-container">
+          <div className="contact-strip-left">
+            <img src={assets.logo} alt="EduMark Logo White" />
+            <div className="contact-strip-info">
+              📞 021-590823 | 9802724823
+            </div>
+          </div>
+
+          <div className="contact-strip-socials">
+            <a href="https://facebook.com" target="_blank" rel="noreferrer" className="contact-strip-icon-btn">FB</a>
+            <a href="https://instagram.com" target="_blank" rel="noreferrer" className="contact-strip-icon-btn">IG</a>
+            <a href="https://youtube.com" target="_blank" rel="noreferrer" className="contact-strip-icon-btn">YT</a>
+          </div>
+        </div>
+      </section>
+
+      {/* SCROLL TO TOP FLOATING BUTTON */}
+      <button
+        onClick={scrollToTop}
+        className={`scroll-to-top ${showScrollTop ? "visible" : ""}`}
+        aria-label="Scroll to top"
+      >
+        &uarr;
+      </button>
+
     </main>
   );
 }
