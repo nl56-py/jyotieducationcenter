@@ -54,6 +54,21 @@ export function Footer() {
             Admin Panel
           </AppLink>
         </div>
+        <div>
+          <h3>Our Location</h3>
+          <div style={{ borderRadius: "8px", overflow: "hidden", border: "1px solid rgba(255, 255, 255, 0.12)", height: "160px" }}>
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d114315.65586380185!2d87.19299150225115!3d26.443985383028362!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39ef7447d71fda8f%3A0xd35ca9b1d45dc14c!2sEduMark%20Pvt.%20Ltd.!5e0!3m2!1sen!2snp!4v1782145143568!5m2!1sen!2snp"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen=""
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="EduMark Footer Map"
+            />
+          </div>
+        </div>
       </div>
     </footer>
   );
