@@ -1,6 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 
+
 export function AppLink({ to, children, className = "", onClick, navigate, ...props }) {
   const router = useRouter();
 
