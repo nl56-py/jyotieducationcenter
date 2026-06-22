@@ -1,13 +1,15 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, Edit2, Search, Check, Globe } from "lucide-react";
+import { Plus, Edit2, Search, Check, Globe, Trash2 } from "lucide-react";
 
 export default function DestinationsCMSPage() {
   const [destinations, setDestinations] = useState<any[]>([]);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(false);
   const [isEditorOpen, setIsEditorOpen] = useState(false);
   const [selectedDest, setSelectedDest] = useState<any | null>(null);
+  const [currentUser, setCurrentUser] = useState<any>(null);
 
   // Form states
   const [name, setName] = useState("");
@@ -41,8 +43,38 @@ export default function DestinationsCMSPage() {
     }
   ];
 
-  useEffect(() => {
+  const fetchDests = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch("/api/admin/destinations");
+      if (response.ok) {
+        const data = await response.json();
+        if (data && data.length > 0) {
+          setDestinations(data);
+          setLoading(false);
+          return;
+        }
+      }
+    } catch (err) {
+      console.warn("Failed to fetch destinations:", err);
+    }
     setDestinations(mockDests);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    // Fetch user session for role permissions
+    const loadSession = async () => {
+      try {
+        const sessionRes = await fetch("/api/auth/session");
+        const sessionData = await sessionRes.json();
+        setCurrentUser(sessionData.user);
+      } catch (err) {
+        console.error("Failed to load session", err);
+      }
+    };
+    loadSession();
+    fetchDests();
   }, []);
 
   const handleOpenEditor = (dest: any | null) => {
@@ -50,11 +82,11 @@ export default function DestinationsCMSPage() {
     if (dest) {
       setName(dest.name);
       setSlug(dest.slug);
-      setCostRange(dest.cost_range);
-      setIntakes(dest.intake_badges.join(", "));
-      setSummary(dest.summary);
-      setFeatured(dest.featured);
-      setStatus(dest.status);
+      setCostRange(dest.cost_range || "");
+      setIntakes((dest.intake_badges || []).join(", "));
+      setSummary(dest.summary || "");
+      setFeatured(dest.featured || false);
+      setStatus(dest.status || "draft");
     } else {
       setName("");
       setSlug("");
@@ -67,37 +99,78 @@ export default function DestinationsCMSPage() {
     setIsEditorOpen(true);
   };
 
-  const handleSave = (e: React.FormEvent) => {
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     const intakeArray = intakes.split(",").map(i => i.trim()).filter(Boolean);
-    if (selectedDest) {
-      setDestinations(destinations.map(d => d.id === selectedDest.id ? {
-        ...d,
-        name,
-        slug,
-        cost_range: costRange,
-        intake_badges: intakeArray,
-        summary,
-        featured,
-        status
-      } : d));
-    } else {
-      const newDest = {
-        id: `dest-${Date.now()}`,
-        slug,
-        name,
-        cost_range: costRange,
-        intake_badges: intakeArray,
-        summary,
-        featured,
-        status
-      };
-      setDestinations([...destinations, newDest]);
+
+    try {
+      if (selectedDest) {
+        // Edit
+        const response = await fetch("/api/admin/destinations", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            id: selectedDest.id,
+            name,
+            slug,
+            cost_range: costRange,
+            intake_badges: intakeArray,
+            summary,
+            featured,
+            status
+          }),
+        });
+        if (response.ok) {
+          await fetchDests();
+        }
+      } else {
+        // Create
+        const response = await fetch("/api/admin/destinations", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name,
+            slug,
+            cost_range: costRange,
+            intake_badges: intakeArray,
+            summary,
+            featured,
+            status
+          }),
+        });
+        if (response.ok) {
+          await fetchDests();
+        }
+      }
+    } catch (err) {
+      console.error("Failed to save destination:", err);
     }
+    setLoading(false);
     setIsEditorOpen(false);
   };
 
+  const handleDelete = async (id: string) => {
+    if (!window.confirm("Are you sure you want to delete this destination country?")) return;
+    setLoading(true);
+    try {
+      const response = await fetch(`/api/admin/destinations?id=${id}`, {
+        method: "DELETE",
+      });
+      if (response.ok) {
+        await fetchDests();
+      } else {
+        const data = await response.json();
+        alert(data.error || "Failed to delete destination");
+      }
+    } catch (err) {
+      console.error("Failed to delete destination:", err);
+    }
+    setLoading(false);
+  };
+
   const filtered = destinations.filter(d => d.name.toLowerCase().includes(search.toLowerCase()));
+  const canDelete = currentUser && (currentUser.role === "super_admin" || currentUser.role === "admin");
 
   return (
     <div>
@@ -133,43 +206,60 @@ export default function DestinationsCMSPage() {
               <tr>
                 <th>Country Name</th>
                 <th>Cost Range</th>
-                <th>Intake Intakes</th>
+                <th>Intake Months</th>
                 <th>Featured</th>
                 <th>Status</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {filtered.map((d) => (
-                <tr key={d.id}>
-                  <td>
-                    <div style={{ fontWeight: 600, display: "flex", alignItems: "center", gap: "8px" }}>
-                      <Globe size={16} className="text-primary" />
-                      {d.name}
-                    </div>
-                    <div style={{ fontSize: "12px", color: "var(--dm-outline)" }}>/{d.slug}</div>
-                  </td>
-                  <td>{d.cost_range}</td>
-                  <td>
-                    <div style={{ display: "flex", gap: "6px" }}>
-                      {d.intake_badges.map((badge: string, bIdx: number) => (
-                        <span key={bIdx} style={{ fontSize: "11px", background: "var(--dm-surface-container)", padding: "2px 6px", borderRadius: "var(--dm-rounded-sm)" }}>
-                          {badge}
-                        </span>
-                      ))}
-                    </div>
-                  </td>
-                  <td>{d.featured ? "★ Featured" : "No"}</td>
-                  <td>
-                    <span className={`status-badge content-${d.status}`}>{d.status}</span>
-                  </td>
-                  <td>
-                    <button className="btn btn-light" style={{ height: "30px", padding: "0 10px" }} onClick={() => handleOpenEditor(d)}>
-                      <Edit2 size={12} /> Edit
-                    </button>
-                  </td>
+              {loading && destinations.length === 0 ? (
+                <tr>
+                  <td colSpan={6} style={{ textAlign: "center", padding: "40px" }}>Loading destinations...</td>
                 </tr>
-              ))}
+              ) : filtered.length === 0 ? (
+                <tr>
+                  <td colSpan={6} style={{ textAlign: "center", padding: "40px" }}>No destinations found.</td>
+                </tr>
+              ) : (
+                filtered.map((d) => (
+                  <tr key={d.id}>
+                    <td>
+                      <div style={{ fontWeight: 600, display: "flex", alignItems: "center", gap: "8px" }}>
+                        <Globe size={16} className="text-primary" />
+                        {d.name}
+                      </div>
+                      <div style={{ fontSize: "12px", color: "var(--dm-outline)" }}>/{d.slug}</div>
+                    </td>
+                    <td>{d.cost_range || "N/A"}</td>
+                    <td>
+                      <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
+                        {(d.intake_badges || []).map((badge: string, bIdx: number) => (
+                          <span key={bIdx} style={{ fontSize: "11px", background: "var(--dm-surface-container)", padding: "2px 6px", borderRadius: "var(--dm-rounded-sm)" }}>
+                            {badge}
+                          </span>
+                        ))}
+                      </div>
+                    </td>
+                    <td>{d.featured ? "★ Featured" : "No"}</td>
+                    <td>
+                      <span className={`status-badge content-${d.status}`}>{d.status}</span>
+                    </td>
+                    <td>
+                      <div style={{ display: "flex", gap: "8px" }}>
+                        <button className="btn btn-light" style={{ height: "30px", padding: "0 10px" }} onClick={() => handleOpenEditor(d)}>
+                          <Edit2 size={12} /> Edit
+                        </button>
+                        {canDelete && (
+                          <button className="btn btn-danger" style={{ height: "30px", width: "30px", padding: 0, display: "flex", alignItems: "center", justifyContent: "center" }} onClick={() => handleDelete(d.id)} title="Delete Country">
+                            <Trash2 size={12} />
+                          </button>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
@@ -222,7 +312,9 @@ export default function DestinationsCMSPage() {
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-light" onClick={() => setIsEditorOpen(false)}>Cancel</button>
-                <button type="submit" className="btn btn-primary">Save Country</button>
+                <button type="submit" className="btn btn-primary" disabled={loading}>
+                  {loading ? "Saving..." : "Save Country"}
+                </button>
               </div>
             </form>
           </div>
