@@ -18,21 +18,58 @@ export function Header() {
   };
 
   return (
-    <header className="site-header">
+    <header
+      className="site-header"
+      style={{
+        position: "sticky",
+        top: 0,
+        zIndex: 999,
+        backdropFilter: "blur(18px)",
+        WebkitBackdropFilter: "blur(18px)",
+        background: "rgba(255,255,255,0.75)",
+        borderBottom: "1px solid rgba(255,255,255,0.2)"
+      }}
+    >
       <style>{`
-        .nav-item {
-          position: relative;
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          min-height: 42px;
-          padding: 0 12px;
-          border-radius: 6px;
-          font-size: 14px;
-          font-weight: 700;
-          color: #26344d;
-          overflow: hidden;
-        }
+    .nav-item {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 42px;
+      padding: 0 12px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #26344d;
+      overflow: hidden;
+    }
+
+        .site-header{
+
+animation:navbarDown .7s ease;
+
+}
+
+@keyframes navbarDown{
+
+from{
+
+opacity:0;
+
+transform:translateY(-25px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+}
 
         .nav-item span.nav-item-label {
           position: relative;
@@ -47,38 +84,65 @@ export function Header() {
           bottom: -4px;
           height: 2px;
           border-radius: 999px;
-          background: linear-gradient(90deg, var(--red), var(--purple));
+          background:linear-gradient(
+90deg,
+#7C3AED,
+#EC4899,
+#06B6D4
+);
           transition: right 0.35s cubic-bezier(0.65, 0, 0.35, 1);
         }
 
         .nav-item:hover,
-        .nav-item-active {
-          color: var(--red);
-        }
+.nav-item-active{
+
+    color:#7C3AED;
+
+    background:rgba(124,58,237,.08);
+
+}
 
         .nav-item:hover span.nav-item-label::after,
         .nav-item-active span.nav-item-label::after {
           right: 0;
         }
 
-        .book-now-button {
-          position: relative;
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          min-height: 42px;
-          padding: 0 18px 0 20px;
-          border-radius: 999px;
-          border: none;
-          font-size: 14px;
-          font-weight: 800;
-          color: var(--white);
-          text-decoration: none;
-          background: linear-gradient(135deg, var(--red), var(--purple));
-          box-shadow: 0 10px 24px rgba(233, 38, 45, 0.28);
-          overflow: hidden;
-          transition: transform 0.25s ease, box-shadow 0.25s ease;
-        }
+        .book-now-button{
+
+    position:relative;
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    height:48px;
+
+    padding:0 22px;
+
+    border-radius:999px;
+
+    background:linear-gradient(
+135deg,
+#7C3AED,
+#A855F7,
+#EC4899
+    );
+
+    background-size:200% 200%;
+
+    color:white;
+
+    font-weight:800;
+
+    transition:.35s;
+
+    animation:gradientMove 5s infinite;
+
+    box-shadow:0 12px 35px rgba(124,58,237,.35);
+
+}
 
         .book-now-button::before {
           content: "";
@@ -154,7 +218,7 @@ export function Header() {
           left: 0;
           right: 0;
           height: 3px;
-          background: linear-gradient(90deg, var(--red), var(--purple));
+          background: linear-gradient(90deg, #7C3AED, #EC4899, #06B6D4);
         }
 
         .nav-group:hover .nav-menu,
@@ -188,7 +252,7 @@ export function Header() {
         }
 
         .nav-subitem:hover {
-          background: linear-gradient(90deg, rgba(91, 23, 125, 0.07), rgba(8, 168, 215, 0.05));
+          background: linear-gradient(90deg, #7C3AED, #EC4899, #06B6D4);
           color: var(--purple);
           padding-left: 18px;
         }
@@ -208,11 +272,32 @@ export function Header() {
           transform: rotate(180deg);
           opacity: 1;
         }
+
+        .nav-item-active{
+
+background:rgba(124,58,237,.12);
+
+box-shadow:0 8px 20px rgba(124,58,237,.15);
+
+}
       `}</style>
 
       <div className="nav-shell">
         <Link href="/" className="brand" style={{ display: "flex", textDecoration: "none" }}>
-          <img src={assets.logo} alt="EduMark logo" />
+          <img src={assets.logo} alt="EduMark logo"
+            style={{
+              height: "56px",
+              width: "auto",
+              transition: ".3s"
+            }}
+
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "scale(1.08)";
+            }}
+
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "scale(1)";
+            }} />
           <span>
             <strong>EduMark</strong>
             <small>Education Consultancy</small>

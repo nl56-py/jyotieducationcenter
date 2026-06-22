@@ -3,6 +3,7 @@ import { DashboardCards } from "@/components/admin/DashboardCards";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { requireAuth } from "@/lib/auth/guards";
 import { Plus, Users, Calendar, FileText } from "lucide-react";
+import { LeadGrowthChart } from "@/components/admin/LeadGrowthChart";
 
 export default async function DashboardPage() {
   const user = await requireAuth();
@@ -48,6 +49,10 @@ export default async function DashboardPage() {
     },
   ];
 
+  // let upcomingConsultations: any[] = [];
+
+
+
   // If Supabase is configured, fetch live data
   const supabase = await createSupabaseServerClient();
   if (supabase) {
@@ -64,15 +69,31 @@ export default async function DashboardPage() {
         securityAlertsCount: alertsCount || 0,
       };
 
-      const { data: dbLeads } = await supabase
-        .from("leads")
-        .select("*")
-        .order("created_at", { ascending: false })
-        .limit(5);
+      // const { data: dbLeads } = await supabase
+      //   .from("leads")
+      //   .select("*")
+      //   .order("created_at", { ascending: false })
+      //   .limit(5)
 
-      if (dbLeads && dbLeads.length > 0) {
-        recentLeads = dbLeads;
-      }
+      // if (dbLeads && dbLeads.length > 0) {
+      //   recentLeads = dbLeads;
+      // }
+
+      // const { data: dbBookings } = await supabase
+      //   .from("consultation_bookings")
+      //   .select("*")
+      //   .order("preferred_date", { ascending: true })
+      //   .limit(5);
+
+      // if (dbBookings) {
+      //   upcomingConsultations = dbBookings.map((booking: any) => ({
+      //     id: booking.id,
+      //     name: booking.full_name,
+      //     destination: booking.preferred_destination,
+      //     time: booking.preferred_time,
+      //     status: booking.status?.toLowerCase() || "requested",
+      //   }));
+      // }
     } catch (e) {
       console.warn("Could not load dashboard stats from Supabase:", e);
     }
@@ -80,10 +101,10 @@ export default async function DashboardPage() {
 
   return (
     <div>
-      <div 
-        style={{ 
-          display: "flex", 
-          justifyContent: "space-between", 
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
           alignItems: "center",
           marginBottom: "24px"
         }}
@@ -107,6 +128,81 @@ export default async function DashboardPage() {
 
       {/* Dashboard Metrics */}
       <DashboardCards stats={stats} />
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "2fr 1fr",
+          gap: "24px",
+          marginTop: "24px",
+          marginBottom: "24px",
+        }}
+      >
+        <LeadGrowthChart />
+
+        <div className="panel-card" style={{ marginBottom: 0, padding: "24px" }}>
+          <h3 className="panel-card-title">Leads by Destination</h3>
+
+          <div style={{ marginTop: "20px" }}>
+            Australia
+            <div
+              style={{
+                height: 8,
+                background: "#E5E7EB",
+                borderRadius: 999,
+                margin: "6px 0 16px",
+              }}
+            >
+              <div
+                style={{
+                  width: "45%",
+                  height: "100%",
+                  background: "#7C3AED",
+                  borderRadius: 999,
+                }}
+              />
+            </div>
+
+            Canada
+            <div
+              style={{
+                height: 8,
+                background: "#E5E7EB",
+                borderRadius: 999,
+                margin: "6px 0 16px",
+              }}
+            >
+              <div
+                style={{
+                  width: "30%",
+                  height: "100%",
+                  background: "#EC4899",
+                  borderRadius: 999,
+                }}
+              />
+            </div>
+
+            UK
+            <div
+              style={{
+                height: 8,
+                background: "#E5E7EB",
+                borderRadius: 999,
+                margin: "6px 0 16px",
+              }}
+            >
+              <div
+                style={{
+                  width: "15%",
+                  height: "100%",
+                  background: "#06B6D4",
+                  borderRadius: 999,
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "24px" }}>
         {/* Recent Leads Table */}
@@ -162,68 +258,130 @@ export default async function DashboardPage() {
         {/* Quick Actions Panel */}
         <div className="panel-card" style={{ marginBottom: 0 }}>
           <div className="panel-card-header">
-            <h3 className="panel-card-title">Quick Actions</h3>
+            <h3
+              className="panel-card-title"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+                fontSize: "18px",
+              }}
+            >
+              ⚡ Quick Actions
+            </h3>
           </div>
           <div style={{ padding: "24px", display: "flex", flexDirection: "column", gap: "16px" }}>
-            <Link 
-              href="/admin/bookings" 
-              style={{ 
-                display: "flex", 
-                alignItems: "center", 
-                gap: "12px", 
-                padding: "12px", 
-                background: "var(--dm-surface-container-low)", 
-                borderRadius: "var(--dm-rounded-md)",
-                color: "inherit"
-              }}
-            >
-              <Calendar size={18} className="text-primary" />
-              <div>
-                <div style={{ fontWeight: 600, fontSize: "14px" }}>Schedule Consultation</div>
-                <div style={{ fontSize: "11px", color: "var(--dm-outline)" }}>Book a session with a student</div>
+            <Link href="/admin/bookings" className="quick-action-item">
+              <div className="quick-action-icon purple">
+                <Calendar size={22} />
               </div>
+
+              <div className="quick-action-content">
+                <h4>Schedule Consultation</h4>
+                <p>Book a session with a student</p>
+              </div>
+              <span className="quick-action-arrow">→</span>
             </Link>
 
-            <Link 
-              href="/admin/blogs" 
-              style={{ 
-                display: "flex", 
-                alignItems: "center", 
-                gap: "12px", 
-                padding: "12px", 
-                background: "var(--dm-surface-container-low)", 
-                borderRadius: "var(--dm-rounded-md)",
-                color: "inherit"
-              }}
-            >
-              <FileText size={18} className="text-secondary" />
-              <div>
-                <div style={{ fontWeight: 600, fontSize: "14px" }}>Manage Publications</div>
-                <div style={{ fontSize: "11px", color: "var(--dm-outline)" }}>Edit destinations or blog entries</div>
+            <Link href="/admin/blogs" className="quick-action-item">
+              <div className="quick-action-icon blue">
+                <FileText size={22} />
               </div>
+
+              <div className="quick-action-content">
+                <h4>Manage Publications</h4>
+                <p>Edit destinations & blogs</p>
+              </div>
+              <span className="quick-action-arrow">→</span>
             </Link>
 
-            <Link 
-              href="/admin/security" 
-              style={{ 
-                display: "flex", 
-                alignItems: "center", 
-                gap: "12px", 
-                padding: "12px", 
-                background: "var(--dm-surface-container-low)", 
-                borderRadius: "var(--dm-rounded-md)",
-                color: "inherit"
-              }}
-            >
-              <Users size={18} className="text-primary" />
-              <div>
-                <div style={{ fontWeight: 600, fontSize: "14px" }}>Manage User Roles</div>
-                <div style={{ fontSize: "11px", color: "var(--dm-outline)" }}>Control counselor permissions</div>
+            <Link href="/admin/security" className="quick-action-item">
+              <div className="quick-action-icon red">
+                <Users size={22} />
               </div>
+
+              <div className="quick-action-content">
+                <h4>Manage User Roles</h4>
+                <p>Control counselor permissions</p>
+              </div>
+              <span className="quick-action-arrow">→</span>
             </Link>
           </div>
         </div>
+
+        {/* Upcoming Consultations
+      /*  <div className="panel-card" style={{ marginBottom: 0 }}>
+          <div className="panel-card-header">
+            <h3 className="panel-card-title">
+              📅 Upcoming Consultations
+            </h3>
+          </div>
+
+          <div style={{ padding: "20px" }}>
+            {upcomingConsultations.map((item) => (
+              <div
+                key={item.id}
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  padding: "16px 0",
+                  borderBottom: "1px solid #E5E7EB",
+                }}
+              >
+                <div>
+                  <div style={{ fontWeight: 700 }}>
+                    👤 {item.name}
+                  </div>
+
+                  <div style={{ color: "#64748B" }}>
+                    🌍 {item.destination}
+                  </div>
+
+                  <div style={{ color: "#64748B" }}>
+                    📅 {item.time}
+                  </div>
+                </div>
+
+                <span
+                  style={{
+                    padding: "6px 12px",
+                    borderRadius: "999px",
+                    fontSize: "13px",
+                    fontWeight: 700,
+                    background:
+                      item.status === "confirmed"
+                        ? "#DCFCE7"
+                        : item.status === "pending" || item.status === "requested"
+                          ? "#FEF3C7"
+                          : item.status === "cancelled"
+                            ? "#FEE2E2"
+                            : "#DBEAFE",
+                    color:
+                      item.status === "confirmed"
+                        ? "#15803D"
+                        : item.status === "pending" || item.status === "requested"
+                          ? "#B45309"
+                          : item.status === "cancelled"
+                            ? "#DC2626"
+                            : "#1D4ED8",
+                  }}
+                >
+                  {item.status === "confirmed" && "🟢 Confirmed"}
+
+                  {(item.status === "pending" || item.status === "requested") &&
+                    "🟡 Pending"}
+
+                  {item.status === "scheduled" && "🔵 Scheduled"}
+
+                  {item.status === "cancelled" && "🔴 Cancelled"}
+                </span>
+              </div>
+            ))}
+          </div>  */}
       </div>
     </div>
+
+
   );
 }
