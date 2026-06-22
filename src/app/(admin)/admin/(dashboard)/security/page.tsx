@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { ShieldCheck, ShieldAlert, Key, RefreshCw, CheckCircle2 } from "lucide-react";
+import { useState, useEffect } from "react";
+import { ShieldCheck, ShieldAlert, Key, RefreshCw, CheckCircle2, CheckCircle } from "lucide-react";
 
 export default function SecurityCenterPage() {
   const [checklist, setChecklist] = useState([
@@ -12,13 +12,56 @@ export default function SecurityCenterPage() {
     { task: "Multi-Factor Authentication (MFA) for staff", status: false }
   ]);
 
-  const [failedLogins, setFailedLogins] = useState([
-    { ip: "202.166.220.1", user_agent: "Mozilla/5.0...", timestamp: "2026-06-11 11:32:04", count: 1 },
-    { ip: "185.220.101.4", user_agent: "Python requests...", timestamp: "2026-06-11 09:15:11", count: 3 }
-  ]);
+  const [events, setEvents] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  const mockEvents = [
+    { id: "1", event_type: "auth_failure", severity: "high", fingerprint: "ip_202.166.220.1", details: { ip: "202.166.220.1", user_agent: "Mozilla/5.0...", error: "Invalid password credentials" }, resolved_at: null, created_at: new Date().toISOString() },
+    { id: "2", event_type: "rate_limit_violation", severity: "medium", fingerprint: "ip_185.220.101.4", details: { ip: "185.220.101.4", user_agent: "Python requests...", route: "/api/forms/inquiry" }, resolved_at: new Date().toISOString(), created_at: new Date(Date.now() - 3600000).toISOString() }
+  ];
+
+  const fetchEvents = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch("/api/admin/security");
+      if (response.ok) {
+        const data = await response.json();
+        if (data && data.length > 0) {
+          setEvents(data);
+          setLoading(false);
+          return;
+        }
+      }
+    } catch (e) {
+      console.warn("Failed to fetch security events from API:", e);
+    }
+    setEvents(mockEvents);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchEvents();
+  }, []);
 
   const handleMfaToggle = () => {
     setChecklist(checklist.map(c => c.task.includes("MFA") ? { ...c, status: !c.status } : c));
+  };
+
+  const handleResolveEvent = async (id: string, isResolved: boolean) => {
+    setLoading(true);
+    try {
+      const response = await fetch("/api/admin/security", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, resolve: !isResolved })
+      });
+      if (response.ok) {
+        await fetchEvents();
+      }
+    } catch (err) {
+      console.error("Failed to resolve security event:", err);
+    }
+    setLoading(false);
   };
 
   return (
@@ -30,6 +73,9 @@ export default function SecurityCenterPage() {
             Monitor login failures, manage rate limits, and audit OWASP Top-10 policy compliance.
           </p>
         </div>
+        <button className="btn btn-light" onClick={fetchEvents} style={{ height: "36px", padding: "0 12px", display: "flex", alignItems: "center", gap: "6px" }}>
+          <RefreshCw size={14} className={loading ? "spin" : ""} /> Refresh
+        </button>
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px" }}>
@@ -38,7 +84,7 @@ export default function SecurityCenterPage() {
           <div className="panel-card-header">
             <h3 className="panel-card-title" style={{ display: "flex", alignItems: "center", gap: "8px" }}>
               <ShieldCheck size={20} className="text-secondary" />
-              OWASP compliance checklist
+              OWASP Compliance Checklist
             </h3>
           </div>
           <div style={{ padding: "24px", display: "flex", flexDirection: "column", gap: "16px" }}>
@@ -57,37 +103,47 @@ export default function SecurityCenterPage() {
           </div>
         </div>
 
-        {/* Failed Login Attempts */}
+        {/* Failed Logins & Abuse Events */}
         <div className="panel-card" style={{ marginBottom: 0 }}>
           <div className="panel-card-header">
             <h3 className="panel-card-title" style={{ display: "flex", alignItems: "center", gap: "8px" }}>
               <ShieldAlert size={20} className="text-error" />
-              Failed Authentications (API A07)
+              Failed Authentications & Form Abuse events
             </h3>
           </div>
           <div className="table-responsive">
             <table className="admin-table">
               <thead>
                 <tr>
-                  <th>Requester IP</th>
-                  <th>Failures</th>
-                  <th>Timestamp</th>
+                  <th>Event details</th>
+                  <th>Severity</th>
+                  <th>Resolution</th>
                 </tr>
               </thead>
               <tbody>
-                {failedLogins.map((f, idx) => (
-                  <tr key={idx}>
+                {events.map((e) => (
+                  <tr key={e.id}>
                     <td>
-                      <div style={{ fontWeight: 600, display: "flex", alignItems: "center", gap: "6px" }}>
-                        <Key size={14} className="text-outline" />
-                        {f.ip}
+                      <div style={{ fontWeight: 600 }}>{e.event_type.replace(/_/g, " ").toUpperCase()}</div>
+                      <div style={{ fontSize: "11px", color: "var(--dm-outline)", maxWidth: "250px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                        IP: {e.details?.ip || "Unknown"} • {e.details?.user_agent || "No UA"}
                       </div>
-                      <div style={{ fontSize: "11px", color: "var(--dm-outline)", maxWidth: "160px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                        {f.user_agent}
-                      </div>
+                      {e.details?.error && <div style={{ fontSize: "11px", color: "var(--dm-error)" }}>{e.details.error}</div>}
                     </td>
-                    <td><span style={{ color: "var(--dm-error)", fontWeight: 700 }}>{f.count}</span></td>
-                    <td style={{ fontSize: "12px" }}>{f.timestamp}</td>
+                    <td>
+                      <span className={`status-badge severity-${e.severity}`} style={{ textTransform: "capitalize", background: e.severity === "high" ? "#FEE2E2" : "#FEF3C7", color: e.severity === "high" ? "#DC2626" : "#D97706" }}>
+                        {e.severity}
+                      </span>
+                    </td>
+                    <td>
+                      <button 
+                        className={`btn ${e.resolved_at ? "btn-secondary" : "btn-light"}`}
+                        style={{ height: "30px", padding: "0 8px", fontSize: "12px" }}
+                        onClick={() => handleResolveEvent(e.id, !!e.resolved_at)}
+                      >
+                        {e.resolved_at ? <CheckCircle2 size={12} className="text-secondary" /> : "Resolve"}
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>

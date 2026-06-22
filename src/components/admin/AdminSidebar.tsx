@@ -15,7 +15,9 @@ import {
   Shield, 
   Video, 
   Layers,
-  BookOpen
+  BookOpen,
+  ArrowRightLeft,
+  Search
 } from "lucide-react";
 
 interface AdminSidebarProps {
@@ -82,11 +84,13 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
         { label: "Team & Testimonials", href: "/admin/team", icon: Users, roles: ["super_admin", "admin", "editor"] },
         { label: "Videos Gallery", href: "/admin/videos", icon: Video, roles: ["super_admin", "admin", "editor"] },
         { label: "Media Library", href: "/admin/media", icon: Folder, roles: ["super_admin", "admin", "editor"] },
+        { label: "SEO Control", href: "/admin/seo", icon: Search, roles: ["super_admin", "admin", "editor"] },
       ],
     },
     {
       title: "System",
       items: [
+        { label: "Redirects", href: "/admin/redirects", icon: ArrowRightLeft, roles: ["super_admin", "admin"] },
         { label: "User Management", href: "/admin/users", icon: Shield, roles: ["super_admin"] },
         { label: "Audit Logs", href: "/admin/audit-logs", icon: BookOpen, roles: ["super_admin", "admin"] },
         { label: "Security Center", href: "/admin/security", icon: ShieldAlert, roles: ["super_admin", "admin"] },
