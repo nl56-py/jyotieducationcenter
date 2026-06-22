@@ -267,8 +267,30 @@ export function BookingPage() {
           {sent ? (
             <div className="form-success-premium">
               <div style={{ fontSize: 48, marginBottom: 12 }}>✅</div>
-              <h3 style={{ color: "var(--navy)", marginBottom: 8 }}>Consultation requested</h3>
-              <p style={{ color: "var(--muted)" }}>Thank you! Your profile assessment has been scheduled. An advisor will contact you to confirm the exact time slot.</p>
+
+              <h3
+                style={{
+                  color: "#FFFFFF",
+                  fontSize: "2rem",
+                  fontWeight: 800,
+                  marginBottom: 14,
+                }}
+              >
+                Consultation Requested
+              </h3>
+
+              <p
+                style={{
+                  color: "#F1F5F9",
+                  fontSize: "16px",
+                  lineHeight: 1.8,
+                  maxWidth: "520px",
+                  margin: "0 auto",
+                }}
+              >
+                Thank you! Your profile assessment has been scheduled. An advisor will
+                contact you shortly to confirm your consultation time.
+              </p>
             </div>
           ) : (
             <form
