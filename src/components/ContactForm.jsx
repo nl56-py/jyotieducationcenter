@@ -187,6 +187,9 @@ export function ContactForm({
 
             <select
               className="premium-select"
+              style={{
+                paddingLeft: "52px"
+              }}
               value={interest}
               onChange={(e) => setInterest(e.target.value)}
               required
@@ -219,6 +222,9 @@ export function ContactForm({
 
             <textarea
               className="premium-textarea"
+              style={{
+                paddingLeft: "52px"
+              }}
               rows={5}
               placeholder="Tell us about your study plans..."
               value={message}
