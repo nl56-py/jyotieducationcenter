@@ -1,6 +1,6 @@
 "use client";
 
-import { Bell, Menu, Shield } from "lucide-react";
+import { Bell, Menu, Shield, X } from "lucide-react";
 
 interface AdminHeaderProps {
   title: string;
@@ -8,34 +8,38 @@ interface AdminHeaderProps {
     fullName: string;
     role: string;
   };
+  sidebarOpen: boolean;
   onMenuToggle?: () => void;
 }
 
-export function AdminHeader({ title, user, onMenuToggle }: AdminHeaderProps) {
+export function AdminHeader({
+  title,
+  user,
+  sidebarOpen,
+  onMenuToggle,
+}: AdminHeaderProps) {
   return (
     <header className="admin-header">
       <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-        <button 
+        <button
           onClick={onMenuToggle}
-          className="btn btn-light" 
-          style={{ 
-            display: "none", 
-            padding: "8px", 
+          className="btn btn-light mobile-menu-btn"
+          style={{
+            padding: "8px",
             height: "auto",
-            justifyContent: "center"
+            justifyContent: "center",
           }}
-          id="mobile-nav-toggle"
         >
-          <Menu size={20} />
+          {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
         <h1 className="header-title">{title}</h1>
       </div>
 
       <div className="header-actions">
-        <div 
-          style={{ 
-            display: "flex", 
-            alignItems: "center", 
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
             gap: "8px",
             padding: "6px 12px",
             background: "var(--dm-surface-container-low)",
@@ -51,10 +55,10 @@ export function AdminHeader({ title, user, onMenuToggle }: AdminHeaderProps) {
           </span>
         </div>
 
-        <button 
+        <button
           className="btn btn-light"
-          style={{ 
-            padding: "8px", 
+          style={{
+            padding: "8px",
             height: "auto",
             borderRadius: "var(--dm-rounded-full)",
             border: "none",

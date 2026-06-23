@@ -101,27 +101,9 @@ export function DashboardCards({ stats }: DashboardCardsProps) {
               }}
             >
               <div>
-                <p
-                  style={{
-                    color: "#64748B",
-                    fontWeight: 600,
-                    fontSize: 14,
-                    marginBottom: 10,
-                  }}
-                >
-                  {card.label}
-                </p>
+                <p className="stat-title">{card.label}</p>
 
-                <h2
-                  style={{
-                    fontSize: 34,
-                    fontWeight: 800,
-                    color: "#0F172A",
-                    margin: 0,
-                  }}
-                >
-                  {card.value}
-                </h2>
+                <h2 className="stat-value">{card.value}</h2>
 
                 <div
                   style={{

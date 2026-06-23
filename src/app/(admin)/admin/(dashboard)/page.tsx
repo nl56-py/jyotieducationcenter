@@ -120,7 +120,13 @@ export default async function DashboardPage() {
       {/* Dashboard Metrics */}
       <DashboardCards stats={stats} />
 
-      <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "24px", marginTop: "24px", marginBottom: "24px" }}>
+      <div
+        className="dashboard-grid"
+        style={{
+          marginTop: "24px",
+          marginBottom: "24px",
+        }}
+      >
         <LeadGrowthChart />
 
         {/* Content Health Card */}
@@ -141,13 +147,13 @@ export default async function DashboardPage() {
               <span style={{ fontSize: "13px", color: "var(--dm-outline)" }}>{healthyPublished}/{totalPublished} Optimized</span>
             </div>
             <div style={{ height: "8px", background: "#E5E7EB", borderRadius: "999px", overflow: "hidden" }}>
-              <div 
-                style={{ 
-                  width: `${contentHealthScore}%`, 
-                  height: "100%", 
+              <div
+                style={{
+                  width: `${contentHealthScore}%`,
+                  height: "100%",
                   background: contentHealthScore > 80 ? "var(--dm-primary)" : contentHealthScore > 50 ? "#D97706" : "#DC2626",
-                  borderRadius: "999px" 
-                }} 
+                  borderRadius: "999px"
+                }}
               />
             </div>
           </div>
@@ -158,7 +164,7 @@ export default async function DashboardPage() {
         </div>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "24px" }}>
+      <div className="dashboard-grid">
         {/* Recent Leads Table */}
         <div className="panel-card" style={{ marginBottom: 0 }}>
           <div className="panel-card-header">

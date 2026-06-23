@@ -135,25 +135,44 @@
   overflow: hidden;
 }
 
-/* Sidebar Styling */
 .admin-sidebar {
   width: var(--admin-sidebar-width);
-  height: 100vh;
   background: var(--dm-surface);
   border-right: 1px solid var(--dm-surface-container);
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 100;
 }
 
-.sidebar-header {
-  height: var(--admin-header-height);
-  padding: 0 24px;
-  display: flex;
-  align-items: center;
-  border-bottom: 1px solid var(--dm-surface-container);
+
+
+
+.sidebar-close-btn {
+  display: none;
+}
+
+@media (max-width: 992px) {
+  .sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .sidebar-close-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    border-radius: 8px;
+  }
+
+  .sidebar-close-btn:hover {
+    background: #f3f4f6;
+  }
 }
 
 .sidebar-brand {
@@ -319,30 +338,109 @@
   padding: 32px;
 }
 
-/* Cards & Stats Grid */
+
+.stat-trend {
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+
+/* Mobile */
+@media (max-width: 992px) {
+
+  .mobile-menu-btn {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1001;
+  }
+
+  .admin-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 260px;
+    height: 100vh;
+    background: #fff;
+
+    transform: translateX(-100%);
+    transition: .3s;
+
+    z-index: 999;
+  }
+
+  .admin-sidebar.open {
+    transform: translateX(0);
+  }
+
+  .sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, .45);
+    z-index: 998;
+  }
+
+  .admin-header {
+    padding-left: 70px;
+  }
+
+  .header-actions {
+    display: none;
+  }
+}
+
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 24px;
-  margin-bottom: 32px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
 }
 
 .stat-card {
-  background: var(--dm-surface);
-  border-radius: var(--dm-rounded-lg);
-  border: 1px solid var(--dm-surface-container);
-  padding: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-shadow: var(--dm-shadow-sm);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform .3s ease, box-shadow .3s ease;
 }
 
 .stat-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--dm-shadow-lg);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 18px 40px rgba(124, 58, 237, .12);
 }
+
+.stat-title {
+  font-size: 13px !important;
+}
+
+
+
+.stat-icon {
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 14px !important;
+}
+
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+
+
+
+
+
+
+.stat-title {
+  color: #64748B;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+
 
 .stat-info {
   display: flex;
@@ -384,6 +482,26 @@
 .stat-icon.error {
   background: var(--dm-error-container);
   color: var(--dm-error);
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+}
+
+.dashboard-grid>* {
+  min-width: 0;
+}
+
+@media (max-width: 768px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .panel-card {
+    width: 100%;
+  }
 }
 
 /* Tables and Data Presentation */
@@ -930,10 +1048,29 @@
 @media (max-width: 992px) {
   .admin-sidebar {
     position: fixed;
+    top: 0;
+    left: 0;
+    width: 280px;
+    /* Same width as desktop */
+    max-width: 80vw;
+    /* Prevents it from becoming too wide on small phones */
+    height: 100vh;
+    background: #fff;
+    z-index: 1000;
+
     transform: translateX(-100%);
+    transition: transform .3s ease;
   }
 
   .admin-sidebar.open {
     transform: translateX(0);
   }
+}
+
+.admin-sidebar {
+  z-index: 1000;
+}
+
+.admin-header {
+  z-index: 100;
 }

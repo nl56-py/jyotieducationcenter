@@ -1,6 +1,5 @@
 import { requireAuth } from "@/lib/auth/guards";
-import { AdminSidebar } from "@/components/admin/AdminSidebar";
-import { AdminHeader } from "@/components/admin/AdminHeader";
+import AdminShell from "@/components/admin/AdminShell";
 import "@/styles/admin.css";
 
 export const metadata = {
@@ -13,20 +12,11 @@ export default async function DashboardGroupLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // Enforce server-side authorization check for dashboard group
   const user = await requireAuth();
 
   return (
-    <div className="admin-body">
-      <div className="admin-layout">
-        <AdminSidebar user={user} />
-        <main className="admin-main">
-          <AdminHeader title="EduMark Portal" user={user} />
-          <div className="admin-content-scrollable">
-            {children}
-          </div>
-        </main>
-      </div>
-    </div>
+    <AdminShell user={user}>
+      {children}
+    </AdminShell>
   );
 }
