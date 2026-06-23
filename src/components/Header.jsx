@@ -5,6 +5,10 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { AppLink } from "./AppLink.jsx";
 import { assets } from "../data/assets.js";
+import { site, navItems } from "../data/site.js";
+import { ChevronDown, ArrowRight, ArrowUpRight } from "lucide-react";
+import "../styles/frontend.css";
+
 import { navItems, site } from "../data/site.js";
 import { ChevronDown, ArrowRight, ArrowUpRight, Menu, X, Phone, MapPin } from "lucide-react";
 

@@ -2,22 +2,23 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { 
-  LayoutDashboard, 
-  Users, 
-  Calendar, 
-  FileText, 
-  Globe, 
-  Settings, 
-  ShieldAlert, 
-  LogOut, 
-  Folder, 
-  Shield, 
-  Video, 
+import {
+  LayoutDashboard,
+  Users,
+  Calendar,
+  FileText,
+  Globe,
+  Settings,
+  ShieldAlert,
+  LogOut,
+  Folder,
+  Shield,
+  Video,
   Layers,
   BookOpen,
   ArrowRightLeft,
-  Search
+  Search,
+  X
 } from "lucide-react";
 
 interface AdminSidebarProps {
@@ -27,16 +28,22 @@ interface AdminSidebarProps {
     role: string;
     isMock?: boolean;
   };
+  sidebarOpen: boolean;
+  onClose: () => void;
 }
-
-export function AdminSidebar({ user }: AdminSidebarProps) {
+export function AdminSidebar({
+  user,
+  sidebarOpen,
+  onClose,
+}: AdminSidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
+
 
   const handleLogout = async () => {
     // 1. Clear mock cookie if isMock
     document.cookie = "edumark_mock_session=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-    
+
     // 2. Clear real Supabase session if configured
     try {
       // We can also call a server action or API route to clear session
@@ -100,12 +107,21 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
   ];
 
   return (
-    <aside className="admin-sidebar">
+    <aside className={`admin-sidebar ${sidebarOpen ? "open" : ""}`}>
       <div className="sidebar-header">
         <div className="sidebar-brand">
           EduMark
-          <span className="sidebar-brand-badge">{user.isMock ? "MOCK" : "LIVE"}</span>
+          <span className="sidebar-brand-badge">
+            {user.isMock ? "MOCK" : "LIVE"}
+          </span>
         </div>
+
+        <button
+          className="sidebar-close-btn"
+          onClick={onClose}
+        >
+          <X size={20} />
+        </button>
       </div>
 
       <nav className="sidebar-nav">
@@ -126,9 +142,10 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
                   const Icon = item.icon;
                   const isActive = pathname === item.href;
                   return (
-                    <Link 
-                      key={itemIdx} 
+                    <Link
+                      key={itemIdx}
                       href={item.href}
+                      onClick={onClose}
                       className={`nav-item ${isActive ? "active" : ""}`}
                     >
                       <Icon size={18} />
