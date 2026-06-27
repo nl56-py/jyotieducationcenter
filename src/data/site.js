@@ -10,7 +10,17 @@ export const site = {
 
 export const navItems = [
   { label: "Home", path: "/" },
-  { label: "About", path: "/about" },
+  {
+    label: "About",
+    path: "/about",
+    children: [
+      { label: "Our Story", path: "/about#story" },
+      { label: "CEO Message", path: "/about#ceo" },
+      { label: "Our Team", path: "/about#team" },
+      { label: "Milestones", path: "/about#milestones" },
+      { label: "Accreditations", path: "/about#accreditations" },
+    ],
+  },
   {
     label: "Services",
     path: "/services",

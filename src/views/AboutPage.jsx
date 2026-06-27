@@ -358,15 +358,15 @@ const STATS = [
 ];
 
 const MILESTONES = [
-  { year: "2012", title: "The Foundation", tagline: "Where integrity met advice", description: "EduMark was established in Biratnagar as a specialized test preparation and counseling center. Our mission was simple: provide honest, uncompromised paths for ambitious students from Koshi Province.", metric: "1st Office", metricLabel: "in Biratnagar", accent: "var(--purple)" },
-  { year: "2016", title: "Multi-Destination Launch", tagline: "Connecting with global partners", description: "We expanded our global network, establishing direct partnerships with top-tier colleges and universities across Australia, the UK, Canada, and Japan, offering a unified path for diverse profiles.", metric: "5+ Countries", metricLabel: "added as routes", accent: "var(--cyan)" },
-  { year: "2020", title: "Academy & Prep Growth", tagline: "Pioneering medical & management prep", description: "Seeing the need for local entrance prep, we launched CEE and CMAT coaching, bringing class-leading educators from Kathmandu and designing highly targeted modules.", metric: "1,200+", metricLabel: "students trained", accent: "var(--red)" },
-  { year: "2026", title: "Digital & Global Future", tagline: "State-of-the-art guidance", description: "Today, we are the Eastern Region's most trusted name, combining advanced visual counseling portals with our physical counseling spaces, assisting thousands of students every year.", metric: "2,400+", metricLabel: "successful placements", accent: "var(--indigo)" },
+  { year: "2012", title: "The Foundation", tagline: "Where integrity met advice", description: "EduMark was established in Biratnagar as a specialized test preparation and counseling center. Our mission was simple: provide honest, uncompromised paths for ambitious students from Koshi Province.", metric: "Est. 2012", metricLabel: "in Biratnagar", accent: "var(--purple)" },
+  { year: "2015", title: "ECAN Membership", tagline: "Committing to professional standards", description: "EduMark officially became a member of the Educational Consultancy Association of Nepal (ECAN), committing to the association's ethical standards and counseling code of conduct.", metric: "ECAN", metricLabel: "Member Since 2015", accent: "var(--cyan)" },
+  { year: "2018", title: "Ministry Approval", tagline: "Certified by the government", description: "We received formal approval and certification from the Ministry of Education, Science and Technology, Nepal, cementing our status as a licensed consultancy.", metric: "Approved", metricLabel: "Ministry of Education", accent: "var(--red)" },
+  { year: "2026", title: "14 Years of Excellence", tagline: "Eastern region's trusted name", description: "With 14 years of dedicated service, 500+ partner universities worldwide, and hundreds of successful student placements, we continue to shape global academic futures.", metric: "500+", metricLabel: "Partner Universities", accent: "var(--indigo)" },
 ];
 
 const PILLARS = [
-  { tag: "OUR MISSION", title: "Empowering Ambitions", text: "We create a transparent, ethical, and high-support environment where students gain the absolute clarity, skills, and visa readiness needed to confidently step onto the global stage.", gradient: "linear-gradient(135deg, rgba(91, 23, 125, 0.05) 0%, rgba(8, 168, 215, 0.05) 100%)", borderColor: "rgba(91, 23, 125, 0.15)", icon: (<svg className="pillar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" /></svg>) },
-  { tag: "OUR VISION", title: "Global Competitive Edge", text: "To become the undisputed gold standard for multi-destination education in Nepal—where rigorous academic prep meets student-first career matchings and lifetime success stories.", gradient: "linear-gradient(135deg, rgba(8, 168, 215, 0.05) 0%, rgba(244, 196, 0, 0.05) 100%)", borderColor: "rgba(8, 168, 215, 0.15)", icon: (<svg className="pillar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10zM2 12h20" /></svg>) },
+  { tag: "OUR MISSION", title: "Ethical & Personalized Support", text: "To guide every student toward the best international opportunity through expert, ethical, and personalized support.", gradient: "linear-gradient(135deg, rgba(91, 23, 125, 0.05) 0%, rgba(8, 168, 215, 0.05) 100%)", borderColor: "rgba(91, 23, 125, 0.15)", icon: (<svg className="pillar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" /></svg>) },
+  { tag: "OUR VISION", title: "Global Exposure", text: "Unleashing Potential Through Global Exposure. We strive to be Nepal's gold standard—where rigorous preparation meets student-first career matching and lifetime success.", gradient: "linear-gradient(135deg, rgba(8, 168, 215, 0.05) 0%, rgba(244, 196, 0, 0.05) 100%)", borderColor: "rgba(8, 168, 215, 0.15)", icon: (<svg className="pillar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10zM2 12h20" /></svg>) },
   { tag: "OUR VALUES", title: "Absolute Transparency", text: "No hidden charges, no exaggerated claims. Our team gives advice that aligns with the student's profile, academic capabilities, financial realities, and genuine career prospects.", gradient: "linear-gradient(135deg, rgba(233, 38, 45, 0.05) 0%, rgba(91, 23, 125, 0.05) 100%)", borderColor: "rgba(233, 38, 45, 0.15)", icon: (<svg className="pillar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>) },
   { tag: "THE STUDENT COMPACT", title: "End-To-End Stewardship", text: "From selecting the right course to drafting an honest SOP, preparing for visa interviews, and pre-departure briefings—our relationship doesn't end with a visa stamp; it lasts through graduation.", gradient: "linear-gradient(135deg, rgba(244, 196, 0, 0.05) 0%, rgba(8, 168, 215, 0.05) 100%)", borderColor: "rgba(244, 196, 0, 0.15)", icon: (<svg className="pillar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" /></svg>) },
 ];
@@ -439,10 +439,12 @@ function AnimatedHeroVisual() {
 export function AboutPage({ navigate }) {
   const heroRef = useReveal();
   const storyRef = useReveal();
+  const ceoRef = useReveal();
+  const leadershipRef = useReveal();
   const milestonesRef = useReveal();
+  const accreditationsRef = useReveal();
   const pillarsRef = useReveal();
   const globeRef = useReveal();
-  const leadershipRef = useReveal();
   const intakeRef = useReveal();
   const tiltCard = useTiltCard(5);
 
@@ -944,19 +946,226 @@ export function AboutPage({ navigate }) {
           .intake-col-left h2 { font-size:2.1rem; }
           .journey-stats-strip { grid-template-columns: 1fr 1fr; }
           .journey-right h2 { font-size: 1.9rem; }
+          .ceo-message-inner { grid-template-columns: 1fr; padding: 2.5rem; gap: 3rem; }
+          .ceo-image-side { max-width: 300px; margin: 0 auto; }
+          .accreditations-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+        }
+
+        /* ── CEO Message Section ── */
+        .ceo-message-section {
+          padding: 6rem 0;
+          background: linear-gradient(180deg, transparent 0%, rgba(8, 168, 215, 0.02) 50%, transparent 100%);
+        }
+        .ceo-message-inner {
+          display: grid;
+          grid-template-columns: 0.8fr 1.2fr;
+          gap: 5rem;
+          align-items: center;
+          background: var(--glass-bg);
+          backdrop-filter: blur(20px);
+          border: 1px solid var(--glass-border);
+          border-radius: 36px;
+          padding: 4rem;
+          box-shadow: var(--glass-shadow);
+        }
+        .ceo-image-side {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 1.5rem;
+        }
+        .ceo-image-frame {
+          width: 100%;
+          aspect-ratio: 4/5;
+          border-radius: 24px;
+          overflow: hidden;
+          position: relative;
+          border: 1px solid var(--border-color);
+          box-shadow: 0 15px 35px rgba(7,31,61,0.08);
+        }
+        .ceo-image-frame img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: center top;
+        }
+        .ceo-image-overlay {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(to bottom, transparent 60%, rgba(7, 31, 61, 0.4) 100%);
+        }
+        .ceo-signature-block {
+          text-align: center;
+        }
+        .ceo-sig-text {
+          display: block;
+          font-family: 'Instrument Serif', Georgia, serif;
+          font-size: 2.2rem;
+          font-style: italic;
+          color: var(--primary);
+          line-height: 1;
+          margin-bottom: 0.25rem;
+        }
+        .ceo-sig-title {
+          display: block;
+          font-size: 0.78rem;
+          font-weight: 800;
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+          color: var(--text-muted);
+        }
+        .ceo-text-side {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .ceo-eyebrow {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.6rem;
+          font-size: 0.72rem;
+          font-weight: 800;
+          text-transform: uppercase;
+          letter-spacing: 0.12em;
+          color: var(--primary);
+          margin-bottom: 1.5rem;
+        }
+        .ceo-eyebrow-line {
+          width: 28px;
+          height: 2px;
+          background: var(--primary);
+          border-radius: 2px;
+        }
+        .ceo-text-side blockquote {
+          font-family: 'Instrument Serif', Georgia, serif;
+          font-size: 2rem;
+          line-height: 1.3;
+          font-style: italic;
+          color: var(--dark);
+          margin: 0 0 2rem 0;
+          border-left: 3px solid var(--secondary);
+          padding-left: 1.5rem;
+        }
+        .ceo-letter {
+          display: flex;
+          flex-direction: column;
+          gap: 1.25rem;
+          margin-bottom: 2.5rem;
+        }
+        .ceo-letter p {
+          font-size: 1.02rem;
+          color: var(--text-muted);
+          line-height: 1.75;
+          margin: 0;
+        }
+        .ceo-cta-btn-link {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.75rem;
+          padding: 1.1rem 2.2rem;
+          border-radius: 12px;
+          font-size: 1.05rem;
+          font-weight: 800;
+          background: linear-gradient(135deg, var(--secondary) 0%, #008eb7 100%);
+          color: #fff;
+          text-decoration: none;
+          box-shadow: 0 15px 30px rgba(8, 168, 215, 0.25);
+          transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s;
+        }
+        .ceo-cta-btn-link:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 20px 40px rgba(8, 168, 215, 0.35);
+        }
+
+        /* ── Accreditations Section ── */
+        .accreditations-section {
+          padding: 6rem 0;
+        }
+        .accreditations-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 2rem;
+          margin-top: 3.5rem;
+        }
+        .accreditation-card {
+          background: #fff;
+          border: 1px solid var(--border-color);
+          border-radius: 24px;
+          padding: 3rem 2.5rem;
+          box-shadow: 0 10px 30px rgba(7,31,61,0.02);
+          transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          text-align: left;
+        }
+        .accreditation-card:hover {
+          transform: translateY(-8px);
+          border-color: rgba(91, 23, 125, 0.25);
+          box-shadow: 0 30px 60px rgba(91, 23, 125, 0.08);
+        }
+        .accreditation-icon-wrap {
+          width: 56px;
+          height: 56px;
+          border-radius: 16px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 1.5rem;
+          transition: transform 0.4s;
+        }
+        .accreditation-icon-wrap svg {
+          width: 28px;
+          height: 28px;
+        }
+        .accreditation-icon-wrap.moe {
+          background: rgba(91, 23, 125, 0.06);
+          color: var(--primary);
+        }
+        .accreditation-icon-wrap.ecan {
+          background: rgba(8, 168, 215, 0.06);
+          color: var(--secondary);
+        }
+        .accreditation-icon-wrap.titi {
+          background: rgba(244, 196, 0, 0.08);
+          color: #b38600;
+        }
+        .accreditation-card:hover .accreditation-icon-wrap {
+          transform: scale(1.1) rotate(-6deg);
+        }
+        .accreditation-card h3 {
+          font-size: 1.4rem;
+          font-weight: 800;
+          color: var(--dark);
+          margin: 0 0 0.25rem 0;
+        }
+        .accreditation-subtitle {
+          font-size: 0.75rem;
+          font-weight: 800;
+          color: var(--text-muted);
+          letter-spacing: 0.05em;
+          text-transform: uppercase;
+          margin-bottom: 1rem;
+          display: block;
+        }
+        .accreditation-card p {
+          font-size: 0.95rem;
+          color: var(--text-muted);
+          line-height: 1.65;
+          margin: 0;
         }
       `}</style>
 
       {/* Hero */}
-      <section className="section redesigned-hero" ref={heroRef}>
+      <section className="section redesigned-hero" ref={heroRef} id="about-hero">
         <div className="hero-title-wrap" data-reveal="left">
           <div className="eyebrow-container">
             <span className="eyebrow-dot" />
             <span className="eyebrow-text">About EduMark</span>
           </div>
-          <h1>Shaping Global Futures From <em>Biratnagar.</em></h1>
+          <h1>The Most Trusted Consultancy in <em>Koshi Province.</em></h1>
           <p className="hero-desc">
-            Since 2012, EduMark has pioneered transparent counseling, academic preparation, and study abroad guidance. We believe in honest pathways, zero hidden terms, and lifetime student success.
+            Since 2012, EduMark has pioneered transparent counseling, academic preparation, and study abroad guidance from our center in Biratnagar. We believe in honest pathways, zero hidden terms, and lifetime student success.
           </p>
           <AppLink to="/book-free-consultation" navigate={navigate} className="hero-cta-btn">
             Get Free Counselling →
@@ -968,9 +1177,9 @@ export function AboutPage({ navigate }) {
       </section>
 
       {/* ══════════════════════════════════════
-          REDESIGNED "OUR JOURNEY" SECTION
+          REDESIGNED "OUR JOURNEY" SECTION (Story)
           ══════════════════════════════════════ */}
-      <section className="section journey-section" ref={storyRef}>
+      <section className="section journey-section" ref={storyRef} id="story">
         <div className="journey-inner">
           {/* Left: Visual mosaic */}
           <div className="journey-left" data-reveal="left">
@@ -996,11 +1205,13 @@ export function AboutPage({ navigate }) {
             <div>
               <div className="journey-eyebrow">
                 <span className="journey-eyebrow-line" />
-                Our Journey
+                Our Story
               </div>
-              <h2>The trust built over a <em>decade</em> of dedication</h2>
+              <h2>Leading multi-destination education consultancy</h2>
               <p className="journey-story-text">
-                Nestled in Biratnagar, EduMark Pvt. Ltd. represents the peak of personalized counseling and visa advisory services across Koshi Province. What started as a small, focused test preparation center has evolved into a full-scale multi-destination consultancy—guiding students from their first documentation drafts and test mock exams, all the way to securing study permits and pre-departure setups.
+                Nestled in Biratnagar, EduMark Pvt. Ltd. represents the peak of personalized counseling and visa advisory services across Koshi Province. Over the years, we have guided hundreds of students toward the best international academic opportunities. 
+                <br /><br />
+                We specialize in comprehensive, end-to-end guidance including **career counseling, university selection, admission processing, visa documentation assistance, and pre-departure briefings**, all backed by transparent processes and strong institutional partnerships.
               </p>
             </div>
 
@@ -1029,8 +1240,94 @@ export function AboutPage({ navigate }) {
         </div>
       </section>
 
-      {/* Interactive Timeline */}
-      <section className="section timeline-section" ref={milestonesRef}>
+      {/* Pillars (Mission & Vision) */}
+      <section className="section" ref={pillarsRef} id="mission-vision">
+        <SectionIntro eyebrow="Our Pillars" title="The Core Values that drive us" text="We guide students with standards of responsibility, ethical counseling, and measurable prep support." align="center" />
+        <div className="pillars-grid">
+          {PILLARS.map((pillar, i) => (
+            <div className="pillar-card" key={pillar.title} style={{ borderLeft: `5px solid ${pillar.borderColor}` }} data-reveal="scale" data-delay={i + 1}>
+              <div className="pillar-card-glow" style={{ background: pillar.gradient }} />
+              <div className="pillar-header">
+                <div className="pillar-icon-wrap" style={{ background: pillar.gradient }}>{pillar.icon}</div>
+                <div><span className="pillar-tag">{pillar.tag}</span><h3>{pillar.title}</h3></div>
+              </div>
+              <p>{pillar.text}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* CEO Message */}
+      <section className="section ceo-message-section" ref={ceoRef} id="ceo">
+        <div className="ceo-message-inner" data-reveal="scale">
+          <div className="ceo-image-side">
+            <div className="ceo-image-frame">
+              <img src={assets.leaders[0]} alt="Ravi Gupta, Founder & CEO" />
+              <div className="ceo-image-overlay" />
+            </div>
+            <div className="ceo-signature-block">
+              <span className="ceo-sig-text">Ravi Gupta</span>
+              <span className="ceo-sig-title">Founder & CEO, EduMark</span>
+            </div>
+          </div>
+          <div className="ceo-text-side">
+            <div className="ceo-eyebrow">
+              <span className="ceo-eyebrow-line" />
+              Message from the CEO
+            </div>
+            <blockquote>
+              "At EduMark, we don't just process university applications—we shape global careers with honesty, transparency, and absolute dedication. Your trust is our legacy."
+            </blockquote>
+            <div className="ceo-letter">
+              <p>
+                Dear Students and Parents,
+              </p>
+              <p>
+                Since our foundation in 2012, EduMark has been driven by a singular commitment: providing ethical, clear, and uncompromised pathways to international education. We understand that choosing to study abroad is a life-defining decision, filled with both aspirations and anxieties. 
+              </p>
+              <p>
+                That is why our team in Biratnagar works tirelessly to align your academic background and career goals with the finest global opportunities. We believe in providing personalized, end-to-end support—from matching you with the right course and university, to guiding you through visa documentation, mock interviews, and pre-departure briefings.
+              </p>
+              <p>
+                Our processes are built on trust and transparency. We have no hidden charges, and we give advice that genuinely aligns with your capabilities. I invite you to visit our Traffic Chowk center and let us help you turn your aspirations into global realities.
+              </p>
+            </div>
+            <AppLink to="/book-free-consultation" navigate={navigate} className="ceo-cta-btn-link">
+              Book a Counselling Session →
+            </AppLink>
+          </div>
+        </div>
+      </section>
+
+      {/* Leadership (Our Team) */}
+      <section className="section leadership-section" ref={leadershipRef} id="team">
+        <SectionIntro eyebrow="Our Counselors" title="The leadership driving EduMark" text="An experienced, certified core team working out of our Biratnagar center, assuring transparency and correct pathways." align="center" />
+        <div className="leaders-layout-grid">
+          {leaders.map((leader, i) => {
+            const meta = LEADER_METADATA[leader.role] || { badgeIcon: "user", badgeText: "Advisor", bio: "Dedicated EduMark team member assisting students in Biratnagar.", accent: "var(--primary)", gradient: "linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%)" };
+            return (
+              <article className="leader-card-premium" key={leader.name} data-reveal="scale" data-delay={i + 1}>
+                <div className="leader-gradient-bar" style={{ background: meta.gradient }} />
+                <div className="leader-avatar-container">
+                  <div className="leader-glow-ring" />
+                  <div className="leader-avatar-mask"><img src={leader.image} alt={leader.name} /></div>
+                  <div className="leader-badge-pill" style={{ color: meta.accent }}><LeaderBadgeIcon icon={meta.badgeIcon} /></div>
+                </div>
+                <h3>{leader.name}</h3>
+                <span className="leader-role-tag">{leader.role}</span>
+                <p className="leader-bio-desc">{meta.bio}</p>
+                <div className="leader-socials-row">
+                  <a href="#" className="leader-social-link" aria-label="LinkedIn"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" /></svg></a>
+                  <a href="#" className="leader-social-link" aria-label="Email"><svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg></a>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* Interactive Timeline (Milestones) */}
+      <section className="section timeline-section" ref={milestonesRef} id="milestones">
         <SectionIntro eyebrow="Our Legacy" title="Timeline of Milestones" text="Follow our evolution from a regional startup to a multi-destination career counseling ecosystem." align="center" />
         <div className="timeline-container" data-reveal>
           <div className="timeline-nav-pills">
@@ -1057,27 +1354,60 @@ export function AboutPage({ navigate }) {
         </div>
       </section>
 
-      {/* Pillars */}
-      <section className="section" ref={pillarsRef}>
-        <SectionIntro eyebrow="Our Pillars" title="The Core Values that drive us" text="We guide students with standards of responsibility, ethical counseling, and measurable prep support." align="center" />
-        <div className="pillars-grid">
-          {PILLARS.map((pillar, i) => (
-            <div className="pillar-card" key={pillar.title} style={{ borderLeft: `5px solid ${pillar.borderColor}` }} data-reveal="scale" data-delay={i + 1}>
-              <div className="pillar-card-glow" style={{ background: pillar.gradient }} />
-              <div className="pillar-header">
-                <div className="pillar-icon-wrap" style={{ background: pillar.gradient }}>{pillar.icon}</div>
-                <div><span className="pillar-tag">{pillar.tag}</span><h3>{pillar.title}</h3></div>
-              </div>
-              <p>{pillar.text}</p>
+      {/* Accreditations & Trust */}
+      <section className="section accreditations-section" ref={accreditationsRef} id="accreditations">
+        <SectionIntro
+          eyebrow="Accredited & Certified"
+          title="Credibility & Trust You Can Rely On"
+          text="We adhere to strict quality standards and industry regulations to ensure your future is secure."
+          align="center"
+        />
+        <div className="accreditations-grid" data-reveal="scale">
+          <div className="accreditation-card">
+            <div className="accreditation-icon-wrap moe">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                <path d="M2 17l10 5 10-5" />
+                <path d="M2 12l10 5 10-5" />
+              </svg>
             </div>
-          ))}
+            <h3>Approved by Ministry</h3>
+            <span className="accreditation-subtitle">Government of Nepal</span>
+            <p>Officially approved by the Ministry of Education, Science and Technology, satisfying all national regulatory benchmarks for abroad study consultancies.</p>
+          </div>
+
+          <div className="accreditation-card">
+            <div className="accreditation-icon-wrap ecan">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+              </svg>
+            </div>
+            <h3>ECAN Member</h3>
+            <span className="accreditation-subtitle">Educational Consultancy Association</span>
+            <p>A proud active member of the Educational Consultancy Association of Nepal (ECAN), committing to the association's ethical standards and counseling code of conduct.</p>
+          </div>
+
+          <div className="accreditation-card">
+            <div className="accreditation-icon-wrap titi">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 8v8" />
+                <path d="M8 12h8" />
+              </svg>
+            </div>
+            <h3>TITI Certified</h3>
+            <span className="accreditation-subtitle">Professional Training Standards</span>
+            <p>Our counselors are certified by the Training Institute for Technical Instruction (TITI), guaranteeing expert career advice and visa mapping.</p>
+          </div>
         </div>
       </section>
 
       {/* ══════════════════════════════════════
           REAL INTERACTIVE GLOBE SECTION
           ══════════════════════════════════════ */}
-      <section className="section globe-visual-section" ref={globeRef}>
+      <section className="section globe-visual-section" ref={globeRef} id="globe">
         <div className="globe-layout">
           <div className="globe-content-side" data-reveal="left">
             <h2>Pathway routes to the <span>world's best universities</span></h2>
@@ -1110,35 +1440,8 @@ export function AboutPage({ navigate }) {
         </div>
       </section>
 
-      {/* Leadership */}
-      <section className="section leadership-section" ref={leadershipRef}>
-        <SectionIntro eyebrow="Our Counselors" title="The leadership driving EduMark" text="An experienced, certified core team working out of our Biratnagar center, assuring transparency and correct pathways." align="center" />
-        <div className="leaders-layout-grid">
-          {leaders.map((leader, i) => {
-            const meta = LEADER_METADATA[leader.role] || { badgeIcon: "user", badgeText: "Advisor", bio: "Dedicated EduMark team member assisting students in Biratnagar.", accent: "var(--primary)", gradient: "linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%)" };
-            return (
-              <article className="leader-card-premium" key={leader.name} data-reveal="scale" data-delay={i + 1}>
-                <div className="leader-gradient-bar" style={{ background: meta.gradient }} />
-                <div className="leader-avatar-container">
-                  <div className="leader-glow-ring" />
-                  <div className="leader-avatar-mask"><img src={leader.image} alt={leader.name} /></div>
-                  <div className="leader-badge-pill" style={{ color: meta.accent }}><LeaderBadgeIcon icon={meta.badgeIcon} /></div>
-                </div>
-                <h3>{leader.name}</h3>
-                <span className="leader-role-tag">{leader.role}</span>
-                <p className="leader-bio-desc">{meta.bio}</p>
-                <div className="leader-socials-row">
-                  <a href="#" className="leader-social-link" aria-label="LinkedIn"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" /></svg></a>
-                  <a href="#" className="leader-social-link" aria-label="Email"><svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg></a>
-                </div>
-              </article>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* Intake Planner */}
-      <section className="section intake-planner-section" ref={intakeRef}>
+      {/* Intake Planner & CTA */}
+      <section className="section intake-planner-section" ref={intakeRef} id="cta">
         <div className="intake-dark-container" data-reveal>
           <div className="intake-col-left">
             <div>

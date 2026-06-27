@@ -1,6 +1,10 @@
 export const assets = {
   logo: "/images/brand/edumark-logo.jpg",
+  worldMap: "/images/generated/world-map.png",
   heroGenerated: "/images/generated/study-hero.png",
+  heroGlobal: "/images/generated/edumark_hero_global.png",
+  heroEurope: "/images/generated/edumark_hero_europe.png",
+  heroAsia: "/images/generated/edumark_hero_asia.png",
   destinations: "/images/generated/destinations.png",
   counselling: "/images/generated/counselling.png",
   testPrep: "/images/generated/test-prep.png",

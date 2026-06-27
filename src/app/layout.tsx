@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import "@/styles/frontend.css";
-import Cursor from "@/components/Cursor";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta",
@@ -27,7 +26,6 @@ export default function RootLayout({
       className={`${plusJakartaSans.variable}`}
     >
       <body>
-        <Cursor />
         {children}
       </body>
     </html>

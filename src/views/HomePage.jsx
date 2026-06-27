@@ -76,6 +76,22 @@ function AnimatedCounter({ end, duration = 2000 }) {
 /* ─────────────────── SECTION WRAPPERS & DETAILS ─────────────────── */
 
 export function HomePage({ navigate }) {
+  const getCountryFlag = (slug) => {
+    const flagMap = {
+      australia: { type: 'img', src: '/austraylia-420x420.jpg' },
+      uk: { type: 'img', src: '/uk-420x420.jpg' },
+      usa: { type: 'img', src: '/usa-1-420x420.jpg' },
+      finland: { type: 'img', src: '/finland.png' },
+      lithuania: { type: 'img', src: '/luthinia.png' },
+      malta: { type: 'img', src: '/malta.jfif' },
+      india: { type: 'img', src: '/india.png' },
+      dubai: { type: 'img', src: '/dubai.png' },
+      "south-korea": { type: 'img', src: '/south-korea.png' },
+      japan: { type: 'emoji', char: '🇯🇵' }
+    };
+    return flagMap[slug] || { type: 'emoji', char: '🌍' };
+  };
+
   const [currentSlide, setCurrentSlide] = useState(0);
   const [visaActivePage, setVisaActivePage] = useState(0);
   const [activeCountry, setActiveCountry] = useState(0);
@@ -85,24 +101,24 @@ export function HomePage({ navigate }) {
   // Hero slideshow slides data
   const slidesData = [
     {
-      image: assets.heroGenerated,
-      title: "Dreaming of Studying Abroad?",
-      subtitle: "Turn your aspirations into reality with our expert guidance, transparent counseling process, and extensive partner university network.",
+      image: assets.heroGlobal,
+      title: "Explore Your Dreams Overseas",
+      subtitle: "Turn your aspirations into reality with our expert guidance, transparent counseling process, and extensive partner university network in Australia, Canada, the UK, the USA, and Dubai.",
       eyebrow: "🏆 14+ Years of Trust",
       align: "left"
     },
     {
-      image: assets.whyChoose,
-      title: "Ministry Approved & TITI Certified",
-      subtitle: "We are authorized by the Ministry of Education and staffed by certified counselors to offer ethical and professional mentorship.",
-      eyebrow: "🎓 Approved & Certified",
+      image: assets.heroEurope,
+      title: "Quality European Education",
+      subtitle: "Explore world-class academic institutions in Finland, Lithuania, Malta, and across Europe with affordable tuition and standard-of-living benefits.",
+      eyebrow: "🇪🇺 Top European Universities",
       align: "right"
     },
     {
-      image: assets.Servicepage,
-      title: "Ethical & Transparent Service",
-      subtitle: "Our process is clear, honest, and professional, with zero hidden fees or misleading promises, helping you every step of the way.",
-      eyebrow: "🤝 100% Ethical Process",
+      image: assets.heroAsia,
+      title: "Your Gateway to Asia-Pacific",
+      subtitle: "Secure direct admission and scholarships at prestigious universities in Japan, South Korea, India, and New Zealand with comprehensive preparation.",
+      eyebrow: "🌏 Prestigious Asia-Pacific Pathways",
       align: "left"
     }
   ];
@@ -131,30 +147,7 @@ export function HomePage({ navigate }) {
     }
   ];
 
-  // Alternating Preparation Classes info
-  const prepClasses = [
-    {
-      title: "IELTS Preparation Classes",
-      tag: "ENGLISH PROFICIENCY",
-      desc: "Get score-driven preparation with weekly mock tests, certified instructors, and comprehensive learning materials. Focus on listening, reading, writing, and speaking bands.",
-      image: assets.testPrep,
-      slug: "ielts"
-    },
-    {
-      title: "PTE Academic Prep Training",
-      tag: "COMPUTER-BASED TEST",
-      desc: "Learn from digital prep experts. Our specialized PTE labs, artificial intelligence scoring templates, and computerized mock testing schedules ensure you achieve your target scores.",
-      image: assets.success,
-      slug: "pte"
-    },
-    {
-      title: "JLPT Language Courses",
-      tag: "JAPANESE LANGUAGE",
-      desc: "Accelerate your Japanese language skills for study in Japan. Detailed JLPT N5/N4 levels training led by expert native-fluent teachers, matching embassy standards.",
-      image: assets.destinations,
-      slug: "japan"
-    }
-  ];
+
 
   // FAQ list data
   const faqData = [
@@ -375,9 +368,9 @@ export function HomePage({ navigate }) {
         </div>
       </section>
 
-      {/* 4. STUDY DESTINATIONS ACCORDION */}
-      <section className="destinations-accordion-section">
-        <div className="destinations-accordion-container">
+      {/* 4. STUDY DESTINATIONS SECTION */}
+      <section className="destinations-two-column-section">
+        <div className="destinations-two-column-container">
           
           <div className="em-section-title-wrapper">
             <span className="em-eyebrow">✈ STUDY DESTINATIONS</span>
@@ -385,67 +378,176 @@ export function HomePage({ navigate }) {
             <span className="em-title-line-decor" />
           </div>
 
-          <div className="dest-accordion">
-            {countries.slice(0, 6).map((country, idx) => (
-              <div 
-                key={country.slug}
-                className={`dest-accordion-item ${activeCountry === idx ? "active" : ""}`}
-              >
-                <button 
-                  className="dest-accordion-header"
-                  onClick={() => setActiveCountry(idx)}
-                  aria-expanded={activeCountry === idx}
-                >
-                  <div className="dest-accordion-title">
-                    <span className="dest-accordion-flag">
-                      {country.slug === "uk" ? "🇬🇧" : country.slug === "usa" ? "🇺🇸" : country.slug === "australia" ? "🇦🇺" : country.slug === "japan" ? "🇯🇵" : country.slug === "finland" ? "🇫🇮" : "🇱🇹"}
+          {/* Desktop Horizontal Accordion Layout */}
+          <div className="destinations-accordion-wrapper">
+            {countries.map((country, idx) => {
+              const isActive = idx === activeCountry;
+              const flagInfo = getCountryFlag(country.slug);
+              const flagEl = flagInfo.type === 'img' ? (
+                <img src={flagInfo.src} alt={`${country.name} Flag`} className="dest-tab-flag-img" />
+              ) : (
+                <span style={{ fontSize: '16px', lineHeight: '1' }}>{flagInfo.char}</span>
+              );
+
+              // Calculate panel width dynamically to trigger smooth transitions:
+              // Active panel gets the remaining width after subtraction of all inactive tab widths (50px each)
+              const panelWidth = isActive ? `calc(100% - ${(countries.length - 1) * 50}px)` : '50px';
+
+              if (!isActive) {
+                return (
+                  <div
+                    key={country.slug}
+                    className="dest-horizontal-panel inactive"
+                    onClick={() => setActiveCountry(idx)}
+                    style={{ width: panelWidth }}
+                  >
+                    <span className="dest-tab-text">
+                      {country.slug === "usa" ? "USA" : country.slug === "uk" ? "UK" : country.name}
                     </span>
-                    {country.name}
+                    <div className="dest-tab-flag-circle">
+                      {flagEl}
+                    </div>
                   </div>
-                  <ChevronDown size={18} className="dest-accordion-arrow" />
-                </button>
+                );
+              } else {
+                const scholarships = country.scholarshipsList || [];
+                const whyPoints = country.why || [];
+                const displayList = scholarships.length > 0 ? scholarships.map(s => s.name) : whyPoints;
 
-                <div className="dest-accordion-collapse">
-                  <div className="dest-accordion-content">
-                    
-                    <div className="dest-accordion-details">
-                      <h3>Study in {country.name}</h3>
-                      <h4>Intakes: {country.intake}</h4>
-                      <p style={{ fontSize: "14px", lineHeight: "1.6", color: "var(--muted)", marginBottom: "20px" }}>
-                        {country.highlight || "Explore top university course options, scholarships, and pathway structures."}
-                      </p>
+                return (
+                  <div
+                    key={country.slug}
+                    className="dest-horizontal-panel active"
+                    style={{ width: panelWidth, "--country-color": country.accent }}
+                  >
+                    {/* Vertical Active Header Stripe */}
+                    <div className="dest-active-header-stripe" style={{ background: country.accent }}>
+                      <span className="dest-active-header-text">
+                        {country.slug === "usa" ? "USA" : country.slug === "uk" ? "UK" : country.name}
+                      </span>
+                      <div className="dest-tab-flag-circle" style={{ background: 'var(--white)' }}>
+                        {flagEl}
+                      </div>
+                    </div>
 
-                      <div className="dest-accordion-list">
-                        {country.why.slice(0, 4).map((point, pIdx) => (
-                          <div key={pIdx} className="dest-accordion-list-item">
-                            <div className="dest-accordion-check">
-                              <Check size={12} strokeWidth={3} />
+                    {/* Expanded content details */}
+                    <div className="dest-active-content-panel">
+                      <div className="dest-details-left-content">
+                        <span className="dest-details-eyebrow" style={{ color: country.accent }}>
+                          {country.name}
+                        </span>
+                        <h3 className="dest-details-title">
+                          Study in {country.name}
+                        </h3>
+                        <h4 className="dest-details-subtitle">
+                          {scholarships.length > 0 ? `Scholarship Opportunities in ${country.name}` : `Why Study in ${country.name}`}
+                        </h4>
+
+                        <div className="dest-details-list">
+                          {displayList.slice(0, 6).map((item, pIdx) => (
+                            <div key={pIdx} className="dest-details-item">
+                              <div className="dest-details-check">
+                                <Check size={12} strokeWidth={3} />
+                              </div>
+                              <span>{item}</span>
                             </div>
-                            {point}
-                          </div>
-                        ))}
+                          ))}
+                        </div>
+
+                        <AppLink
+                          to={`/destinations/${country.slug}`}
+                          navigate={navigate}
+                          className="hero-btn-primary"
+                          style={{ alignSelf: 'flex-start' }}
+                        >
+                          Explore More
+                          <ArrowRight size={15} />
+                        </AppLink>
                       </div>
 
-                      <AppLink 
-                        to={`/destinations/${country.slug}`} 
-                        navigate={navigate}
-                        className="hero-btn-primary" 
-                        style={{ marginTop: "24px" }}
-                      >
-                        Explore More Details
-                        <ArrowRight size={15} />
-                      </AppLink>
+                      {/* Large Circular Flag */}
+                      <div className="dest-large-flag-container">
+                        <div className="dest-large-flag-circle">
+                          {flagInfo.type === 'img' ? (
+                            <img src={flagInfo.src} alt={`${country.name} Flag`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                          ) : (
+                            <span style={{ fontSize: '100px', lineHeight: '1' }}>{flagInfo.char}</span>
+                          )}
+                        </div>
+                      </div>
                     </div>
-
-                    <div className="dest-accordion-photo">
-                      <img src={`/images/generated/destination${(idx % 3) + 1}.jpg`} alt={`Study in ${country.name}`} />
-                    </div>
-
                   </div>
-                </div>
+                );
+              }
+            })}
+          </div>
 
-              </div>
-            ))}
+          {/* Mobile responsive tabs scroll container */}
+          <div className="dest-mobile-tabs-container">
+            {(() => {
+              const selectedCountry = countries[activeCountry] || countries[0];
+              const scholarships = selectedCountry.scholarshipsList || [];
+              const whyPoints = selectedCountry.why || [];
+              const displayList = scholarships.length > 0 ? scholarships.map(s => s.name) : whyPoints;
+
+              return (
+                <>
+                  <div className="dest-mobile-tabs-scroll">
+                    {countries.map((country, idx) => {
+                      const fInfo = getCountryFlag(country.slug);
+                      const fEl = fInfo.type === 'img' ? (
+                        <img src={fInfo.src} alt="" style={{ width: '18px', height: '18px', objectFit: 'cover', borderRadius: '50%' }} />
+                      ) : (
+                        <span>{fInfo.char}</span>
+                      );
+                      const displayName = country.slug === "usa" ? "USA" : country.slug === "uk" ? "UK" : country.name;
+
+                      return (
+                        <button
+                          key={country.slug}
+                          className={`dest-mobile-tab-btn ${idx === activeCountry ? "active" : ""}`}
+                          onClick={() => setActiveCountry(idx)}
+                        >
+                          <span className="dest-mobile-flag">{fEl}</span>
+                          <span>{displayName}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  <div className="dest-details-panel">
+                    <span className="dest-details-eyebrow" style={{ color: selectedCountry.accent }}>
+                      {selectedCountry.name}
+                    </span>
+                    <h3 className="dest-details-title">Study in {selectedCountry.name}</h3>
+                    <h4 className="dest-details-subtitle">
+                      {scholarships.length > 0 ? `Scholarship Opportunities in ${selectedCountry.name}` : `Why Study in ${selectedCountry.name}`}
+                    </h4>
+                    
+                    <div className="dest-details-list">
+                      {displayList.slice(0, 4).map((item, pIdx) => (
+                        <div key={pIdx} className="dest-details-item">
+                          <div className="dest-details-check">
+                            <Check size={12} strokeWidth={3} />
+                          </div>
+                          <span>{item}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    <AppLink 
+                      to={`/destinations/${selectedCountry.slug}`} 
+                      navigate={navigate}
+                      className="hero-btn-primary" 
+                      style={{ marginTop: "16px", alignSelf: "flex-start" }}
+                    >
+                      Explore More
+                      <ArrowRight size={15} />
+                    </AppLink>
+                  </div>
+                </>
+              );
+            })()}
           </div>
 
         </div>
@@ -456,80 +558,133 @@ export function HomePage({ navigate }) {
         <div className="prep-classes-container">
           
           <div className="em-section-title-wrapper">
-            <span className="em-eyebrow">✈ PREPARATION CLASSES</span>
-            <h2 className="em-h2">Get the Best Trainings You Deserve</h2>
+            <span className="em-eyebrow">✈ TEST PREPARATION</span>
+            <h2 className="em-h2">Get the Best Score with Certified Teachers & Weekly Mock Tests</h2>
             <span className="em-title-line-decor" />
           </div>
 
           <div className="prep-classes-grid">
-            {prepClasses.map((item, idx) => (
-              <div 
-                key={idx} 
-                className={`prep-class-row ${idx % 2 !== 0 ? "flipped" : ""}`}
-              >
-                
-                <div className="prep-class-image">
-                  <img src={item.image} alt={item.title} />
-                </div>
-
-                <div className="prep-class-content">
-                  <div className="prep-class-icon-wrapper">
-                    <BookOpen size={24} />
+            {testCourses.map((course) => {
+              const features = course.features || ["Certified Teachers", "Weekly Mock Tests"];
+              
+              return (
+                <div key={course.slug} className="prep-class-card">
+                  <div className="prep-class-card-top">
+                    <span className="prep-class-card-badge">{course.score || "Exam Prep"}</span>
+                    <h3 className="prep-class-card-title">{course.name}</h3>
+                    <h4 className="prep-class-card-subtitle">{course.fullName}</h4>
+                    <p className="prep-class-card-desc">{course.overview}</p>
+                    
+                    <div className="prep-class-card-highlights">
+                      <div className="prep-class-card-highlight-item">
+                        <span>✔</span> Certified Teachers
+                      </div>
+                      <div className="prep-class-card-highlight-item">
+                        <span>✔</span> Weekly Mock Tests
+                      </div>
+                      {features.slice(2, 4).map((f, idx) => (
+                        <div key={idx} className="prep-class-card-highlight-item">
+                          <span>✔</span> {f}
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                  <span className="prep-class-tag">{item.tag}</span>
-                  <h3 className="prep-class-title">{item.title}</h3>
-                  <p className="prep-class-desc">{item.desc}</p>
+
                   <AppLink 
-                    to={`/test-preparation/${item.slug}`} 
+                    to={`/test-preparation/${course.slug}`} 
                     navigate={navigate}
-                    className="prep-class-readmore"
+                    className="prep-class-card-btn"
                   >
-                    READ MORE &rarr;
+                    Explore Course Details &rarr;
                   </AppLink>
                 </div>
-
-              </div>
-            ))}
+              );
+            })}
           </div>
 
         </div>
       </section>
 
-      {/* 6. STATISTICS / COUNTER SECTION (Dark) */}
-      <section className="dark-stats-section">
-        <div className="dark-stats-watermark" />
-        <div className="dark-stats-grid">
+      {/* 6. PREMIUM MAP & STATISTICS SECTION */}
+      <section className="map-stats-section">
+        <div className="map-stats-container">
           
-          <div className="dark-stat-box">
-            <div className="dark-stat-number">
-              <AnimatedCounter end={14} />+
-            </div>
-            <span className="dark-stat-label">Years of Excellence</span>
+          {/* Left Column: Title and Description */}
+          <div className="map-stats-left">
+            <span className="map-stats-eyebrow">🌍 Overseas Presence</span>
+            <h2 className="map-stats-title">Accelerating your academic growth overseas</h2>
+            <p className="map-stats-desc">
+              Our certified education consultants at EduMark support you with excellence in career guidance and student visa processing from Biratnagar, Nepal. Established in 2012, we are MOEST-approved and ECAN-affiliated, serving as Koshi Province's leading bridge to premier global destinations including the UK, USA, Australia, Japan, Finland, Lithuania, South Korea, Malta, Dubai, and India.
+            </p>
           </div>
 
-          <div className="dark-stat-box">
-            <div className="dark-stat-number">
-              <AnimatedCounter end={50} />+
+          {/* Right Column: World Map with Pulsing Pins */}
+          <div className="map-stats-right">
+            <div className="map-stats-map-wrapper">
+              <img 
+                src={assets.worldMap} 
+                alt="EduMark Destination Countries Map" 
+                className="map-stats-map-img" 
+              />
+              
+              {/* Map Pins */}
+              {[
+                { name: "United States", top: "41.5%", left: "21.5%", status: "Scholarships Available" },
+                { name: "United Kingdom", top: "38.5%", left: "46.9%", status: "Direct Admission" },
+                { name: "Finland", top: "34.5%", left: "53.2%", status: "Top Education System" },
+                { name: "Lithuania", top: "38.0%", left: "53.8%", status: "Affordable Tuition" },
+                { name: "Malta", top: "44.5%", left: "49.5%", status: "European Gateway" },
+                { name: "Dubai (UAE)", top: "47.8%", left: "59.5%", status: "Global Work Hub" },
+                { name: "India", top: "51.4%", left: "67.2%", status: "Ranked Universities" },
+                { name: "Japan", top: "44.0%", left: "84.5%", status: "Language Prep & Work" },
+                { name: "South Korea", top: "46.2%", left: "81.0%", status: "High Visa Rate" },
+                { name: "Australia", top: "67.0%", left: "83.5%", status: "Post-Study Work Visa" },
+              ].map((pin, index) => (
+                <div 
+                  key={index} 
+                  className="map-pin-marker" 
+                  style={{ top: pin.top, left: pin.left }}
+                >
+                  <div className="map-pin-dot" />
+                  <div className="map-pin-pulse" />
+                  <div className="map-pin-tooltip">
+                    {pin.name}
+                    <span className="map-pin-tooltip-status">{pin.status}</span>
+                  </div>
+                </div>
+              ))}
             </div>
-            <span className="dark-stat-label">Partner Countries</span>
           </div>
 
-          <div className="dark-stat-box">
-            <div className="dark-stat-number">
+        </div>
+
+        <hr className="map-stats-divider" />
+
+        {/* Bottom Column: Stats Cards */}
+        <div className="map-stats-bottom">
+          <div className="map-stats-card">
+            <span className="map-stats-card-label">International Students Assisted</span>
+            <div className="map-stats-card-number">
               <AnimatedCounter end={10000} />+
             </div>
-            <span className="dark-stat-label">Students Guided</span>
           </div>
 
-          <div className="dark-stat-box">
-            <div className="dark-stat-number">
-              <AnimatedCounter end={98} />%
+          <div className="map-stats-card">
+            <span className="map-stats-card-label">Scholarships Approved</span>
+            <div className="map-stats-card-number">
+              <AnimatedCounter end={1800} />+
             </div>
-            <span className="dark-stat-label">Visa Success Rate</span>
           </div>
 
+          <div className="map-stats-card">
+            <span className="map-stats-card-label">Enrolled in IELTS/PTE Preparation Classes</span>
+            <div className="map-stats-card-number">
+              <AnimatedCounter end={8000} />+
+            </div>
+          </div>
         </div>
       </section>
+
 
       {/* 7. WHY CHOOSE US SECTION */}
       <section className="why-choose-section">

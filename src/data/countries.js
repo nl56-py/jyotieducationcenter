@@ -1111,5 +1111,121 @@ export const countries = [
         image: "/images/extracted_uni/page_5_img_31.png"
       }
     ]
+  },
+  {
+    code: "MT",
+    name: "Malta",
+    slug: "malta",
+    region: "European",
+    accent: "#d62329",
+    cost: "NPR 12 Lakh to 18 Lakh average",
+    intake: "September, February",
+    programs: "Business Administration, Hospitality Management, Tourism, IT",
+    universities: ["MCAST (Malta College of Arts, Science and Technology)", "American University of Malta", "Advenio Academy"],
+    highlight: "Affordable European study destination with full Schengen zone access.",
+    why: [
+      "Extremely affordable tuition fees and cost of living in the Mediterranean",
+      "English is an official language, making communication and integration easy",
+      "Study and travel freely across all 29 European Schengen countries",
+      "Strong hospitality and tourism sector with high student employment potential"
+    ],
+    visa: ["Schengen visa document check", "Application submission to VFS", "Financial sponsor proof checking", "Travel and health insurance guidance"],
+    faq: [
+      ["Why study in Malta from Nepal?", "Malta is a beautiful Mediterranean island and an official English-speaking nation in the European Union. It offers affordable tuition, a low cost of living, and is a gateway to the Schengen zone, allowing you to travel across Europe without a separate visa."],
+      ["What are the English language requirements for Malta?", "While IELTS (5.5 - 6.0) or PTE Academic (45+) are widely accepted, some private colleges in Malta offer English interviews or accept Medium of Instruction (MOI) certificates from your previous school in Nepal."],
+      ["Can international students work in Malta?", "Yes, international students in Malta are permitted to work part-time up to 20 hours per week after their first 90 days of arrival, helping cover their living expenses."]
+    ],
+    introCopy: [
+      "Malta is an increasingly popular study destination for Nepali students, offering an English-speaking environment in the heart of the Mediterranean. As a member of the European Union and the Schengen Zone, Malta provides direct pathways to broader European academic and professional networks.",
+      "For students prioritizing budget without compromising on quality, Maltese colleges and universities offer highly competitive tuition rates starting around €3,000 to €5,000 per year, with a cost of living significantly lower than in Western Europe.",
+      "English is one of the two official languages of Malta, which means all academic programs are taught in English and daily life is highly accessible for international students."
+    ],
+    coursesList: [
+      { title: "1. Tourism & Hospitality Management", description: "Malta is a major European tourism hub. Degrees combine classroom learning with internship placements in top-tier hotels and resorts." },
+      { title: "2. Business Administration & MBA", description: "Focused on global trade, financial services, and entrepreneurship, aligning with Malta's growing status as an offshore corporate center." },
+      { title: "3. Information Technology & Computing", description: "Programs in software development, cybersecurity, and game design, supported by Malta's active tech startup ecosystem." }
+    ],
+    requirementsDetail: {
+      academic: "Undergraduate: GPA of 2.2+ (55% equivalent) in high school (+2). Graduate: Bachelor's degree in a relevant field with at least 50% marks.",
+      english: "IELTS 5.5 to 6.0, PTE 45+, or Medium of Instruction (MOI) letter if your school education was conducted entirely in English.",
+      financial: "Proof of sufficient funds to cover tuition and a minimum of €150 to €200 per month for living expenses in a bank account under your name or a sponsor's name.",
+      genuine: "A Maltese student visa requires verification of academic documents, an official letter of acceptance from a licensed institution, and confirmed student accommodation."
+    },
+    intakesList: [
+      { title: "Autumn Intake", period: "September / October", deadline: "May to July", desc: "The primary academic intake with the widest course availability." },
+      { title: "Spring Intake", period: "February / March", deadline: "October to December", desc: "The secondary intake, popular for business and management certificates." }
+    ],
+    costsList: [
+      { category: "Tuition Fees (Undergraduate)", range: "€3,000 – €6,000 / year", desc: "Highly affordable compared to Western European destinations." },
+      { category: "Tuition Fees (Postgraduate)", range: "€4,000 – €8,000 / year", desc: "Master's degrees typically take 1 to 2 years to complete." },
+      { category: "Living Expenses", range: "€4,000 – €6,000 / year", desc: "Covers shared student housing, groceries, utilities, and public transport." }
+    ],
+    scholarshipsList: [
+      { name: "Endeavour Scholarship Scheme", details: "A national funding scheme supporting students pursuing postgraduate degrees in high-priority industrial sectors." },
+      { name: "Institutional Fee Waivers", details: "Merit-based fee reductions (10% to 30% discount) offered by private colleges for high academic performers." }
+    ],
+    universitiesDetail: [
+      { name: "Malta College of Arts, Science and Technology (MCAST)", description: "The leading public vocational education and training institution in Malta, offering highly practical degrees.", fees: "€4,500 - €6,500 / year", courses: "IT, Business, Engineering, Applied Sciences", image: "/images/extracted_uni/page_2_img_1.png" },
+      { name: "American University of Malta (AUM)", description: "A private, American-style liberal arts university located in Cospicua, offering accredited business and tech programs.", fees: "€6,000 - €9,000 / year", courses: "BBA, MBA, BS Software Engineering", image: "/images/extracted_uni/page_2_img_2.png" }
+    ]
+  },
+  {
+    code: "AE",
+    name: "Dubai",
+    slug: "dubai",
+    region: "Middle Eastern",
+    accent: "#b48b40",
+    cost: "NPR 15 Lakh to 25 Lakh average",
+    intake: "September, January, May",
+    programs: "Business, Engineering, IT, Tourism & Hospitality, Logistics",
+    universities: ["Heriot-Watt University Dubai", "Middlesex University Dubai"],
+    highlight: "Modern global hub with high employment options and no visa rejection risk.",
+    why: [
+      "Zero tax on student earnings and highly competitive modern industries",
+      "Extremely high visa approval rate for Nepali students with minimal document complexity",
+      "Branch campuses of top UK, Australian, and US universities offering identical degrees",
+      "Global logistics, finance, and tourism hub with massive part-time job opportunities"
+    ],
+    visa: ["Entry permit processing", "Medical fitness test check", "Student residence visa stamping", "Sponsor letter mapping"],
+    faq: [
+      ["Why study in Dubai from Nepal?", "Dubai hosts top-tier global university branch campuses (from the UK, Australia, etc.) where you can earn an identical degree at a lower tuition fee. The student visa process is highly straightforward with a near 100% approval rate, and no strict bank funds holding rules."],
+      ["Can I transfer to the home campus in the UK or Australia?", "Yes, one of the biggest advantages of branch campuses in Dubai (such as Heriot-Watt or Wollongong) is the seamless credit transfer options to their main campuses in the UK or Australia after 1 or 2 years of study."],
+      ["What are the working rights for students in Dubai?", "International students in Dubai can work part-time in designated free zones and retail/hospitality sectors, as well as secure corporate internships, with zero income tax."]
+    ],
+    introCopy: [
+      "Dubai is a futuristic global hub that has emerged as a premier international education center, hosting branches of prestigious British, Australian, and American universities. For Nepali students, Dubai represents a safe, ultra-modern, and highly career-focused gateway.",
+      "The primary advantage of studying in Dubai is the ease of the visa process. Unlike Western destinations, Dubai has minimal document complexities and a near-perfect visa success rate, making it an excellent option for qualified applicants.",
+      "Additionally, students can study at branch campuses of world-renowned universities (such as Heriot-Watt University or Middlesex University) and receive the exact same degree certificate as the parent campus, with options for easy transfers."
+    ],
+    coursesList: [
+      { title: "1. Global Business & International Management", description: "Dubai is a crossroads of international trade. Programs focus on logistics, supply chain, finance, and global trade operations." },
+      { title: "2. Information Technology & Cyber Security", description: "Specialized training in artificial intelligence, cloud computing, and big data, aligned with Dubai's Smart City initiatives." },
+      { title: "3. Tourism & Luxury Hospitality", description: "World-class hospitality programs with direct internship links to the world's most luxurious hotel chains and event management groups." }
+    ],
+    requirementsDetail: {
+      academic: "Undergraduate: Minimum GPA of 2.2+ (55% equivalent) in high school (+2). Graduate: Relevant Bachelor's degree with a minimum GPA of 2.5 or equivalent.",
+      english: "IELTS 5.5 to 6.0, PTE 48+, or equivalent. Many branch universities allow institutional English entrance tests if you don't have standard scores.",
+      financial: "Proof of ability to cover tuition fees and basic living costs. Dubai does not require long-term bank holding deposits, making financial proof very simple.",
+      genuine: "Admission relies on university sponsorship. Once accepted, the university processes your student visa with the Dubai General Directorate of Residency and Foreigners Affairs (GDRFA)."
+    },
+    intakesList: [
+      { title: "Autumn Intake", period: "September", deadline: "June to August", desc: "The main intake offering all courses and scholarship slots." },
+      { title: "Spring Intake", period: "January", deadline: "October to December", desc: "The second major intake, popular for postgraduate business paths." },
+      { title: "Summer Intake", period: "May", deadline: "February to April", desc: "Ideal for foundational paths, language prep, and specific business programs." }
+    ],
+    costsList: [
+      { category: "Tuition Fees (Undergraduate)", range: "AED 40,000 – AED 75,000 / year", desc: "Covers branch campus tuition, matching UK/Australian degree qualifications." },
+      { category: "Tuition Fees (Postgraduate)", range: "AED 50,000 – AED 90,000 / year", desc: "Master's degrees typically last 1 to 2 years, with flexible payment plans." },
+      { category: "Living / Hostel Expenses", range: "AED 25,000 – AED 45,000 / year", desc: "Includes shared student student accommodation, utilities, meals, and local transit." }
+    ],
+    scholarshipsList: [
+      { name: "Branch Campus Merit Scholarships", details: "Merit-based tuition discounts (15% to 30%) offered directly by branch universities based on academic marks." },
+      { name: "Corporate & Partner Sponsorships", details: "Partial fee waivers and paid internship packages co-funded by Dubai-based industry partners." }
+    ],
+    universitiesDetail: [
+      { name: "Heriot-Watt University Dubai", description: "A prestigious British university branch campus in Dubai Knowledge Park, offering top-tier engineering and business degrees.", fees: "AED 55,000 - 75,000 / year", courses: "Engineering, MBA, Computer Science", image: "/images/extracted_uni/page_2_img_3.png" },
+      { name: "Middlesex University Dubai", description: "A popular UK branch campus offering high-quality British education, business studies, and creative media programs.", fees: "AED 45,000 - 65,000 / year", courses: "Business, Media, Psychology, IT", image: "/images/extracted_uni/page_2_img_4.png" }
+    ]
   }
 ];
+
