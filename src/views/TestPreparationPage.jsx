@@ -41,9 +41,9 @@ export function TestPreparationPage({ navigate }) {
           <SectionIntro
             eyebrow="Preparation Features"
             title="Classes built for correction, practice, and measurable progress"
-            text="The brochure promises certified teachers, weekly mock tests, extra support for weak students, and visa interview preparation."
+            text="The brochure promises certified teachers, weekly mock tests, extra support for weak students, and interview preparation for Japan routes."
           />
-          <BulletList items={["Certified teachers", "Weekly mock tests", "Extra classes for weak students", "Visa interview preparation"]} />
+          <BulletList items={["Certified teachers", "Weekly mock tests", "Extra classes for weak students", "Japanese interview preparation"]} />
         </div>
       </section>
     </main>

@@ -42,6 +42,7 @@ export const navItems = [
       { label: "Australia", path: "/destinations/australia" },
       { label: "USA", path: "/destinations/usa" },
       { label: "Europe", path: "/destinations/finland" },
+      { label: "Japan", path: "/destinations/japan" },
     ],
   },
   {

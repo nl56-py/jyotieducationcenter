@@ -81,6 +81,7 @@ function RealGlobe() {
     { name: "Australia", flag: "🇦🇺", lat: -25.3, lon: 133.7, color: "#08a8d7" },
     { name: "UK", flag: "🇬🇧", lat: 51.5, lon: -0.1, color: "#5b177d" },
     { name: "Canada", flag: "🇨🇦", lat: 56.1, lon: -106.3, color: "#e9262d" },
+    { name: "Japan", flag: "🇯🇵", lat: 36.2, lon: 138.2, color: "#f4c400" },
     { name: "USA", flag: "🇺🇸", lat: 37.1, lon: -95.7, color: "#08a8d7" },
     { name: "Nepal", flag: "🇳🇵", lat: 28.3, lon: 84.1, color: "#e9262d" },
   ];
@@ -381,6 +382,7 @@ const ROADMAPS = {
   Australia: { intakes: "Feb, July, November", steps: [{ t: "English Proficiency", d: "Prepare and clear IELTS, PTE or TOEFL (6 months ahead)" }, { t: "Course Selection & GTE", d: "Choose course and draft GTE statement (4 months ahead)" }, { t: "Offer Letter & Tuition", d: "Submit academic transcripts, receive offer, and remit fees (3 months ahead)" }, { t: "COE & Visa Lodging", d: "Receive CoE, set up health insurance, and lodge visa (2 months ahead)" }] },
   UK: { intakes: "Jan, May, September", steps: [{ t: "Academic Assessment", d: "Submit academic documents and check English eligibility (5 months ahead)" }, { t: "Pre-CAS Credibility Interview", d: "Clear university credibility screening for CAS (3 months ahead)" }, { t: "CAS & Bank Setup", d: "Receive CAS; show maintenance funds held for 28 consecutive days (2 months ahead)" }, { t: "Visa Submission", d: "Lodge student visa online and submit biometric data (1 month ahead)" }] },
   Canada: { intakes: "Jan, May, September", steps: [{ t: "IELTS & ECA", d: "Achieve IELTS 6.0+; prepare ECA if post-grad application (8 months ahead)" }, { t: "College Admission & LOA", d: "Apply to DLI college and receive Letter of Acceptance (6 months ahead)" }, { t: "GIC Account Setup", d: "Open bank account and deposit GIC amount for living expenses (4 months ahead)" }, { t: "Study Permit Application", d: "Submit Study Permit application under SDS pathway (3 months ahead)" }] },
+  Japan: { intakes: "April, October", steps: [{ t: "Language Proficiency", d: "Undergo minimum 150 hours of Japanese language study (N5 / NAT) (8 months ahead)" }, { t: "COE Application Prep", d: "Compile financial sponsorship and personal documents for COE (6 months ahead)" }, { t: "COE Issuance & Fee", d: "Get COE approval, pay tuition fee to language school (2 months ahead)" }, { t: "Visa Stamping", d: "Apply for visa at Embassy in Kathmandu; depart (1 month ahead)" }] },
 
 };
 

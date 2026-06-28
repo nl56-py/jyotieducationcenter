@@ -822,6 +822,146 @@ export const countries = [
     ]
   },
   {
+    code: "JP",
+    name: "Japan",
+    slug: "japan",
+    region: "Asian",
+    accent: "#d62839",
+    intake: "April, October",
+    cost: "NPR 13 Lakh to 16 Lakh average",
+    programs: "Engineering, Robotics, Business, Hospitality, AI, Language Programs",
+    universities: ["University of Tokyo", "Kyoto University", "Nagoya University", "Hiroshima University"],
+    highlight: "Language class, documentation, and COE pathway coordination.",
+    why: [
+      "World-class, technology-driven economy with a strong discipline culture",
+      "Highly organized Japanese language pathway to degree study",
+      "Very high post-graduate employment and career placement rates (over 90%)",
+      "Extremely safe cities with low crime rate and clean student living"
+    ],
+    visa: ["COE document preparation", "Japanese interview practice", "Language class coordination", "Departure checklist"],
+    faq: [
+      ["What is a COE and how do I get it?", "A Certificate of Eligibility (COE) is a document issued by the Japanese Ministry of Justice confirming you meet the entry requirements. Once your chosen school or university secures the COE, you submit it to the embassy in Kathmandu to get the student visa."],
+      ["Is Japanese language study necessary before applying?", "Yes. For language schools, you need at least N5 level proficiency or a certificate showing 150 hours of Japanese study. Learning basic Japanese increases your COE approval rate and makes settling in much easier."],
+      ["Can I work part-time in Japan?", "Yes. International students with a valid student visa can work up to 28 hours per week (8 hours per day during vacations) after receiving the 'Permission to Engage in Activity Other Than That Permitted' at the airport."],
+      ["Are there English-taught degrees in Japan?", "Yes. Several top national universities offer global programs (like Tokyo's PEAK or Nagoya's G30 programs) which are taught entirely in English. However, learning Japanese is still necessary for local job placements."]
+    ],
+    introCopy: [
+      "Japan is a global powerhouse of technology, engineering, and manufacturing. Famous for its precision, safety, and rich culture, Japan offers a unique and highly structured educational route for international students.",
+      "Most Nepali students choose the Japanese Language School pathway. You study Japanese intensively for 1 to 2 years, secure a high level of proficiency (JLPT N2 or N1), and then transition smoothly into a vocational college (Senmon Gakko) or a Bachelor's/Master's degree.",
+      "Japan features an exceptionally high graduate employment rate. With a shrinking domestic population, the Japanese government and industries actively recruit international graduates for professional careers in engineering, IT, hospitality, and healthcare."
+    ],
+    coursesList: [
+      {
+        title: "1. Japanese Language Programs",
+        description: "Offered by language academies for 1 to 2 years, building the linguistic foundation required to pass JLPT N2/N1 exams for higher studies."
+      },
+      {
+        title: "2. Robotics & Mechatronics",
+        description: "Japan leads the world in automation. Degrees focus on hardware design, electronic sensors, micro-controllers, and artificial intelligence."
+      },
+      {
+        title: "3. Automotive Engineering",
+        description: "Backed by companies like Toyota and Honda, these programs offer direct workshop training, vehicle assembly science, and engine technology."
+      },
+      {
+        title: "4. Hospitality & Hotel Management",
+        description: "Focuses on Omotenashi (Japanese hospitality culture), hotel operations, and culinary arts, leading to placements in international resorts."
+      }
+    ],
+    requirementsDetail: {
+      academic: "Completion of 12 years of formal education (high school/+2) with a minimum of 50%. A consistent study history with no long unexplained gaps.",
+      english: "For English-taught programs: IELTS 6.0+ or TOEFL 79+. For Japanese-taught routes: Basic N5 certificate (or 150 hours of study) for language schools.",
+      financial: "You must show a financial sponsor (usually parents) with an annual income of NPR 15 Lakh+ and a bank deposit of NPR 20 Lakh to 25 Lakh.",
+      genuine: "The Japanese Immigration Service requires a rigorous check of your sponsor's source of funds, tax clearance records, and your relationship certificates."
+    },
+    intakesList: [
+      {
+        title: "April Intake",
+        period: "April",
+        deadline: "September to November (Previous Year)",
+        desc: "The primary and most popular intake. Aligns with the Japanese academic year. Offers the longest study duration (2 years of language study)."
+      },
+      {
+        title: "October Intake",
+        period: "October",
+        deadline: "March to May (Same Year)",
+        desc: "The second major intake. Popular for international programs and offering 1.5 years of language study."
+      },
+      {
+        title: "January & July Intakes",
+        period: "January / July",
+        deadline: "4 to 5 months before start",
+        desc: "Niche intakes offered by select language academies for accelerated learning routes."
+      }
+    ],
+    costsList: [
+      {
+        category: "Japanese Language School",
+        range: "¥700,000 – ¥850,000 / year",
+        desc: "Covers school tuition, textbooks, and laboratory fees. Paid as a one-year installment before departure."
+      },
+      {
+        category: "National University Tuition",
+        range: "¥535,800 / year",
+        desc: "Standard fee set by the government for all national universities, plus a one-time admission fee of ¥282,000."
+      },
+      {
+        category: "Living Expenses",
+        range: "¥1,000,000 – ¥1,500,000 / year",
+        desc: "Includes student shared house or dormitory, food, public transport, and utility bills. Cheap outside Tokyo."
+      },
+      {
+        category: "National Health Insurance",
+        range: "¥20,000 / year",
+        desc: "Mandatory insurance that covers 70% of all medical expenses, making healthcare extremely cheap for students."
+      }
+    ],
+    scholarshipsList: [
+      {
+        name: "MEXT Scholarships",
+        details: "Fully funded by the Japanese Ministry of Education, Culture, Sports, Science, and Technology, covering full tuition, monthly stipend, and flights."
+      },
+      {
+        name: "JASSO Honors Scholarship",
+        details: "Monthly stipend of ¥48,000 for 12 months, awarded to outstanding self-supporting international students recommended by their school."
+      },
+      {
+        name: "Local Government & Foundation Awards",
+        details: "Offered by local prefectures and corporate foundations (e.g. rotary clubs), providing ¥30,000 to ¥100,000 per month for living expenses."
+      }
+    ],
+    universitiesDetail: [
+      {
+        name: "University of Tokyo",
+        description: "Japan's top national university, historically prestigious and research-intensive, offering world-recognized programs in science and humanities.",
+        fees: "¥535,800 / year (+ ¥282,000 admission fee)",
+        courses: "Global Science Course (GSC), PEAK English Program, Engineering",
+        image: "/images/extracted_uni/page_5_img_10.png"
+      },
+      {
+        name: "Kyoto University",
+        description: "World-famous national university known for producing Nobel laureates, focusing on research excellence and creative academic freedom.",
+        fees: "¥535,800 / year (+ ¥282,000 admission fee)",
+        courses: "Kyoto iUP English & Japanese Degree, Energy Science, Informatics",
+        image: "/images/extracted_uni/page_5_img_11.png"
+      },
+      {
+        name: "Nagoya University",
+        description: "A top-tier national university renowned for physics, chemistry, and automotive engineering, offering full-degree English programs.",
+        fees: "¥535,800 / year (+ ¥282,000 admission fee)",
+        courses: "G30 Automotive Engineering, Physics, International Business",
+        image: "/images/extracted_uni/page_5_img_12.png"
+      },
+      {
+        name: "Hiroshima University",
+        description: "A leading national comprehensive university specializing in peace and development studies, education, and engineering sciences.",
+        fees: "¥535,800 / year (+ ¥282,000 admission fee)",
+        courses: "Integrated Global Studies (IGS), Engineering, Environmental Sciences",
+        image: "/images/extracted_uni/page_5_img_13.png"
+      }
+    ]
+  },
+  {
     code: "IN",
     name: "India",
     slug: "india",

@@ -19,7 +19,7 @@ export function DestinationsPage({ navigate }) {
           <SectionIntro
             eyebrow="Europe Focus"
             title="Affordable European pathways are a strong EduMark category"
-            text="The brochure highlights Europe-first study messaging, so the page gives Finland, Lithuania, and UK routes enough visibility without losing Australia, USA, South Korea, or India."
+            text="The brochure highlights Europe-first study messaging, so the page gives Finland, Lithuania, and UK routes enough visibility without losing Australia, Japan, USA, South Korea, or India."
           />
           <AppLink to="/book-free-consultation" navigate={navigate} className="primary-button">
             Compare My Options

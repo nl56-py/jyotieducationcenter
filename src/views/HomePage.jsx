@@ -86,7 +86,8 @@ export function HomePage({ navigate }) {
       malta: { type: 'img', src: '/malta.jfif' },
       india: { type: 'img', src: '/india.png' },
       dubai: { type: 'img', src: '/dubai.png' },
-      "south-korea": { type: 'img', src: '/south-korea.png' }
+      "south-korea": { type: 'img', src: '/south-korea.png' },
+      japan: { type: 'emoji', char: '🇯🇵' }
     };
     return flagMap[slug] || { type: 'emoji', char: '🌍' };
   };
@@ -116,7 +117,7 @@ export function HomePage({ navigate }) {
     {
       image: assets.heroAsia,
       title: "Your Gateway to Asia-Pacific",
-      subtitle: "Secure direct admission and scholarships at prestigious universities in South Korea, India, and across Asia-Pacific with comprehensive preparation.",
+      subtitle: "Secure direct admission and scholarships at prestigious universities in Japan, South Korea, India, and New Zealand with comprehensive preparation.",
       eyebrow: "🌏 Prestigious Asia-Pacific Pathways",
       align: "left"
     }
@@ -303,7 +304,7 @@ export function HomePage({ navigate }) {
             <p className="about-stats-text">
               Since 2012, EduMark has been a guiding lighthouse for students across Koshi Province seeking international academic excellence. Based in Traffic Chowk, Biratnagar, we are fully approved by the Ministry of Education and staffed with certified counselors. 
               <br /><br />
-              We believe in building careers rather than just processing documents. Through our institutional relationships with over 500 universities in the UK, USA, Australia, Canada, and Europe, we provide genuine, transparent, and step-by-step guidance.
+              We believe in building careers rather than just processing documents. Through our institutional relationships with over 500 universities in the UK, USA, Australia, Japan, and Europe, we provide genuine, transparent, and step-by-step guidance.
             </p>
 
             <AppLink to="/about" navigate={navigate} className="learn-more-btn">
@@ -603,7 +604,7 @@ export function HomePage({ navigate }) {
             <span className="map-stats-eyebrow">🌍 Overseas Presence</span>
             <h2 className="map-stats-title">Accelerating your academic growth overseas</h2>
             <p className="map-stats-desc">
-              Our certified education consultants at EduMark support you with excellence in career guidance and student visa processing from Biratnagar, Nepal. Established in 2012, we are MOEST-approved and ECAN-affiliated, serving as Koshi Province's leading bridge to premier global destinations including the UK, USA, Australia, Finland, Lithuania, South Korea, Malta, Dubai, and India.
+              Our certified education consultants at EduMark support you with excellence in career guidance and student visa processing from Biratnagar, Nepal. Established in 2012, we are MOEST-approved and ECAN-affiliated, serving as Koshi Province's leading bridge to premier global destinations including the UK, USA, Australia, Japan, Finland, Lithuania, South Korea, Malta, Dubai, and India.
             </p>
           </div>
 
@@ -625,6 +626,7 @@ export function HomePage({ navigate }) {
                 { name: "Malta", top: "44.5%", left: "49.5%", status: "European Gateway" },
                 { name: "Dubai (UAE)", top: "47.8%", left: "59.5%", status: "Global Work Hub" },
                 { name: "India", top: "51.4%", left: "67.2%", status: "Ranked Universities" },
+                { name: "Japan", top: "44.0%", left: "84.5%", status: "Language Prep & Work" },
                 { name: "South Korea", top: "46.2%", left: "81.0%", status: "High Visa Rate" },
                 { name: "Australia", top: "67.0%", left: "83.5%", status: "Post-Study Work Visa" },
               ].map((pin, index) => (
