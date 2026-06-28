@@ -9,7 +9,7 @@ const slotConfig = [
   { icon: "🎧", label: "IELTS/PTE" },
   { icon: "📖", label: "Entrance Prep" },
   { icon: "🌐", label: "Europe Routes" },
-  { icon: "⛩️", label: "Japan/Korea" },
+  { icon: "🇰🇷", label: "South Korea" },
 ];
 
 const trustItems = [
@@ -25,7 +25,6 @@ const phoneCountries = [
   { code: "US", name: "USA/Canada", flag: "🇺🇸", dial: "+1", length: 10, pattern: "[0-9]{10}" },
   { code: "GB", name: "UK", flag: "🇬🇧", dial: "+44", length: 10, pattern: "[0-9]{10}" },
   { code: "AU", name: "Australia", flag: "🇦🇺", dial: "+61", length: 9, pattern: "[0-9]{9}" },
-  { code: "JP", name: "Japan", flag: "🇯🇵", dial: "+81", length: 10, pattern: "[0-9]{10}" },
   { code: "KR", name: "South Korea", flag: "🇰🇷", dial: "+82", length: 10, pattern: "[0-9]{10}" },
   { code: "DE", name: "Germany", flag: "🇩🇪", dial: "+49", length: 10, pattern: "[0-9]{10}" },
   { code: "CN", name: "China", flag: "🇨🇳", dial: "+86", length: 11, pattern: "[0-9]{11}" },

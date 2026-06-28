@@ -29,13 +29,19 @@ import {
   PhoneCall,
   LifeBuoy,
   Route,
-  Calendar
+  Calendar,
+  Trophy
 } from "lucide-react";
 
 const slugToIcons = {
+  "educational-consulting": [GraduationCap, BookOpen, Route, Users],
   "career-counselling": [ClipboardCheck, Users, Globe, MessageSquare],
-  "admission-guidance": [BookOpen, FileText, FileCheck, Compass],
+  "study-abroad-guidance": [Globe, Compass, MapPin, Award],
   "visa-assistance": [DollarSign, HelpCircle, CheckSquare, Award],
+  "university-application": [FileText, BookOpen, ClipboardCheck, Compass],
+  "scholarship-guidance": [DollarSign, Award, Trophy, GraduationCap],
+  "interview-preparation": [MessageSquare, Users, UserPlus, ClipboardCheck],
+  "documentation-support": [FileText, FileCheck, ClipboardCheck, PenTool],
   "test-preparation-support": [GraduationCap, Activity, UserPlus, PenTool],
   "travel-accommodation": [Briefcase, Plane, Home, MapPin],
   "pre-departure-support": [Map, Package, PhoneCall, LifeBuoy]

@@ -23,7 +23,6 @@ const brochurePageMap = {
   finland: "/images/brochure/page_4.png",
   lithuania: "/images/brochure/page_4.png",
   "south-korea": "/images/brochure/page_4.png",
-  japan: "/images/brochure/page_5.png",
   india: "/images/brochure/page_5.png",
   malta: "/images/brochure/page_2.png",
   dubai: "/images/brochure/page_2.png",
@@ -59,7 +58,7 @@ export function CountryDetailPage({ country }) {
   }, [country.slug]);
 
   // Sort countries to show the primary 8 first for a cleaner sidebar
-  const primarySlugs = ["uk", "usa", "australia", "finland", "lithuania", "south-korea", "japan", "india"];
+  const primarySlugs = ["uk", "usa", "australia", "finland", "lithuania", "south-korea", "india"];
   const sortedCountries = [...countries].sort((a, b) => {
     const idxA = primarySlugs.indexOf(a.slug);
     const idxB = primarySlugs.indexOf(b.slug);

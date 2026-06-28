@@ -81,7 +81,6 @@ function RealGlobe() {
     { name: "Australia", flag: "🇦🇺", lat: -25.3, lon: 133.7, color: "#08a8d7" },
     { name: "UK", flag: "🇬🇧", lat: 51.5, lon: -0.1, color: "#5b177d" },
     { name: "Canada", flag: "🇨🇦", lat: 56.1, lon: -106.3, color: "#e9262d" },
-    { name: "Japan", flag: "🇯🇵", lat: 36.2, lon: 138.2, color: "#f4c400" },
     { name: "USA", flag: "🇺🇸", lat: 37.1, lon: -95.7, color: "#08a8d7" },
     { name: "Nepal", flag: "🇳🇵", lat: 28.3, lon: 84.1, color: "#e9262d" },
   ];
@@ -382,7 +381,7 @@ const ROADMAPS = {
   Australia: { intakes: "Feb, July, November", steps: [{ t: "English Proficiency", d: "Prepare and clear IELTS, PTE or TOEFL (6 months ahead)" }, { t: "Course Selection & GTE", d: "Choose course and draft GTE statement (4 months ahead)" }, { t: "Offer Letter & Tuition", d: "Submit academic transcripts, receive offer, and remit fees (3 months ahead)" }, { t: "COE & Visa Lodging", d: "Receive CoE, set up health insurance, and lodge visa (2 months ahead)" }] },
   UK: { intakes: "Jan, May, September", steps: [{ t: "Academic Assessment", d: "Submit academic documents and check English eligibility (5 months ahead)" }, { t: "Pre-CAS Credibility Interview", d: "Clear university credibility screening for CAS (3 months ahead)" }, { t: "CAS & Bank Setup", d: "Receive CAS; show maintenance funds held for 28 consecutive days (2 months ahead)" }, { t: "Visa Submission", d: "Lodge student visa online and submit biometric data (1 month ahead)" }] },
   Canada: { intakes: "Jan, May, September", steps: [{ t: "IELTS & ECA", d: "Achieve IELTS 6.0+; prepare ECA if post-grad application (8 months ahead)" }, { t: "College Admission & LOA", d: "Apply to DLI college and receive Letter of Acceptance (6 months ahead)" }, { t: "GIC Account Setup", d: "Open bank account and deposit GIC amount for living expenses (4 months ahead)" }, { t: "Study Permit Application", d: "Submit Study Permit application under SDS pathway (3 months ahead)" }] },
-  Japan: { intakes: "April, October", steps: [{ t: "Language Proficiency", d: "Undergo minimum 150 hours of Japanese language study (N5 / NAT) (8 months ahead)" }, { t: "COE Application Prep", d: "Compile financial sponsorship and personal documents for COE (6 months ahead)" }, { t: "COE Issuance & Fee", d: "Get COE approval, pay tuition fee to language school (2 months ahead)" }, { t: "Visa Stamping", d: "Apply for visa at Embassy in Kathmandu; depart (1 month ahead)" }] },
+
 };
 
 function LeaderBadgeIcon({ icon }) {
@@ -875,7 +874,7 @@ export function AboutPage({ navigate }) {
 
         /* ── Intake Planner ── */
         .intake-planner-section { padding: 5rem 0 6rem 0; }
-        .intake-dark-container { background:linear-gradient(140deg,#071f3d 0%,#0c142c 100%); border-radius:36px; overflow:hidden; position:relative; color:#fff; box-shadow:0 30px 80px rgba(7,31,61,0.25); display:grid; grid-template-columns:1.05fr 1fr; }
+        .intake-dark-container { background:linear-gradient(140deg,#071f3d 0%,#0c142c 100%); border-radius:36px; overflow:hidden; position:relative; color:#fff; box-shadow:0 30px 80px rgba(7,31,61,0.25); display:block; max-width:600px; margin:0 auto; }
         .intake-dark-container::before { content:""; position:absolute; top:-20%; left:-10%; width:400px; height:400px; border-radius:50%; background:radial-gradient(circle,rgba(91,23,125,0.25) 0%,transparent 65%); pointer-events:none; }
         .intake-dark-container::after { content:""; position:absolute; bottom:-20%; right:-10%; width:400px; height:400px; border-radius:50%; background:radial-gradient(circle,rgba(8,168,215,0.18) 0%,transparent 65%); pointer-events:none; }
         .intake-col-left { padding:4.5rem 4rem; position:relative; z-index:2; display:flex; flex-direction:column; justify-content:space-between; border-right:1px solid rgba(255,255,255,0.08); }
@@ -1154,6 +1153,26 @@ export function AboutPage({ navigate }) {
           line-height: 1.65;
           margin: 0;
         }
+
+        /* Section Spacing Reductions */
+        .about-page .section,
+        .about-page .redesigned-hero,
+        .about-page .journey-section,
+        .about-page .timeline-section,
+        .about-page .leadership-section,
+        .about-page .intake-planner-section,
+        .about-page .ceo-message-section,
+        .about-page .accreditations-section {
+          padding-top: 3px !important;
+          padding-bottom: 0px !important;
+          margin-top: 0px !important;
+          margin-bottom: 0px !important;
+        }
+        .about-page .em-section-intro,
+        .about-page .section-intro {
+          margin-top: 3px !important;
+          margin-bottom: 12px !important;
+        }
       `}</style>
 
       {/* Hero */}
@@ -1404,67 +1423,10 @@ export function AboutPage({ navigate }) {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════
-          REAL INTERACTIVE GLOBE SECTION
-          ══════════════════════════════════════ */}
-      <section className="section globe-visual-section" ref={globeRef} id="globe">
-        <div className="globe-layout">
-          <div className="globe-content-side" data-reveal="left">
-            <h2>Pathway routes to the <span>world's best universities</span></h2>
-            <p className="globe-desc">
-              We connect local aspirations with worldwide institutional networks. Our certified consultants structure applications matching high-acceptance criteria across top destinations.
-            </p>
-            <div className="country-tags-row">
-              {[{ flag: "🇦🇺", name: "Australia" }, { flag: "🇬🇧", name: "United Kingdom" }, { flag: "🇨🇦", name: "Canada" }, { flag: "🇯🇵", name: "Japan" }, { flag: "🇺🇸", name: "USA" }].map((c) => (
-                <span className="country-tag" key={c.name}>{c.flag} {c.name}</span>
-              ))}
-            </div>
-            <div className="globe-stats-aside">
-              <div className="globe-stat-pill">
-                <div className="globe-stat-icon" style={{ background: "rgba(8,168,215,0.1)", color: "var(--cyan)" }}>🎓</div>
-                <div className="globe-stat-text"><strong>500+ Universities</strong><span>Direct partner institutions globally</span></div>
-              </div>
-              <div className="globe-stat-pill">
-                <div className="globe-stat-icon" style={{ background: "rgba(91,23,125,0.1)", color: "var(--purple)" }}>✈️</div>
-                <div className="globe-stat-text"><strong>2,400+ Placements</strong><span>Students successfully placed abroad</span></div>
-              </div>
-              <div className="globe-stat-pill">
-                <div className="globe-stat-icon" style={{ background: "rgba(233,38,45,0.1)", color: "var(--red)" }}>🎯</div>
-                <div className="globe-stat-text"><strong>99% Visa Success</strong><span>Across all destination countries</span></div>
-              </div>
-            </div>
-          </div>
-          <div className="globe-graphic-side" data-reveal="right">
-            <RealGlobe />
-          </div>
-        </div>
-      </section>
-
       {/* Intake Planner & CTA */}
       <section className="section intake-planner-section" ref={intakeRef} id="cta">
         <div className="intake-dark-container" data-reveal>
-          <div className="intake-col-left">
-            <div>
-              <div className="intake-banner-tag"><span className="note-dot" />Free Counseling Session</div>
-              <h2>Start your study plan. <br /><em>Intake Countdown.</em></h2>
-              <p>Get ahead of critical deadlines. Speak directly to our counselors to map out your study permit files and secure your placement.</p>
-            </div>
-            <div>
-              <div className="countdown-title">Next Major Application Target</div>
-              <div className="countdown-intake-badge">{nextIntake.label}</div>
-              <div className="countdown-timer-grid">
-                <div className="time-box"><span className="time-val">{days}</span><span className="time-unit">Days</span></div>
-                <div className="time-box"><span className="time-val">{hours}</span><span className="time-unit">Hours</span></div>
-                <div className="time-box"><span className="time-val">{minutes}</span><span className="time-unit">Mins</span></div>
-                <div className="time-box"><span className="time-val">{seconds}</span><span className="time-unit">Secs</span></div>
-              </div>
-            </div>
-            <div className="counsel-actions">
-              <AppLink to="/book-free-consultation" navigate={navigate} className="action-counsel-primary">Book Free Consultation →</AppLink>
-              <AppLink to="/contact" navigate={navigate} className="action-counsel-ghost">Locate Biratnagar Office</AppLink>
-            </div>
-          </div>
-          <div className="intake-col-right">
+          <div className="intake-col-right" style={{ padding: "3rem" }}>
             <div className="planner-widget-header"><h3>Interactive Intake Planner</h3><p>Select your target destination to view timeline roadmaps & preparations.</p></div>
             <div className="planner-selector">
               {Object.keys(ROADMAPS).map((dest) => (

@@ -86,8 +86,7 @@ export function HomePage({ navigate }) {
       malta: { type: 'img', src: '/malta.jfif' },
       india: { type: 'img', src: '/india.png' },
       dubai: { type: 'img', src: '/dubai.png' },
-      "south-korea": { type: 'img', src: '/south-korea.png' },
-      japan: { type: 'emoji', char: '🇯🇵' }
+      "south-korea": { type: 'img', src: '/south-korea.png' }
     };
     return flagMap[slug] || { type: 'emoji', char: '🌍' };
   };
@@ -117,7 +116,7 @@ export function HomePage({ navigate }) {
     {
       image: assets.heroAsia,
       title: "Your Gateway to Asia-Pacific",
-      subtitle: "Secure direct admission and scholarships at prestigious universities in Japan, South Korea, India, and New Zealand with comprehensive preparation.",
+      subtitle: "Secure direct admission and scholarships at prestigious universities in South Korea, India, and across Asia-Pacific with comprehensive preparation.",
       eyebrow: "🌏 Prestigious Asia-Pacific Pathways",
       align: "left"
     }
@@ -304,7 +303,7 @@ export function HomePage({ navigate }) {
             <p className="about-stats-text">
               Since 2012, EduMark has been a guiding lighthouse for students across Koshi Province seeking international academic excellence. Based in Traffic Chowk, Biratnagar, we are fully approved by the Ministry of Education and staffed with certified counselors. 
               <br /><br />
-              We believe in building careers rather than just processing documents. Through our institutional relationships with over 500 universities in the UK, USA, Australia, Japan, and Europe, we provide genuine, transparent, and step-by-step guidance.
+              We believe in building careers rather than just processing documents. Through our institutional relationships with over 500 universities in the UK, USA, Australia, Canada, and Europe, we provide genuine, transparent, and step-by-step guidance.
             </p>
 
             <AppLink to="/about" navigate={navigate} className="learn-more-btn">
@@ -420,16 +419,6 @@ export function HomePage({ navigate }) {
                     className="dest-horizontal-panel active"
                     style={{ width: panelWidth, "--country-color": country.accent }}
                   >
-                    {/* Vertical Active Header Stripe */}
-                    <div className="dest-active-header-stripe" style={{ background: country.accent }}>
-                      <span className="dest-active-header-text">
-                        {country.slug === "usa" ? "USA" : country.slug === "uk" ? "UK" : country.name}
-                      </span>
-                      <div className="dest-tab-flag-circle" style={{ background: 'var(--white)' }}>
-                        {flagEl}
-                      </div>
-                    </div>
-
                     {/* Expanded content details */}
                     <div className="dest-active-content-panel">
                       <div className="dest-details-left-content">
@@ -614,7 +603,7 @@ export function HomePage({ navigate }) {
             <span className="map-stats-eyebrow">🌍 Overseas Presence</span>
             <h2 className="map-stats-title">Accelerating your academic growth overseas</h2>
             <p className="map-stats-desc">
-              Our certified education consultants at EduMark support you with excellence in career guidance and student visa processing from Biratnagar, Nepal. Established in 2012, we are MOEST-approved and ECAN-affiliated, serving as Koshi Province's leading bridge to premier global destinations including the UK, USA, Australia, Japan, Finland, Lithuania, South Korea, Malta, Dubai, and India.
+              Our certified education consultants at EduMark support you with excellence in career guidance and student visa processing from Biratnagar, Nepal. Established in 2012, we are MOEST-approved and ECAN-affiliated, serving as Koshi Province's leading bridge to premier global destinations including the UK, USA, Australia, Finland, Lithuania, South Korea, Malta, Dubai, and India.
             </p>
           </div>
 
@@ -636,7 +625,6 @@ export function HomePage({ navigate }) {
                 { name: "Malta", top: "44.5%", left: "49.5%", status: "European Gateway" },
                 { name: "Dubai (UAE)", top: "47.8%", left: "59.5%", status: "Global Work Hub" },
                 { name: "India", top: "51.4%", left: "67.2%", status: "Ranked Universities" },
-                { name: "Japan", top: "44.0%", left: "84.5%", status: "Language Prep & Work" },
                 { name: "South Korea", top: "46.2%", left: "81.0%", status: "High Visa Rate" },
                 { name: "Australia", top: "67.0%", left: "83.5%", status: "Post-Study Work Visa" },
               ].map((pin, index) => (
@@ -726,7 +714,7 @@ export function HomePage({ navigate }) {
           </div>
 
           <div className="why-choose-right">
-            <img src={assets.whyChoose} alt="Successful EduMark Student" className="why-choose-photo" />
+            <img src="/images/brochure/why-choose-us.jpg" alt="Successful EduMark Student" className="why-choose-photo" />
           </div>
 
         </div>
@@ -935,20 +923,28 @@ export function HomePage({ navigate }) {
         </div>
       </section>
 
-      {/* 13. ORANGE-RED CONTACT STRIP */}
       <section className="contact-strip-section">
         <div className="contact-strip-container">
           <div className="contact-strip-left">
-            <img src={assets.logo} alt="EduMark Logo White" />
+            <span className="contact-strip-text-logo">
+              <strong>EduMark</strong>
+              <small>Education Consultancy</small>
+            </span>
             <div className="contact-strip-info">
               📞 021-590823 | 9802724823
             </div>
           </div>
 
           <div className="contact-strip-socials">
-            <a href="https://facebook.com" target="_blank" rel="noreferrer" className="contact-strip-icon-btn">FB</a>
-            <a href="https://instagram.com" target="_blank" rel="noreferrer" className="contact-strip-icon-btn">IG</a>
-            <a href="https://youtube.com" target="_blank" rel="noreferrer" className="contact-strip-icon-btn">YT</a>
+            <a href="https://www.facebook.com/EduMarkStudyAbroad" target="_blank" rel="noreferrer" className="contact-strip-icon-btn" aria-label="Facebook">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+            <a href="https://instagram.com" target="_blank" rel="noreferrer" className="contact-strip-icon-btn" aria-label="Instagram">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+            </a>
+            <a href="https://youtube.com" target="_blank" rel="noreferrer" className="contact-strip-icon-btn" aria-label="Youtube">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17z"/><path d="m10 15 5-3-5-3z"/></svg>
+            </a>
           </div>
         </div>
       </section>

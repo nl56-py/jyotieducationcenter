@@ -44,7 +44,6 @@ export function EntrancePage({ navigate }) {
   ];
 
   const trustedDomains = [
-    { key: "medical",      icon: <Stethoscope size={26} />, title: "Medical",      text: "Prepare for competitive medical entrance examinations." },
     { key: "engineering",  icon: <Settings size={26} />,    title: "Engineering",  text: "Ace engineering entrance exams with conceptual clarity." },
     { key: "management",   icon: <BarChart3 size={26} />,   title: "Management",   text: "Crack management entrance exams with confidence." },
     { key: "hospitality",  icon: <Building2 size={26} />,   title: "Hospitality",  text: "Step into the world of hospitality with the right preparation." },
@@ -68,12 +67,6 @@ export function EntrancePage({ navigate }) {
       desc: "Preparation for engineering entrance exams like KU EE, IOE, and more.",
       bullets: ["Concept Building", "Mock Exams", "Time Management", "Performance Analysis"],
       path: "/entrance-preparations/engineering"
-    },
-    {
-      title: "Medical\nEntrances", theme: "blue", icon: <Heart size={22} />,
-      desc: "Focused coaching for medical entrance exams like KU MBBS, BDS and more.",
-      bullets: ["NCERT Based Study", "Regular Tests", "Expert Guidance", "Personalized Plan"],
-      path: "/entrance-preparations/medical"
     },
   ];
 

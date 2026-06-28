@@ -25,10 +25,13 @@ export const navItems = [
     label: "Services",
     path: "/services",
     children: [
+      { label: "All Services", path: "/services" },
       { label: "Career Counselling", path: "/services/career-counselling" },
       { label: "Admission Guidance", path: "/services/admission-guidance" },
       { label: "Visa Assistance", path: "/services/visa-assistance" },
-      { label: "Pre-Departure", path: "/services/pre-departure-support" },
+      { label: "Test Preparation", path: "/services/test-preparation-support" },
+      { label: "Travel & Accommodation", path: "/services/travel-accommodation" },
+      { label: "Pre-Departure Support", path: "/services/pre-departure-support" },
     ],
   },
   {
@@ -39,7 +42,6 @@ export const navItems = [
       { label: "Australia", path: "/destinations/australia" },
       { label: "USA", path: "/destinations/usa" },
       { label: "Europe", path: "/destinations/finland" },
-      { label: "Japan", path: "/destinations/japan" },
     ],
   },
   {
@@ -52,7 +54,16 @@ export const navItems = [
       { label: "SAT", path: "/test-preparation/sat" },
     ],
   },
-  { label: "Entrance", path: "/entrance-preparations" },
+  {
+    label: "Entrance",
+    path: "/entrance-preparations",
+    children: [
+      { label: "All Entrance Prep", path: "/entrance-preparations" },
+      { label: "CEE Prep", path: "/entrance-preparations/cee" },
+      { label: "CMAT Prep", path: "/entrance-preparations/cmat" },
+      { label: "Engineering Prep", path: "/entrance-preparations/engineering" },
+    ],
+  },
   { label: "Blogs", path: "/blogs" },
   { label: "Videos", path: "/videos-gallery" },
   { label: "Contact", path: "/contact" },

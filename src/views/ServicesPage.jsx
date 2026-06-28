@@ -142,131 +142,43 @@ export function ServicesPage({ navigate }) {
       <section className="section service-sections">
         <div className="service-cards-grid">
 
-          {/* Card 1 */}
-          <article className="service-row" key={services[0].slug} style={{ transitionDelay: '0.1s' }}>
-            <div className="service-row-image">
-              <img src="/images/services/Career.png" alt={services[0].title} />
-              <span className="service-row-badge">01</span>
-            </div>
-            <div className="service-row-body">
-              <h2>{services[0].title}</h2>
-              <div className="service-row-underline"></div>
-              <p>{services[0].detail}</p>
-              <div className="mini-grid">
-                {services[0].bullets.map((bullet) => (
-                  <small key={bullet}>{bullet}</small>
-                ))}
-              </div>
-              <AppLink to={`/services/${services[0].slug}`} navigate={navigate} className="secondary-button small">
-                View Detail
-              </AppLink>
-            </div>
-          </article>
+          {services.map((service, index) => {
+            const badgeNumber = String(index + 1).padStart(2, "0");
+            
+            const imagesMap = {
+              "educational-consulting": "/images/services/Career.png",
+              "career-counselling": "/images/services/Career.png",
+              "study-abroad-guidance": "/images/services/travel.png",
+              "visa-assistance": "/images/services/visa.png",
+              "university-application": "/images/services/admission.png",
+              "scholarship-guidance": "/images/services/admission.png",
+              "interview-preparation": "/images/services/pre-departure.png",
+              "documentation-support": "/images/services/admission.png",
+            };
+            const imageSrc = imagesMap[service.slug] || "/images/services/Career.png";
 
-          {/* Card 2 */}
-          <article className="service-row" key={services[1].slug} style={{ transitionDelay: '0.2s' }}>
-            <div className="service-row-image">
-              <img src="/images/services/admission.png" alt={services[1].title} />
-              <span className="service-row-badge">02</span>
-            </div>
-            <div className="service-row-body">
-              <h2>{services[1].title}</h2>
-              <div className="service-row-underline"></div>
-              <p>{services[1].detail}</p>
-              <div className="mini-grid">
-                {services[1].bullets.map((bullet) => (
-                  <small key={bullet}>{bullet}</small>
-                ))}
-              </div>
-              <AppLink to={`/services/${services[1].slug}`} navigate={navigate} className="secondary-button small">
-                View Detail
-              </AppLink>
-            </div>
-          </article>
-
-          {/* Card 3 */}
-          <article className="service-row" key={services[2].slug} style={{ transitionDelay: '0.3s' }}>
-            <div className="service-row-image">
-              <img src="/images/services/visa.png" alt={services[2].title} />
-              <span className="service-row-badge">03</span>
-            </div>
-            <div className="service-row-body">
-              <h2>{services[2].title}</h2>
-              <div className="service-row-underline"></div>
-              <p>{services[2].detail}</p>
-              <div className="mini-grid">
-                {services[2].bullets.map((bullet) => (
-                  <small key={bullet}>{bullet}</small>
-                ))}
-              </div>
-              <AppLink to={`/services/${services[2].slug}`} navigate={navigate} className="secondary-button small">
-                View Detail
-              </AppLink>
-            </div>
-          </article>
-
-          {/* Card 4 */}
-          <article className="service-row" key={services[3].slug} style={{ transitionDelay: '0.1s' }}>
-            <div className="service-row-image">
-              <img src="/images/services/test.png" alt={services[3].title} />
-              <span className="service-row-badge">04</span>
-            </div>
-            <div className="service-row-body">
-              <h2>{services[3].title}</h2>
-              <div className="service-row-underline"></div>
-              <p>{services[3].detail}</p>
-              <div className="mini-grid">
-                {services[3].bullets.map((bullet) => (
-                  <small key={bullet}>{bullet}</small>
-                ))}
-              </div>
-              <AppLink to={`/services/${services[3].slug}`} navigate={navigate} className="secondary-button small">
-                View Detail
-              </AppLink>
-            </div>
-          </article>
-
-          {/* Card 5 */}
-          <article className="service-row" key={services[4].slug} style={{ transitionDelay: '0.2s' }}>
-            <div className="service-row-image">
-              <img src="/images/services/travel.png" alt={services[4].title} />
-              <span className="service-row-badge">05</span>
-            </div>
-            <div className="service-row-body">
-              <h2>{services[4].title}</h2>
-              <div className="service-row-underline"></div>
-              <p>{services[4].detail}</p>
-              <div className="mini-grid">
-                {services[4].bullets.map((bullet) => (
-                  <small key={bullet}>{bullet}</small>
-                ))}
-              </div>
-              <AppLink to={`/services/${services[4].slug}`} navigate={navigate} className="secondary-button small">
-                View Detail
-              </AppLink>
-            </div>
-          </article>
-
-          {/* Card 6 */}
-          <article className="service-row" key={services[5].slug} style={{ transitionDelay: '0.3s' }}>
-            <div className="service-row-image">
-              <img src="/images/services/pre-departure.png" alt={services[5].title} />
-              <span className="service-row-badge">06</span>
-            </div>
-            <div className="service-row-body">
-              <h2>{services[5].title}</h2>
-              <div className="service-row-underline"></div>
-              <p>{services[5].detail}</p>
-              <div className="mini-grid">
-                {services[5].bullets.map((bullet) => (
-                  <small key={bullet}>{bullet}</small>
-                ))}
-              </div>
-              <AppLink to={`/services/${services[5].slug}`} navigate={navigate} className="secondary-button small">
-                View Detail
-              </AppLink>
-            </div>
-          </article>
+            return (
+              <article className="service-row" key={service.slug} style={{ transitionDelay: `${0.1 * ((index % 3) + 1)}s` }}>
+                <div className="service-row-image">
+                  <img src={imageSrc} alt={service.title} />
+                  <span className="service-row-badge">{badgeNumber}</span>
+                </div>
+                <div className="service-row-body">
+                  <h2>{service.title}</h2>
+                  <div className="service-row-underline"></div>
+                  <p>{service.detail}</p>
+                  <div className="mini-grid">
+                    {service.bullets.map((bullet) => (
+                      <small key={bullet}>{bullet}</small>
+                    ))}
+                  </div>
+                  <AppLink to={`/services/${service.slug}`} navigate={navigate} className="secondary-button small">
+                    View Detail
+                  </AppLink>
+                </div>
+              </article>
+            );
+          })}
 
         </div>
       </section>
