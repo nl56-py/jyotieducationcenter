@@ -123,29 +123,17 @@ export function HomePage({ navigate }) {
     }
   ];
 
-  // Visa services data
-  const visaServices = [
-    {
-      badge: "SERVICE 01",
-      title: "Visa Counseling & Eligibility Assessment",
-      image: assets.counselling
-    },
-    {
-      badge: "SERVICE 02",
-      title: "Document Preparation & SOP Guidance",
-      image: assets.testPrep
-    },
-    {
-      badge: "SERVICE 03",
-      title: "Visa Application Filing & Support",
-      image: assets.success
-    },
-    {
-      badge: "SERVICE 04",
-      title: "Embassy Visa Interview Preparation",
-      image: assets.destinations
-    }
-  ];
+  // Service card image mappings
+  const serviceImages = {
+    "educational-consulting": "/images/services/Career.png",
+    "career-counselling": "/images/services/Career.png",
+    "study-abroad-guidance": "/images/services/travel.png",
+    "visa-assistance": "/images/services/visa.png",
+    "university-application": "/images/services/admission.png",
+    "scholarship-guidance": "/images/services/admission.png",
+    "interview-preparation": "/images/services/pre-departure.png",
+    "documentation-support": "/images/services/admission.png",
+  };
 
 
 
@@ -328,41 +316,43 @@ export function HomePage({ navigate }) {
           <div className="visa-slider-wrapper">
             <div 
               className="visa-slider-track"
-              style={{ transform: `translateX(-${visaActivePage * 50}%)` }}
+              style={{ '--active-page': visaActivePage * 2 }}
             >
-              {visaServices.map((svc, idx) => (
-                <div 
-                  key={idx} 
-                  className="visa-card-v2"
-                  onClick={() => navigate("/services")}
-                >
-                  <div className="visa-card-bg" style={{ backgroundImage: `url(${svc.image})` }} />
-                  <div className="visa-card-overlay">
-                    <span className="visa-card-badge">{svc.badge}</span>
-                    <div className="visa-card-bottom">
-                      <h3 className="visa-card-title">{svc.title}</h3>
-                      <button className="visa-card-arrow-btn" aria-label="View Details">
-                        <ArrowRight size={20} />
-                      </button>
+              {services.map((svc, idx) => {
+                const badge = `SERVICE ${String(idx + 1).padStart(2, "0")}`;
+                const imageSrc = serviceImages[svc.slug] || "/images/services/Career.png";
+                return (
+                  <div 
+                    key={svc.slug} 
+                    className="visa-card-v2"
+                    onClick={() => navigate(`/services/${svc.slug}`)}
+                  >
+                    <div className="visa-card-bg" style={{ backgroundImage: `url(${imageSrc})` }} />
+                    <div className="visa-card-overlay">
+                      <span className="visa-card-badge">{badge}</span>
+                      <div className="visa-card-bottom">
+                        <h3 className="visa-card-title">{svc.title}</h3>
+                        <button className="visa-card-arrow-btn" aria-label="View Details">
+                          <ArrowRight size={20} />
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
 
           {/* Dots Pagination */}
           <div className="visa-slider-pagination">
-            <button 
-              className={`visa-pagination-dot ${visaActivePage === 0 ? "active" : ""}`}
-              onClick={() => setVisaActivePage(0)}
-              aria-label="Visa services page 1"
-            />
-            <button 
-              className={`visa-pagination-dot ${visaActivePage === 1 ? "active" : ""}`}
-              onClick={() => setVisaActivePage(1)}
-              aria-label="Visa services page 2"
-            />
+            {[0, 1, 2, 3].map((p) => (
+              <button 
+                key={p}
+                className={`visa-pagination-dot ${visaActivePage === p ? "active" : ""}`}
+                onClick={() => setVisaActivePage(p)}
+                aria-label={`Visa services page ${p + 1}`}
+              />
+            ))}
           </div>
 
         </div>

@@ -9829,6 +9829,7 @@ video {
   display: flex;
   gap: 24px;
   transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform: translateX(calc(-1 * var(--active-page, 0) * (50% + 12px)));
 }
 
 .visa-card-v2 {
@@ -9939,6 +9940,9 @@ video {
 @media (max-width: 768px) {
   .visa-card-v2 {
     flex: 0 0 100%;
+  }
+  .visa-slider-track {
+    transform: translateX(calc(-1 * var(--active-page, 0) * (100% + 24px)));
   }
 }
 
