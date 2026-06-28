@@ -72,7 +72,7 @@ export function CountryDetailPage({ country }) {
   const brochurePage = brochurePageMap[country.slug] || null;
 
   return (
-    <main ref={sectionRef} style={{ fontFamily: "var(--display-font)", "--country-color": country.accent, overflow: "hidden" }}>
+    <main ref={sectionRef} style={{ fontFamily: "var(--display-font)", "--country-color": country.accent, overflowX: "hidden" }}>
       <style dangerouslySetInnerHTML={{ __html: `
         @keyframes spinGlobe {
           from { transform: rotate(0deg); }
@@ -186,7 +186,7 @@ export function CountryDetailPage({ country }) {
                 }}
               >
                 <div className="country-sidebar-flag-wrapper">
-                  <span className="flag-code" style={{ zIndex: 2 }}>{c.code === "UK" ? "GB" : c.code}</span>
+                  <span className="flag-code" style={{ zIndex: 2, fontSize: "16px" }}>{flagMap[c.code] || c.code}</span>
                   <svg className="sidebar-airplane-loop" viewBox="0 0 40 40" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none" }}>
                     <circle cx="20" cy="20" r="14" stroke="currentColor" strokeWidth="1" strokeDasharray="3 3" fill="none" opacity="0.25"/>
                     <g className="sidebar-looping-plane-group" style={{ transformOrigin: "20px 20px" }}>
@@ -196,7 +196,10 @@ export function CountryDetailPage({ country }) {
                     </g>
                   </svg>
                 </div>
-                <span style={{ fontWeight: 700 }}>{c.code === "US" ? "USA" : c.code === "UK" ? "UK" : c.name}</span>
+                <span style={{ fontWeight: 700, display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
+                  <span>{c.code === "US" ? "USA" : c.code === "UK" ? "UK" : c.name}</span>
+                  <span style={{ fontSize: "18px", marginLeft: "8px" }}>{flagMap[c.code] || ""}</span>
+                </span>
               </AppLink>
             ))}
           </div>

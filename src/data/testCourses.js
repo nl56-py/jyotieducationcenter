@@ -51,4 +51,27 @@ export const testCourses = [
     modules: ["Math practice", "Reading drills", "Grammar review", "Timed tests"],
     features: ["Topic diagnostics", "Practice sets", "Error review", "Scholarship-focused planning"],
   },
+  {
+    name: "Japanese (JLPT)",
+    slug: "japanese-jlpt",
+    fullName: "Test and Japanese Language Preparation",
+    score: "JLPT Level N5 / N4",
+    duration: "4 to 6 months",
+    overview: "Comprehensive Japanese language instruction and JLPT/NAT-TEST preparation classes designed for students aiming to study in Japan.",
+    types: ["JLPT N5", "JLPT N4", "NAT-TEST 5Q/4Q"],
+    characteristics: [
+      "Trained and Certified teachers",
+      "Kanji, Grammar, and Vocabulary mastery",
+      "Focus on everyday conversation",
+      "Mock test preparation"
+    ],
+    format: ["Language Knowledge (Vocabulary/Grammar)", "Reading", "Listening"],
+    modules: ["Vocabulary & Kanji", "Sentence Grammar", "Listening Audio Drills", "Mock Test Reviews"],
+    features: [
+      "Trained and Certified teachers",
+      "Extra classes for weak students",
+      "Weekly mock test",
+      "Interview Preparation for study in Japan"
+    ],
+  },
 ];

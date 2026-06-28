@@ -67,7 +67,7 @@ export function Header({ onSearch }) {
               src={assets.logo} 
               alt="EduMark logo"
               style={{
-                height: "50px",
+                height: "55px",
                 width: "auto",
                 transition: "transform 0.3s ease"
               }}
@@ -78,10 +78,6 @@ export function Header({ onSearch }) {
                 e.currentTarget.style.transform = "scale(1)";
               }}
             />
-            <span>
-              <strong>EduMark</strong>
-              <small>Education Consultancy</small>
-            </span>
           </Link>
 
           {/* Desktop Navigation links */}
@@ -134,10 +130,7 @@ export function Header({ onSearch }) {
         <div className={`mobile-overlay-drawer ${menuOpen ? "open" : ""}`}>
           <div className="mobile-drawer-header">
             <div className="brand">
-              <img src={assets.logo} alt="EduMark logo" style={{ height: "40px" }} />
-              <span>
-                <strong>EduMark</strong>
-              </span>
+              <img src={assets.logo} alt="EduMark logo" style={{ height: "45px" }} />
             </div>
             <button
               className="mobile-drawer-close"

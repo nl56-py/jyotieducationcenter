@@ -123,18 +123,6 @@ export function HomePage({ navigate }) {
     }
   ];
 
-  // Service card image mappings
-  const serviceImages = {
-    "educational-consulting": "/images/services/Career.png",
-    "career-counselling": "/images/services/Career.png",
-    "study-abroad-guidance": "/images/services/travel.png",
-    "visa-assistance": "/images/services/visa.png",
-    "university-application": "/images/services/admission.png",
-    "scholarship-guidance": "/images/services/admission.png",
-    "interview-preparation": "/images/services/pre-departure.png",
-    "documentation-support": "/images/services/admission.png",
-  };
-
 
 
   // FAQ list data
@@ -314,13 +302,10 @@ export function HomePage({ navigate }) {
           </div>
 
           <div className="visa-slider-wrapper">
-            <div 
-              className="visa-slider-track"
-              style={{ '--active-page': visaActivePage * 2 }}
-            >
+            <div className="visa-slider-track">
               {services.map((svc, idx) => {
                 const badge = `SERVICE ${String(idx + 1).padStart(2, "0")}`;
-                const imageSrc = serviceImages[svc.slug] || "/images/services/Career.png";
+                const imageSrc = svc.image || "/images/services/Career.png";
                 return (
                   <div 
                     key={svc.slug} 
@@ -341,18 +326,6 @@ export function HomePage({ navigate }) {
                 );
               })}
             </div>
-          </div>
-
-          {/* Dots Pagination */}
-          <div className="visa-slider-pagination">
-            {[0, 1, 2, 3].map((p) => (
-              <button 
-                key={p}
-                className={`visa-pagination-dot ${visaActivePage === p ? "active" : ""}`}
-                onClick={() => setVisaActivePage(p)}
-                aria-label={`Visa services page ${p + 1}`}
-              />
-            ))}
           </div>
 
         </div>
@@ -543,39 +516,82 @@ export function HomePage({ navigate }) {
             <span className="em-title-line-decor" />
           </div>
 
-          <div className="prep-classes-grid">
+          <div className="prep-classes-one-column" style={{ display: "flex", flexDirection: "column", gap: "20px", maxWidth: "900px", margin: "0 auto" }}>
             {testCourses.map((course) => {
-              const features = course.features || ["Certified Teachers", "Weekly Mock Tests"];
+              const testBannerImages = {
+                ielts: "/images/trust images/ielts.avif",
+                pte: "/images/pte.png",
+                toefl: "/images/trust images/toefl.gif",
+                "japanese-jlpt": "/images/jlpt.png",
+                sat: "/images/generated/SAT.png",
+              };
+              const bannerImg = testBannerImages[course.slug] || "/images/services/Career.png";
               
               return (
-                <div key={course.slug} className="prep-class-card">
-                  <div className="prep-class-card-top">
-                    <span className="prep-class-card-badge">{course.score || "Exam Prep"}</span>
-                    <h3 className="prep-class-card-title">{course.name}</h3>
-                    <h4 className="prep-class-card-subtitle">{course.fullName}</h4>
-                    <p className="prep-class-card-desc">{course.overview}</p>
-                    
-                    <div className="prep-class-card-highlights">
-                      <div className="prep-class-card-highlight-item">
-                        <span>✔</span> Certified Teachers
-                      </div>
-                      <div className="prep-class-card-highlight-item">
-                        <span>✔</span> Weekly Mock Tests
-                      </div>
-                      {features.slice(2, 4).map((f, idx) => (
-                        <div key={idx} className="prep-class-card-highlight-item">
-                          <span>✔</span> {f}
-                        </div>
-                      ))}
+                <div key={course.slug} className="prep-class-horizontal-card" style={{ 
+                  display: "flex", 
+                  alignItems: "center", 
+                  gap: "24px", 
+                  background: "var(--white)", 
+                  borderRadius: "12px", 
+                  border: "1px solid rgba(10, 25, 47, 0.08)", 
+                  padding: "20px 24px",
+                  boxShadow: "0 4px 16px rgba(10, 25, 47, 0.02)",
+                  transition: "all 0.3s ease"
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "translateY(-2px)";
+                  e.currentTarget.style.boxShadow = "0 8px 24px rgba(10, 25, 47, 0.06)";
+                  e.currentTarget.style.borderColor = "var(--accent-orange-red)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "none";
+                  e.currentTarget.style.boxShadow = "0 4px 16px rgba(10, 25, 47, 0.02)";
+                  e.currentTarget.style.borderColor = "rgba(10, 25, 47, 0.08)";
+                }}
+                >
+                  {/* Logo */}
+                  <div style={{ 
+                    width: "65px", 
+                    height: "65px", 
+                    background: `url("${bannerImg}") center/contain no-repeat`,
+                    backgroundColor: "#f8fafc",
+                    borderRadius: "8px",
+                    padding: "8px",
+                    border: "1px solid rgba(0,0,0,0.04)",
+                    flexShrink: 0
+                  }} />
+                  
+                  {/* Text Details */}
+                  <div style={{ flex: 1 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "4px" }}>
+                      <h3 style={{ fontSize: "18px", fontWeight: "800", color: "var(--primary-navy)", margin: 0 }}>{course.name}</h3>
+                      <span style={{ fontSize: "10px", fontWeight: "800", color: "var(--accent-orange-red)", textTransform: "uppercase", background: "rgba(255, 76, 41, 0.08)", padding: "3px 8px", borderRadius: "4px" }}>
+                        {course.score || "Prep"}
+                      </span>
                     </div>
+                    <p style={{ fontSize: "13.5px", color: "var(--muted)", margin: 0, lineHeight: "1.5" }}>
+                      {course.overview}
+                    </p>
                   </div>
 
+                  {/* Action Button */}
                   <AppLink 
                     to={`/test-preparation/${course.slug}`} 
                     navigate={navigate}
-                    className="prep-class-card-btn"
+                    style={{ 
+                      display: "inline-flex", 
+                      alignItems: "center", 
+                      gap: "6px",
+                      fontSize: "14px",
+                      fontWeight: "700",
+                      color: "var(--accent-orange-red)",
+                      textDecoration: "none",
+                      whiteSpace: "nowrap",
+                      flexShrink: 0
+                    }}
                   >
-                    Explore Course Details &rarr;
+                    Explore &rarr;
                   </AppLink>
                 </div>
               );
@@ -706,7 +722,7 @@ export function HomePage({ navigate }) {
           </div>
 
           <div className="why-choose-right">
-            <img src="/images/brochure/why-choose-us.jpg" alt="Successful EduMark Student" className="why-choose-photo" />
+            <img src="/images/why choose us.jpg" alt="Successful EduMark Student" className="why-choose-photo" />
           </div>
 
         </div>
@@ -723,7 +739,35 @@ export function HomePage({ navigate }) {
           </div>
 
           <div className="process-timeline-wrapper">
-            <div className="process-timeline-line" />
+            <div className="process-timeline-line-svg">
+              <svg viewBox="0 0 1200 160" fill="none" preserveAspectRatio="none" style={{ width: "100%", height: "160px", display: "block" }}>
+                <defs>
+                  <marker id="arrow" viewBox="0 0 10 10" refX="4" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                    <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="var(--accent-orange-red)" />
+                  </marker>
+                </defs>
+                
+                {/* Segment 1: Step 1 -> Step 2 */}
+                <path d="M 100,55 C 150,55 175,70 200,85" stroke="var(--accent-orange-red)" strokeWidth="8" strokeDasharray="16 16" strokeLinecap="round" opacity="0.8" markerEnd="url(#arrow)" />
+                <path d="M 200,85 C 225,100 250,115 300,115" stroke="var(--accent-orange-red)" strokeWidth="8" strokeDasharray="16 16" strokeLinecap="round" opacity="0.8" />
+                
+                {/* Segment 2: Step 2 -> Step 3 */}
+                <path d="M 300,115 C 350,115 375,100 400,85" stroke="var(--accent-orange-red)" strokeWidth="8" strokeDasharray="16 16" strokeLinecap="round" opacity="0.8" markerEnd="url(#arrow)" />
+                <path d="M 400,85 C 425,70 450,55 500,55" stroke="var(--accent-orange-red)" strokeWidth="8" strokeDasharray="16 16" strokeLinecap="round" opacity="0.8" />
+
+                {/* Segment 3: Step 3 -> Step 4 */}
+                <path d="M 500,55 C 550,55 575,70 600,85" stroke="var(--accent-orange-red)" strokeWidth="8" strokeDasharray="16 16" strokeLinecap="round" opacity="0.8" markerEnd="url(#arrow)" />
+                <path d="M 600,85 C 625,100 650,115 700,115" stroke="var(--accent-orange-red)" strokeWidth="8" strokeDasharray="16 16" strokeLinecap="round" opacity="0.8" />
+
+                {/* Segment 4: Step 4 -> Step 5 */}
+                <path d="M 700,115 C 750,115 775,100 800,85" stroke="var(--accent-orange-red)" strokeWidth="8" strokeDasharray="16 16" strokeLinecap="round" opacity="0.8" markerEnd="url(#arrow)" />
+                <path d="M 800,85 C 825,70 850,55 900,55" stroke="var(--accent-orange-red)" strokeWidth="8" strokeDasharray="16 16" strokeLinecap="round" opacity="0.8" />
+
+                {/* Segment 5: Step 5 -> Step 6 */}
+                <path d="M 900,55 C 950,55 975,70 1000,85" stroke="var(--accent-orange-red)" strokeWidth="8" strokeDasharray="16 16" strokeLinecap="round" opacity="0.8" markerEnd="url(#arrow)" />
+                <path d="M 1000,85 C 1025,100 1050,115 1100,115" stroke="var(--accent-orange-red)" strokeWidth="8" strokeDasharray="16 16" strokeLinecap="round" opacity="0.8" />
+              </svg>
+            </div>
             
             <div className="process-timeline-steps">
               <div className="process-timeline-step">
@@ -737,7 +781,7 @@ export function HomePage({ navigate }) {
               <div className="process-timeline-step">
                 <div className="process-step-photo">
                   <span className="process-step-num">2</span>
-                  <img src={assets.destinations} alt="Country Selection" />
+                  <img src="/images/country and course selection.jfif" alt="Country Selection" />
                 </div>
                 <h4 className="process-step-title">Country & Course Selection</h4>
               </div>
@@ -745,7 +789,7 @@ export function HomePage({ navigate }) {
               <div className="process-timeline-step">
                 <div className="process-step-photo">
                   <span className="process-step-num">3</span>
-                  <img src={assets.heroGenerated} alt="Application" />
+                  <img src="/images/application sumbission.jpg" alt="Application" />
                 </div>
                 <h4 className="process-step-title">Application Submission</h4>
               </div>
@@ -753,7 +797,7 @@ export function HomePage({ navigate }) {
               <div className="process-timeline-step">
                 <div className="process-step-photo">
                   <span className="process-step-num">4</span>
-                  <img src={assets.testPrep} alt="Documentation" />
+                  <img src="/images/Offer-Letter.png" alt="Documentation" />
                 </div>
                 <h4 className="process-step-title">Offer Letter & Docs</h4>
               </div>
@@ -902,14 +946,49 @@ export function HomePage({ navigate }) {
           </div>
 
           <div className="awards-grid">
-            {awardsList.map((item, idx) => (
-              <div key={idx} className="award-box">
-                <div style={{ textAlign: "center" }}>
-                  <h4 style={{ color: "var(--primary-navy)", margin: "0 0 4px 0", fontSize: "16px", fontWeight: "700" }}>{item.name}</h4>
-                  <small style={{ color: "var(--muted)", fontSize: "11px", fontWeight: "500" }}>{item.desc}</small>
+            {awardsList.map((item, idx) => {
+              const awardImageMap = {
+                "Ministry Approved": "/images/trust images/ministry image.jfif",
+                "ECAN Member": "/images/trust images/ecan.png",
+                "TITI Certified": "/images/trust images/titi.png",
+                "14+ Years Legacy": "/images/trust images/14 years.png",
+                "ICEF Screened": "/images/ICEF-Logo_2023_500.jpg",
+              };
+              const imgSrc = awardImageMap[item.name];
+              return (
+                <div key={idx} className="award-box" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "12px", padding: "24px 20px" }}>
+                  {imgSrc ? (
+                    <img 
+                      src={imgSrc} 
+                      alt={item.name} 
+                      style={{ 
+                        height: "55px", 
+                        width: "auto", 
+                        maxWidth: "100%",
+                        objectFit: "contain"
+                      }} 
+                    />
+                  ) : (
+                    <div style={{ 
+                      height: "55px", 
+                      width: "55px", 
+                      borderRadius: "50%", 
+                      background: "rgba(91, 23, 125, 0.08)", 
+                      display: "flex", 
+                      alignItems: "center", 
+                      justifyContent: "center", 
+                      fontSize: "20px"
+                    }}>
+                      {item.name.includes("Partner") ? "🏫" : "🌍"}
+                    </div>
+                  )}
+                  <div style={{ textAlign: "center" }}>
+                    <h4 style={{ color: "var(--primary-navy)", margin: "0 0 4px 0", fontSize: "15px", fontWeight: "700" }}>{item.name}</h4>
+                    <small style={{ color: "var(--muted)", fontSize: "11px", fontWeight: "500" }}>{item.desc}</small>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
         </div>
@@ -917,11 +996,8 @@ export function HomePage({ navigate }) {
 
       <section className="contact-strip-section">
         <div className="contact-strip-container">
-          <div className="contact-strip-left">
-            <span className="contact-strip-text-logo">
-              <strong>EduMark</strong>
-              <small>Education Consultancy</small>
-            </span>
+          <div className="contact-strip-left" style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+            <img src={assets.logo} alt="EduMark logo" style={{ height: "45px", width: "auto" }} />
             <div className="contact-strip-info">
               📞 021-590823 | 9802724823
             </div>

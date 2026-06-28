@@ -46,12 +46,8 @@ export function Footer() {
             <img 
               src={assets.logo} 
               alt="EduMark logo" 
-              style={{ filter: "brightness(0.9) contrast(1.1)" }}
+              style={{ filter: "brightness(0.9) contrast(1.1)", height: "55px", width: "auto" }}
             />
-            <span>
-              <strong>EduMark</strong>
-              <small>Education Consultancy</small>
-            </span>
           </Link>
           <p className="footer-logo-desc">
             Leading multi-destination education consultancy guided by certified TITI counselors. Providing ethical, transparent university admission and visa guidance since 2012.

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { assets } from "../data/assets.js";
 import { countries } from "../data/countries.js";
 import "@/styles/BookingPage.css";
@@ -31,7 +31,51 @@ const phoneCountries = [
   { code: "CN", name: "China", flag: "🇨🇳", dial: "+86", length: 11, pattern: "[0-9]{11}" },
   { code: "AE", name: "UAE", flag: "🇦🇪", dial: "+971", length: 9, pattern: "[0-9]{9}" },
 ];
+
+const INTAKES = [
+  { label: "July Intake", date: new Date("2026-07-01T00:00:00") },
+  { label: "September Intake", date: new Date("2026-09-01T00:00:00") },
+  { label: "February Intake", date: new Date("2027-02-01T00:00:00") },
+];
+
+function getNextIntake() {
+  const now = new Date();
+  const upcoming = INTAKES.filter((i) => i.date > now).sort((a, b) => a.date - b.date);
+  return upcoming[0] || INTAKES[0];
+}
+
+function useDetailedCountdown(targetDate) {
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+  useEffect(() => {
+    const calc = () => {
+      const diff = targetDate.getTime() - new Date().getTime();
+      if (diff <= 0) { setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 }); return; }
+      setTimeLeft({
+        days: Math.floor(diff / 86400000),
+        hours: Math.floor((diff % 86400000) / 3600000),
+        minutes: Math.floor((diff % 3600000) / 60000),
+        seconds: Math.floor((diff % 60000) / 1000),
+      });
+    };
+    calc();
+    const id = setInterval(calc, 1000);
+    return () => clearInterval(id);
+  }, [targetDate]);
+  return timeLeft;
+}
+
+const ROADMAPS = {
+  Australia: { intakes: "Feb, July, November", steps: [{ t: "English Proficiency", d: "Prepare and clear IELTS, PTE or TOEFL (6 months ahead)" }, { t: "Course Selection & GTE", d: "Choose course and draft GTE statement (4 months ahead)" }, { t: "Offer Letter & Tuition", d: "Submit academic transcripts, receive offer, and remit fees (3 months ahead)" }, { t: "COE & Visa Lodging", d: "Receive CoE, set up health insurance, and lodge visa (2 months ahead)" }] },
+  UK: { intakes: "Jan, May, September", steps: [{ t: "Academic Assessment", d: "Submit academic documents and check English eligibility (5 months ahead)" }, { t: "Pre-CAS Credibility Interview", d: "Clear university credibility screening for CAS (3 months ahead)" }, { t: "CAS & Bank Setup", d: "Receive CAS; show maintenance funds held for 28 consecutive days (2 months ahead)" }, { t: "Visa Submission", d: "Lodge student visa online and submit biometric data (1 month ahead)" }] },
+  Canada: { intakes: "Jan, May, September", steps: [{ t: "IELTS & ECA", d: "Achieve IELTS 6.0+; prepare ECA if post-grad application (8 months ahead)" }, { t: "College Admission & LOA", d: "Apply to DLI college and receive Letter of Acceptance (6 months ahead)" }, { t: "GIC Account Setup", d: "Open bank account and deposit GIC amount for living expenses (4 months ahead)" }, { t: "Study Permit Application", d: "Submit Study Permit application under SDS pathway (3 months ahead)" }] },
+  Japan: { intakes: "April, October", steps: [{ t: "Language Proficiency", d: "Undergo minimum 150 hours of Japanese language study (N5 / NAT) (8 months ahead)" }, { t: "COE Application Prep", d: "Compile financial sponsorship and personal documents for COE (6 months ahead)" }, { t: "COE Issuance & Fee", d: "Get COE approval, pay tuition fee to language school (2 months ahead)" }, { t: "Visa Stamping", d: "Apply for visa at Embassy in Kathmandu; depart (1 month ahead)" }] },
+};
+
 export function BookingPage() {
+  const [activeRoadmap, setActiveRoadmap] = useState("Australia");
+  const nextIntake = getNextIntake();
+  const { days, hours, minutes, seconds } = useDetailedCountdown(nextIntake.date);
+
   const [sent, setSent] = useState(false);
   const [countryCode, setCountryCode] = useState("NP");
   const selectedCountry = phoneCountries.find(c => c.code === countryCode) ?? phoneCountries[0];
@@ -155,6 +199,79 @@ export function BookingPage() {
           </div>
         </div>
       </div>
+
+      {/* ── INTERACTIVE INTAKE PLANNER SECTION ── */}
+      <section className="section intake-planner-section" id="intake-planner" style={{ padding: "60px 0", background: "var(--surface-mist)" }}>
+        <div className="intake-dark-container" style={{ margin: "0 auto", width: "min(1200px, calc(100% - 40px))" }}>
+          <div className="intake-col-left">
+            <span className="intake-banner-tag">
+              <span className="note-dot" style={{ background: "#22c55e" }} />
+              Next Intake Countdown
+            </span>
+            <h2>Apply for <em>{nextIntake.label}</em></h2>
+            <p>Ready to check your eligibility? Plan ahead to avoid visa delays and secure your seat early.</p>
+            <div className="countdown-timer-grid">
+              <div className="timer-cell">
+                <span className="timer-val">{String(days).padStart(2, "0")}</span>
+                <span className="timer-lbl">Days</span>
+              </div>
+              <div className="timer-cell">
+                <span className="timer-val">{String(hours).padStart(2, "0")}</span>
+                <span className="timer-lbl">Hours</span>
+              </div>
+              <div className="timer-cell">
+                <span className="timer-val">{String(minutes).padStart(2, "0")}</span>
+                <span className="timer-lbl">Mins</span>
+              </div>
+              <div className="timer-cell">
+                <span className="timer-val">{String(seconds).padStart(2, "0")}</span>
+                <span className="timer-lbl">Secs</span>
+              </div>
+            </div>
+            <button className="primary-button" onClick={() => document.getElementById("booking-form")?.scrollIntoView({ behavior: "smooth" })} style={{ alignSelf: "flex-start", marginTop: "20px" }}>
+              Book Free Assessment Slot
+            </button>
+          </div>
+          <div className="intake-col-right" style={{ padding: "3rem" }}>
+            <div className="planner-widget-header">
+              <h3>Interactive Intake Planner</h3>
+              <p>Select your target destination to view timeline roadmaps & preparations.</p>
+            </div>
+            <div className="planner-selector">
+              {Object.keys(ROADMAPS).map((dest) => (
+                <button
+                  key={dest}
+                  className={`planner-tab-btn ${activeRoadmap === dest ? "is-active" : ""}`}
+                  onClick={() => setActiveRoadmap(dest)}
+                >
+                  {dest}
+                </button>
+              ))}
+            </div>
+            <div>
+              <div className="roadmap-summary-row">
+                <span className="roadmap-target-label">Upcoming Intakes:</span>
+                <span className="roadmap-target-value">{ROADMAPS[activeRoadmap].intakes}</span>
+              </div>
+              <div className="roadmap-steps-list">
+                {ROADMAPS[activeRoadmap].steps.map((step, idx) => (
+                  <div className="roadmap-step-item" key={idx}>
+                    <div className="step-circle">{idx + 1}</div>
+                    <div className="step-details">
+                      <h4>{step.t}</h4>
+                      <p>{step.d}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="intake-note-row">
+              <span className="note-dot" />
+              <span>EduMark provides zero service charge processing for select universities.</span>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* ── BOOKING FORM SECTION ── */}
       <section className="section booking-layout" id="booking-form" style={{ position: "relative", overflow: "hidden" }}>

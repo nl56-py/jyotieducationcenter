@@ -24,6 +24,15 @@ export function TestCoursePage({ course }) {
     return () => observer.disconnect();
   }, [course.slug]);
 
+  const testBannerImages = {
+    ielts: "/images/trust images/ielts.avif",
+    pte: "/images/pte.png",
+    toefl: "/images/trust images/toefl.gif",
+    "japanese-jlpt": "/images/jlpt.png",
+    sat: "/images/generated/SAT.png",
+  };
+  const bannerImg = testBannerImages[course.slug] || "";
+
   return (
     <main ref={sectionRef} style={{ overflow: "hidden" }}>
       {/* Hero Banner */}
@@ -35,6 +44,18 @@ export function TestCoursePage({ course }) {
             EduMark Education Consultancy / {course.name}
           </div>
         </div>
+        {bannerImg && (
+          <div style={{
+            width: "100px",
+            height: "100px",
+            background: `url("${bannerImg}") center/contain no-repeat`,
+            backgroundColor: "rgba(255, 255, 255, 0.95)",
+            borderRadius: "12px",
+            padding: "10px",
+            boxShadow: "0 10px 30px rgba(0,0,0,0.15)",
+            flexShrink: 0
+          }} />
+        )}
       </section>
 
       {/* Main Layout */}

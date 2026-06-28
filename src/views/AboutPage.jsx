@@ -4,37 +4,7 @@ import { SectionIntro } from "../components/SectionIntro.jsx";
 import { assets } from "../data/assets.js";
 import { leaders } from "../data/entrancePrograms.js";
 
-const INTAKES = [
-  { label: "July Intake", date: new Date("2026-07-01T00:00:00") },
-  { label: "September Intake", date: new Date("2026-09-01T00:00:00") },
-  { label: "February Intake", date: new Date("2027-02-01T00:00:00") },
-];
 
-function getNextIntake() {
-  const now = new Date();
-  const upcoming = INTAKES.filter((i) => i.date > now).sort((a, b) => a.date - b.date);
-  return upcoming[0] || INTAKES[0];
-}
-
-function useDetailedCountdown(targetDate) {
-  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-  useEffect(() => {
-    const calc = () => {
-      const diff = targetDate.getTime() - new Date().getTime();
-      if (diff <= 0) { setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 }); return; }
-      setTimeLeft({
-        days: Math.floor(diff / 86400000),
-        hours: Math.floor((diff % 86400000) / 3600000),
-        minutes: Math.floor((diff % 3600000) / 60000),
-        seconds: Math.floor((diff % 60000) / 1000),
-      });
-    };
-    calc();
-    const id = setInterval(calc, 1000);
-    return () => clearInterval(id);
-  }, [targetDate]);
-  return timeLeft;
-}
 
 function useReveal() {
   const ref = useRef(null);
@@ -378,13 +348,7 @@ const LEADER_METADATA = {
   "Director Abroad Studies": { badgeIcon: "compass", badgeText: "Pathway Specialist", bio: "Directly linking local talents with over 500+ top-tier universities across Australia, UK, and North America.", accent: "var(--yellow)", gradient: "linear-gradient(135deg, var(--yellow) 0%, #eab308 100%)" },
 };
 
-const ROADMAPS = {
-  Australia: { intakes: "Feb, July, November", steps: [{ t: "English Proficiency", d: "Prepare and clear IELTS, PTE or TOEFL (6 months ahead)" }, { t: "Course Selection & GTE", d: "Choose course and draft GTE statement (4 months ahead)" }, { t: "Offer Letter & Tuition", d: "Submit academic transcripts, receive offer, and remit fees (3 months ahead)" }, { t: "COE & Visa Lodging", d: "Receive CoE, set up health insurance, and lodge visa (2 months ahead)" }] },
-  UK: { intakes: "Jan, May, September", steps: [{ t: "Academic Assessment", d: "Submit academic documents and check English eligibility (5 months ahead)" }, { t: "Pre-CAS Credibility Interview", d: "Clear university credibility screening for CAS (3 months ahead)" }, { t: "CAS & Bank Setup", d: "Receive CAS; show maintenance funds held for 28 consecutive days (2 months ahead)" }, { t: "Visa Submission", d: "Lodge student visa online and submit biometric data (1 month ahead)" }] },
-  Canada: { intakes: "Jan, May, September", steps: [{ t: "IELTS & ECA", d: "Achieve IELTS 6.0+; prepare ECA if post-grad application (8 months ahead)" }, { t: "College Admission & LOA", d: "Apply to DLI college and receive Letter of Acceptance (6 months ahead)" }, { t: "GIC Account Setup", d: "Open bank account and deposit GIC amount for living expenses (4 months ahead)" }, { t: "Study Permit Application", d: "Submit Study Permit application under SDS pathway (3 months ahead)" }] },
-  Japan: { intakes: "April, October", steps: [{ t: "Language Proficiency", d: "Undergo minimum 150 hours of Japanese language study (N5 / NAT) (8 months ahead)" }, { t: "COE Application Prep", d: "Compile financial sponsorship and personal documents for COE (6 months ahead)" }, { t: "COE Issuance & Fee", d: "Get COE approval, pay tuition fee to language school (2 months ahead)" }, { t: "Visa Stamping", d: "Apply for visa at Embassy in Kathmandu; depart (1 month ahead)" }] },
 
-};
 
 function LeaderBadgeIcon({ icon }) {
   switch (icon) {
@@ -446,14 +410,9 @@ export function AboutPage({ navigate }) {
   const accreditationsRef = useReveal();
   const pillarsRef = useReveal();
   const globeRef = useReveal();
-  const intakeRef = useReveal();
   const tiltCard = useTiltCard(5);
 
   const [activeMilestone, setActiveMilestone] = useState(MILESTONES.length - 1);
-  const [activeRoadmap, setActiveRoadmap] = useState("Australia");
-
-  const nextIntake = getNextIntake();
-  const { days, hours, minutes, seconds } = useDetailedCountdown(nextIntake.date);
 
   return (
     <main className="about-page">
@@ -511,17 +470,26 @@ export function AboutPage({ navigate }) {
         .hero-title-wrap h1 em { font-style: normal; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
         .hero-desc { font-size: 1.15rem; color: var(--text-muted); line-height: 1.8; max-width: 54ch; margin-bottom: 2.5rem; }
         .hero-cta-btn {
-          display: inline-flex; align-items: center; gap: 0.75rem;
-          padding: 1.1rem 2.2rem; border-radius: 12px; font-size: 1.05rem; font-weight: 800;
-          background: linear-gradient(135deg, var(--primary) 0%, #7b29ad 100%);
-          color: #fff; text-decoration: none;
-          box-shadow: 0 15px 30px rgba(91,23,125,0.25);
-          position: relative; overflow: hidden;
-          transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          min-height: 48px;
+          padding: 0 28px;
+          border-radius: 6px;
+          background: var(--red);
+          color: var(--white);
+          font-weight: 800;
+          font-size: 15px;
+          text-decoration: none;
+          box-shadow: 0 12px 24px rgba(233, 38, 45, 0.22);
+          transition: all 0.3s ease;
         }
-        .hero-cta-btn::after { content:""; position:absolute; top:0; left:-150%; width:80%; height:100%; background:linear-gradient(120deg,transparent,rgba(255,255,255,0.3),transparent); transform:skewX(-25deg); transition:left 0.8s ease; }
-        .hero-cta-btn:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(91,23,125,0.35); }
-        .hero-cta-btn:hover::after { left: 150%; }
+        .hero-cta-btn:hover {
+          background: #c91e26;
+          transform: translateY(-2px);
+          box-shadow: 0 16px 32px rgba(233, 38, 45, 0.35);
+        }
 
         /* ── Hero Visual ── */
         .redesigned-hero-visual { position:relative; width:100%; aspect-ratio:1/1; display:flex; align-items:center; justify-content:center; }
@@ -1062,20 +1030,23 @@ export function AboutPage({ navigate }) {
         .ceo-cta-btn-link {
           display: inline-flex;
           align-items: center;
-          gap: 0.75rem;
-          padding: 1.1rem 2.2rem;
-          border-radius: 12px;
-          font-size: 1.05rem;
+          justify-content: center;
+          gap: 8px;
+          min-height: 48px;
+          padding: 0 28px;
+          border-radius: 6px;
+          background: var(--red);
+          color: var(--white);
           font-weight: 800;
-          background: linear-gradient(135deg, var(--secondary) 0%, #008eb7 100%);
-          color: #fff;
+          font-size: 15px;
           text-decoration: none;
-          box-shadow: 0 15px 30px rgba(8, 168, 215, 0.25);
-          transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s;
+          box-shadow: 0 12px 24px rgba(233, 38, 45, 0.22);
+          transition: all 0.3s ease;
         }
         .ceo-cta-btn-link:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 20px 40px rgba(8, 168, 215, 0.35);
+          background: #c91e26;
+          transform: translateY(-2px);
+          box-shadow: 0 16px 32px rgba(233, 38, 45, 0.35);
         }
 
         /* ── Accreditations Section ── */
@@ -1084,7 +1055,7 @@ export function AboutPage({ navigate }) {
         }
         .accreditations-grid {
           display: grid;
-          grid-template-columns: repeat(3, 1fr);
+          grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
           gap: 2rem;
           margin-top: 3.5rem;
         }
@@ -1106,9 +1077,9 @@ export function AboutPage({ navigate }) {
           box-shadow: 0 30px 60px rgba(91, 23, 125, 0.08);
         }
         .accreditation-icon-wrap {
-          width: 56px;
-          height: 56px;
-          border-radius: 16px;
+          width: 90px;
+          height: 60px;
+          border-radius: 8px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -1385,12 +1356,8 @@ export function AboutPage({ navigate }) {
         />
         <div className="accreditations-grid" data-reveal="scale">
           <div className="accreditation-card">
-            <div className="accreditation-icon-wrap moe">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M12 2L2 7l10 5 10-5-10-5z" />
-                <path d="M2 17l10 5 10-5" />
-                <path d="M2 12l10 5 10-5" />
-              </svg>
+            <div className="accreditation-icon-wrap moe" style={{ background: "transparent", border: "none", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <img src="/images/trust images/ministry image.jfif" alt="Ministry Approval" style={{ width: "100%", height: "100%", objectFit: "contain", borderRadius: "8px" }} />
             </div>
             <h3>Approved by Ministry</h3>
             <span className="accreditation-subtitle">Government of Nepal</span>
@@ -1398,12 +1365,8 @@ export function AboutPage({ navigate }) {
           </div>
 
           <div className="accreditation-card">
-            <div className="accreditation-icon-wrap ecan">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                <circle cx="9" cy="7" r="4" />
-                <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
-              </svg>
+            <div className="accreditation-icon-wrap ecan" style={{ background: "transparent", border: "none", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <img src="/images/trust images/ecan.png" alt="ECAN Member" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
             </div>
             <h3>ECAN Member</h3>
             <span className="accreditation-subtitle">Educational Consultancy Association</span>
@@ -1411,48 +1374,26 @@ export function AboutPage({ navigate }) {
           </div>
 
           <div className="accreditation-card">
-            <div className="accreditation-icon-wrap titi">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <circle cx="12" cy="12" r="10" />
-                <path d="M12 8v8" />
-                <path d="M8 12h8" />
-              </svg>
+            <div className="accreditation-icon-wrap titi" style={{ background: "transparent", border: "none", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <img src="/images/trust images/titi.png" alt="TITI Certified" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
             </div>
             <h3>TITI Certified</h3>
             <span className="accreditation-subtitle">Professional Training Standards</span>
             <p>Our counselors are certified by the Training Institute for Technical Instruction (TITI), guaranteeing expert career advice and visa mapping.</p>
           </div>
-        </div>
-      </section>
 
-      {/* Intake Planner & CTA */}
-      <section className="section intake-planner-section" ref={intakeRef} id="cta">
-        <div className="intake-dark-container" data-reveal>
-          <div className="intake-col-right" style={{ padding: "3rem" }}>
-            <div className="planner-widget-header"><h3>Interactive Intake Planner</h3><p>Select your target destination to view timeline roadmaps & preparations.</p></div>
-            <div className="planner-selector">
-              {Object.keys(ROADMAPS).map((dest) => (
-                <button key={dest} className={`planner-tab-btn ${activeRoadmap === dest ? "is-active" : ""}`} onClick={() => setActiveRoadmap(dest)}>{dest}</button>
-              ))}
+          <div className="accreditation-card">
+            <div className="accreditation-icon-wrap icef" style={{ background: "transparent", border: "none", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <img src="/images/ICEF-Logo_2023_500.jpg" alt="ICEF Screened" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
             </div>
-            <div>
-              <div className="roadmap-summary-row">
-                <span className="roadmap-target-label">Upcoming Intakes:</span>
-                <span className="roadmap-target-value">{ROADMAPS[activeRoadmap].intakes}</span>
-              </div>
-              <div className="roadmap-steps-list">
-                {ROADMAPS[activeRoadmap].steps.map((step, idx) => (
-                  <div className="roadmap-step-item" key={idx}>
-                    <div className="step-circle">{idx + 1}</div>
-                    <div className="step-details"><h4>{step.t}</h4><p>{step.d}</p></div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="intake-note-row"><span className="note-dot" /><span>EduMark provides zero service charge processing for select universities.</span></div>
+            <h3>ICEF Screened</h3>
+            <span className="accreditation-subtitle">Global Educator Accreditation</span>
+            <p>EduMark is ICEF-screened and certified, validating our compliance with international best practices and ethical student recruitment standards.</p>
           </div>
         </div>
       </section>
+
+
     </main>
   );
 }

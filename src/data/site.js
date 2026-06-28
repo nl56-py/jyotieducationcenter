@@ -36,13 +36,18 @@ export const navItems = [
   },
   {
     label: "Destinations",
-    path: "/destinations",
+    path: "#",
     children: [
       { label: "United Kingdom", path: "/destinations/uk" },
+      { label: "United States", path: "/destinations/usa" },
       { label: "Australia", path: "/destinations/australia" },
-      { label: "USA", path: "/destinations/usa" },
-      { label: "Europe", path: "/destinations/finland" },
+      { label: "Finland", path: "/destinations/finland" },
+      { label: "Lithuania", path: "/destinations/lithuania" },
+      { label: "South Korea", path: "/destinations/south-korea" },
       { label: "Japan", path: "/destinations/japan" },
+      { label: "India", path: "/destinations/india" },
+      { label: "Malta", path: "/destinations/malta" },
+      { label: "Dubai", path: "/destinations/dubai" },
     ],
   },
   {
@@ -53,6 +58,7 @@ export const navItems = [
       { label: "PTE", path: "/test-preparation/pte" },
       { label: "TOEFL", path: "/test-preparation/toefl" },
       { label: "SAT", path: "/test-preparation/sat" },
+      { label: "Japanese (JLPT)", path: "/test-preparation/japanese-jlpt" },
     ],
   },
   {

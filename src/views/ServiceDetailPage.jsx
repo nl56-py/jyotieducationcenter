@@ -44,7 +44,8 @@ const slugToIcons = {
   "documentation-support": [FileText, FileCheck, ClipboardCheck, PenTool],
   "test-preparation-support": [GraduationCap, Activity, UserPlus, PenTool],
   "travel-accommodation": [Briefcase, Plane, Home, MapPin],
-  "pre-departure-support": [Map, Package, PhoneCall, LifeBuoy]
+  "pre-departure-support": [Map, Package, PhoneCall, LifeBuoy],
+  "admission-guidance": [GraduationCap, BookOpen, ClipboardCheck, Award]
 };
 
 const defaultIconsList = [ClipboardCheck, Users, Globe, MessageSquare];
@@ -87,7 +88,7 @@ export function ServiceDetailPage({ service }) {
           </p>
         </div>
         <div className="hero-image-container">
-          <img src={assets.counselling} alt={`${service.title} illustration`} />
+          <img src={service.image || assets.counselling} alt={`${service.title} illustration`} />
         </div>
       </section>
   

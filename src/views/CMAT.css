@@ -161,25 +161,26 @@
 /* Hero Button */
 .cmat-hero-btn {
   align-self: flex-start;
-  background: linear-gradient(135deg, #3730a3, #7c3aed);
-  color: var(--cmat-white);
-  border: none;
-  font-size: 14px;
-  font-weight: 850;
-  min-height: 52px;
-  padding: 0 32px;
-  border-radius: 12px;
+  background: var(--red);
+  color: var(--white);
+  border: 1px solid transparent;
+  font-size: 15px;
+  font-weight: 800;
+  min-height: 48px;
+  padding: 0 28px;
+  border-radius: 6px;
   display: inline-flex;
   align-items: center;
   gap: 10px;
   cursor: pointer;
-  box-shadow: 0 4px 16px rgba(124, 58, 237, 0.25);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 12px 24px rgba(233, 38, 45, 0.22);
+  transition: all 0.3s ease;
 }
 
 .cmat-hero-btn:hover {
+  background: #c91e26;
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(124, 58, 237, 0.35);
+  box-shadow: 0 16px 32px rgba(233, 38, 45, 0.35);
 }
 
 /* Hero Right Media */
@@ -641,24 +642,26 @@
 }
 
 .cmat-cta-btn {
-  background: var(--cmat-white);
-  color: #1d4ed8;
-  border: none;
+  background: var(--white);
+  color: var(--purple);
+  border: 1px solid #d9c7e5;
   font-weight: 800;
-  font-size: 13px;
+  font-size: 13.5px;
   min-height: 44px;
   padding: 0 24px;
-  border-radius: 8px;
+  border-radius: 6px;
   display: inline-flex;
   align-items: center;
   gap: 6px;
   white-space: nowrap;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: transform 0.2s ease;
+  box-shadow: 0 8px 18px rgba(91, 23, 125, 0.22);
+  transition: all 0.3s ease;
 }
 
 .cmat-cta-btn:hover {
+  border-color: var(--purple);
+  background: #fbf7ff;
   transform: translateY(-2px);
 }
 
