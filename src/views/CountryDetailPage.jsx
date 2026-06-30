@@ -72,7 +72,7 @@ export function CountryDetailPage({ country }) {
   const brochurePage = brochurePageMap[country.slug] || null;
 
   return (
-    <main ref={sectionRef} style={{ fontFamily: "var(--display-font)", "--country-color": country.accent, overflowX: "hidden" }}>
+    <main ref={sectionRef} style={{ fontFamily: "var(--display-font)", "--country-color": country.accent }}>
       <style dangerouslySetInnerHTML={{ __html: `
         @keyframes spinGlobe {
           from { transform: rotate(0deg); }
@@ -169,7 +169,7 @@ export function CountryDetailPage({ country }) {
             <h3 style={{ color: "var(--country-color)" }}>{country.name}</h3>
           </div>
 
-          <div className="country-sidebar-title">Explore Countries</div>
+          <div className="country-sidebar-title">Explore More Countries</div>
           
           <div className="country-sidebar-nav">
             {sortedCountries.map((c) => (

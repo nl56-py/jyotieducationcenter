@@ -348,6 +348,17 @@ const LEADER_METADATA = {
   "Director Abroad Studies": { badgeIcon: "compass", badgeText: "Pathway Specialist", bio: "Directly linking local talents with over 500+ top-tier universities across Australia, UK, and North America.", accent: "var(--yellow)", gradient: "linear-gradient(135deg, var(--yellow) 0%, #eab308 100%)" },
 };
 
+const ABOUT_COLLEGE_IMAGES = [
+  "/images/about_page/college/page_2_img_21.png",
+  "/images/about_page/college/page_2_img_20.png",
+  "/images/about_page/college/page_2_img_19.png",
+  "/images/about_page/college/page_2_img_18.png",
+  "/images/about_page/college/page_2_img_17.png",
+  "/images/about_page/college/page_2_img_16.png",
+  "/images/about_page/college/page_2_img_15.png",
+  "/images/about_page/college/national board accredation.png",
+];
+
 
 
 function LeaderBadgeIcon({ icon }) {
@@ -367,7 +378,7 @@ function AnimatedHeroVisual() {
       <div className="visual-glow glow-cyan" />
       <div className="visual-main-frame">
         <div className="image-wrapper">
-          <img src={assets.counselling} alt="EduMark counseling team" />
+          <img src="/images/about_page/hero.jpg" alt="EduMark students and counselors" />
           <div className="image-overlay" />
         </div>
       </div>
@@ -583,6 +594,31 @@ export function AboutPage({ navigate }) {
           filter: brightness(0.9);
         }
         .mosaic-img:hover img { transform: scale(1.06); }
+        .college-logo-strip {
+          display: grid;
+          grid-template-columns: repeat(5, minmax(0, 1fr));
+          gap: 10px;
+          margin-top: -1.35rem;
+          margin-bottom: 2.5rem;
+          position: relative;
+          z-index: 3;
+        }
+        .college-logo-chip {
+          min-height: 64px;
+          border-radius: 14px;
+          background: #fff;
+          border: 1px solid rgba(7,31,61,0.08);
+          box-shadow: 0 12px 28px rgba(7,31,61,0.08);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 10px;
+        }
+        .college-logo-chip img {
+          width: 100%;
+          height: 42px;
+          object-fit: contain;
+        }
 
         /* Overlapping founding year badge */
         .founding-stamp {
@@ -915,6 +951,7 @@ export function AboutPage({ navigate }) {
           .intake-col-left h2 { font-size:2.1rem; }
           .journey-stats-strip { grid-template-columns: 1fr 1fr; }
           .journey-right h2 { font-size: 1.9rem; }
+          .college-logo-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
           .ceo-message-inner { grid-template-columns: 1fr; padding: 2.5rem; gap: 3rem; }
           .ceo-image-side { max-width: 300px; margin: 0 auto; }
           .accreditations-grid { grid-template-columns: 1fr; gap: 1.5rem; }
@@ -1176,15 +1213,22 @@ export function AboutPage({ navigate }) {
           {/* Left: Visual mosaic */}
           <div className="journey-left" data-reveal="left">
             <div className="journey-mosaic">
-              <div className="mosaic-img">
-                <img src={assets.counselling} alt="EduMark counseling" />
-              </div>
-              <div className="mosaic-img">
-                <img src={assets.counselling} alt="Students at EduMark" style={{ objectPosition: "center 30%" }} />
-              </div>
-              <div className="mosaic-img">
-                <img src={assets.counselling} alt="EduMark office Biratnagar" style={{ objectPosition: "center 70%" }} />
-              </div>
+              {ABOUT_COLLEGE_IMAGES.slice(0, 3).map((image, index) => (
+                <div className="mosaic-img" key={image}>
+                  <img
+                    src={image}
+                    alt={`EduMark college partner ${index + 1}`}
+                    style={{ objectPosition: index === 0 ? "center" : "center 30%" }}
+                  />
+                </div>
+              ))}
+            </div>
+            <div className="college-logo-strip" aria-label="College partner logos">
+              {ABOUT_COLLEGE_IMAGES.slice(3).map((image, index) => (
+                <div className="college-logo-chip" key={image}>
+                  <img src={image} alt={`EduMark partner logo ${index + 4}`} />
+                </div>
+              ))}
             </div>
             <div className="founding-stamp">
               <strong>2012</strong>

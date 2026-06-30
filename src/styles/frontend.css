@@ -1404,7 +1404,7 @@ video {
   }
 
   .nav-shell {
-    min-height: 72px;
+    min-height: 86px;
   }
 
   .brand strong {
@@ -1412,8 +1412,8 @@ video {
   }
 
   .brand img {
-    width: 44px;
-    height: 44px;
+    width: auto;
+    height: 60px;
   }
 
   .search-button,
@@ -5527,7 +5527,9 @@ video {
 
 .country-sidebar {
   position: sticky;
-  top: 100px;
+  top: 132px;
+  align-self: start;
+  z-index: 15;
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(16px);
   border: 1px solid rgba(230, 232, 239, 0.7);
@@ -5750,7 +5752,7 @@ video {
 
   .country-sidebar {
     position: sticky;
-    top: 78px;
+    top: 104px;
     z-index: 20;
     flex-direction: row;
     overflow-x: auto;
@@ -9213,7 +9215,7 @@ video {
   margin: 0 auto;
   padding: 16px 20px;
   background: var(--white);
-  min-height: 80px;
+  min-height: 104px;
 }
 
 .brand {
@@ -9224,9 +9226,13 @@ video {
 }
 
 .brand img {
-  height: 50px;
+  height: 78px;
   width: auto;
   border-radius: 4px;
+}
+
+.brand-logo-img {
+  max-height: 82px;
 }
 
 .brand span strong {
