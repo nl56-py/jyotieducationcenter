@@ -7,7 +7,7 @@ export const services = [
     detail: "Personalized advice to assess student profiles, clarify course interests, match academic backgrounds, and structure study plans.",
     bullets: ["Academic Profile Assessment", "Course & Country Shortlisting", "Intake & Timeline Planning", "Parent Guidance Sessions"],
     outcomes: ["Shortlist of realistic paths", "Understanding of admission criteria", "Actionable planning timeline"],
-    image: "/education conselling.jpg"
+    image: "/images/services/educational-consulting.jpg"
   },
   {
     title: "Career Counseling",
@@ -17,7 +17,7 @@ export const services = [
     detail: "Profile-first sessions helping students map their interests, skills, and values to modern global career paths before making huge academic investments.",
     bullets: ["Psychometric Profile Mapping", "Skill Gap Analysis", "Career Path Identification", "Industry & Job Market Briefings"],
     outcomes: ["Clear career goal matching", "Informed course decisions", "Personalized study-to-work path"],
-    image: "/carrer counseling.jpg"
+    image: "/images/services/career-counselling.jpg"
   },
   {
     title: "Study Abroad Guidance",
@@ -27,7 +27,7 @@ export const services = [
     detail: "Comprehensive evaluations comparing top global destinations on tuition fees, visa success rates, cost of living, and post-study work rights.",
     bullets: ["Multi-Country Comparisons", "Cost of Living & Fee Analysis", "Post-Study Work Options", "Settle & PR Path Briefings"],
     outcomes: ["Optimized destination match", "Detailed financial budget", "Post-graduation visa path clarity"],
-    image: "/images/study abroad guidance.jfif"
+    image: "/images/services/study-abroad-guidance.jpg"
   },
   {
     title: "Visa Assistance",
@@ -37,7 +37,7 @@ export const services = [
     detail: "Expert visa documentation support focusing on source-of-funds clarity, academic consistency, and embassy guidelines across all supported countries.",
     bullets: ["Financial Document Verification", "Visa Application Checklists", "Mock Interview Sessions", "Immigration Compliance Checks"],
     outcomes: ["High-accuracy visa submission", "Prepared and confident interview answers", "Clear understanding of visa rules"],
-    image: "/images/visa-assistance-thumb.png"
+    image: "/images/services/visa-assistance.jpg"
   },
   {
     title: "University Application Support",
@@ -47,7 +47,7 @@ export const services = [
     detail: "End-to-end support for university admission portals, secure application tracking, offer letter follow-ups, and coordinator interactions.",
     bullets: ["Application Deadlines Tracking", "Form Submission Support", "University Communications", "Admission Offer Tracking"],
     outcomes: ["Secured university offer letters", "Timely submissions to DLIs", "Direct communication lines with admissions"],
-    image: "/images/university documentation support.jpg"
+    image: "/images/services/university-application.jpg"
   },
   {
     title: "Scholarship Guidance",
@@ -67,7 +67,7 @@ export const services = [
     detail: "Rigorous preparation classes focusing on confidence, key question responses, document familiarity, and professional body language.",
     bullets: ["Admissions Interview Prep", "Embassy Visa Mock Rounds", "Confidence & Body Language", "Frequently Asked Questions"],
     outcomes: ["Improved communication confidence", "Consistent visa storytelling", "Reduced interview anxiety"],
-    image: "/images/interview-preparation.jpg"
+    image: "/images/services/interview-preparation.jpg"
   },
   {
     title: "Documentation Support",
@@ -77,7 +77,7 @@ export const services = [
     detail: "Expert editing and alignment for Statements of Purpose, CV layouts, reference letters, and certified educational translations.",
     bullets: ["SOP Curation & Reviews", "LOR Drafting Guidelines", "CV Curation & Layouts", "Academic Translation Checks"],
     outcomes: ["Compelling Statement of Purpose", "Industry-grade professional CV", "Fully compliant supporting files"],
-    image: "/images/documentation support.jpg"
+    image: "/images/services/documentation-support.jpg"
   },
   {
     title: "Admission Guidance",
@@ -87,7 +87,7 @@ export const services = [
     detail: "Comprehensive university admission guidance. We help you choose the right courses and universities, review your eligibility, and submit flawless applications.",
     bullets: ["University Selection", "Entry Requirement Checks", "Application Submission", "Offer Letter Follow-ups"],
     outcomes: ["Secured university offer letters", "Timely submissions", "Direct admission support"],
-    image: "/images/educational counselling.jfif"
+    image: "/images/services/admission-guidance.jpg"
   },
   {
     title: "Test Preparation",

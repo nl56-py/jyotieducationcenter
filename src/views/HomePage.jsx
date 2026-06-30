@@ -306,14 +306,21 @@ export function HomePage({ navigate }) {
             <div className="visa-slider-track">
               {services.map((svc, idx) => {
                 const badge = `SERVICE ${String(idx + 1).padStart(2, "0")}`;
-                const imageSrc = svc.image || "/images/services/Career.png";
+                const imageSrc = svc.image || "/images/services/educational-consulting.jpg";
                 return (
                   <div 
                     key={svc.slug} 
                     className="visa-card-v2"
                     onClick={() => navigate(`/services/${svc.slug}`)}
                   >
-                    <div className="visa-card-bg" style={{ backgroundImage: `url(${imageSrc})` }} />
+                    <Image
+                      className="visa-card-bg"
+                      src={imageSrc}
+                      alt={svc.title}
+                      fill
+                      sizes="(max-width: 768px) 82vw, (max-width: 1200px) 320px, 360px"
+                      priority={idx < 3}
+                    />
                     <div className="visa-card-overlay">
                       <span className="visa-card-badge">{badge}</span>
                       <div className="visa-card-bottom">
@@ -840,6 +847,7 @@ export function HomePage({ navigate }) {
               <iframe 
                 src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
                 title="EduMark Student Review 1"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; compute-pressure"
                 allowFullScreen
               />
             </div>
@@ -847,6 +855,7 @@ export function HomePage({ navigate }) {
               <iframe 
                 src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
                 title="EduMark Student Review 2"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; compute-pressure"
                 allowFullScreen
               />
             </div>
@@ -854,6 +863,7 @@ export function HomePage({ navigate }) {
               <iframe 
                 src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
                 title="EduMark Testimonial 3"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; compute-pressure"
                 allowFullScreen
               />
             </div>
