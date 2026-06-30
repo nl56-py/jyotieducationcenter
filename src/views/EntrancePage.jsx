@@ -14,7 +14,6 @@ import {
   BarChart3,
   Building2,
   FileText,
-  Heart,
   Target,
   FileEdit,
   TrendingUp,
@@ -44,6 +43,7 @@ export function EntrancePage({ navigate }) {
   ];
 
   const trustedDomains = [
+    { key: "medical", icon: <Stethoscope size={26} />, title: "MBBS & CEE", text: "Focused support for MBBS, BDS, Nursing, and allied health entrance routes." },
     { key: "engineering",  icon: <Settings size={26} />,    title: "Engineering",  text: "Ace engineering entrance exams with conceptual clarity." },
     { key: "management",   icon: <BarChart3 size={26} />,   title: "Management",   text: "Crack management entrance exams with confidence." },
     { key: "hospitality",  icon: <Building2 size={26} />,   title: "Hospitality",  text: "Step into the world of hospitality with the right preparation." },
@@ -52,8 +52,14 @@ export function EntrancePage({ navigate }) {
   const programs = [
     {
       title: "CEE\nPreparation", theme: "purple", icon: <BookOpen size={22} />,
-      desc: "Complete preparation for Common Entrance Examination with focused training.",
-      bullets: ["Mock Tests", "Question Bank", "Video Lectures", "Performance Tracking"],
+      desc: "Focused CEE preparation for MBBS, BDS, BSc Nursing, and allied health pathways.",
+      bullets: ["Mock Tests", "Question Bank", "Medical Stream Guidance", "Performance Tracking"],
+      path: "/entrance-preparations/cee"
+    },
+    {
+      title: "MBBS, BDS\n& Nursing", theme: "orange", icon: <Stethoscope size={22} />,
+      desc: "Targeted preparation for medical and allied health pathways after +2 Science.",
+      bullets: ["CEE Focus", "Biology Review", "Clinical Aptitude", "Admission Guidance"],
       path: "/entrance-preparations/cee"
     },
     {
@@ -251,7 +257,7 @@ export function EntrancePage({ navigate }) {
         variants={containerVariants}
       >
         <motion.div className="ep-divider-text" variants={itemVariants}>
-          Trusted by +2 graduates preparing for
+          Trusted by +2 graduates preparing for CEE, MBBS, BDS, Nursing, and related bachelor entrances
         </motion.div>
         <div className="ep-trusted-grid">
           {trustedDomains.map((d) => (
@@ -426,7 +432,7 @@ export function EntrancePage({ navigate }) {
         variants={containerVariants}
       >
         <motion.div className="ep-section-divider-title" variants={itemVariants}>
-          What you'll achieve
+          What you&apos;ll achieve
         </motion.div>
         <div className="ep-achieve-grid">
           {achievements.map((item, i) => (

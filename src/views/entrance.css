@@ -15,6 +15,8 @@
   --ep-soft    : #f2f5fb;
   --ep-white   : #ffffff;
   --ep-red     : #e9262d;
+  --ep-orange  : var(--accent-orange-red, #ff4c29);
+  --ep-orange-hover: var(--accent-orange-red-hover, #e03e1a);
   --ep-blue    : #1d4ed8;
   --ep-shadow  : 0 16px 40px rgba(8,31,61,.10);
   --ep-shadow-md: 0 20px 48px rgba(8,31,61,.13);
@@ -191,7 +193,12 @@ top-left        130px */
 .ep-divider-text::before { right:63%; }
 .ep-divider-text::after  { left:63%;  }
 
-.ep-trusted-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
+.ep-trusted-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,280px));
+  gap:20px;
+  justify-content:center;
+}
 .ep-trusted-card {
   background:var(--ep-white); border:1px solid var(--ep-line);
   border-radius:16px; padding:28px 20px;
@@ -236,8 +243,12 @@ top-left        130px */
 .ep-programs-title h2::after  { left:108%;  }
 
 .ep-programs-grid {
-  display:grid; grid-template-columns:repeat(4,1fr);
-  gap:20px; width:min(1180px,calc(100% - 40px)); margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,280px));
+  gap:20px;
+  width:min(1180px,calc(100% - 40px));
+  margin:0 auto;
+  justify-content:center;
 }
 .ep-prog-card {
   background:var(--ep-white); border:1px solid var(--ep-line);
@@ -271,6 +282,7 @@ top-left        130px */
 }
 .ep-prog-purple .ep-prog-icon { background:linear-gradient(135deg,#6d28d9,#5b177d); color:#fff; }
 .ep-prog-blue   .ep-prog-icon { background:linear-gradient(135deg,#2563eb,#06b6d4); color:#fff; }
+.ep-prog-orange .ep-prog-icon { background:linear-gradient(135deg,var(--ep-orange),var(--ep-orange-hover)); color:#fff; }
 
 .ep-prog-card h3 { font-size:17px; font-weight:800; color:var(--ep-navy); margin:0; line-height:1.25; }
 .ep-prog-card p  { font-size:13px; color:var(--ep-muted); line-height:1.55; margin:0 0 16px; flex-grow:1; }
@@ -284,6 +296,7 @@ top-left        130px */
 }
 .ep-prog-purple .ep-check-icon { background:rgba(109,40,217,.12); color:#6d28d9; }
 .ep-prog-blue   .ep-check-icon { background:rgba(6,182,212,.12);  color:#0891b2; }
+.ep-prog-orange .ep-check-icon { background:rgba(255,76,41,.13); color:var(--ep-orange); }
 
 .ep-prog-btn {
   background:transparent; border:none;
@@ -293,6 +306,7 @@ top-left        130px */
 }
 .ep-prog-purple .ep-prog-btn { color:var(--ep-purple); }
 .ep-prog-blue   .ep-prog-btn { color:#2563eb; }
+.ep-prog-orange .ep-prog-btn { color:var(--ep-orange); }
 .ep-prog-card:hover .ep-prog-btn { gap:10px; }
 
 /* ═══════════════════════════════════════════════════════════════════
