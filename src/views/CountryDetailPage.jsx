@@ -34,16 +34,16 @@ const countryLandmarkMap = {
 };
 
 const countryHeroImageMap = {
-  uk: "/images/generated/uk_campus.png",
-  usa: "/images/generated/us_campus.png",
-  australia: "/images/generated/au_campus.png",
-  finland: "/images/generated/fi_campus.png",
-  lithuania: "/images/generated/lt_campus.png",
-  "south-korea": "/images/generated/kr_campus.png",
-  japan: "/images/generated/jp_campus.png",
-  india: "/images/extracted_uni/page_5_img_15.png",
-  dubai: "/images/extracted_uni/page_2_img_3.png",
-  malta: "/images/extracted_uni/page_2_img_1.png",
+  uk: "/images/generated/uk_banner.png",
+  usa: "/images/generated/usa_banner.png",
+  australia: "/images/generated/australia_banner.png",
+  finland: "/images/generated/finland_banner.png",
+  lithuania: "/images/generated/lithuania_banner.png",
+  "south-korea": "/images/generated/south_korea_banner.png",
+  japan: "/images/generated/japan_banner.png",
+  india: "/images/generated/india_banner.png",
+  dubai: "/images/generated/dubai_banner.png",
+  malta: "/images/generated/malta_banner.png",
 };
 
 function getCountryDisplayName(country) {
@@ -339,14 +339,19 @@ export function CountryDetailPage({ country }) {
             <div>
               <span className="country-hero-kicker">Study Destination</span>
               <h1>{getCountryDisplayName(country)}</h1>
+              
+              <div className="country-hero-landmark-graphic">
+                <svg viewBox="100 30 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <CountryLandmark slug={country.slug} />
+                </svg>
+              </div>
+
               <p>{heroLandmark}</p>
             </div>
           </div>
         </div>
         <div className="country-hero-banner-graphic">
           <svg viewBox="0 0 800 400" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <CountryLandmark slug={country.slug} />
-
             <g className="spinning-globe" style={{ transformOrigin: "580px 200px" }}>
               <circle cx="580" cy="200" r="160" stroke="white" strokeWidth="1.5" strokeDasharray="5 5" opacity="0.15"/>
               <circle cx="580" cy="200" r="100" stroke="white" strokeWidth="1.5" strokeDasharray="5 5" opacity="0.1"/>

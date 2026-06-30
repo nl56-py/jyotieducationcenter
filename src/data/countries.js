@@ -1165,8 +1165,8 @@ export const countries = [
       { name: "Institutional Fee Waivers", details: "Merit-based fee reductions (10% to 30% discount) offered by private colleges for high academic performers." }
     ],
     universitiesDetail: [
-      { name: "Malta College of Arts, Science and Technology (MCAST)", description: "The leading public vocational education and training institution in Malta, offering highly practical degrees.", fees: "€4,500 - €6,500 / year", courses: "IT, Business, Engineering, Applied Sciences", image: "/images/extracted_uni/page_2_img_1.png" },
-      { name: "American University of Malta (AUM)", description: "A private, American-style liberal arts university located in Cospicua, offering accredited business and tech programs.", fees: "€6,000 - €9,000 / year", courses: "BBA, MBA, BS Software Engineering", image: "/images/extracted_uni/page_2_img_2.png" }
+      { name: "Malta College of Arts, Science and Technology (MCAST)", description: "The leading public vocational education and training institution in Malta, offering highly practical degrees.", fees: "€4,500 - €6,500 / year", courses: "IT, Business, Engineering, Applied Sciences", image: "/images/MCAST.jpeg" },
+      { name: "American University of Malta (AUM)", description: "A private, American-style liberal arts university located in Cospicua, offering accredited business and tech programs.", fees: "€6,000 - €9,000 / year", courses: "BBA, MBA, BS Software Engineering", image: "/images/AUM.jpeg" }
     ]
   },
   {
@@ -1223,8 +1223,8 @@ export const countries = [
       { name: "Corporate & Partner Sponsorships", details: "Partial fee waivers and paid internship packages co-funded by Dubai-based industry partners." }
     ],
     universitiesDetail: [
-      { name: "Heriot-Watt University Dubai", description: "A prestigious British university branch campus in Dubai Knowledge Park, offering top-tier engineering and business degrees.", fees: "AED 55,000 - 75,000 / year", courses: "Engineering, MBA, Computer Science", image: "/images/extracted_uni/page_2_img_3.png" },
-      { name: "Middlesex University Dubai", description: "A popular UK branch campus offering high-quality British education, business studies, and creative media programs.", fees: "AED 45,000 - 65,000 / year", courses: "Business, Media, Psychology, IT", image: "/images/extracted_uni/page_2_img_4.png" }
+      { name: "Heriot-Watt University Dubai", description: "A prestigious British university branch campus in Dubai Knowledge Park, offering top-tier engineering and business degrees.", fees: "AED 55,000 - 75,000 / year", courses: "Engineering, MBA, Computer Science", image: "/images/Heriot_Watt.jpeg" },
+      { name: "Middlesex University Dubai", description: "A popular UK branch campus offering high-quality British education, business studies, and creative media programs.", fees: "AED 45,000 - 65,000 / year", courses: "Business, Media, Psychology, IT", image: "/images/Middlesex.jpeg" }
     ]
   }
 ];
