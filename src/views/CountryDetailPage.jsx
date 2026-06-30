@@ -1,33 +1,179 @@
 "use client";
 
+import Image from "next/image";
 import { useState, useEffect, useContext, useRef } from "react";
 import { AppLink } from "../components/AppLink.jsx";
-import { SectionIntro } from "../components/SectionIntro.jsx";
-import { BulletList } from "../components/BulletList.jsx";
-import { PageHero } from "../components/PageHero.jsx";
 import { InquiryBand } from "../components/InquiryBand.jsx";
-import { assets } from "../data/assets.js";
 import { countries } from "../data/countries.js";
 import { TransitionContext } from "../app/(public)/destinations/layout";
 
-const flagMap = {
-  UK: "🇬🇧", US: "🇺🇸", AU: "🇦🇺", JP: "🇯🇵",
-  FI: "🇫🇮", LT: "🇱🇹", KR: "🇰🇷", MT: "🇲🇹",
-  AE: "🇦🇪", IN: "🇮🇳",
+const flagImageMap = {
+  UK: "/uk-420x420.jpg",
+  US: "/usa-1-420x420.jpg",
+  AU: "/austraylia-420x420.jpg",
+  FI: "/finland.png",
+  LT: "/luthinia.png",
+  KR: "/south-korea.png",
+  JP: "/japan.png",
+  IN: "/india.png",
+  AE: "/dubai.png",
+  MT: "/malta.jfif",
 };
 
-const brochurePageMap = {
-  uk: "/images/brochure/page_3.png",
-  usa: "/images/brochure/page_3.png",
-  australia: "/images/brochure/page_3.png",
-  finland: "/images/brochure/page_4.png",
-  lithuania: "/images/brochure/page_4.png",
-  "south-korea": "/images/brochure/page_4.png",
-  japan: "/images/brochure/page_5.png",
-  india: "/images/brochure/page_5.png",
-  malta: "/images/brochure/page_2.png",
-  dubai: "/images/brochure/page_2.png",
+const countryLandmarkMap = {
+  uk: "Big Ben and Tower Bridge",
+  usa: "Statue of Liberty",
+  australia: "Sydney Opera House",
+  finland: "Helsinki Cathedral",
+  lithuania: "Gediminas Tower",
+  "south-korea": "N Seoul Tower",
+  japan: "Mount Fuji and torii gate",
+  india: "Taj Mahal",
+  malta: "Maltese limestone arch",
+  dubai: "Burj Khalifa skyline",
 };
+
+const countryHeroImageMap = {
+  uk: "/images/generated/uk_campus.png",
+  usa: "/images/generated/us_campus.png",
+  australia: "/images/generated/au_campus.png",
+  finland: "/images/generated/fi_campus.png",
+  lithuania: "/images/generated/lt_campus.png",
+  "south-korea": "/images/generated/kr_campus.png",
+  japan: "/images/generated/jp_campus.png",
+  india: "/images/extracted_uni/page_5_img_15.png",
+  dubai: "/images/extracted_uni/page_2_img_3.png",
+  malta: "/images/extracted_uni/page_2_img_1.png",
+};
+
+function getCountryDisplayName(country) {
+  if (country.code === "US") return "United States";
+  if (country.code === "UK") return "United Kingdom";
+  return country.name;
+}
+
+function getSidebarName(country) {
+  if (country.code === "US") return "USA";
+  if (country.code === "UK") return "UK";
+  return country.name;
+}
+
+function CountryLandmark({ slug }) {
+  switch (slug) {
+    case "uk":
+      return (
+        <g className="country-landmark">
+          <path d="M122 318H374" stroke="currentColor" strokeWidth="10" strokeLinecap="round" opacity="0.32" />
+          <path d="M134 294C172 244 216 244 252 294C290 244 334 244 370 294" stroke="currentColor" strokeWidth="12" strokeLinecap="round" fill="none" opacity="0.42" />
+          <rect x="408" y="142" width="54" height="178" rx="4" fill="currentColor" opacity="0.58" />
+          <path d="M402 142H468L458 106H412Z" fill="currentColor" opacity="0.74" />
+          <path d="M423 106H447L438 58H432Z" fill="currentColor" opacity="0.82" />
+          <circle cx="435" cy="178" r="15" fill="rgba(255,255,255,0.72)" />
+          <path d="M435 164V178L445 184" stroke="#0a2440" strokeWidth="3" strokeLinecap="round" />
+        </g>
+      );
+    case "usa":
+      return (
+        <g className="country-landmark">
+          <path d="M265 318H455" stroke="currentColor" strokeWidth="12" strokeLinecap="round" opacity="0.35" />
+          <path d="M336 302H398L386 178L368 142L348 178Z" fill="currentColor" opacity="0.58" />
+          <path d="M360 130L370 92L383 130Z" fill="currentColor" opacity="0.72" />
+          <path d="M370 92V56" stroke="currentColor" strokeWidth="9" strokeLinecap="round" opacity="0.82" />
+          <path d="M370 55L400 70" stroke="currentColor" strokeWidth="8" strokeLinecap="round" />
+          <path d="M345 140L315 178" stroke="currentColor" strokeWidth="12" strokeLinecap="round" opacity="0.7" />
+          <rect x="316" y="302" width="104" height="24" rx="4" fill="currentColor" opacity="0.72" />
+        </g>
+      );
+    case "australia":
+      return (
+        <g className="country-landmark">
+          <path d="M168 312H472" stroke="currentColor" strokeWidth="10" strokeLinecap="round" opacity="0.32" />
+          <path d="M190 292C220 206 282 178 326 292Z" fill="currentColor" opacity="0.52" />
+          <path d="M282 292C308 190 378 148 438 292Z" fill="currentColor" opacity="0.62" />
+          <path d="M346 292C372 224 418 208 464 292Z" fill="currentColor" opacity="0.44" />
+          <path d="M184 292C250 270 392 270 472 292" stroke="rgba(255,255,255,0.55)" strokeWidth="8" strokeLinecap="round" fill="none" />
+        </g>
+      );
+    case "finland":
+      return (
+        <g className="country-landmark">
+          <path d="M142 318H478" stroke="currentColor" strokeWidth="10" strokeLinecap="round" opacity="0.28" />
+          <path d="M226 226H394V318H226Z" fill="currentColor" opacity="0.58" />
+          <path d="M244 226L310 174L376 226Z" fill="currentColor" opacity="0.72" />
+          <path d="M284 174C284 140 336 140 336 174" fill="currentColor" opacity="0.62" />
+          <path d="M310 138V96M292 114H328" stroke="currentColor" strokeWidth="8" strokeLinecap="round" opacity="0.78" />
+          <path d="M166 248L198 190L232 248H212L242 302H158L188 248Z" fill="currentColor" opacity="0.42" />
+        </g>
+      );
+    case "lithuania":
+      return (
+        <g className="country-landmark">
+          <path d="M180 318H452" stroke="currentColor" strokeWidth="10" strokeLinecap="round" opacity="0.3" />
+          <rect x="278" y="154" width="82" height="164" rx="4" fill="currentColor" opacity="0.62" />
+          <path d="M266 154H372L350 112H288Z" fill="currentColor" opacity="0.78" />
+          <path d="M292 196H346M292 234H346M292 272H346" stroke="rgba(255,255,255,0.55)" strokeWidth="8" strokeLinecap="round" />
+          <path d="M332 112V70" stroke="currentColor" strokeWidth="7" strokeLinecap="round" />
+          <path d="M332 72H390L370 92H332Z" fill="currentColor" opacity="0.74" />
+        </g>
+      );
+    case "south-korea":
+      return (
+        <g className="country-landmark">
+          <path d="M154 318H480" stroke="currentColor" strokeWidth="10" strokeLinecap="round" opacity="0.28" />
+          <path d="M306 304H346L334 126H318Z" fill="currentColor" opacity="0.66" />
+          <circle cx="326" cy="104" r="34" fill="none" stroke="currentColor" strokeWidth="10" opacity="0.72" />
+          <path d="M326 70V38" stroke="currentColor" strokeWidth="8" strokeLinecap="round" />
+          <path d="M188 286H260L224 244Z" fill="currentColor" opacity="0.45" />
+          <path d="M394 286H466L430 244Z" fill="currentColor" opacity="0.45" />
+        </g>
+      );
+    case "japan":
+      return (
+        <g className="country-landmark">
+          <path d="M122 318H500" stroke="currentColor" strokeWidth="10" strokeLinecap="round" opacity="0.28" />
+          <path d="M170 304L306 112L454 304Z" fill="currentColor" opacity="0.54" />
+          <path d="M306 112L254 186H358Z" fill="rgba(255,255,255,0.72)" opacity="0.9" />
+          <path d="M166 228H244M180 228V318M230 228V318" stroke="currentColor" strokeWidth="12" strokeLinecap="round" opacity="0.72" />
+          <path d="M150 210H260L242 186H168Z" fill="currentColor" opacity="0.8" />
+        </g>
+      );
+    case "india":
+      return (
+        <g className="country-landmark">
+          <path d="M134 318H492" stroke="currentColor" strokeWidth="10" strokeLinecap="round" opacity="0.3" />
+          <path d="M248 318V212C248 170 306 170 306 212V318Z" fill="currentColor" opacity="0.66" />
+          <path d="M224 218C224 152 330 152 330 218" fill="currentColor" opacity="0.58" />
+          <path d="M247 158C247 114 307 114 307 158" fill="currentColor" opacity="0.72" />
+          <rect x="168" y="232" width="48" height="86" fill="currentColor" opacity="0.5" />
+          <rect x="388" y="232" width="48" height="86" fill="currentColor" opacity="0.5" />
+          <path d="M190 232V172M412 232V172" stroke="currentColor" strokeWidth="12" strokeLinecap="round" opacity="0.64" />
+        </g>
+      );
+    case "malta":
+      return (
+        <g className="country-landmark">
+          <path d="M142 318H488" stroke="currentColor" strokeWidth="10" strokeLinecap="round" opacity="0.32" />
+          <path d="M202 318V214C202 150 288 118 342 166C370 190 390 240 390 318H342C342 248 322 214 292 214C262 214 246 248 246 318Z" fill="currentColor" opacity="0.6" />
+          <path d="M394 318V198H448V318Z" fill="currentColor" opacity="0.45" />
+          <path d="M410 198V154M394 176H426" stroke="currentColor" strokeWidth="9" strokeLinecap="round" opacity="0.68" />
+        </g>
+      );
+    case "dubai":
+      return (
+        <g className="country-landmark">
+          <path d="M134 318H500" stroke="currentColor" strokeWidth="10" strokeLinecap="round" opacity="0.3" />
+          <path d="M320 318L334 74L348 318Z" fill="currentColor" opacity="0.74" />
+          <path d="M326 74L342 30L340 96Z" fill="currentColor" opacity="0.82" />
+          <rect x="196" y="214" width="46" height="104" rx="4" fill="currentColor" opacity="0.42" />
+          <rect x="254" y="174" width="46" height="144" rx="4" fill="currentColor" opacity="0.48" />
+          <rect x="378" y="194" width="48" height="124" rx="4" fill="currentColor" opacity="0.42" />
+          <rect x="438" y="232" width="42" height="86" rx="4" fill="currentColor" opacity="0.36" />
+        </g>
+      );
+    default:
+      return null;
+  }
+}
 
 export function CountryDetailPage({ country }) {
   const [activeFaq, setActiveFaq] = useState(null);
@@ -69,10 +215,20 @@ export function CountryDetailPage({ country }) {
     return a.name.localeCompare(b.name);
   });
 
-  const brochurePage = brochurePageMap[country.slug] || null;
+  const heroImage = countryHeroImageMap[country.slug] || country.universitiesDetail?.[0]?.image || flagImageMap[country.code];
+  const heroFlag = flagImageMap[country.code];
+  const heroLandmark = countryLandmarkMap[country.slug] || "Global study route";
 
   return (
-    <main ref={sectionRef} style={{ fontFamily: "var(--display-font)", "--country-color": country.accent, overflowX: "hidden" }}>
+    <main
+      ref={sectionRef}
+      style={{
+        fontFamily: "var(--display-font)",
+        "--country-color": "var(--accent-orange-red)",
+        "--country-identity-color": country.accent,
+        overflowX: "hidden",
+      }}
+    >
       <style dangerouslySetInnerHTML={{ __html: `
         @keyframes spinGlobe {
           from { transform: rotate(0deg); }
@@ -120,24 +276,77 @@ export function CountryDetailPage({ country }) {
           transform-origin: 20px 20px;
           animation: sidebarPlaneLoop 6s linear infinite;
         }
-        .country-sidebar-item .flag-code {
-          font-size: 11px;
-          font-weight: 800;
-          letter-spacing: 0.05em;
-          font-family: var(--display-font);
+        .country-hero-title-lockup {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          flex-wrap: wrap;
+        }
+        .country-hero-flag {
+          width: 58px;
+          height: 58px;
+          border-radius: 50%;
+          object-fit: cover;
+          border: 3px solid rgba(255, 255, 255, 0.9);
+          box-shadow: 0 12px 28px rgba(7, 31, 61, 0.22);
+        }
+        .country-sidebar-flag-img {
+          width: 28px;
+          height: 28px;
+          border-radius: 50%;
+          object-fit: cover;
+          position: relative;
+          z-index: 2;
+          box-shadow: 0 2px 8px rgba(8, 31, 61, 0.12);
           transition: transform 0.2s ease;
         }
-        .country-sidebar-item.active .flag-code {
+        .country-sidebar-item.active .country-sidebar-flag-img {
           transform: scale(1.1);
         }
+        .country-sidebar-name {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 10px;
+          width: 100%;
+          min-width: 0;
+        }
+        .country-sidebar-name-text {
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        .country-sidebar-name-flag {
+          width: 22px;
+          height: 22px;
+          border-radius: 50%;
+          object-fit: cover;
+          flex-shrink: 0;
+          box-shadow: 0 2px 8px rgba(8, 31, 61, 0.12);
+        }
       `}} />
-      <section className="country-hero-banner">
+      <section className="country-hero-banner" style={{ backgroundImage: `url("${heroImage}")` }}>
         <div className="country-hero-banner-inner">
-          <h1>{country.code === "US" ? "United States" : country.code === "UK" ? "United Kingdom" : country.name}</h1>
+          <div className="country-hero-title-lockup">
+            {heroFlag && (
+              <Image
+                src={heroFlag}
+                alt={`${country.name} flag`}
+                className="country-hero-flag"
+                width={58}
+                height={58}
+              />
+            )}
+            <div>
+              <span className="country-hero-kicker">Study Destination</span>
+              <h1>{getCountryDisplayName(country)}</h1>
+              <p>{heroLandmark}</p>
+            </div>
+          </div>
         </div>
         <div className="country-hero-banner-graphic">
           <svg viewBox="0 0 800 400" fill="none" xmlns="http://www.w3.org/2000/svg">
-            {/* Spinning Globe Graphic */}
+            <CountryLandmark slug={country.slug} />
+
             <g className="spinning-globe" style={{ transformOrigin: "580px 200px" }}>
               <circle cx="580" cy="200" r="160" stroke="white" strokeWidth="1.5" strokeDasharray="5 5" opacity="0.15"/>
               <circle cx="580" cy="200" r="100" stroke="white" strokeWidth="1.5" strokeDasharray="5 5" opacity="0.1"/>
@@ -147,10 +356,8 @@ export function CountryDetailPage({ country }) {
               <path d="M580 40 V360" stroke="white" strokeWidth="1.5" strokeDasharray="5 5" opacity="0.15" />
             </g>
             
-            {/* Orbit track for revolving airplane */}
             <circle cx="580" cy="200" r="130" stroke="white" strokeWidth="1" strokeDasharray="3 3" opacity="0.08" />
             
-            {/* Revolving Airplane */}
             <g className="revolving-airplane-group" style={{ transformOrigin: "580px 200px" }}>
               <g transform="translate(580, 70)">
                 <path d="M-15,-2 L-6,-2 L-11,-10 L-7,-10 L1,-2 L10,-2 C12,-2 14,-1 14,0 C14,1 12,2 10,2 L1,2 L-7,10 L-11,10 L-6,2 L-15,2 L-17,5 L-19,5 L-18,0 L-19,-5 L-17,-5 Z" fill="white" opacity="0.8"/>
@@ -172,12 +379,14 @@ export function CountryDetailPage({ country }) {
           <div className="country-sidebar-title">Explore Countries</div>
           
           <div className="country-sidebar-nav">
-            {sortedCountries.map((c) => (
+            {sortedCountries.map((c) => {
+              const cFlag = flagImageMap[c.code];
+              return (
               <AppLink
                 key={c.slug}
                 to={`/destinations/${c.slug}`}
                 className={`country-sidebar-item ${c.slug === country.slug ? "active" : ""}`}
-                style={{ "--country-color": c.accent }}
+                style={{ "--country-color": "var(--accent-orange-red)", "--country-identity-color": c.accent }}
                 onClick={(e) => {
                   if (transitionContext) {
                     e.preventDefault();
@@ -186,7 +395,17 @@ export function CountryDetailPage({ country }) {
                 }}
               >
                 <div className="country-sidebar-flag-wrapper">
-                  <span className="flag-code" style={{ zIndex: 2, fontSize: "16px" }}>{flagMap[c.code] || c.code}</span>
+                  {cFlag ? (
+                    <Image
+                      src={cFlag}
+                      alt={`${c.name} flag`}
+                      className="country-sidebar-flag-img"
+                      width={28}
+                      height={28}
+                    />
+                  ) : (
+                    <span className="flag-code" style={{ zIndex: 2, fontSize: "11px", fontWeight: 800 }}>{c.code}</span>
+                  )}
                   <svg className="sidebar-airplane-loop" viewBox="0 0 40 40" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none" }}>
                     <circle cx="20" cy="20" r="14" stroke="currentColor" strokeWidth="1" strokeDasharray="3 3" fill="none" opacity="0.25"/>
                     <g className="sidebar-looping-plane-group" style={{ transformOrigin: "20px 20px" }}>
@@ -196,12 +415,22 @@ export function CountryDetailPage({ country }) {
                     </g>
                   </svg>
                 </div>
-                <span style={{ fontWeight: 700, display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
-                  <span>{c.code === "US" ? "USA" : c.code === "UK" ? "UK" : c.name}</span>
-                  <span style={{ fontSize: "18px", marginLeft: "8px" }}>{flagMap[c.code] || ""}</span>
+                <span className="country-sidebar-name" style={{ fontWeight: 700 }}>
+                  <span className="country-sidebar-name-text">{getSidebarName(c)}</span>
+                  {cFlag && (
+                    <Image
+                      src={cFlag}
+                      alt=""
+                      className="country-sidebar-name-flag"
+                      width={22}
+                      height={22}
+                      aria-hidden="true"
+                    />
+                  )}
                 </span>
               </AppLink>
-            ))}
+              );
+            })}
           </div>
         </aside>
 

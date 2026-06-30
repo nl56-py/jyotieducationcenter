@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import Image from "next/image";
 import { AppLink } from "../components/AppLink.jsx";
 import { ContactForm } from "../components/ContactForm.jsx";
 import { assets } from "../data/assets.js";
@@ -610,7 +611,7 @@ export function HomePage({ navigate }) {
             <span className="map-stats-eyebrow">🌍 Overseas Presence</span>
             <h2 className="map-stats-title">Accelerating your academic growth overseas</h2>
             <p className="map-stats-desc">
-              Our certified education consultants at EduMark support you with excellence in career guidance and student visa processing from Biratnagar, Nepal. Established in 2012, we are MOEST-approved and ECAN-affiliated, serving as Koshi Province's leading bridge to premier global destinations including the UK, USA, Australia, Japan, Finland, Lithuania, South Korea, Malta, Dubai, and India.
+              Our certified education consultants at EduMark support you with excellence in career guidance and student visa processing from Biratnagar, Nepal. Established in 2012, we are MOEST-approved and ECAN-affiliated, serving as Koshi Province&apos;s leading bridge to premier global destinations including the UK, USA, Australia, Japan, Finland, Lithuania, South Korea, Malta, Dubai, and India.
             </p>
           </div>
 
@@ -773,7 +774,7 @@ export function HomePage({ navigate }) {
               <div className="process-timeline-step">
                 <div className="process-step-photo">
                   <span className="process-step-num">1</span>
-                  <img src={assets.counselling} alt="Free Counseling" />
+                  <Image className="process-img-counseling" src={assets.counselling} alt="Free Counseling" width={160} height={160} sizes="(max-width: 991px) 96px, 124px" />
                 </div>
                 <h4 className="process-step-title">Free Counseling</h4>
               </div>
@@ -781,7 +782,7 @@ export function HomePage({ navigate }) {
               <div className="process-timeline-step">
                 <div className="process-step-photo">
                   <span className="process-step-num">2</span>
-                  <img src="/images/country and course selection.jfif" alt="Country Selection" />
+                  <Image className="process-img-selection" src={assets.destinations} alt="Country Selection" width={160} height={160} sizes="(max-width: 991px) 96px, 124px" />
                 </div>
                 <h4 className="process-step-title">Country & Course Selection</h4>
               </div>
@@ -789,7 +790,7 @@ export function HomePage({ navigate }) {
               <div className="process-timeline-step">
                 <div className="process-step-photo">
                   <span className="process-step-num">3</span>
-                  <img src="/images/application sumbission.jpg" alt="Application" />
+                  <Image className="process-img-application" src="/images/application sumbission.jpg" alt="Application" width={160} height={160} sizes="(max-width: 991px) 96px, 124px" />
                 </div>
                 <h4 className="process-step-title">Application Submission</h4>
               </div>
@@ -797,7 +798,7 @@ export function HomePage({ navigate }) {
               <div className="process-timeline-step">
                 <div className="process-step-photo">
                   <span className="process-step-num">4</span>
-                  <img src="/images/Offer-Letter.png" alt="Documentation" />
+                  <Image className="process-img-docs" src="/images/Offer-Letter.png" alt="Documentation" width={160} height={160} sizes="(max-width: 991px) 96px, 124px" />
                 </div>
                 <h4 className="process-step-title">Offer Letter & Docs</h4>
               </div>
@@ -805,7 +806,7 @@ export function HomePage({ navigate }) {
               <div className="process-timeline-step">
                 <div className="process-step-photo">
                   <span className="process-step-num">5</span>
-                  <img src={assets.success} alt="Visa Processing" />
+                  <Image className="process-img-visa" src={assets.success} alt="Visa Processing" width={160} height={160} sizes="(max-width: 991px) 96px, 124px" />
                 </div>
                 <h4 className="process-step-title">Visa Processing</h4>
               </div>
@@ -813,7 +814,7 @@ export function HomePage({ navigate }) {
               <div className="process-timeline-step">
                 <div className="process-step-photo">
                   <span className="process-step-num">6</span>
-                  <img src={assets.brochureHero} alt="Departure" />
+                  <Image className="process-img-departure" src={assets.brochureHero} alt="Departure" width={160} height={160} sizes="(max-width: 991px) 96px, 124px" />
                 </div>
                 <h4 className="process-step-title">Fly Abroad ✈</h4>
               </div>
