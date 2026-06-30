@@ -84,7 +84,7 @@ export function HomePage({ navigate }) {
       usa: { type: 'img', src: '/usa-1-420x420.jpg' },
       finland: { type: 'img', src: '/finland.png' },
       lithuania: { type: 'img', src: '/luthinia.png' },
-      malta: { type: 'img', src: '/malta.jfif' },
+      malta: { type: 'img', src: '/malta.png' },
       india: { type: 'img', src: '/india.png' },
       dubai: { type: 'img', src: '/dubai.png' },
       "south-korea": { type: 'img', src: '/south-korea.png' },

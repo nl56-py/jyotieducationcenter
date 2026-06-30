@@ -17,7 +17,7 @@ const flagImageMap = {
   JP: "/japan.png",
   IN: "/india.png",
   AE: "/dubai.png",
-  MT: "/malta.jfif",
+  MT: "/malta.png",
 };
 
 const countryLandmarkMap = {
