@@ -18,7 +18,11 @@ import {
   BookOpen,
   ArrowRightLeft,
   Search,
-  X
+  X,
+  FileStack,
+  RefreshCw,
+  GraduationCap,
+  Award
 } from "lucide-react";
 
 interface AdminSidebarProps {
@@ -85,9 +89,12 @@ export function AdminSidebar({
     {
       title: "Content (CMS)",
       items: [
+        { label: "Public Pages", href: "/admin/pages", icon: FileStack, roles: ["super_admin", "admin", "editor"] },
         { label: "Blogs", href: "/admin/blogs", icon: FileText, roles: ["super_admin", "admin", "editor"] },
         { label: "Destinations", href: "/admin/destinations", icon: Globe, roles: ["super_admin", "admin", "editor"] },
         { label: "Services & Prep", href: "/admin/services", icon: Layers, roles: ["super_admin", "admin", "editor"] },
+        { label: "Test Preparation", href: "/admin/services?tab=testprep", icon: GraduationCap, roles: ["super_admin", "admin", "editor"] },
+        { label: "Entrance Prep", href: "/admin/services?tab=entrance", icon: Award, roles: ["super_admin", "admin", "editor"] },
         { label: "Team & Testimonials", href: "/admin/team", icon: Users, roles: ["super_admin", "admin", "editor"] },
         { label: "Videos Gallery", href: "/admin/videos", icon: Video, roles: ["super_admin", "admin", "editor"] },
         { label: "Media Library", href: "/admin/media", icon: Folder, roles: ["super_admin", "admin", "editor"] },
@@ -102,6 +109,7 @@ export function AdminSidebar({
         { label: "Audit Logs", href: "/admin/audit-logs", icon: BookOpen, roles: ["super_admin", "admin"] },
         { label: "Security Center", href: "/admin/security", icon: ShieldAlert, roles: ["super_admin", "admin"] },
         { label: "Site Settings", href: "/admin/settings", icon: Settings, roles: ["super_admin", "admin"] },
+        { label: "Cache Controls", href: "/admin/cache", icon: RefreshCw, roles: ["super_admin", "admin"] },
       ],
     },
   ];
@@ -140,7 +148,7 @@ export function AdminSidebar({
               <div className="nav-group">
                 {allowedItems.map((item, itemIdx) => {
                   const Icon = item.icon;
-                  const isActive = pathname === item.href;
+                  const isActive = pathname === item.href.split("?")[0];
                   return (
                     <Link
                       key={itemIdx}

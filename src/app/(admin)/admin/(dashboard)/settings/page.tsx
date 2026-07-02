@@ -90,20 +90,18 @@ export default function SettingsPage() {
   const handleRevalidate = async () => {
     setRevalidating(true);
     try {
-      const secret = "edumark-revalidate-secret-12345";
       const tags = ["home", "destinations", "blogs", "services"];
-      
-      const promises = tags.map(tag => 
-        fetch(`/api/revalidate?secret=${secret}&tag=${tag}`, { method: "POST" })
-      );
+      const response = await fetch("/api/admin/cache", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ tags, paths: ["/", "/destinations", "/blogs", "/services"] }),
+      });
 
-      const results = await Promise.all(promises);
-      const allSuccess = results.every(res => res.ok);
-
-      if (allSuccess) {
+      if (response.ok) {
         alert("Edge static cache successfully purged and updated for tags: " + tags.join(", "));
       } else {
-        alert("Failed to purge static cache. Verify env token match.");
+        const data = await response.json();
+        alert(data.error || "Failed to purge static cache.");
       }
     } catch (err) {
       console.error("Revalidation error:", err);

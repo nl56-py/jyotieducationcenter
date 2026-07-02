@@ -106,7 +106,9 @@ export default function ServicesPrepPage() {
     };
     loadSession();
     loadAll();
-    setActiveTab("services");
+    const params = new URLSearchParams(window.location.search);
+    const tab = params.get("tab");
+    setActiveTab(tab === "testprep" || tab === "entrance" ? tab : "services");
   }, []);
 
   const handleOpenEditor = (item: any | null) => {
