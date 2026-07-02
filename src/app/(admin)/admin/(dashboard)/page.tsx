@@ -99,12 +99,11 @@ export default async function DashboardPage() {
 
   return (
     <div>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px" }}>
+      <div className="admin-page-hero">
         <div>
-          <h2 style={{ fontSize: "24px", fontWeight: 700 }}>Welcome back, {user.fullName}!</h2>
-          <p style={{ color: "var(--dm-outline)", fontSize: "14px", marginTop: "4px" }}>
-            Here is what is happening at EduMark today.
-          </p>
+          <span className="admin-kicker" style={{ color: "rgba(255,255,255,.78)" }}>Command center</span>
+          <h2>Welcome back, {user.fullName}.</h2>
+          <p>Track leads, bookings, content health, draft risk, and security signals in one clean dashboard.</p>
         </div>
 
         <div style={{ display: "flex", gap: "12px" }}>

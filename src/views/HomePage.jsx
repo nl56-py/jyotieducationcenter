@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import { AppLink } from "../components/AppLink.jsx";
 import { ContactForm } from "../components/ContactForm.jsx";
+import { HomepagePopup } from "../components/HomepagePopup.jsx";
 import { assets } from "../data/assets.js";
 import { countries } from "../data/countries.js";
 import { testCourses } from "../data/testCourses.js";
@@ -184,6 +185,7 @@ export function HomePage({ navigate }) {
 
   return (
     <main style={{ background: "var(--white)", position: "relative" }}>
+      <HomepagePopup navigate={navigate} />
       
       {/* 1. HERO SLIDESHOW BANNER */}
       <section className="hero-fullscreen">

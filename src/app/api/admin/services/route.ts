@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { name, slug, summary, sort_order, status } = body;
+    const { name, slug, summary, body: serviceBody, sort_order, status } = body;
 
     if (!name || !slug) {
       return NextResponse.json({ success: false, error: "Missing name or slug" }, { status: 400 });
@@ -58,6 +58,7 @@ export async function POST(request: NextRequest) {
         name,
         slug,
         summary: summary || null,
+        body: serviceBody || null,
         sort_order: sort_order !== undefined ? parseInt(sort_order) : 0,
         status: status || "draft",
       })
@@ -88,7 +89,7 @@ export async function PUT(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { id, name, slug, summary, sort_order, status } = body;
+    const { id, name, slug, summary, body: serviceBody, sort_order, status } = body;
 
     if (!id) {
       return NextResponse.json({ success: false, error: "Missing service ID" }, { status: 400 });
@@ -98,6 +99,7 @@ export async function PUT(request: NextRequest) {
     if (name !== undefined) updates.name = name;
     if (slug !== undefined) updates.slug = slug;
     if (summary !== undefined) updates.summary = summary || null;
+    if (serviceBody !== undefined) updates.body = serviceBody || null;
     if (sort_order !== undefined) updates.sort_order = parseInt(sort_order);
     if (status !== undefined) updates.status = status;
 

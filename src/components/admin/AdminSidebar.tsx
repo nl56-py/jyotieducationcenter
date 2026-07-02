@@ -7,8 +7,6 @@ import {
   Users,
   Calendar,
   FileText,
-  Globe,
-  Settings,
   ShieldAlert,
   LogOut,
   Folder,
@@ -16,13 +14,8 @@ import {
   Video,
   Layers,
   BookOpen,
-  ArrowRightLeft,
-  Search,
   X,
-  FileStack,
-  RefreshCw,
-  GraduationCap,
-  Award
+  Megaphone
 } from "lucide-react";
 
 interface AdminSidebarProps {
@@ -89,27 +82,20 @@ export function AdminSidebar({
     {
       title: "Content (CMS)",
       items: [
-        { label: "Public Pages", href: "/admin/pages", icon: FileStack, roles: ["super_admin", "admin", "editor"] },
         { label: "Blogs", href: "/admin/blogs", icon: FileText, roles: ["super_admin", "admin", "editor"] },
-        { label: "Destinations", href: "/admin/destinations", icon: Globe, roles: ["super_admin", "admin", "editor"] },
-        { label: "Services & Prep", href: "/admin/services", icon: Layers, roles: ["super_admin", "admin", "editor"] },
-        { label: "Test Preparation", href: "/admin/services?tab=testprep", icon: GraduationCap, roles: ["super_admin", "admin", "editor"] },
-        { label: "Entrance Prep", href: "/admin/services?tab=entrance", icon: Award, roles: ["super_admin", "admin", "editor"] },
-        { label: "Team & Testimonials", href: "/admin/team", icon: Users, roles: ["super_admin", "admin", "editor"] },
-        { label: "Videos Gallery", href: "/admin/videos", icon: Video, roles: ["super_admin", "admin", "editor"] },
-        { label: "Media Library", href: "/admin/media", icon: Folder, roles: ["super_admin", "admin", "editor"] },
-        { label: "SEO Control", href: "/admin/seo", icon: Search, roles: ["super_admin", "admin", "editor"] },
+        { label: "Videos", href: "/admin/videos", icon: Video, roles: ["super_admin", "admin", "editor"] },
+        { label: "Photos", href: "/admin/media", icon: Folder, roles: ["super_admin", "admin", "editor"] },
+        { label: "Key Personnel", href: "/admin/team", icon: Users, roles: ["super_admin", "admin", "editor"] },
+        { label: "Service Details", href: "/admin/services", icon: Layers, roles: ["super_admin", "admin", "editor"] },
+        { label: "Notices & Events", href: "/admin/notices", icon: Megaphone, roles: ["super_admin", "admin", "editor"] },
       ],
     },
     {
       title: "System",
       items: [
-        { label: "Redirects", href: "/admin/redirects", icon: ArrowRightLeft, roles: ["super_admin", "admin"] },
-        { label: "User Management", href: "/admin/users", icon: Shield, roles: ["super_admin"] },
+        { label: "Users & Roles", href: "/admin/users", icon: Shield, roles: ["super_admin"] },
         { label: "Audit Logs", href: "/admin/audit-logs", icon: BookOpen, roles: ["super_admin", "admin"] },
         { label: "Security Center", href: "/admin/security", icon: ShieldAlert, roles: ["super_admin", "admin"] },
-        { label: "Site Settings", href: "/admin/settings", icon: Settings, roles: ["super_admin", "admin"] },
-        { label: "Cache Controls", href: "/admin/cache", icon: RefreshCw, roles: ["super_admin", "admin"] },
       ],
     },
   ];

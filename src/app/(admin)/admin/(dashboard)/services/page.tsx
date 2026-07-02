@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Plus, Edit2, Bookmark, Award, Layers, Trash2 } from "lucide-react";
+import { RichTextEditor } from "@/components/admin/RichTextEditor";
 
 export default function ServicesPrepPage() {
   const [activeTab, setActiveTab] = useState<"services" | "testprep" | "entrance" | null>(null);
@@ -22,6 +23,7 @@ export default function ServicesPrepPage() {
   const [name, setName] = useState("");
   const [slug, setSlug] = useState("");
   const [summary, setSummary] = useState("");
+  const [body, setBody] = useState("");
   const [status, setStatus] = useState("draft");
 
   // Service specific fields
@@ -117,6 +119,7 @@ export default function ServicesPrepPage() {
       setName(item.name);
       setSlug(item.slug);
       setSummary(item.summary || "");
+      setBody(item.body?.html || item.body?.content || item.detail || "");
       setStatus(item.status || "draft");
       
       if (activeTab === "services") {
@@ -135,6 +138,7 @@ export default function ServicesPrepPage() {
       setName("");
       setSlug("");
       setSummary("");
+      setBody("");
       setStatus("draft");
       setSortOrder(0);
       setTestType("language");
@@ -157,6 +161,7 @@ export default function ServicesPrepPage() {
           name,
           slug,
           summary,
+          body: { html: body },
           sort_order: sortOrder,
           status
         };
@@ -243,41 +248,11 @@ export default function ServicesPrepPage() {
     <div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px" }}>
         <div>
-          <h2 style={{ fontSize: "22px", fontWeight: 700 }}>Academic Services & Prep</h2>
+          <h2 style={{ fontSize: "22px", fontWeight: 700 }}>Service Details</h2>
           <p style={{ color: "var(--dm-outline)", fontSize: "14px" }}>
-            Configure marketing pages for counseling services, language tests, and entrance preparation programs.
+            Manage the service cards and long-form service detail content used by public service pages.
           </p>
         </div>
-      </div>
-
-      {/* Tabs */}
-      <div 
-        style={{ 
-          display: "flex", 
-          gap: "8px", 
-          marginBottom: "24px", 
-          borderBottom: "1px solid var(--dm-surface-container)",
-          paddingBottom: "8px"
-        }}
-      >
-        <button 
-          className={`btn ${activeTab === "services" ? "btn-primary" : "btn-light"}`}
-          onClick={() => setActiveTab("services")}
-        >
-          <Layers size={16} /> Counseling Services
-        </button>
-        <button 
-          className={`btn ${activeTab === "testprep" ? "btn-primary" : "btn-light"}`}
-          onClick={() => setActiveTab("testprep")}
-        >
-          <Bookmark size={16} /> Test Preparation
-        </button>
-        <button 
-          className={`btn ${activeTab === "entrance" ? "btn-primary" : "btn-light"}`}
-          onClick={() => setActiveTab("entrance")}
-        >
-          <Award size={16} /> Entrance Programs
-        </button>
       </div>
 
       {/* Counseling Services */}
@@ -455,10 +430,21 @@ export default function ServicesPrepPage() {
                   <label className="form-label">Slug URL</label>
                   <input type="text" className="form-input" value={slug} onChange={(e) => setSlug(e.target.value)} required />
                 </div>
-                <div className="form-group">
-                  <label className="form-label">Summary</label>
-                  <textarea className="form-textarea" value={summary} onChange={(e) => setSummary(e.target.value)} required />
-                </div>
+                <RichTextEditor
+                  label="Summary"
+                  value={summary}
+                  onChange={setSummary}
+                  minHeight={110}
+                />
+
+                {activeTab === "services" && (
+                  <RichTextEditor
+                    label="Full Service Detail"
+                    value={body}
+                    onChange={setBody}
+                    minHeight={170}
+                  />
+                )}
 
                 {activeTab === "services" && (
                   <div className="form-group">

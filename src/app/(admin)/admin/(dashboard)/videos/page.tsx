@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Plus, Edit2, Play, Video, Trash2, Search } from "lucide-react";
+import { RichTextEditor } from "@/components/admin/RichTextEditor";
 
 export default function VideosCMSPage() {
   const [videos, setVideos] = useState<any[]>([]);
@@ -231,10 +232,12 @@ export default function VideosCMSPage() {
                   <label className="form-label">Video Title</label>
                   <input type="text" className="form-input" value={title} onChange={(e) => setTitle(e.target.value)} required />
                 </div>
-                <div className="form-group">
-                  <label className="form-label">Description (Optional)</label>
-                  <textarea className="form-textarea" value={description} onChange={(e) => setDescription(e.target.value)} />
-                </div>
+                <RichTextEditor
+                  label="Description"
+                  value={description}
+                  onChange={setDescription}
+                  minHeight={120}
+                />
                 <div className="form-group">
                   <label className="form-label">YouTube Video ID</label>
                   <input type="text" className="form-input" placeholder="e.g. dQw4w9WgXcQ" value={providerVideoId} onChange={(e) => setProviderVideoId(e.target.value)} required />

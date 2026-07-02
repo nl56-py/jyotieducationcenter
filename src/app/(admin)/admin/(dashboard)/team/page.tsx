@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Plus, Edit2, Users, MessageSquare, Trash2, Search } from "lucide-react";
+import { RichTextEditor } from "@/components/admin/RichTextEditor";
 
 export default function TeamTestimonialsPage() {
   const [activeTab, setActiveTab] = useState<"team" | "testimonials" | null>(null);
@@ -319,10 +320,12 @@ export default function TeamTestimonialsPage() {
                   </div>
                 )}
 
-                <div className="form-group">
-                  <label className="form-label">{activeTab === "team" ? "Bio / Summary" : "Quote Text"}</label>
-                  <textarea className="form-textarea" style={{ minHeight: "100px" }} value={bioQuote} onChange={(e) => setBioQuote(e.target.value)} required />
-                </div>
+                <RichTextEditor
+                  label={activeTab === "team" ? "Bio / Summary" : "Quote Text"}
+                  value={bioQuote}
+                  onChange={setBioQuote}
+                  minHeight={130}
+                />
 
                 <div className="form-group">
                   <label className="form-label">Sort Order</label>

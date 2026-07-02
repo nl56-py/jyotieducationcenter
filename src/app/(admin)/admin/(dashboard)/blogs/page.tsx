@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Plus, Edit2, Archive, Globe, CheckCircle, Search, Eye } from "lucide-react";
+import { RichTextEditor } from "@/components/admin/RichTextEditor";
 
 export default function BlogsCMSPage() {
   const [blogs, setBlogs] = useState<any[]>([]);
@@ -337,20 +338,24 @@ export default function BlogsCMSPage() {
                 <div>
                   <h4 style={{ fontSize: "15px", fontWeight: 700, marginBottom: "16px" }}>Body & SEO Control</h4>
 
-                  <div className="form-group">
-                    <label className="form-label">Post Body Text (Markdown/JSON)</label>
-                    <textarea className="form-textarea" style={{ minHeight: "140px" }} value={bodyText} onChange={(e) => setBodyText(e.target.value)} required />
-                  </div>
+                  <RichTextEditor
+                    label="Post Body"
+                    value={bodyText}
+                    onChange={setBodyText}
+                    minHeight={190}
+                  />
 
                   <div className="form-group">
                     <label className="form-label">SEO Meta Title</label>
                     <input type="text" className="form-input" placeholder="e.g. Australian Student Visa Guide | EduMark" value={seoTitle} onChange={(e) => setSeoTitle(e.target.value)} />
                   </div>
 
-                  <div className="form-group">
-                    <label className="form-label">SEO Meta Description</label>
-                    <textarea className="form-textarea" style={{ minHeight: "60px" }} placeholder="Provide search results description snippet..." value={seoDesc} onChange={(e) => setSeoDesc(e.target.value)} />
-                  </div>
+                  <RichTextEditor
+                    label="SEO Meta Description"
+                    value={seoDesc}
+                    onChange={setSeoDesc}
+                    minHeight={90}
+                  />
                 </div>
               </div>
 
