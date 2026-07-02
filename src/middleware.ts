@@ -44,7 +44,14 @@ export async function middleware(request: NextRequest) {
         });
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
-          isAuthenticated = true;
+          const { data: adminUser } = await supabase
+            .from("admin_users")
+            .select("id")
+            .eq("user_id", user.id)
+            .eq("status", "active")
+            .maybeSingle();
+
+          isAuthenticated = !!adminUser;
         }
       }
     } catch (error) {
