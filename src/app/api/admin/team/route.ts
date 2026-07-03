@@ -18,7 +18,7 @@ export async function GET() {
 
     const { data: dbTeam, error } = await supabase
       .from("team_members")
-      .select("*")
+      .select("*, media_assets(path)")
       .order("sort_order", { ascending: true });
 
     if (error) {
@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { name, role_title, bio, sort_order, status } = body;
+    const { name, role_title, bio, image_id, sort_order, status } = body;
 
     if (!name || !role_title) {
       return NextResponse.json({ success: false, error: "Missing name or role title" }, { status: 400 });
@@ -58,6 +58,7 @@ export async function POST(request: NextRequest) {
         name,
         role_title,
         bio: bio || null,
+        image_id: image_id || null,
         sort_order: sort_order !== undefined ? parseInt(sort_order) : 0,
         status: status || "draft",
       })
@@ -88,7 +89,7 @@ export async function PUT(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { id, name, role_title, bio, sort_order, status } = body;
+    const { id, name, role_title, bio, image_id, sort_order, status } = body;
 
     if (!id) {
       return NextResponse.json({ success: false, error: "Missing team member ID" }, { status: 400 });
@@ -98,6 +99,7 @@ export async function PUT(request: NextRequest) {
     if (name !== undefined) updates.name = name;
     if (role_title !== undefined) updates.role_title = role_title;
     if (bio !== undefined) updates.bio = bio || null;
+    if (image_id !== undefined) updates.image_id = image_id || null;
     if (sort_order !== undefined) updates.sort_order = parseInt(sort_order);
     if (status !== undefined) updates.status = status;
 

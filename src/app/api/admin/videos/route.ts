@@ -18,7 +18,7 @@ export async function GET() {
 
     const { data: dbVideos, error } = await supabase
       .from("videos")
-      .select("*")
+      .select("*, media_asset:media_assets!videos_media_id_fkey(path), poster_assets:media_assets!videos_poster_id_fkey(path)")
       .order("sort_order", { ascending: true });
 
     if (error) {
@@ -46,10 +46,10 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { title, description, provider, provider_video_id, category, duration_seconds, status, sort_order } = body;
+    const { title, description, provider, provider_video_id, external_url, media_id, poster_id, category, duration_seconds, status, sort_order } = body;
 
-    if (!title || !provider_video_id) {
-      return NextResponse.json({ success: false, error: "Missing title or video ID" }, { status: 400 });
+    if (!title || (!provider_video_id && !external_url && !media_id)) {
+      return NextResponse.json({ success: false, error: "Missing title or video source" }, { status: 400 });
     }
 
     const { data: newVideo, error } = await supabase
@@ -57,8 +57,11 @@ export async function POST(request: NextRequest) {
       .insert({
         title,
         description: description || null,
-        provider: provider || "youtube",
-        provider_video_id,
+        provider: provider || null,
+        provider_video_id: provider_video_id || null,
+        external_url: external_url || null,
+        media_id: media_id || null,
+        poster_id: poster_id || null,
         category: category || "general",
         duration_seconds: duration_seconds ? parseInt(duration_seconds) : null,
         status: status || "draft",
@@ -91,7 +94,7 @@ export async function PUT(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { id, title, description, provider, provider_video_id, category, duration_seconds, status, sort_order } = body;
+    const { id, title, description, provider, provider_video_id, external_url, media_id, poster_id, category, duration_seconds, status, sort_order } = body;
 
     if (!id) {
       return NextResponse.json({ success: false, error: "Missing video ID" }, { status: 400 });
@@ -100,8 +103,11 @@ export async function PUT(request: NextRequest) {
     const updates: any = {};
     if (title !== undefined) updates.title = title;
     if (description !== undefined) updates.description = description || null;
-    if (provider !== undefined) updates.provider = provider;
-    if (provider_video_id !== undefined) updates.provider_video_id = provider_video_id;
+    if (provider !== undefined) updates.provider = provider || null;
+    if (provider_video_id !== undefined) updates.provider_video_id = provider_video_id || null;
+    if (external_url !== undefined) updates.external_url = external_url || null;
+    if (media_id !== undefined) updates.media_id = media_id || null;
+    if (poster_id !== undefined) updates.poster_id = poster_id || null;
     if (category !== undefined) updates.category = category;
     if (duration_seconds !== undefined) updates.duration_seconds = duration_seconds ? parseInt(duration_seconds) : null;
     if (status !== undefined) updates.status = status;

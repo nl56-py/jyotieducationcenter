@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Plus, Edit2, Play, Video, Trash2, Search } from "lucide-react";
 import { RichTextEditor } from "@/components/admin/RichTextEditor";
+import { MediaUploadField } from "@/components/admin/MediaUploadField";
 
 export default function VideosCMSPage() {
   const [videos, setVideos] = useState<any[]>([]);
@@ -17,6 +18,10 @@ export default function VideosCMSPage() {
   const [description, setDescription] = useState("");
   const [provider, setProvider] = useState("youtube");
   const [providerVideoId, setProviderVideoId] = useState("");
+  const [externalUrl, setExternalUrl] = useState("");
+  const [mediaId, setMediaId] = useState("");
+  const [posterId, setPosterId] = useState("");
+  const [posterPreview, setPosterPreview] = useState("");
   const [category, setCategory] = useState("general");
   const [status, setStatus] = useState("draft");
   const [sortOrder, setSortOrder] = useState(0);
@@ -64,7 +69,11 @@ export default function VideosCMSPage() {
       setTitle(vid.title);
       setDescription(vid.description || "");
       setProvider(vid.provider || "youtube");
-      setProviderVideoId(vid.provider_video_id);
+      setProviderVideoId(vid.provider_video_id || "");
+      setExternalUrl(vid.external_url || "");
+      setMediaId(vid.media_id || "");
+      setPosterId(vid.poster_id || "");
+      setPosterPreview(vid.poster_assets?.path || "");
       setCategory(vid.category || "general");
       setStatus(vid.status || "draft");
       setSortOrder(vid.sort_order || 0);
@@ -73,6 +82,10 @@ export default function VideosCMSPage() {
       setDescription("");
       setProvider("youtube");
       setProviderVideoId("");
+      setExternalUrl("");
+      setMediaId("");
+      setPosterId("");
+      setPosterPreview("");
       setCategory("general");
       setStatus("draft");
       setSortOrder(0);
@@ -89,7 +102,10 @@ export default function VideosCMSPage() {
         title,
         description,
         provider,
-        provider_video_id: providerVideoId,
+        provider_video_id: provider === "youtube" ? providerVideoId : "",
+        external_url: provider === "facebook" ? externalUrl : "",
+        media_id: provider === "local" ? mediaId : "",
+        poster_id: posterId,
         category,
         status,
         sort_order: sortOrder
@@ -136,9 +152,9 @@ export default function VideosCMSPage() {
     <div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px" }}>
         <div>
-          <h2 style={{ fontSize: "22px", fontWeight: 700 }}>YouTube Video Gallery</h2>
+          <h2 style={{ fontSize: "22px", fontWeight: 700 }}>Video Gallery</h2>
           <p style={{ color: "var(--dm-outline)", fontSize: "14px" }}>
-            Add student visa success interviews and informational webinars to the front page gallery.
+            Add YouTube, Facebook, or uploaded videos to the front page gallery.
           </p>
         </div>
         <button className="btn btn-primary" onClick={() => handleOpenEditor(null)}>
@@ -165,7 +181,7 @@ export default function VideosCMSPage() {
             <thead>
               <tr>
                 <th>Video Title</th>
-                <th>YouTube URL ID</th>
+                <th>Source</th>
                 <th>Category Tag</th>
                 <th>Order</th>
                 <th>Status</th>
@@ -192,8 +208,8 @@ export default function VideosCMSPage() {
                       {v.description && <div style={{ fontSize: "12px", color: "var(--dm-outline)", marginLeft: "24px" }}>{v.description}</div>}
                     </td>
                     <td>
-                      <a href={`https://youtube.com/watch?v=${v.provider_video_id}`} target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", gap: "4px", color: "var(--dm-primary)" }}>
-                        <Play size={12} /> {v.provider_video_id}
+                      <a href={v.external_url || (v.provider_video_id ? `https://youtube.com/watch?v=${v.provider_video_id}` : "#")} target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", gap: "4px", color: "var(--dm-primary)" }}>
+                        <Play size={12} /> {v.provider || (v.media_id ? "local upload" : "video")}
                       </a>
                     </td>
                     <td><span style={{ padding: "2px 8px", background: "var(--dm-surface-container)", borderRadius: "var(--dm-rounded-full)", fontSize: "12px" }}>{v.category}</span></td>
@@ -223,7 +239,7 @@ export default function VideosCMSPage() {
         <div className="modal-overlay" onClick={() => setIsEditorOpen(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: "500px" }}>
             <div className="modal-header">
-              <h3 className="modal-title">{selectedVideo ? "Edit Video Info" : "Add YouTube Video"}</h3>
+              <h3 className="modal-title">{selectedVideo ? "Edit Video Info" : "Add Video"}</h3>
               <button className="btn btn-light" style={{ height: "32px", padding: "0 10px" }} onClick={() => setIsEditorOpen(false)}>X</button>
             </div>
             <form onSubmit={handleSave}>
@@ -239,9 +255,45 @@ export default function VideosCMSPage() {
                   minHeight={120}
                 />
                 <div className="form-group">
-                  <label className="form-label">YouTube Video ID</label>
-                  <input type="text" className="form-input" placeholder="e.g. dQw4w9WgXcQ" value={providerVideoId} onChange={(e) => setProviderVideoId(e.target.value)} required />
+                  <label className="form-label">Video Source</label>
+                  <select className="form-select" value={provider} onChange={(e) => setProvider(e.target.value)}>
+                    <option value="youtube">YouTube</option>
+                    <option value="facebook">Facebook</option>
+                    <option value="local">Uploaded Video</option>
+                  </select>
                 </div>
+                {provider === "youtube" && (
+                  <div className="form-group">
+                    <label className="form-label">YouTube Video ID</label>
+                    <input type="text" className="form-input" placeholder="e.g. dQw4w9WgXcQ" value={providerVideoId} onChange={(e) => setProviderVideoId(e.target.value)} />
+                  </div>
+                )}
+                {provider === "facebook" && (
+                  <div className="form-group">
+                    <label className="form-label">Facebook Video URL</label>
+                    <input type="url" className="form-input" placeholder="https://www.facebook.com/..." value={externalUrl} onChange={(e) => setExternalUrl(e.target.value)} />
+                  </div>
+                )}
+                {provider === "local" && (
+                  <MediaUploadField
+                    label="Upload Video File"
+                    folder="videos"
+                    accept="video/*"
+                    value={mediaId}
+                    onUploaded={(asset) => setMediaId(asset.id)}
+                  />
+                )}
+                <MediaUploadField
+                  label="Poster / Thumbnail"
+                  folder="video-posters"
+                  accept="image/*"
+                  value={posterId}
+                  previewUrl={posterPreview}
+                  onUploaded={(asset) => {
+                    setPosterId(asset.id);
+                    setPosterPreview(asset.path);
+                  }}
+                />
                 <div className="form-group">
                   <label className="form-label">Category Tag</label>
                   <input type="text" className="form-input" placeholder="e.g. Australia, Test Prep, Visa" value={category} onChange={(e) => setCategory(e.target.value)} />

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Upload, Folder, Image, Trash2, Eye, Plus } from "lucide-react";
+import { MediaUploadField } from "@/components/admin/MediaUploadField";
 
 export default function MediaLibraryPage() {
   const [assets, setAssets] = useState<any[]>([]);
@@ -121,7 +122,7 @@ export default function MediaLibraryPage() {
           </p>
         </div>
         <button className="btn btn-primary" onClick={() => setIsUploadOpen(true)}>
-          <Upload size={16} /> Register Image
+          <Upload size={16} /> Upload / Register Media
         </button>
       </div>
 
@@ -141,7 +142,11 @@ export default function MediaLibraryPage() {
             assets.map((asset) => (
               <div key={asset.id} className="media-card" style={{ border: "1px solid var(--dm-surface-container)", borderRadius: "var(--dm-rounded-md)", overflow: "hidden", display: "flex", flexDirection: "column", background: "var(--dm-surface-container-low)" }}>
                 <div className="media-preview" style={{ height: "120px", display: "flex", alignItems: "center", justifyContent: "center", background: "var(--dm-surface-container-high)", position: "relative" }}>
-                  <Image size={36} style={{ color: "var(--dm-outline)" }} />
+                  {asset.mime_type?.startsWith("image/") ? (
+                    <img src={asset.path} alt={asset.alt_text || asset.file_name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                  ) : (
+                    <Image size={36} style={{ color: "var(--dm-outline)" }} />
+                  )}
                   <div style={{ position: "absolute", bottom: "8px", right: "8px", background: "rgba(0,0,0,0.6)", color: "#fff", fontSize: "10px", padding: "2px 6px", borderRadius: "3px" }}>
                     {asset.mime_type?.split("/")[1]?.toUpperCase() || "IMG"}
                   </div>
@@ -173,11 +178,26 @@ export default function MediaLibraryPage() {
         <div className="modal-overlay" onClick={() => setIsUploadOpen(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: "450px" }}>
             <div className="modal-header">
-              <h3 className="modal-title">Register Media Asset Metadata</h3>
+              <h3 className="modal-title">Upload or Register Media</h3>
               <button className="btn btn-light" style={{ height: "32px", padding: "0 10px" }} onClick={() => setIsUploadOpen(false)}>X</button>
             </div>
             <form onSubmit={handleUploadSubmit}>
               <div className="modal-body">
+                <MediaUploadField
+                  label="Upload file to Supabase media bucket"
+                  folder="library"
+                  accept="image/*,video/*,application/pdf"
+                  onUploaded={(asset) => {
+                    fetchAssets();
+                    setIsUploadOpen(false);
+                    setFileName("");
+                    setPath("");
+                    setMimeType("image/jpeg");
+                    setSizeBytes("500000");
+                    setAltText("");
+                  }}
+                />
+                <div style={{ height: 1, background: "var(--dm-surface-container)", margin: "18px 0" }} />
                 <div className="form-group">
                   <label className="form-label">File Name</label>
                   <input type="text" className="form-input" placeholder="e.g. australian_visa_guide.jpg" value={fileName} onChange={(e) => setFileName(e.target.value)} required />

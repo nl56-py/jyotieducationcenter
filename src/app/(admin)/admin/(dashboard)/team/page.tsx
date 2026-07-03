@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Plus, Edit2, Users, MessageSquare, Trash2, Search } from "lucide-react";
 import { RichTextEditor } from "@/components/admin/RichTextEditor";
+import { MediaUploadField } from "@/components/admin/MediaUploadField";
 
 export default function TeamTestimonialsPage() {
   const [activeTab, setActiveTab] = useState<"team" | "testimonials" | null>(null);
@@ -23,6 +24,8 @@ export default function TeamTestimonialsPage() {
   const [roleTitle, setRoleTitle] = useState(""); // used for staff role_title
   const [destination, setDestination] = useState(""); // used for testimonial destination
   const [bioQuote, setBioQuote] = useState(""); // used for staff bio or testimonial quote
+  const [imageId, setImageId] = useState("");
+  const [imagePreview, setImagePreview] = useState("");
   const [sortOrder, setSortOrder] = useState(0);
   const [status, setStatus] = useState("draft");
 
@@ -89,6 +92,8 @@ export default function TeamTestimonialsPage() {
       setRoleTitle(item.role_title || "");
       setDestination(item.destination || "");
       setBioQuote(activeTab === "team" ? (item.bio || "") : (item.quote || ""));
+      setImageId(item.image_id || "");
+      setImagePreview(item.media_assets?.path || "");
       setSortOrder(item.sort_order || 0);
       setStatus(item.status || "draft");
     } else {
@@ -96,6 +101,8 @@ export default function TeamTestimonialsPage() {
       setRoleTitle("");
       setDestination("");
       setBioQuote("");
+      setImageId("");
+      setImagePreview("");
       setSortOrder(0);
       setStatus("draft");
     }
@@ -113,6 +120,7 @@ export default function TeamTestimonialsPage() {
           name,
           role_title: roleTitle,
           bio: bioQuote,
+          image_id: imageId,
           sort_order: sortOrder,
           status
         };
@@ -129,6 +137,7 @@ export default function TeamTestimonialsPage() {
           student_name: name,
           destination,
           quote: bioQuote,
+          image_id: imageId,
           sort_order: sortOrder,
           status
         };
@@ -325,6 +334,17 @@ export default function TeamTestimonialsPage() {
                   value={bioQuote}
                   onChange={setBioQuote}
                   minHeight={130}
+                />
+
+                <MediaUploadField
+                  label={activeTab === "team" ? "Staff Photo" : "Student Photo"}
+                  folder={activeTab === "team" ? "team" : "testimonials"}
+                  value={imageId}
+                  previewUrl={imagePreview}
+                  onUploaded={(asset) => {
+                    setImageId(asset.id);
+                    setImagePreview(asset.path);
+                  }}
                 />
 
                 <div className="form-group">

@@ -18,7 +18,7 @@ export async function GET() {
 
     const { data: dbTestimonials, error } = await supabase
       .from("testimonials")
-      .select("*")
+      .select("*, media_assets(path)")
       .order("sort_order", { ascending: true });
 
     if (error) {
@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { student_name, destination, quote, sort_order, status } = body;
+    const { student_name, destination, quote, image_id, sort_order, status } = body;
 
     if (!student_name || !quote) {
       return NextResponse.json({ success: false, error: "Missing student name or quote text" }, { status: 400 });
@@ -58,6 +58,7 @@ export async function POST(request: NextRequest) {
         student_name,
         destination: destination || null,
         quote,
+        image_id: image_id || null,
         sort_order: sort_order !== undefined ? parseInt(sort_order) : 0,
         status: status || "draft",
       })
@@ -88,7 +89,7 @@ export async function PUT(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { id, student_name, destination, quote, sort_order, status } = body;
+    const { id, student_name, destination, quote, image_id, sort_order, status } = body;
 
     if (!id) {
       return NextResponse.json({ success: false, error: "Missing testimonial ID" }, { status: 400 });
@@ -98,6 +99,7 @@ export async function PUT(request: NextRequest) {
     if (student_name !== undefined) updates.student_name = student_name;
     if (destination !== undefined) updates.destination = destination || null;
     if (quote !== undefined) updates.quote = quote;
+    if (image_id !== undefined) updates.image_id = image_id || null;
     if (sort_order !== undefined) updates.sort_order = parseInt(sort_order);
     if (status !== undefined) updates.status = status;
 
