@@ -74,10 +74,10 @@ CREATE POLICY media_bucket_admin_delete ON storage.objects
 
 INSERT INTO media_assets (bucket, path, file_name, mime_type, size_bytes, alt_text, caption)
 VALUES
-('public', 'https://edumark.edu.np/images/services/educational-consulting.jpg', 'educational-consulting.jpg', 'image/jpeg', 0, 'Educational consulting session at EduMark', 'Service card image'),
+('public', 'https://edumark.edu.np/education%20conselling.jpg', 'education conselling.jpg', 'image/jpeg', 0, 'Educational counselling session at EduMark', 'Service card image'),
 ('public', 'https://edumark.edu.np/images/services/career-counselling.jpg', 'career-counselling.jpg', 'image/jpeg', 0, 'Career counselling at EduMark', 'Service card image'),
 ('public', 'https://edumark.edu.np/images/services/study-abroad-guidance.jpg', 'study-abroad-guidance.jpg', 'image/jpeg', 0, 'Study abroad guidance consultation', 'Service card image'),
-('public', 'https://edumark.edu.np/images/services/visa-assistance.jpg', 'visa-assistance.jpg', 'image/jpeg', 0, 'Visa assistance service', 'Service card image'),
+('public', 'https://edumark.edu.np/images/visa-assistance-thumb.png', 'visa-assistance-thumb.png', 'image/png', 0, 'Visa assistance service', 'Service card image'),
 ('public', 'https://edumark.edu.np/images/services/university-application.jpg', 'university-application.jpg', 'image/jpeg', 0, 'University application support', 'Service card image'),
 ('public', 'https://edumark.edu.np/images/services/scholarship-guidance.jpg', 'scholarship-guidance.jpg', 'image/jpeg', 0, 'Scholarship guidance support', 'Service card image'),
 ('public', 'https://edumark.edu.np/images/services/interview-preparation.jpg', 'interview-preparation.jpg', 'image/jpeg', 0, 'Interview preparation class', 'Service card image'),
@@ -101,10 +101,10 @@ ON CONFLICT (path) DO UPDATE SET
   alt_text = EXCLUDED.alt_text,
   caption = EXCLUDED.caption;
 
-UPDATE services SET image_id = (SELECT id FROM media_assets WHERE path = 'https://edumark.edu.np/images/services/educational-consulting.jpg') WHERE slug = 'educational-consulting';
+UPDATE services SET image_id = (SELECT id FROM media_assets WHERE path = 'https://edumark.edu.np/education%20conselling.jpg') WHERE slug = 'educational-consulting';
 UPDATE services SET image_id = (SELECT id FROM media_assets WHERE path = 'https://edumark.edu.np/images/services/career-counselling.jpg') WHERE slug = 'career-counselling';
 UPDATE services SET image_id = (SELECT id FROM media_assets WHERE path = 'https://edumark.edu.np/images/services/study-abroad-guidance.jpg') WHERE slug = 'study-abroad-guidance';
-UPDATE services SET image_id = (SELECT id FROM media_assets WHERE path = 'https://edumark.edu.np/images/services/visa-assistance.jpg') WHERE slug = 'visa-assistance';
+UPDATE services SET image_id = (SELECT id FROM media_assets WHERE path = 'https://edumark.edu.np/images/visa-assistance-thumb.png') WHERE slug = 'visa-assistance';
 UPDATE services SET image_id = (SELECT id FROM media_assets WHERE path = 'https://edumark.edu.np/images/services/university-application.jpg') WHERE slug = 'university-application';
 UPDATE services SET image_id = (SELECT id FROM media_assets WHERE path = 'https://edumark.edu.np/images/services/scholarship-guidance.jpg') WHERE slug = 'scholarship-guidance';
 UPDATE services SET image_id = (SELECT id FROM media_assets WHERE path = 'https://edumark.edu.np/images/services/interview-preparation.jpg') WHERE slug = 'interview-preparation';

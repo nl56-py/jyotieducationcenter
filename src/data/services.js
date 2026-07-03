@@ -7,7 +7,7 @@ export const services = [
     detail: "Personalized advice to assess student profiles, clarify course interests, match academic backgrounds, and structure study plans.",
     bullets: ["Academic Profile Assessment", "Course & Country Shortlisting", "Intake & Timeline Planning", "Parent Guidance Sessions"],
     outcomes: ["Shortlist of realistic paths", "Understanding of admission criteria", "Actionable planning timeline"],
-    image: "/images/services/educational-consulting.jpg"
+    image: "/education conselling.jpg"
   },
   {
     title: "Career Counseling",
@@ -37,7 +37,7 @@ export const services = [
     detail: "Expert visa documentation support focusing on source-of-funds clarity, academic consistency, and embassy guidelines across all supported countries.",
     bullets: ["Financial Document Verification", "Visa Application Checklists", "Mock Interview Sessions", "Immigration Compliance Checks"],
     outcomes: ["High-accuracy visa submission", "Prepared and confident interview answers", "Clear understanding of visa rules"],
-    image: "/images/services/visa-assistance.jpg"
+    image: "/images/visa-assistance-thumb.png"
   },
   {
     title: "University Application Support",
