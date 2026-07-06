@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { AppLink } from "../components/AppLink.jsx";
 import { ContactForm } from "../components/ContactForm.jsx";
 import { HomepagePopup } from "../components/HomepagePopup.jsx";
@@ -77,7 +78,10 @@ function AnimatedCounter({ end, duration = 2000 }) {
 
 /* ─────────────────── SECTION WRAPPERS & DETAILS ─────────────────── */
 
-export function HomePage({ navigate }) {
+export function HomePage({ initialVideos = [] }) {
+  const router = useRouter();
+  const navigate = (to) => router.push(to);
+
   const getCountryFlag = (slug) => {
     const flagMap = {
       australia: { type: 'img', src: '/austraylia-420x420.jpg' },
@@ -254,18 +258,18 @@ export function HomePage({ navigate }) {
               <img src={assets.success} alt="EduMark Student Success Story" className="about-img-2" />
             </div>
 
-            {/* Circular Donut Widget */}
-            <div className="about-donut-widget">
+            {/* Trust Badge Widget (No Audited Placement Stats) */}
+            <div className="about-donut-widget" style={{ paddingRight: "20px" }}>
               <div className="about-donut-icon">
                 <svg width="40" height="40" viewBox="0 0 36 36">
                   <circle cx="18" cy="18" r="15.915" fill="transparent" stroke="var(--secondary-fill)" strokeWidth="3" />
-                  <circle cx="18" cy="18" r="15.915" fill="transparent" stroke="var(--accent-orange-red)" strokeWidth="3" strokeDasharray="98 2" strokeDashoffset="25" />
-                  <text x="18" y="20.5" fontSize="7.5" fontWeight="800" textAnchor="middle" fill="var(--primary-navy)">98%</text>
+                  <circle cx="18" cy="18" r="15.915" fill="transparent" stroke="#22c55e" strokeWidth="3" strokeDasharray="100 0" />
+                  <text x="18" y="20.5" fontSize="8" fontWeight="800" textAnchor="middle" fill="#22c55e">✓</text>
                 </svg>
               </div>
               <div className="about-donut-info">
-                <h4>10,000+ Placements</h4>
-                <p>98% Successful Visas</p>
+                <h4>MoEST Approved</h4>
+                <p>Government Licensed Agency</p>
               </div>
             </div>
           </div>
@@ -275,7 +279,7 @@ export function HomePage({ navigate }) {
             <div className="em-section-title-wrapper left">
               <span className="em-eyebrow">✈ ABOUT US</span>
               <h2 className="em-h2">
-                EduMark Educational <span className="em-h2-light">Consultancy</span>
+                EduMark <span className="em-h2-light">Pvt Ltd</span>
               </h2>
               <span className="em-title-line-decor" />
             </div>
@@ -664,31 +668,7 @@ export function HomePage({ navigate }) {
 
         </div>
 
-        <hr className="map-stats-divider" />
 
-        {/* Bottom Column: Stats Cards */}
-        <div className="map-stats-bottom">
-          <div className="map-stats-card">
-            <span className="map-stats-card-label">International Students Assisted</span>
-            <div className="map-stats-card-number">
-              <AnimatedCounter end={10000} />+
-            </div>
-          </div>
-
-          <div className="map-stats-card">
-            <span className="map-stats-card-label">Scholarships Approved</span>
-            <div className="map-stats-card-number">
-              <AnimatedCounter end={1800} />+
-            </div>
-          </div>
-
-          <div className="map-stats-card">
-            <span className="map-stats-card-label">Enrolled in IELTS/PTE Preparation Classes</span>
-            <div className="map-stats-card-number">
-              <AnimatedCounter end={8000} />+
-            </div>
-          </div>
-        </div>
       </section>
 
 
@@ -845,30 +825,58 @@ export function HomePage({ navigate }) {
           </div>
 
           <div className="video-grid">
-            <div className="video-card">
-              <iframe 
-                src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
-                title="EduMark Student Review 1"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; compute-pressure"
-                allowFullScreen
-              />
-            </div>
-            <div className="video-card">
-              <iframe 
-                src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
-                title="EduMark Student Review 2"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; compute-pressure"
-                allowFullScreen
-              />
-            </div>
-            <div className="video-card">
-              <iframe 
-                src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
-                title="EduMark Testimonial 3"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; compute-pressure"
-                allowFullScreen
-              />
-            </div>
+            {initialVideos && initialVideos.length > 0 ? (
+              initialVideos.map((video) => (
+                <div className="video-card" key={video.id} style={{ display: "flex", flexDirection: "column" }}>
+                  <div style={{ position: "relative", width: "100%", paddingTop: "56.25%", background: "#000", borderRadius: "12px", overflow: "hidden" }}>
+                    {video.media === "video" || video.media === "local" ? (
+                      <video controls poster={video.poster} style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", objectFit: "cover" }}>
+                        <source src={video.videoUrl} type="video/mp4" />
+                      </video>
+                    ) : (
+                      <iframe 
+                        src={video.embedUrl || `https://www.youtube.com/embed/${video.youtubeId}`} 
+                        title={video.title}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowFullScreen
+                        style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
+                      />
+                    )}
+                  </div>
+                  <div style={{ marginTop: "12px", textAlign: "left", padding: "0 10px" }}>
+                    <span style={{ fontSize: "11px", fontWeight: 700, color: "var(--purple)", textTransform: "uppercase", letterSpacing: "0.05em" }}>{video.category}</span>
+                    <h4 style={{ fontSize: "14px", fontWeight: 800, color: "var(--navy)", margin: "4px 0 0", lineHeight: 1.3 }}>{video.title}</h4>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <>
+                <div className="video-card">
+                  <iframe 
+                    src="https://www.youtube.com/embed/3Uskw8oGg38" 
+                    title="EduMark Study Abroad Guide"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  />
+                </div>
+                <div className="video-card">
+                  <iframe 
+                    src="https://www.youtube.com/embed/co1i2881g9A" 
+                    title="IELTS Test Preparation Tips"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  />
+                </div>
+                <div className="video-card">
+                  <iframe 
+                    src="https://www.youtube.com/embed/W8_N44bE0rA" 
+                    title="Student Visa Preparation Tips"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  />
+                </div>
+              </>
+            )}
           </div>
 
         </div>

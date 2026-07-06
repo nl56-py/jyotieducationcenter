@@ -41,7 +41,7 @@ export function TestCoursePage({ course }) {
           <h1>{course.name} Preparation Classes</h1>
 
           <div className="breadcrumb">
-            EduMark Education Consultancy / {course.name}
+            EduMark Pvt. Ltd. / {course.name}
           </div>
         </div>
         {bannerImg && (

@@ -10,7 +10,7 @@ export default function IELTSPage() {
                 <div className="ielts-overlay">
                     <h1>IELTS Preparation Classes</h1>
                     <div className="ielts-breadcrumb">
-                        EduMark Education Consultancy / IELTS
+                        EduMark Pvt. Ltd. / IELTS
                     </div>
                 </div>
             </section>
@@ -63,22 +63,28 @@ export default function IELTSPage() {
                         <thead>
                             <tr>
                                 <th>Test Type</th>
-                                <th>Paper Based</th>
-                                <th>Computer Based</th>
+                                <th>Computer Delivered Fee</th>
+                                <th>Additional Information</th>
                             </tr>
                         </thead>
 
                         <tbody>
                             <tr>
-                                <td>IELTS Academic </td>
-                                <td>NPR something</td>
-                                <td>NPR something</td>
+                                <td>IELTS Academic</td>
+                                <td>NPR 27,100</td>
+                                <td>Booked via British Council / IDP Nepal</td>
                             </tr>
 
                             <tr>
                                 <td>General Training</td>
-                                <td>NPR something</td>
-                                <td>NPR something</td>
+                                <td>NPR 27,100</td>
+                                <td>Booked via British Council / IDP Nepal</td>
+                            </tr>
+
+                            <tr>
+                                <td>IELTS for UKVI (Academic/GT)</td>
+                                <td>NPR 28,950</td>
+                                <td>Required for certain UK visa pathways</td>
                             </tr>
                         </tbody>
                     </table>

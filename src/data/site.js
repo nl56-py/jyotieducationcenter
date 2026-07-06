@@ -1,5 +1,5 @@
 export const site = {
-  address: "Araniko Bhawan, Traffic Chowk, Biratnagar-09, Nepal",
+  address: "Arniko Bhawan, Traffic Chowk, Biratnagar-09, Nepal",
   phone: "021-590823",
   mobile: "9802724823",
   alternateMobile: "9807095059",
@@ -18,7 +18,7 @@ export const navItems = [
       { label: "CEO Message", path: "/about#ceo" },
       { label: "Our Team", path: "/about#team" },
       { label: "Milestones", path: "/about#milestones" },
-      { label: "Accreditations", path: "/about#accreditations" },
+      { label: "Approvals & Certifications", path: "/approvals" },
     ],
   },
   {

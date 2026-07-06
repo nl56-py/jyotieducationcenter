@@ -11,7 +11,7 @@ export default function PTEPage() {
                     <h1>PTE Preparation Classes</h1>
 
                     <div className="pte-breadcrumb">
-                        EduMark Education Consultancy / PTE
+                        EduMark Pvt. Ltd. / PTE
                     </div>
                 </div>
             </section>

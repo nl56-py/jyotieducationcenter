@@ -1,11 +1,11 @@
 export const dynamic = "force-static";
 
-const body = `# EduMark Education Consultancy
+const body = `# EduMark Pvt. Ltd.
 
 > Study abroad consultancy, student visa guidance, admission support, test preparation, and entrance preparation center in Biratnagar, Nepal.
 
 Official site: https://edumark.edu.np
-Location: Araniko Bhawan, Traffic Chowk, Biratnagar-09, Nepal
+Location: Arniko Bhawan, Traffic Chowk, Biratnagar-09, Nepal
 Phone: +977-21-590823
 Email: info@edumark.edu.np
 

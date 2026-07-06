@@ -22,7 +22,7 @@ export const assets = {
   leaders: [
     "/images/brand/leader-ravi-gupta.jpg",
     "/images/brand/leader-kabiraj-paudel.jpg",
-    "/images/brand/leader-dipendra-mehta.png",
+    "/images/brand/dipendra mehta.jpeg",
     "/images/brand/leader-tilak-thapa.jpg",
   ],
 };

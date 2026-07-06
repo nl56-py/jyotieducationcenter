@@ -21,7 +21,7 @@ export const countries = [
       ["Why should I choose the UK for my higher education?", "The UK offers world-class qualifications that are globally recognized. Shorter degree durations (typically 1 year for Master's and 3 years for Bachelor's) mean you save on both tuition and living costs while starting your career sooner."],
       ["Is IELTS mandatory for studying in the UK?", "While IELTS is the most popular English test, many UK universities also accept PTE Academic, TOEFL iBT, or even offer IELTS waivers based on high English marks in your high school (+2) board exams. We will check the specific requirements for your profile."],
       ["What is the Post-Study Work (PSW) visa in the UK?", "The Graduate Route allows international graduates to live and work in the UK for up to 2 years (3 years for PhD graduates) after completing their degree, without requiring a company sponsorship upfront."],
-      ["How much bank balance is required to apply for a UK student visa?", "You must show tuition fees for the first year plus living expenses of £12,006 (for study in London) or £9,207 (for study outside London). These funds must be held in a bank account in your name or your parents' names for at least 28 consecutive days."]
+      ["How much bank balance is required to apply for a UK student visa?", "You must show tuition fees for the first year plus living expenses of £13,347 (for study in London) or £10,224 (for study outside London). These funds must be held in a bank account in your name or your parents' names for at least 28 consecutive days."]
     ],
     introCopy: [
       "The United Kingdom is a global education powerhouse, hosting some of the oldest and most prestigious universities in the world. For Nepali students, the UK offers an unparalleled blend of academic history, cutting-edge research, and modern industry connections.",
@@ -49,7 +49,7 @@ export const countries = [
     requirementsDetail: {
       academic: "Undergraduate: Minimum 60% (GPA 2.4+) in high school (+2) board exams. Postgraduate: Minimum 55% or GPA 2.75+ in a relevant Bachelor's degree.",
       english: "IELTS overall 6.0 (no band less than 5.5) for Bachelor's; 6.5 (no band less than 6.0) for Master's. Equivalent scores in PTE Academic (50-58) are widely accepted.",
-      financial: "Evidence of first-year tuition fees plus living expenses (£9,207 outside London, £12,006 inside London) held in a recognized bank account for a minimum of 28 consecutive days.",
+      financial: "Evidence of first-year tuition fees plus living expenses (£10,224 outside London, £13,347 inside London) held in a recognized bank account for a minimum of 28 consecutive days.",
       genuine: "The UK government utilizes a Genuine Student assessment. You must show genuine intent, write a convincing Statement of Purpose (SOP), and pass university/credibility interviews to secure your CAS."
     },
     intakesList: [
@@ -297,14 +297,14 @@ export const countries = [
     cost: "NPR 30 Lakh to 40 Lakh",
     programs: "Nursing, IT, Business, Engineering, Hospitality",
     universities: ["University of Canberra College", "Australian Catholic University", "Southern Cross University", "AIBT"],
-    highlight: "Course mapping with transparent GTE and financial guidance.",
+    highlight: "Course mapping with transparent GS and financial guidance.",
     why: [
       "Practical-oriented educational model with strong emphasis on internships",
       "High demand and post-study opportunities for nursing and hospitality routes",
       "Flexible three-intake calendar per academic year",
       "Excellent student protection laws under the ESOS framework"
     ],
-    visa: ["GTE story planning", "COE and offer tracking", "OSHC guidance", "Financial and sponsor document check"],
+    visa: ["GS statement planning", "COE and offer tracking", "OSHC guidance", "Financial and sponsor document check"],
     faq: [
       ["What is the ESOS Act in Australia?", "The Education Services for Overseas Students (ESOS) Act protects the rights of international students, ensuring tuition protection, quality learning, and accurate information from providers."],
       ["Which English proficiency tests are accepted for Australia?", "IELTS and PTE Academic are the most widely accepted tests for both Australian admissions and student visa processing. Pearson Test of English (PTE) is especially popular among Nepali applicants."],
@@ -967,8 +967,8 @@ export const countries = [
     slug: "india",
     region: "Asian",
     accent: "#f15a24",
-    cost: "NPR 6 Lakh to 15 Lakh average",
-    intake: "June, July, August",
+    cost: "NPR 6 Lakh to 12 Lakh average",
+    intake: "August (Admissions open since March)",
     programs: "Medical, Paramedical, Nursing, Pharmacy, Engineering, Management, Hospitality, Ayurveda",
     universities: ["BMS Bangalore", "SRM University", "Dr. AIT University", "Centurion University", "Amrita University", "Symbiosis University", "Delhi University", "Rajiv Gandhi University"],
     highlight: "Entrance and college placement guidance for nearby study routes.",
@@ -1017,26 +1017,31 @@ export const countries = [
     intakesList: [
       {
         title: "Main Admission Intake",
-        period: "June to August",
-        deadline: "April to July",
-        desc: "The primary intake for all universities. Entrance tests and counseling bookings begin early in April/May."
+        period: "August",
+        deadline: "March onwards",
+        desc: "The primary intake across all Indian colleges. Admissions start early in March. Note: A few colleges (2-3 colleges in India) also offer a minor January intake."
       }
     ],
     costsList: [
       {
         category: "B.Tech Engineering Tuition",
-        range: "₹1,00,000 – ₹3,50,000 / year",
-        desc: "Varies by college rank and branches. Computer Science engineering has the highest demand."
+        range: "₹1,20,000 – ₹2,50,000 / year",
+        desc: "Varies by college rank. Computer Science engineering has the highest demand."
       },
       {
-        category: "B.Sc Nursing / Pharmacy Tuition",
-        range: "₹1,50,000 – ₹3,00,000 / year",
-        desc: "Hostel and practical training fees are often charged extra by medical colleges."
+        category: "B.Sc Nursing Tuition",
+        range: "₹1,00,000 – ₹1,80,000 / year",
+        desc: "Regulated by INC. Practical training charges may apply depending on the hospital network."
+      },
+      {
+        category: "B.Pharm / Pharmacy Tuition",
+        range: "₹90,000 – ₹1,50,000 / year",
+        desc: "Regulated by PCI. Covers classroom, labs, and manufacturing visits."
       },
       {
         category: "Living / Hostel Expenses",
-        range: "₹80,000 – ₹1,50,000 / year",
-        desc: "Covers college hostel accommodation, mess food (veg/non-veg options), internet, and laundry."
+        range: "₹60,000 – ₹1,00,000 / year",
+        desc: "Covers hostel accommodation and standard mess food (veg/non-veg)."
       }
     ],
     scholarshipsList: [

@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { name, slug, cost_range, intake_badges, summary, featured, status } = body;
+    const { name, slug, cost_range, intake_badges, summary, featured, status, universities, detailed_fees, next_intake_label, next_intake_date } = body;
 
     if (!name || !slug) {
       return NextResponse.json({ success: false, error: "Missing name or slug" }, { status: 400 });
@@ -63,6 +63,11 @@ export async function POST(request: NextRequest) {
         featured: !!featured,
         status: status || "draft",
         published_at: status === "published" ? new Date().toISOString() : null,
+        universities: universities || [],
+        detailed_fees: detailed_fees || null,
+        university_cost: detailed_fees || null,
+        next_intake_label: next_intake_label || null,
+        next_intake_date: next_intake_date || null,
       })
       .select()
       .single();
@@ -91,7 +96,7 @@ export async function PUT(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { id, name, slug, cost_range, intake_badges, summary, featured, status } = body;
+    const { id, name, slug, cost_range, intake_badges, summary, featured, status, universities, detailed_fees, next_intake_label, next_intake_date } = body;
 
     if (!id) {
       return NextResponse.json({ success: false, error: "Missing destination ID" }, { status: 400 });
@@ -104,6 +109,13 @@ export async function PUT(request: NextRequest) {
     if (intake_badges !== undefined) updates.intake_badges = intake_badges || [];
     if (summary !== undefined) updates.summary = summary || null;
     if (featured !== undefined) updates.featured = !!featured;
+    if (universities !== undefined) updates.universities = universities || [];
+    if (detailed_fees !== undefined) {
+      updates.detailed_fees = detailed_fees || null;
+      updates.university_cost = detailed_fees || null;
+    }
+    if (next_intake_label !== undefined) updates.next_intake_label = next_intake_label || null;
+    if (next_intake_date !== undefined) updates.next_intake_date = next_intake_date || null;
     if (status !== undefined) {
       updates.status = status;
       if (status === "published") {

@@ -40,6 +40,34 @@ export function Header({ onSearch }) {
         style={{ width: `${scrollProgress}%` }} 
       />
 
+      {/* Dynamic Announcement Banner */}
+      <div style={{
+        background: "linear-gradient(90deg, #17156f, #b91c1c)",
+        color: "#ffffff",
+        padding: "8px 16px",
+        fontSize: "13px",
+        fontWeight: "600",
+        textAlign: "center",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        gap: "12px",
+        flexWrap: "wrap",
+        position: "relative",
+        zIndex: 1000
+      }}>
+        <span>📢 July Application Week is Open — Applications are now open for the next intake!</span>
+        <Link href="/book-free-consultation" style={{
+          color: "#06b6d4",
+          textDecoration: "underline",
+          fontWeight: "700",
+          display: "inline-flex",
+          alignItems: "center"
+        }}>
+          Book Free Counseling Now <ArrowRight size={13} style={{ marginLeft: "4px", display: "inline-block" }} />
+        </Link>
+      </div>
+
       <header className="site-header">
         {/* Top bar with contact info and accreditation */}
         <div className="top-strip">
@@ -51,7 +79,7 @@ export function Header({ onSearch }) {
               </span>
               <span style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
                 <Phone size={13} style={{ color: "var(--accent-orange-red)" }} />
-                {site.phone} / {site.alternateMobile || site.mobile}
+                {site.phone} / {site.mobile}
               </span>
             </div>
             <div className="top-strip-right">

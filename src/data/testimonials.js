@@ -46,9 +46,9 @@ export const processSteps = [
 ];
 
 export const videoItems = [
-  { title: "EduMark office and student moments", category: "Office Tours", media: "video", poster: assets.brochureHero },
-  { title: "Study abroad seminar highlights", category: "Destination Guides", image: assets.counselling, duration: "03:40" },
-  { title: "IELTS classroom practice", category: "Test Preparation", image: assets.testPrep, duration: "02:20" },
-  { title: "Visa success story", category: "Testimonials", image: assets.success, duration: "04:15" },
-  { title: "Europe route overview", category: "Destination Guides", image: assets.europe, duration: "02:55" },
+  { title: "EduMark office and student moments", category: "Office Tours", media: "video", videoUrl: "/videos/edumark-campus.mp4", poster: assets.brochureHero, duration: "01:25" },
+  { title: "Study abroad seminar highlights", category: "Destination Guides", media: "youtube", youtubeId: "3Uskw8oGg38", image: assets.counselling, duration: "03:40" },
+  { title: "IELTS classroom practice", category: "Test Preparation", media: "youtube", youtubeId: "co1i2881g9A", image: assets.testPrep, duration: "02:20" },
+  { title: "Visa success story", category: "Testimonials", media: "youtube", youtubeId: "W8_N44bE0rA", image: assets.success, duration: "04:15" },
+  { title: "Europe route overview", category: "Destination Guides", media: "video", videoUrl: "/videos/counseliing video .mp4", image: assets.europe, duration: "02:55" },
 ];

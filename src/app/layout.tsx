@@ -12,15 +12,15 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL("https://edumark.edu.np"),
   title: {
-    default: "EduMark Education Consultancy | Study Abroad from Biratnagar, Nepal",
-    template: "%s | EduMark Education Consultancy",
+    default: "EduMark Pvt. Ltd. | Study Abroad from Biratnagar, Nepal",
+    template: "%s | EduMark Pvt. Ltd.",
   },
   description:
-    "EduMark Education Consultancy in Biratnagar, Nepal helps students with study abroad counselling, visa assistance, admissions, IELTS, PTE, TOEFL, SAT, CEE, CMAT, and university applications.",
+    "EduMark Pvt. Ltd. in Biratnagar, Nepal helps students with study abroad counselling, visa assistance, admissions, IELTS, PTE, TOEFL, SAT, CEE, CMAT, and university applications.",
   keywords: [
     "education consultancy in Biratnagar",
     "study abroad from Nepal",
-    "EduMark Education Consultancy",
+    "EduMark Pvt. Ltd.",
     "visa assistance Nepal",
     "IELTS PTE classes Biratnagar",
     "abroad study consultancy Nepal",
@@ -33,8 +33,8 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_NP",
     url: "https://edumark.edu.np",
-    siteName: "EduMark Education Consultancy",
-    title: "EduMark Education Consultancy | Study Abroad from Biratnagar, Nepal",
+    siteName: "EduMark Pvt. Ltd.",
+    title: "EduMark Pvt. Ltd. | Study Abroad from Biratnagar, Nepal",
     description:
       "Study abroad counselling, admission support, visa guidance, test preparation, and entrance preparation for Nepali students.",
     images: [
@@ -42,13 +42,13 @@ export const metadata: Metadata = {
         url: "/images/generated/study-hero.png",
         width: 1200,
         height: 630,
-        alt: "EduMark Education Consultancy study abroad counselling in Nepal",
+        alt: "EduMark Pvt. Ltd. study abroad counselling in Nepal",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "EduMark Education Consultancy | Study Abroad from Biratnagar",
+    title: "EduMark Pvt. Ltd. | Study Abroad from Biratnagar",
     description:
       "Study abroad, visa assistance, admissions, IELTS, PTE, TOEFL, SAT, CEE, and CMAT support from Biratnagar, Nepal.",
     images: ["/images/generated/study-hero.png"],
@@ -80,7 +80,7 @@ const localBusinessSchema = {
   "@context": "https://schema.org",
   "@type": ["EducationalOrganization", "LocalBusiness"],
   "@id": "https://edumark.edu.np/#organization",
-  name: "EduMark Education Consultancy",
+  name: "EduMark Pvt. Ltd.",
   url: "https://edumark.edu.np",
   logo: "https://edumark.edu.np/favicon/android-chrome-512x512.png",
   image: "https://edumark.edu.np/images/generated/study-hero.png",
@@ -91,7 +91,7 @@ const localBusinessSchema = {
   priceRange: "$$",
   address: {
     "@type": "PostalAddress",
-    streetAddress: "Araniko Bhawan, Traffic Chowk",
+    streetAddress: "Arniko Bhawan, Traffic Chowk",
     addressLocality: "Biratnagar",
     postalCode: "56613",
     addressRegion: "Koshi Province",
@@ -134,7 +134,7 @@ const websiteSchema = {
   "@type": "WebSite",
   "@id": "https://edumark.edu.np/#website",
   url: "https://edumark.edu.np",
-  name: "EduMark Education Consultancy",
+  name: "EduMark Pvt. Ltd.",
   publisher: { "@id": "https://edumark.edu.np/#organization" },
   potentialAction: {
     "@type": "SearchAction",
@@ -184,10 +184,10 @@ const faqSchema = {
     },
     {
       "@type": "Question",
-      name: "Where is EduMark Education Consultancy located?",
+      name: "Where is EduMark Pvt. Ltd. located?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "EduMark Education Consultancy is located at Araniko Bhawan, Traffic Chowk, Biratnagar-09, Nepal.",
+        text: "EduMark Pvt. Ltd. is located at Arniko Bhawan, Traffic Chowk, Biratnagar-09, Nepal.",
       },
     },
   ],

@@ -745,6 +745,24 @@ export function CountryDetailPage({ country }) {
               <p className="section-intro-text">
                 Budgeting effectively allows you to focus on your studies. Below are the estimated annual budgets for tuition and living:
               </p>
+              
+              {country.university_cost && (
+                <div style={{
+                  background: "var(--white)",
+                  borderRadius: "16px",
+                  padding: "24px",
+                  border: "1.5px dashed var(--purple)",
+                  marginBottom: "30px",
+                  boxShadow: "0 10px 25px rgba(91, 23, 125, 0.04)"
+                }}>
+                  <h4 style={{ fontSize: "16px", fontWeight: 800, color: "var(--navy)", marginBottom: "10px" }}>
+                    🎯 Official Tuition & Fee Breakdown (Admin Configured)
+                  </h4>
+                  <p style={{ fontSize: "14px", color: "var(--muted)", whiteSpace: "pre-line", margin: 0, lineHeight: 1.6 }}>
+                    {country.university_cost}
+                  </p>
+                </div>
+              )}
               <div className="table-wrapper-v2">
                 <table className="comparison-table-v2">
                   <thead>

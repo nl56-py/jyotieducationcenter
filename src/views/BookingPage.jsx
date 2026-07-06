@@ -32,16 +32,38 @@ const phoneCountries = [
   { code: "AE", name: "UAE", flag: "🇦🇪", dial: "+971", length: 9, pattern: "[0-9]{9}" },
 ];
 
-const INTAKES = [
-  { label: "July Intake", date: new Date("2026-07-01T00:00:00") },
-  { label: "September Intake", date: new Date("2026-09-01T00:00:00") },
-  { label: "February Intake", date: new Date("2027-02-01T00:00:00") },
-];
+const COUNTRY_INTAKES = {
+  USA: [
+    { label: "August 2026 Intake", date: new Date("2026-08-01T00:00:00") },
+    { label: "January 2027 Intake", date: new Date("2027-01-01T00:00:00") },
+  ],
+  UK: [
+    { label: "September 2026 Intake", date: new Date("2026-09-01T00:00:00") },
+    { label: "January 2027 Intake", date: new Date("2027-01-01T00:00:00") },
+    { label: "May 2027 Intake", date: new Date("2027-05-01T00:00:00") },
+  ],
+  "S. Korea": [
+    { label: "September 2026 Intake", date: new Date("2026-09-01T00:00:00") },
+    { label: "March 2027 Intake", date: new Date("2027-03-01T00:00:00") },
+  ],
+  Japan: [
+    { label: "April 2027 Intake", date: new Date("2027-04-01T00:00:00") },
+  ],
+  Europe: [
+    { label: "September 2026 Intake", date: new Date("2026-09-01T00:00:00") },
+    { label: "February 2027 Intake", date: new Date("2027-02-01T00:00:00") },
+  ],
+  Default: [
+    { label: "September 2026 Intake", date: new Date("2026-09-01T00:00:00") },
+    { label: "February 2027 Intake", date: new Date("2027-02-01T00:00:00") },
+  ]
+};
 
-function getNextIntake() {
+function getNextIntakeForCountry(countryName) {
+  const intakes = COUNTRY_INTAKES[countryName] || COUNTRY_INTAKES.Default;
   const now = new Date();
-  const upcoming = INTAKES.filter((i) => i.date > now).sort((a, b) => a.date - b.date);
-  return upcoming[0] || INTAKES[0];
+  const upcoming = intakes.filter((i) => i.date > now).sort((a, b) => a.date - b.date);
+  return upcoming[0] || intakes[0];
 }
 
 function useDetailedCountdown(targetDate) {
@@ -65,15 +87,37 @@ function useDetailedCountdown(targetDate) {
 }
 
 const ROADMAPS = {
-  Australia: { intakes: "Feb, July, November", steps: [{ t: "English Proficiency", d: "Prepare and clear IELTS, PTE or TOEFL (6 months ahead)" }, { t: "Course Selection & GTE", d: "Choose course and draft GTE statement (4 months ahead)" }, { t: "Offer Letter & Tuition", d: "Submit academic transcripts, receive offer, and remit fees (3 months ahead)" }, { t: "COE & Visa Lodging", d: "Receive CoE, set up health insurance, and lodge visa (2 months ahead)" }] },
-  UK: { intakes: "Jan, May, September", steps: [{ t: "Academic Assessment", d: "Submit academic documents and check English eligibility (5 months ahead)" }, { t: "Pre-CAS Credibility Interview", d: "Clear university credibility screening for CAS (3 months ahead)" }, { t: "CAS & Bank Setup", d: "Receive CAS; show maintenance funds held for 28 consecutive days (2 months ahead)" }, { t: "Visa Submission", d: "Lodge student visa online and submit biometric data (1 month ahead)" }] },
-  Canada: { intakes: "Jan, May, September", steps: [{ t: "IELTS & ECA", d: "Achieve IELTS 6.0+; prepare ECA if post-grad application (8 months ahead)" }, { t: "College Admission & LOA", d: "Apply to DLI college and receive Letter of Acceptance (6 months ahead)" }, { t: "GIC Account Setup", d: "Open bank account and deposit GIC amount for living expenses (4 months ahead)" }, { t: "Study Permit Application", d: "Submit Study Permit application under SDS pathway (3 months ahead)" }] },
+  USA: { intakes: "August, January", steps: [{ t: "English & SAT", d: "Prepare and clear IELTS/PTE or TOEFL; prepare SAT for scholarships (8 months ahead)" }, { t: "University Application", d: "Select universities, write SOP, get recommendations, and apply (6 months ahead)" }, { t: "I-20 and Financials", d: "Receive admission offer, submit financial documents to obtain I-20 (4 months ahead)" }, { t: "SEVIS & F-1 Visa", d: "Pay SEVIS fee, fill DS-160, and schedule/clear embassy interview (2 months ahead)" }] },
+  UK: { intakes: "September, January, May", steps: [{ t: "Academic Assessment", d: "Submit academic documents and check English eligibility (5 months ahead)" }, { t: "Pre-CAS Credibility Interview", d: "Clear university credibility screening for CAS (3 months ahead)" }, { t: "CAS & Bank Setup", d: "Receive CAS; show maintenance funds held for 28 consecutive days (2 months ahead)" }, { t: "Visa Submission", d: "Lodge student visa online and submit biometric data (1 month ahead)" }] },
+  "S. Korea": { intakes: "March, September", steps: [{ t: "Language & IELTS", d: "Undergo TOPIK study (level 3+) or prepare English scores (IELTS/PTE 5.5+) (8 months ahead)" }, { t: "Document Apostille", d: "Get academic documents apostilled/notarized; prepare financial sponsor proofs (6 months ahead)" }, { t: "Admission & COA", d: "Apply to Korean university or language school to secure Certificate of Admission (4 months ahead)" }, { t: "Visa & Departure", d: "Submit visa application (D-2/D-4) to Embassy; plan travel (2 months ahead)" }] },
   Japan: { intakes: "April, October", steps: [{ t: "Language Proficiency", d: "Undergo minimum 150 hours of Japanese language study (N5 / NAT) (8 months ahead)" }, { t: "COE Application Prep", d: "Compile financial sponsorship and personal documents for COE (6 months ahead)" }, { t: "COE Issuance & Fee", d: "Get COE approval, pay tuition fee to language school (2 months ahead)" }, { t: "Visa Stamping", d: "Apply for visa at Embassy in Kathmandu; depart (1 month ahead)" }] },
+  Europe: { intakes: "September, February", steps: [{ t: "Course Search", d: "Check university entry requirements, block account needs, or English test scores (8 months ahead)" }, { t: "Application & Admission", d: "Submit application via central portals (like Studyinfo.fi or Uni-Assist) (6 months ahead)" }, { t: "Blocked Account / Fees", d: "Set up blocked bank account or pay first-year tuition fee (4 months ahead)" }, { t: "Residence Permit", d: "Lodge student residence permit/visa application and attend biometrics (2 months ahead)" }] }
 };
 
 export function BookingPage() {
-  const [activeRoadmap, setActiveRoadmap] = useState("Australia");
-  const nextIntake = getNextIntake();
+  const [activeRoadmap, setActiveRoadmap] = useState("USA");
+  const [destList, setDestList] = useState([]);
+
+  useEffect(() => {
+    fetch("/api/public/destinations")
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) setDestList(data);
+      })
+      .catch((err) => console.error("Error loading destinations:", err));
+  }, []);
+
+  const matchedDest = destList.find(
+    (d) =>
+      d.name.toLowerCase() === activeRoadmap.toLowerCase() ||
+      d.slug.toLowerCase() === activeRoadmap.toLowerCase()
+  );
+
+  const nextIntake =
+    matchedDest && matchedDest.next_intake_label && matchedDest.next_intake_date
+      ? { label: matchedDest.next_intake_label, date: new Date(matchedDest.next_intake_date) }
+      : getNextIntakeForCountry(activeRoadmap);
+
   const { days, hours, minutes, seconds } = useDetailedCountdown(nextIntake.date);
 
   const [sent, setSent] = useState(false);
@@ -300,7 +344,7 @@ export function BookingPage() {
           </h2>
 
           <p style={{ color: "var(--muted)", lineHeight: 1.72, marginBottom: 24, fontSize: 14 }}>
-            The frontend is ready for a Supabase-backed booking workflow in the next implementation stage.
+            Select your consultation category below, choose a date/time that fits your schedule, and fill out the form to secure your free one-on-one session. You can also <a href="https://wa.me/9779820490823" target="_blank" rel="noopener noreferrer" style={{ color: "var(--purple)", fontWeight: 700, textDecoration: "underline" }}>contact us directly on WhatsApp</a> or call our office at <a href="tel:021590823" style={{ color: "var(--purple)", fontWeight: 700, textDecoration: "underline" }}>021-590823</a> if you have any questions.
           </p>
 
           {/* Slot cards — 3 columns with icons */}

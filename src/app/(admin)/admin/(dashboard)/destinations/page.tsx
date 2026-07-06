@@ -19,6 +19,10 @@ export default function DestinationsCMSPage() {
   const [summary, setSummary] = useState("");
   const [featured, setFeatured] = useState(false);
   const [status, setStatus] = useState("draft");
+  const [universities, setUniversities] = useState("");
+  const [detailedFees, setDetailedFees] = useState("");
+  const [nextIntakeLabel, setNextIntakeLabel] = useState("");
+  const [nextIntakeDate, setNextIntakeDate] = useState("");
 
   const mockDests = [
     {
@@ -87,6 +91,10 @@ export default function DestinationsCMSPage() {
       setSummary(dest.summary || "");
       setFeatured(dest.featured || false);
       setStatus(dest.status || "draft");
+      setUniversities((dest.universities || []).join(", "));
+      setDetailedFees(dest.detailed_fees || dest.university_cost || "");
+      setNextIntakeLabel(dest.next_intake_label || "");
+      setNextIntakeDate(dest.next_intake_date ? dest.next_intake_date.split("T")[0] : "");
     } else {
       setName("");
       setSlug("");
@@ -95,6 +103,10 @@ export default function DestinationsCMSPage() {
       setSummary("");
       setFeatured(false);
       setStatus("draft");
+      setUniversities("");
+      setDetailedFees("");
+      setNextIntakeLabel("");
+      setNextIntakeDate("");
     }
     setIsEditorOpen(true);
   };
@@ -118,7 +130,11 @@ export default function DestinationsCMSPage() {
             intake_badges: intakeArray,
             summary,
             featured,
-            status
+            status,
+            universities: universities.split(",").map(u => u.trim()).filter(Boolean),
+            detailed_fees: detailedFees,
+            next_intake_label: nextIntakeLabel,
+            next_intake_date: nextIntakeDate || null
           }),
         });
         if (response.ok) {
@@ -136,7 +152,11 @@ export default function DestinationsCMSPage() {
             intake_badges: intakeArray,
             summary,
             featured,
-            status
+            status,
+            universities: universities.split(",").map(u => u.trim()).filter(Boolean),
+            detailed_fees: detailedFees,
+            next_intake_label: nextIntakeLabel,
+            next_intake_date: nextIntakeDate || null
           }),
         });
         if (response.ok) {
@@ -296,6 +316,22 @@ export default function DestinationsCMSPage() {
                 <div className="form-group">
                   <label className="form-label">Country Summary Description</label>
                   <textarea className="form-textarea" value={summary} onChange={(e) => setSummary(e.target.value)} />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Universities (comma-separated)</label>
+                  <textarea className="form-textarea" placeholder="e.g. SRM University, Centurion, etc." value={universities} onChange={(e) => setUniversities(e.target.value)} />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Detailed University Costs / Tuition</label>
+                  <textarea className="form-textarea" placeholder="e.g. B.Tech: ₹1,20,000–₹2,50,000/year; Hostel: ₹60,000–₹1,00,000/year" value={detailedFees} onChange={(e) => setDetailedFees(e.target.value)} />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Next Intake Month/Label</label>
+                  <input type="text" className="form-input" placeholder="e.g. September 2026 Intake" value={nextIntakeLabel} onChange={(e) => setNextIntakeLabel(e.target.value)} />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Next Intake Date (Target countdown)</label>
+                  <input type="date" className="form-input" value={nextIntakeDate} onChange={(e) => setNextIntakeDate(e.target.value)} />
                 </div>
                 <div className="form-group">
                   <label className="form-label">Publication Status</label>
