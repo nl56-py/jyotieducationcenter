@@ -259,6 +259,7 @@ export default function VideosCMSPage() {
                   <select className="form-select" value={provider} onChange={(e) => setProvider(e.target.value)}>
                     <option value="youtube">YouTube</option>
                     <option value="facebook">Facebook</option>
+                    <option value="instagram">Instagram</option>
                     <option value="local">Uploaded Video</option>
                   </select>
                 </div>
@@ -272,6 +273,12 @@ export default function VideosCMSPage() {
                   <div className="form-group">
                     <label className="form-label">Facebook Video URL</label>
                     <input type="url" className="form-input" placeholder="https://www.facebook.com/..." value={externalUrl} onChange={(e) => setExternalUrl(e.target.value)} />
+                  </div>
+                )}
+                {provider === "instagram" && (
+                  <div className="form-group">
+                    <label className="form-label">Instagram Reel / Post URL</label>
+                    <input type="url" className="form-input" placeholder="https://www.instagram.com/reel/... or /p/..." value={externalUrl} onChange={(e) => setExternalUrl(e.target.value)} />
                   </div>
                 )}
                 {provider === "local" && (

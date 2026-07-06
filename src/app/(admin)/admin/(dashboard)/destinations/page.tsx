@@ -251,15 +251,27 @@ export default function DestinationsCMSPage() {
                       </div>
                       <div style={{ fontSize: "12px", color: "var(--dm-outline)" }}>/{d.slug}</div>
                     </td>
-                    <td>{d.cost_range || "N/A"}</td>
                     <td>
-                      <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
+                      <div>{d.cost_range || "N/A"}</div>
+                      {(d.detailed_fees || d.university_cost) && (
+                        <div style={{ fontSize: "11px", color: "var(--purple)", marginTop: "4px", maxWidth: "200px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} title={d.detailed_fees || d.university_cost}>
+                          Uni: {d.detailed_fees || d.university_cost}
+                        </div>
+                      )}
+                    </td>
+                    <td>
+                      <div style={{ display: "flex", gap: "6px", flexWrap: "wrap", marginBottom: "4px" }}>
                         {(d.intake_badges || []).map((badge: string, bIdx: number) => (
                           <span key={bIdx} style={{ fontSize: "11px", background: "var(--dm-surface-container)", padding: "2px 6px", borderRadius: "var(--dm-rounded-sm)" }}>
                             {badge}
                           </span>
                         ))}
                       </div>
+                      {d.next_intake_label && (
+                        <div style={{ fontSize: "11px", color: "var(--purple)", fontWeight: 700 }}>
+                          Planner: {d.next_intake_label}
+                        </div>
+                      )}
                     </td>
                     <td>{d.featured ? "★ Featured" : "No"}</td>
                     <td>
