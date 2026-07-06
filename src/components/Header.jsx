@@ -56,7 +56,7 @@ export function Header({ onSearch }) {
         position: "relative",
         zIndex: 1000
       }}>
-        <span>📢 July Application Week is Open — Applications are now open for the next intake!</span>
+        <span>📢 Applications are now open for the next intake!</span>
         <Link href="/book-free-consultation" style={{
           color: "#06b6d4",
           textDecoration: "underline",
