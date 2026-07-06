@@ -15,7 +15,8 @@ import {
   Layers,
   BookOpen,
   X,
-  Megaphone
+  Megaphone,
+  Globe
 } from "lucide-react";
 
 interface AdminSidebarProps {
@@ -85,6 +86,7 @@ export function AdminSidebar({
         { label: "Blogs", href: "/admin/blogs", icon: FileText, roles: ["super_admin", "admin", "editor"] },
         { label: "Videos", href: "/admin/videos", icon: Video, roles: ["super_admin", "admin", "editor"] },
         { label: "Photos", href: "/admin/media", icon: Folder, roles: ["super_admin", "admin", "editor"] },
+        { label: "Destinations", href: "/admin/destinations", icon: Globe, roles: ["super_admin", "admin", "editor"] },
         { label: "Key Personnel", href: "/admin/team", icon: Users, roles: ["super_admin", "admin", "editor"] },
         { label: "Service Details", href: "/admin/services", icon: Layers, roles: ["super_admin", "admin", "editor"] },
         { label: "Notices & Events", href: "/admin/notices", icon: Megaphone, roles: ["super_admin", "admin", "editor"] },
