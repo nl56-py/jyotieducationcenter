@@ -12,7 +12,7 @@ export async function GET() {
 
     const { data: dbDests, error } = await supabase
       .from("destinations")
-      .select("id, name, slug, cost_range, intake_badges, next_intake_label, next_intake_date, university_cost")
+      .select("id, name, slug, cost_range, intake_badges, next_intake_label, next_intake_date, university_cost, universities_detail")
       .eq("status", "published")
       .order("name", { ascending: true });
 

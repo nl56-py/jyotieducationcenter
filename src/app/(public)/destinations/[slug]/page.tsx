@@ -23,7 +23,7 @@ export default async function DestinationDetailRoute({
   if (supabase) {
     const { data: dbDest } = await supabase
       .from("destinations")
-      .select("cost_range, intake_badges, next_intake_label, next_intake_date, university_cost")
+      .select("cost_range, intake_badges, next_intake_label, next_intake_date, university_cost, universities_detail")
       .eq("slug", slug)
       .eq("status", "published")
       .single();
@@ -51,6 +51,10 @@ export default async function DestinationDetailRoute({
             country.costsList[tuitionIndex].range = dbDest.university_cost;
           }
         }
+      }
+      if (dbDest.universities_detail && dbDest.universities_detail.length > 0) {
+        country.universitiesDetail = dbDest.universities_detail as any;
+        country.universities = dbDest.universities_detail.map((u: any) => u.name);
       }
     }
   }

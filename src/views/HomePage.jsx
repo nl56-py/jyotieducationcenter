@@ -78,7 +78,7 @@ function AnimatedCounter({ end, duration = 2000 }) {
 
 /* ─────────────────── SECTION WRAPPERS & DETAILS ─────────────────── */
 
-export function HomePage({ initialVideos = [] }) {
+export function HomePage({ initialVideos = [], initialBlogs = [] }) {
   const router = useRouter();
   const navigate = (to) => router.push(to);
 
@@ -93,7 +93,7 @@ export function HomePage({ initialVideos = [] }) {
       india: { type: 'img', src: '/india.png' },
       dubai: { type: 'img', src: '/dubai.png' },
       "south-korea": { type: 'img', src: '/south-korea.png' },
-      japan: { type: 'emoji', char: '🇯🇵' }
+      japan: { type: 'img', src: '/japan.png' }
     };
     return flagMap[slug] || { type: 'emoji', char: '🌍' };
   };
@@ -931,15 +931,17 @@ export function HomePage({ initialVideos = [] }) {
           </div>
 
           <div className="blog-grid-v2">
-            {blogs.slice(0, 3).map((blog, idx) => (
+            {(initialBlogs && initialBlogs.length > 0 ? initialBlogs : blogs).slice(0, 3).map((blog, idx) => (
               <article 
                 key={blog.slug} 
                 className="blog-card-v2"
                 onClick={() => navigate(`/blogs/${blog.slug}`)}
               >
                 <div className="blog-card-img">
-                  <img src={`/images/generated/destination${(idx % 3) + 1}.jpg`} alt={blog.title} />
-                  <span className="blog-card-date-badge">{blog.date.split(" ")[0]} {blog.date.split(" ")[1]}</span>
+                  <img src={blog.image || `/images/generated/destination${(idx % 3) + 1}.jpg`} alt={blog.title} />
+                  <span className="blog-card-date-badge">
+                    {blog.date.includes(" ") ? `${blog.date.split(" ")[0]} ${blog.date.split(" ")[1]}` : blog.date}
+                  </span>
                 </div>
                 <div className="blog-card-body">
                   <span className="blog-card-tag">{blog.category}</span>

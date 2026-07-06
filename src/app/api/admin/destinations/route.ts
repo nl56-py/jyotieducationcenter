@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { name, slug, cost_range, intake_badges, summary, featured, status, universities, detailed_fees, next_intake_label, next_intake_date } = body;
+    const { name, slug, cost_range, intake_badges, summary, featured, status, universities, detailed_fees, next_intake_label, next_intake_date, universities_detail } = body;
 
     if (!name || !slug) {
       return NextResponse.json({ success: false, error: "Missing name or slug" }, { status: 400 });
@@ -68,6 +68,7 @@ export async function POST(request: NextRequest) {
         university_cost: detailed_fees || null,
         next_intake_label: next_intake_label || null,
         next_intake_date: next_intake_date || null,
+        universities_detail: universities_detail || [],
       })
       .select()
       .single();
@@ -96,7 +97,7 @@ export async function PUT(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { id, name, slug, cost_range, intake_badges, summary, featured, status, universities, detailed_fees, next_intake_label, next_intake_date } = body;
+    const { id, name, slug, cost_range, intake_badges, summary, featured, status, universities, detailed_fees, next_intake_label, next_intake_date, universities_detail } = body;
 
     if (!id) {
       return NextResponse.json({ success: false, error: "Missing destination ID" }, { status: 400 });
@@ -116,6 +117,7 @@ export async function PUT(request: NextRequest) {
     }
     if (next_intake_label !== undefined) updates.next_intake_label = next_intake_label || null;
     if (next_intake_date !== undefined) updates.next_intake_date = next_intake_date || null;
+    if (universities_detail !== undefined) updates.universities_detail = universities_detail || [];
     if (status !== undefined) {
       updates.status = status;
       if (status === "published") {

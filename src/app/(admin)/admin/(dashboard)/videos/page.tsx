@@ -22,7 +22,7 @@ export default function VideosCMSPage() {
   const [mediaId, setMediaId] = useState("");
   const [posterId, setPosterId] = useState("");
   const [posterPreview, setPosterPreview] = useState("");
-  const [category, setCategory] = useState("general");
+  const [category, setCategory] = useState("Office Tours");
   const [status, setStatus] = useState("draft");
   const [sortOrder, setSortOrder] = useState(0);
 
@@ -86,7 +86,7 @@ export default function VideosCMSPage() {
       setMediaId("");
       setPosterId("");
       setPosterPreview("");
-      setCategory("general");
+      setCategory("Office Tours");
       setStatus("draft");
       setSortOrder(0);
     }
@@ -303,7 +303,12 @@ export default function VideosCMSPage() {
                 />
                 <div className="form-group">
                   <label className="form-label">Category Tag</label>
-                  <input type="text" className="form-input" placeholder="e.g. Australia, Test Prep, Visa" value={category} onChange={(e) => setCategory(e.target.value)} />
+                  <select className="form-select" value={category} onChange={(e) => setCategory(e.target.value)}>
+                    <option value="Office Tours">Office Tours</option>
+                    <option value="Destination Guides">Destination Guides</option>
+                    <option value="Test Preparation">Test Preparation</option>
+                    <option value="Testimonials">Testimonials</option>
+                  </select>
                 </div>
                 <div className="form-group">
                   <label className="form-label">Sort Order</label>

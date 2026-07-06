@@ -23,6 +23,7 @@ export default function DestinationsCMSPage() {
   const [detailedFees, setDetailedFees] = useState("");
   const [nextIntakeLabel, setNextIntakeLabel] = useState("");
   const [nextIntakeDate, setNextIntakeDate] = useState("");
+  const [universitiesDetail, setUniversitiesDetail] = useState<any[]>([]);
 
   const mockDests = [
     {
@@ -95,6 +96,7 @@ export default function DestinationsCMSPage() {
       setDetailedFees(dest.detailed_fees || dest.university_cost || "");
       setNextIntakeLabel(dest.next_intake_label || "");
       setNextIntakeDate(dest.next_intake_date ? dest.next_intake_date.split("T")[0] : "");
+      setUniversitiesDetail(dest.universities_detail || []);
     } else {
       setName("");
       setSlug("");
@@ -107,6 +109,7 @@ export default function DestinationsCMSPage() {
       setDetailedFees("");
       setNextIntakeLabel("");
       setNextIntakeDate("");
+      setUniversitiesDetail([]);
     }
     setIsEditorOpen(true);
   };
@@ -156,7 +159,8 @@ export default function DestinationsCMSPage() {
             universities: universities.split(",").map(u => u.trim()).filter(Boolean),
             detailed_fees: detailedFees,
             next_intake_label: nextIntakeLabel,
-            next_intake_date: nextIntakeDate || null
+            next_intake_date: nextIntakeDate || null,
+            universities_detail: universitiesDetail
           }),
         });
         if (response.ok) {
@@ -330,8 +334,71 @@ export default function DestinationsCMSPage() {
                   <textarea className="form-textarea" value={summary} onChange={(e) => setSummary(e.target.value)} />
                 </div>
                 <div className="form-group">
-                  <label className="form-label">Universities (comma-separated)</label>
-                  <textarea className="form-textarea" placeholder="e.g. SRM University, Centurion, etc." value={universities} onChange={(e) => setUniversities(e.target.value)} />
+                  <label className="form-label">Universities (comma-separated list of names)</label>
+                  <input type="text" className="form-input" placeholder="e.g. SRM University, Centurion" value={universities} onChange={(e) => setUniversities(e.target.value)} />
+                </div>
+
+                <div className="form-group" style={{ border: "1px solid var(--line)", padding: "16px", borderRadius: "8px", margin: "16px 0", background: "var(--surface-mist)" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
+                    <label className="form-label" style={{ fontWeight: "700", marginBottom: 0 }}>Structured Campus Directory</label>
+                    <button type="button" className="btn btn-primary" style={{ padding: "4px 8px", fontSize: "12px", height: "auto" }} onClick={() => setUniversitiesDetail([...universitiesDetail, { name: "", fees: "", courses: "", description: "", image: "" }])}>
+                      + Add University Card
+                    </button>
+                  </div>
+                  {universitiesDetail.map((uni, idx) => (
+                    <div key={idx} style={{ background: "var(--white)", border: "1px solid var(--line)", padding: "12px", borderRadius: "6px", marginBottom: "10px", position: "relative" }}>
+                      <button type="button" style={{ position: "absolute", top: "8px", right: "8px", background: "none", border: "none", color: "var(--red)", cursor: "pointer", fontWeight: "bold", fontSize: "12px" }} onClick={() => setUniversitiesDetail(universitiesDetail.filter((_, uIdx) => uIdx !== idx))}>
+                        Remove
+                      </button>
+                      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginBottom: "10px" }}>
+                        <div>
+                          <label className="form-label" style={{ fontSize: "11px" }}>University Name</label>
+                          <input type="text" className="form-input" style={{ padding: "6px" }} value={uni.name} onChange={(e) => {
+                            const updated = [...universitiesDetail];
+                            updated[idx].name = e.target.value;
+                            setUniversitiesDetail(updated);
+                          }} required />
+                        </div>
+                        <div>
+                          <label className="form-label" style={{ fontSize: "11px" }}>Tuition Fees (e.g. £15,500 / year)</label>
+                          <input type="text" className="form-input" style={{ padding: "6px" }} value={uni.fees} onChange={(e) => {
+                            const updated = [...universitiesDetail];
+                            updated[idx].fees = e.target.value;
+                            setUniversitiesDetail(updated);
+                          }} />
+                        </div>
+                      </div>
+                      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginBottom: "10px" }}>
+                        <div>
+                          <label className="form-label" style={{ fontSize: "11px" }}>Key Courses</label>
+                          <input type="text" className="form-input" style={{ padding: "6px" }} value={uni.courses} onChange={(e) => {
+                            const updated = [...universitiesDetail];
+                            updated[idx].courses = e.target.value;
+                            setUniversitiesDetail(updated);
+                          }} />
+                        </div>
+                        <div>
+                          <label className="form-label" style={{ fontSize: "11px" }}>Image Path (e.g. /images/MCAST.jpeg)</label>
+                          <input type="text" className="form-input" style={{ padding: "6px" }} value={uni.image} onChange={(e) => {
+                            const updated = [...universitiesDetail];
+                            updated[idx].image = e.target.value;
+                            setUniversitiesDetail(updated);
+                          }} />
+                        </div>
+                      </div>
+                      <div>
+                        <label className="form-label" style={{ fontSize: "11px" }}>Description Details</label>
+                        <textarea className="form-textarea" style={{ minHeight: "60px", padding: "6px" }} value={uni.description} onChange={(e) => {
+                          const updated = [...universitiesDetail];
+                          updated[idx].description = e.target.value;
+                          setUniversitiesDetail(updated);
+                        }} />
+                      </div>
+                    </div>
+                  ))}
+                  {universitiesDetail.length === 0 && (
+                    <div style={{ textAlign: "center", fontSize: "13px", color: "var(--muted)", padding: "10px 0" }}>No campus directory items configured yet.</div>
+                  )}
                 </div>
                 <div className="form-group">
                   <label className="form-label">Detailed University Costs / Tuition</label>
