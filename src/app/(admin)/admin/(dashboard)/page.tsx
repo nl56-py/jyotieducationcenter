@@ -53,13 +53,11 @@ export default async function DashboardPage() {
       const { data: draftDests } = await supabase.from("destinations").select("id, name, slug").eq("status", "draft");
       const { data: draftPreps } = await supabase.from("test_preparations").select("id, name, slug").eq("status", "draft");
       const { data: draftEntrance } = await supabase.from("entrance_programs").select("id, name, slug").eq("status", "draft");
-      const { data: draftServices } = await supabase.from("services").select("id, name, slug").eq("status", "draft");
 
       if (draftBlogs) draftBlogs.forEach(b => draftWarnings.push({ type: "Blog", label: b.title, link: "/admin/blogs" }));
       if (draftDests) draftDests.forEach(d => draftWarnings.push({ type: "Destination", label: d.name, link: "/admin/destinations" }));
-      if (draftPreps) draftPreps.forEach(p => draftWarnings.push({ type: "Test Prep", label: p.name, link: "/admin/services" }));
-      if (draftEntrance) draftEntrance.forEach(e => draftWarnings.push({ type: "Entrance", label: e.name, link: "/admin/services" }));
-      if (draftServices) draftServices.forEach(s => draftWarnings.push({ type: "Service", label: s.name, link: "/admin/services" }));
+      if (draftPreps) draftPreps.forEach(p => draftWarnings.push({ type: "Test Prep", label: p.name, link: "/admin/services?tab=testprep" }));
+      if (draftEntrance) draftEntrance.forEach(e => draftWarnings.push({ type: "Entrance", label: e.name, link: "/admin/services?tab=entrance" }));
 
       // 4. Calculate Content Health (Published with Meta Title and Meta Description)
       const { data: allBlogs } = await supabase.from("blog_posts").select("status, seo_title, seo_description");

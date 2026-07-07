@@ -23,7 +23,7 @@ export default async function DestinationDetailRoute({
   if (supabase) {
     const { data: dbDest } = await supabase
       .from("destinations")
-      .select("cost_range, intake_badges, next_intake_label, next_intake_date, university_cost, universities_detail")
+      .select("cost_range, intake_badges, next_intake_label, next_intake_date, university_cost, universities_detail, intro_copy, why, courses_list, requirements_detail, intakes_list, costs_list, scholarships_list, faq")
       .eq("slug", slug)
       .eq("status", "published")
       .single();
@@ -55,6 +55,30 @@ export default async function DestinationDetailRoute({
       if (dbDest.universities_detail && dbDest.universities_detail.length > 0) {
         country.universitiesDetail = dbDest.universities_detail as any;
         country.universities = dbDest.universities_detail.map((u: any) => u.name);
+      }
+      if (dbDest.intro_copy && dbDest.intro_copy.length > 0) {
+        country.introCopy = dbDest.intro_copy as any;
+      }
+      if (dbDest.why && dbDest.why.length > 0) {
+        country.why = dbDest.why as any;
+      }
+      if (dbDest.courses_list && dbDest.courses_list.length > 0) {
+        country.coursesList = dbDest.courses_list as any;
+      }
+      if (dbDest.requirements_detail && Object.keys(dbDest.requirements_detail).length > 0) {
+        country.requirementsDetail = dbDest.requirements_detail as any;
+      }
+      if (dbDest.intakes_list && dbDest.intakes_list.length > 0) {
+        country.intakesList = dbDest.intakes_list as any;
+      }
+      if (dbDest.costs_list && dbDest.costs_list.length > 0) {
+        country.costsList = dbDest.costs_list as any;
+      }
+      if (dbDest.scholarships_list && dbDest.scholarships_list.length > 0) {
+        country.scholarshipsList = dbDest.scholarships_list as any;
+      }
+      if (dbDest.faq && dbDest.faq.length > 0) {
+        country.faq = dbDest.faq as any;
       }
     }
   }

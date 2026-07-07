@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { name, slug, cost_range, intake_badges, summary, featured, status, universities, detailed_fees, next_intake_label, next_intake_date, universities_detail } = body;
+    const { name, slug, cost_range, intake_badges, summary, featured, status, universities, detailed_fees, next_intake_label, next_intake_date, universities_detail, intro_copy, why, courses_list, requirements_detail, intakes_list, costs_list, scholarships_list, faq } = body;
 
     if (!name || !slug) {
       return NextResponse.json({ success: false, error: "Missing name or slug" }, { status: 400 });
@@ -69,6 +69,14 @@ export async function POST(request: NextRequest) {
         next_intake_label: next_intake_label || null,
         next_intake_date: next_intake_date || null,
         universities_detail: universities_detail || [],
+        intro_copy: intro_copy || [],
+        why: why || [],
+        courses_list: courses_list || [],
+        requirements_detail: requirements_detail || {},
+        intakes_list: intakes_list || [],
+        costs_list: costs_list || [],
+        scholarships_list: scholarships_list || [],
+        faq: faq || [],
       })
       .select()
       .single();
@@ -97,7 +105,7 @@ export async function PUT(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { id, name, slug, cost_range, intake_badges, summary, featured, status, universities, detailed_fees, next_intake_label, next_intake_date, universities_detail } = body;
+    const { id, name, slug, cost_range, intake_badges, summary, featured, status, universities, detailed_fees, next_intake_label, next_intake_date, universities_detail, intro_copy, why, courses_list, requirements_detail, intakes_list, costs_list, scholarships_list, faq } = body;
 
     if (!id) {
       return NextResponse.json({ success: false, error: "Missing destination ID" }, { status: 400 });
@@ -118,6 +126,14 @@ export async function PUT(request: NextRequest) {
     if (next_intake_label !== undefined) updates.next_intake_label = next_intake_label || null;
     if (next_intake_date !== undefined) updates.next_intake_date = next_intake_date || null;
     if (universities_detail !== undefined) updates.universities_detail = universities_detail || [];
+    if (intro_copy !== undefined) updates.intro_copy = intro_copy || [];
+    if (why !== undefined) updates.why = why || [];
+    if (courses_list !== undefined) updates.courses_list = courses_list || [];
+    if (requirements_detail !== undefined) updates.requirements_detail = requirements_detail || {};
+    if (intakes_list !== undefined) updates.intakes_list = intakes_list || [];
+    if (costs_list !== undefined) updates.costs_list = costs_list || [];
+    if (scholarships_list !== undefined) updates.scholarships_list = scholarships_list || [];
+    if (faq !== undefined) updates.faq = faq || [];
     if (status !== undefined) {
       updates.status = status;
       if (status === "published") {

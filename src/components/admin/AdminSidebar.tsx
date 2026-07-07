@@ -88,7 +88,7 @@ export function AdminSidebar({
         { label: "Photos", href: "/admin/media", icon: Folder, roles: ["super_admin", "admin", "editor"] },
         { label: "Destinations", href: "/admin/destinations", icon: Globe, roles: ["super_admin", "admin", "editor"] },
         { label: "Key Personnel", href: "/admin/team", icon: Users, roles: ["super_admin", "admin", "editor"] },
-        { label: "Service Details", href: "/admin/services", icon: Layers, roles: ["super_admin", "admin", "editor"] },
+        { label: "Test & Entrance Prep", href: "/admin/services?tab=testprep", icon: Layers, roles: ["super_admin", "admin", "editor"] },
         { label: "Notices & Events", href: "/admin/notices", icon: Megaphone, roles: ["super_admin", "admin", "editor"] },
       ],
     },

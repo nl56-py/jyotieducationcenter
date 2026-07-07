@@ -5,10 +5,9 @@ import { Plus, Edit2, Bookmark, Award, Layers, Trash2 } from "lucide-react";
 import { RichTextEditor } from "@/components/admin/RichTextEditor";
 
 export default function ServicesPrepPage() {
-  const [activeTab, setActiveTab] = useState<"services" | "testprep" | "entrance" | null>(null);
+  const [activeTab, setActiveTab] = useState<"testprep" | "entrance" | null>(null);
 
   // Lists
-  const [services, setServices] = useState<any[]>([]);
   const [testPreps, setTestPreps] = useState<any[]>([]);
   const [entranceProgs, setEntranceProgs] = useState<any[]>([]);
   
@@ -26,19 +25,11 @@ export default function ServicesPrepPage() {
   const [body, setBody] = useState("");
   const [status, setStatus] = useState("draft");
 
-  // Service specific fields
-  const [sortOrder, setSortOrder] = useState(0);
-
   // Testprep specific fields
   const [testType, setTestType] = useState("language");
   const [duration, setDuration] = useState("");
   const [cost, setCost] = useState("");
   const [features, setFeatures] = useState("");
-
-  const mockServices = [
-    { id: "1", name: "One-on-One Career Counseling", slug: "one-on-one-counseling", summary: "Personalized counseling session to map out your academic potential.", sort_order: 1, status: "published" },
-    { id: "2", name: "University & Course Selection", slug: "university-course-selection", summary: "Help in finding the university matching your budget and profile.", sort_order: 2, status: "published" }
-  ];
 
   const mockTestPreps = [
     { id: "1", name: "IELTS Academic", slug: "ielts", summary: "International English Language Testing System prep.", test_type: "language", format: { duration: "6 weeks", cost: "Rs. 8,000" }, features: ["Interactive Mock Tests"], status: "published" }
@@ -49,20 +40,6 @@ export default function ServicesPrepPage() {
   ];
 
   // Fetch functions
-  const fetchServices = async () => {
-    try {
-      const response = await fetch("/api/admin/services");
-      if (response.ok) {
-        const data = await response.json();
-        if (data && data.length > 0) {
-          setServices(data);
-          return;
-        }
-      }
-    } catch (e) {}
-    setServices(mockServices);
-  };
-
   const fetchTestPreps = async () => {
     try {
       const response = await fetch("/api/admin/testprep");
@@ -93,7 +70,7 @@ export default function ServicesPrepPage() {
 
   const loadAll = async () => {
     setLoading(true);
-    await Promise.all([fetchServices(), fetchTestPreps(), fetchEntrance()]);
+    await Promise.all([fetchTestPreps(), fetchEntrance()]);
     setLoading(false);
   };
 
@@ -110,7 +87,7 @@ export default function ServicesPrepPage() {
     loadAll();
     const params = new URLSearchParams(window.location.search);
     const tab = params.get("tab");
-    setActiveTab(tab === "testprep" || tab === "entrance" ? tab : "services");
+    setActiveTab(tab === "entrance" ? "entrance" : "testprep");
   }, []);
 
   const handleOpenEditor = (item: any | null) => {
@@ -122,9 +99,7 @@ export default function ServicesPrepPage() {
       setBody(item.body?.html || item.body?.content || item.detail || "");
       setStatus(item.status || "draft");
       
-      if (activeTab === "services") {
-        setSortOrder(item.sort_order || 0);
-      } else if (activeTab === "testprep") {
+      if (activeTab === "testprep") {
         setTestType(item.test_type || "language");
         setDuration(item.format?.duration || "");
         setCost(item.format?.cost || "");
@@ -140,7 +115,6 @@ export default function ServicesPrepPage() {
       setSummary("");
       setBody("");
       setStatus("draft");
-      setSortOrder(0);
       setTestType("language");
       setDuration("");
       setCost("");
@@ -155,25 +129,7 @@ export default function ServicesPrepPage() {
     const featureArray = features.split(",").map(f => f.trim()).filter(Boolean);
 
     try {
-      if (activeTab === "services") {
-        const payload = {
-          id: selectedItem?.id,
-          name,
-          slug,
-          summary,
-          body: { html: body },
-          sort_order: sortOrder,
-          status
-        };
-
-        const method = selectedItem ? "PUT" : "POST";
-        const res = await fetch("/api/admin/services", {
-          method,
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
-        if (res.ok) await fetchServices();
-      } else if (activeTab === "testprep") {
+      if (activeTab === "testprep") {
         const payload = {
           id: selectedItem?.id,
           name,
@@ -223,14 +179,12 @@ export default function ServicesPrepPage() {
     setLoading(true);
     try {
       let url = "";
-      if (activeTab === "services") url = `/api/admin/services?id=${id}`;
-      else if (activeTab === "testprep") url = `/api/admin/testprep?id=${id}`;
+      if (activeTab === "testprep") url = `/api/admin/testprep?id=${id}`;
       else if (activeTab === "entrance") url = `/api/admin/entrance?id=${id}`;
 
       const res = await fetch(url, { method: "DELETE" });
       if (res.ok) {
-        if (activeTab === "services") await fetchServices();
-        else if (activeTab === "testprep") await fetchTestPreps();
+        if (activeTab === "testprep") await fetchTestPreps();
         else if (activeTab === "entrance") await fetchEntrance();
       } else {
         const data = await res.json();
@@ -248,62 +202,27 @@ export default function ServicesPrepPage() {
     <div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px" }}>
         <div>
-          <h2 style={{ fontSize: "22px", fontWeight: 700 }}>Service Details</h2>
+          <h2 style={{ fontSize: "22px", fontWeight: 700 }}>Test & Entrance Preparation</h2>
           <p style={{ color: "var(--dm-outline)", fontSize: "14px" }}>
-            Manage the service cards and long-form service detail content used by public service pages.
+            Manage the test preparation and entrance exam preparation courses displayed on the public site.
           </p>
         </div>
       </div>
 
-      {/* Counseling Services */}
-      {activeTab === "services" && (
-        <div className="panel-card">
-          <div className="panel-card-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <h3 className="panel-card-title">Consultancy Counseling Services</h3>
-            <button className="btn btn-light" style={{ height: "32px", fontSize: "12px" }} onClick={() => handleOpenEditor(null)}>
-              <Plus size={14} /> Add Service
-            </button>
-          </div>
-          <div className="table-responsive">
-            <table className="admin-table">
-              <thead>
-                <tr>
-                  <th>Service Name</th>
-                  <th>Summary Details</th>
-                  <th>Order</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {services.map(s => (
-                  <tr key={s.id}>
-                    <td>
-                      <div style={{ fontWeight: 600 }}>{s.name}</div>
-                      <div style={{ fontSize: "12px", color: "var(--dm-outline)" }}>/{s.slug}</div>
-                    </td>
-                    <td>{s.summary || "No summary"}</td>
-                    <td>{s.sort_order}</td>
-                    <td><span className={`status-badge content-${s.status}`}>{s.status}</span></td>
-                    <td>
-                      <div style={{ display: "flex", gap: "8px" }}>
-                        <button className="btn btn-light" style={{ height: "30px", padding: "0 10px" }} onClick={() => handleOpenEditor(s)}>
-                          <Edit2 size={12} /> Edit
-                        </button>
-                        {canDelete && (
-                          <button className="btn btn-danger" style={{ height: "30px", width: "30px", padding: 0, display: "flex", alignItems: "center", justifyContent: "center" }} onClick={() => handleDelete(s.id)}>
-                            <Trash2 size={12} />
-                          </button>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )}
+      <div style={{ display: "flex", gap: "10px", marginBottom: "20px" }}>
+        <button 
+          className={`btn ${activeTab === "testprep" ? "btn-primary" : "btn-light"}`} 
+          onClick={() => setActiveTab("testprep")}
+        >
+          Language Test Prep
+        </button>
+        <button 
+          className={`btn ${activeTab === "entrance" ? "btn-primary" : "btn-light"}`} 
+          onClick={() => setActiveTab("entrance")}
+        >
+          Entrance Exam Prep
+        </button>
+      </div>
 
       {/* Test Prep */}
       {activeTab === "testprep" && (
@@ -437,21 +356,7 @@ export default function ServicesPrepPage() {
                   minHeight={110}
                 />
 
-                {activeTab === "services" && (
-                  <RichTextEditor
-                    label="Full Service Detail"
-                    value={body}
-                    onChange={setBody}
-                    minHeight={170}
-                  />
-                )}
 
-                {activeTab === "services" && (
-                  <div className="form-group">
-                    <label className="form-label">Sort Order</label>
-                    <input type="number" className="form-input" value={sortOrder} onChange={(e) => setSortOrder(parseInt(e.target.value) || 0)} />
-                  </div>
-                )}
 
                 {activeTab === "testprep" && (
                   <div className="form-group">
