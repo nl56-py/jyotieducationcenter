@@ -7,6 +7,7 @@ export default async function HomeRoute() {
   const supabase = await createSupabaseServerClient();
   let homeVideos: any[] = [];
   let homeBlogs: any[] = [];
+  let homeTestimonials: any[] = [];
 
   if (supabase) {
     const { data: dbVideos } = await supabase
@@ -92,7 +93,24 @@ export default async function HomeRoute() {
         };
       });
     }
+
+    // Fetch dynamic published testimonials
+    const { data: dbTestimonials } = await supabase
+      .from("testimonials")
+      .select("*, media_assets(path)")
+      .eq("status", "published")
+      .order("sort_order", { ascending: true });
+
+    if (dbTestimonials) {
+      homeTestimonials = dbTestimonials.map((t: any) => ({
+        id: t.id,
+        name: t.student_name,
+        route: t.destination || "General",
+        quote: t.quote,
+        photo: t.media_assets ? t.media_assets.path : null
+      }));
+    }
   }
 
-  return <HomePage initialVideos={homeVideos as any} initialBlogs={homeBlogs as any} />;
+  return <HomePage initialVideos={homeVideos as any} initialBlogs={homeBlogs as any} initialTestimonials={homeTestimonials as any} />;
 }

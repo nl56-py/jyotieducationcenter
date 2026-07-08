@@ -11,6 +11,7 @@ import { countries } from "../data/countries.js";
 import { testCourses } from "../data/testCourses.js";
 import { services } from "../data/services.js";
 import { blogs } from "../data/blogs.js";
+import { testimonials } from "../data/testimonials.js";
 import { site } from "../data/site.js";
 import { ProcessIcon } from "../components/ProcessIcons.jsx";
 import {
@@ -78,7 +79,7 @@ function AnimatedCounter({ end, duration = 2000 }) {
 
 /* ─────────────────── SECTION WRAPPERS & DETAILS ─────────────────── */
 
-export function HomePage({ initialVideos = [], initialBlogs = [] }) {
+export function HomePage({ initialVideos = [], initialBlogs = [], initialTestimonials = [] }) {
   const router = useRouter();
   const navigate = (to) => router.push(to);
 
@@ -103,6 +104,9 @@ export function HomePage({ initialVideos = [], initialBlogs = [] }) {
   const [activeCountry, setActiveCountry] = useState(0);
   const [activeFaq, setActiveFaq] = useState(0);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [activeTestimonial, setActiveTestimonial] = useState(0);
+
+  const testimonialsList = initialTestimonials && initialTestimonials.length > 0 ? initialTestimonials : testimonials;
 
   // Hero slideshow slides data
   const slidesData = [
@@ -879,6 +883,71 @@ export function HomePage({ initialVideos = [], initialBlogs = [] }) {
             )}
           </div>
 
+        </div>
+      </section>
+
+      {/* 9.5. TESTIMONIALS SECTION */}
+      <section className="testimonials-v2">
+        <div className="testimonials-v2-header">
+          <span className="em-eyebrow" style={{ display: "block", textAlign: "center", marginBottom: "8px" }}>✈ TESTIMONIALS</span>
+          <h2>What Our Successful Students Say</h2>
+          <p>Read inspiring success stories and visa approval feedback from our students who achieved their dreams abroad.</p>
+        </div>
+
+        <div className="testimonials-v2-carousel">
+          {testimonialsList.length > 0 && (
+            <div className="testimonial-v2-card">
+              <p className="testimonial-v2-quote">
+                {testimonialsList[activeTestimonial].quote}
+              </p>
+              
+              {/* Photo & Name/Route below the quote */}
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "16px", marginTop: "24px" }}>
+                {testimonialsList[activeTestimonial].photo ? (
+                  <img 
+                    src={testimonialsList[activeTestimonial].photo} 
+                    alt={testimonialsList[activeTestimonial].name} 
+                    style={{ margin: 0, width: "50px", height: "50px", objectFit: "cover", borderRadius: "50%" }} 
+                  />
+                ) : (
+                  <div 
+                    style={{ 
+                      margin: 0, 
+                      width: "50px", 
+                      height: "50px", 
+                      background: "var(--dm-primary)", 
+                      color: "#fff", 
+                      fontSize: "18px", 
+                      fontWeight: "bold",
+                      borderRadius: "50%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center"
+                    }}
+                  >
+                    {testimonialsList[activeTestimonial].name.charAt(0).toUpperCase()}
+                  </div>
+                )}
+                <div style={{ textAlign: "left" }}>
+                  <div className="testimonial-v2-name" style={{ margin: 0 }}>{testimonialsList[activeTestimonial].name}</div>
+                  <div className="testimonial-v2-route" style={{ margin: "2px 0 0 0" }}>{testimonialsList[activeTestimonial].route}</div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {testimonialsList.length > 1 && (
+            <div className="testimonial-v2-dots">
+              {testimonialsList.map((_, idx) => (
+                <button
+                  key={idx}
+                  className={`testimonial-v2-dot ${idx === activeTestimonial ? "active" : ""}`}
+                  onClick={() => setActiveTestimonial(idx)}
+                  aria-label={`Go to testimonial ${idx + 1}`}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
