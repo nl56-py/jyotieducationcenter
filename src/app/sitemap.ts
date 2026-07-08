@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { createClient } from "@supabase/supabase-js";
 
-const siteUrl = "https://edumark.edu.np";
+const siteUrl = "https://edumark.com.np";
 const now = new Date();
 
 const staticRoutes = [
@@ -17,6 +17,26 @@ const staticRoutes = [
   { path: "/contact", priority: 0.8, changeFrequency: "monthly" as const },
   { path: "/book-free-consultation", priority: 0.9, changeFrequency: "weekly" as const },
 ];
+
+function formatImageUrl(path: string): string {
+  if (!path) return "";
+  
+  // Replace the old domain with the correct domain if absolute
+  let cleanPath = path.replace(/edumark\.edu\.np/g, "edumark.com.np");
+  
+  // Remove spaces
+  cleanPath = cleanPath.replace(/ /g, "%20");
+  
+  if (cleanPath.startsWith("http://") || cleanPath.startsWith("https://")) {
+    return cleanPath;
+  }
+  
+  if (cleanPath.startsWith("/")) {
+    return `${siteUrl}${cleanPath}`;
+  }
+  
+  return `${siteUrl}/${cleanPath}`;
+}
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticEntries = staticRoutes.map((route) => ({
@@ -58,7 +78,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         lastModified: service.updated_at ? new Date(service.updated_at) : now,
         changeFrequency: "monthly" as const,
         priority: 0.8,
-        images: imagePath ? [`${siteUrl}${imagePath.replace(/ /g, "%20")}`] : undefined,
+        images: imagePath ? [formatImageUrl(imagePath)] : undefined,
       };
     });
 
@@ -92,7 +112,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         lastModified: blog.updated_at ? new Date(blog.updated_at) : now,
         changeFrequency: "monthly" as const,
         priority: 0.65,
-        images: imagePath ? [`${siteUrl}${imagePath}`] : undefined,
+        images: imagePath ? [formatImageUrl(imagePath)] : undefined,
       };
     });
 
