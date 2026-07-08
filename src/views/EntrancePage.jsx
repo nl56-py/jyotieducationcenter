@@ -52,14 +52,8 @@ export function EntrancePage({ navigate }) {
   const programs = [
     {
       title: "CEE\nPreparation", theme: "purple", icon: <BookOpen size={22} />,
-      desc: "Focused CEE preparation for MBBS, BDS, BSc Nursing, and allied health pathways.",
-      bullets: ["Mock Tests", "Question Bank", "Medical Stream Guidance", "Performance Tracking"],
-      path: "/entrance-preparations/cee"
-    },
-    {
-      title: "MBBS, BDS\n& Nursing", theme: "orange", icon: <Stethoscope size={22} />,
-      desc: "Targeted preparation for medical and allied health pathways after +2 Science.",
-      bullets: ["CEE Focus", "Biology Review", "Clinical Aptitude", "Admission Guidance"],
+      desc: "Focused CEE preparation for MBBS, BDS, BSc Nursing, and allied health pathways after +2 Science.",
+      bullets: ["Mock Tests & Question Bank", "Biology & Chemistry Review", "Clinical Aptitude & Guidance", "Performance Tracking"],
       path: "/entrance-preparations/cee"
     },
     {
