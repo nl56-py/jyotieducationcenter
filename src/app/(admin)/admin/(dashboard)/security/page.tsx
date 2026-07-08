@@ -15,27 +15,20 @@ export default function SecurityCenterPage() {
   const [events, setEvents] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const mockEvents = [
-    { id: "1", event_type: "auth_failure", severity: "high", fingerprint: "ip_202.166.220.1", details: { ip: "202.166.220.1", user_agent: "Mozilla/5.0...", error: "Invalid password credentials" }, resolved_at: null, created_at: new Date().toISOString() },
-    { id: "2", event_type: "rate_limit_violation", severity: "medium", fingerprint: "ip_185.220.101.4", details: { ip: "185.220.101.4", user_agent: "Python requests...", route: "/api/forms/inquiry" }, resolved_at: new Date().toISOString(), created_at: new Date(Date.now() - 3600000).toISOString() }
-  ];
-
   const fetchEvents = async () => {
     setLoading(true);
     try {
       const response = await fetch("/api/admin/security");
       if (response.ok) {
         const data = await response.json();
-        if (data && data.length > 0) {
-          setEvents(data);
-          setLoading(false);
-          return;
-        }
+        setEvents(data || []);
+        setLoading(false);
+        return;
       }
     } catch (e) {
       console.warn("Failed to fetch security events from API:", e);
     }
-    setEvents(mockEvents);
+    setEvents([]);
     setLoading(false);
   };
 

@@ -21,35 +21,6 @@ export default function BlogsCMSPage() {
   const [seoDesc, setSeoDesc] = useState("");
   const [featured, setFeatured] = useState(false);
 
-  const mockBlogs = [
-    {
-      id: "1",
-      slug: "complete-guide-to-australian-student-visa",
-      title: "The Complete Guide to Australian Student Visa (Subclass 500)",
-      excerpt: "Everything Nepalese students need to know about financial requirements, English proficiency, and GTE guidelines.",
-      category: "Visa Advice",
-      status: "published",
-      featured: true,
-      published_at: new Date().toLocaleDateString(),
-      bodyText: "Australia remains one of the top destinations for international students from Nepal...",
-      seoTitle: "Australia Student Visa Subclass 500 - Guide for Nepalese",
-      seoDesc: "Full checklist for applying to Australian student visa."
-    },
-    {
-      id: "2",
-      slug: "how-to-score-8-plus-ielts-speaking",
-      title: "How to Score Band 8.0+ in IELTS Speaking Section",
-      excerpt: "Proven strategies, practice tips, and vocabulary enhancements to boost your speaking performance.",
-      category: "Test Prep Tips",
-      status: "draft",
-      featured: false,
-      published_at: null,
-      bodyText: "Achieving a Band 8.0 or higher in the IELTS Speaking test is a common goal...",
-      seoTitle: "Score IELTS Speaking Band 8.0+ in 4 steps",
-      seoDesc: "IELTS speaking tips and vocabulary."
-    }
-  ];
-
   useEffect(() => {
     setLoading(true);
     const fetchBlogs = async () => {
@@ -57,14 +28,12 @@ export default function BlogsCMSPage() {
         const response = await fetch("/api/admin/blogs");
         if (response.ok) {
           const data = await response.json();
-          if (data && data.length > 0) {
-            setBlogs(data);
-            setLoading(false);
-            return;
-          }
+          setBlogs(data || []);
+          setLoading(false);
+          return;
         }
       } catch (err) {}
-      setBlogs(mockBlogs);
+      setBlogs([]);
       setLoading(false);
     };
     fetchBlogs();

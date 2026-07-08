@@ -31,27 +31,17 @@ export default function ServicesPrepPage() {
   const [cost, setCost] = useState("");
   const [features, setFeatures] = useState("");
 
-  const mockTestPreps = [
-    { id: "1", name: "IELTS Academic", slug: "ielts", summary: "International English Language Testing System prep.", test_type: "language", format: { duration: "6 weeks", cost: "Rs. 8,000" }, features: ["Interactive Mock Tests"], status: "published" }
-  ];
-
-  const mockEntrance = [
-    { id: "1", name: "CEE Preparation", slug: "cee", summary: "Medical entrance exam prep.", offer: { duration: "12 weeks", cost: "Rs. 18,000" }, features: ["Daily MCQs"], status: "published" }
-  ];
-
   // Fetch functions
   const fetchTestPreps = async () => {
     try {
       const response = await fetch("/api/admin/testprep");
       if (response.ok) {
         const data = await response.json();
-        if (data && data.length > 0) {
-          setTestPreps(data);
-          return;
-        }
+        setTestPreps(data || []);
+        return;
       }
     } catch (e) {}
-    setTestPreps(mockTestPreps);
+    setTestPreps([]);
   };
 
   const fetchEntrance = async () => {
@@ -59,13 +49,11 @@ export default function ServicesPrepPage() {
       const response = await fetch("/api/admin/entrance");
       if (response.ok) {
         const data = await response.json();
-        if (data && data.length > 0) {
-          setEntranceProgs(data);
-          return;
-        }
+        setEntranceProgs(data || []);
+        return;
       }
     } catch (e) {}
-    setEntranceProgs(mockEntrance);
+    setEntranceProgs([]);
   };
 
   const loadAll = async () => {

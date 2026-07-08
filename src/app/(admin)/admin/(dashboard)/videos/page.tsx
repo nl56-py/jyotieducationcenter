@@ -26,27 +26,20 @@ export default function VideosCMSPage() {
   const [status, setStatus] = useState("draft");
   const [sortOrder, setSortOrder] = useState(0);
 
-  const mockVideos = [
-    { id: "1", title: "Success Story: Ram from Melbourne", provider_video_id: "dQw4w9WgXcQ", category: "Australia", status: "published", description: "Inspirational student interview." },
-    { id: "2", title: "USA Student Visa Mock Interview Tips", provider_video_id: "dQw4w9WgXcQ", category: "USA", status: "published", description: "Tips from visa counselors." }
-  ];
-
   const fetchVideos = async () => {
     setLoading(true);
     try {
       const response = await fetch("/api/admin/videos");
       if (response.ok) {
         const data = await response.json();
-        if (data && data.length > 0) {
-          setVideos(data);
-          setLoading(false);
-          return;
-        }
+        setVideos(data || []);
+        setLoading(false);
+        return;
       }
     } catch (e) {
       console.warn("Failed to fetch videos from API:", e);
     }
-    setVideos(mockVideos);
+    setVideos([]);
     setLoading(false);
   };
 

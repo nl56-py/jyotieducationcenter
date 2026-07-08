@@ -8,28 +8,20 @@ export default function AuditLogsPage() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const mockLogs = [
-    { id: "1", actor_email: "super@edumark.edu.np", action: "UPDATE", entity_table: "site_settings", entity_id: "conf-123", created_at: new Date().toISOString() },
-    { id: "2", actor_email: "counselor@edumark.edu.np", action: "INSERT", entity_table: "lead_notes", entity_id: "note-456", created_at: new Date(Date.now() - 3600000).toISOString() },
-    { id: "3", actor_email: "super@edumark.edu.np", action: "INSERT", entity_table: "admin_users", entity_id: "user-789", created_at: new Date(Date.now() - 7200000).toISOString() }
-  ];
-
   const fetchLogs = async () => {
     setLoading(true);
     try {
       const response = await fetch("/api/admin/audit-logs");
       if (response.ok) {
         const data = await response.json();
-        if (data && data.length > 0) {
-          setLogs(data);
-          setLoading(false);
-          return;
-        }
+        setLogs(data || []);
+        setLoading(false);
+        return;
       }
     } catch (e) {
       console.warn("Failed to fetch audit logs from API:", e);
     }
-    setLogs(mockLogs);
+    setLogs([]);
     setLoading(false);
   };
 

@@ -10,37 +10,6 @@ export default function BookingsPage() {
   const [loading, setLoading] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState<any | null>(null);
 
-  const mockBookings = [
-    {
-      id: "1",
-      full_name: "Gita Bhandari",
-      phone: "+9779851234567",
-      email: "gita.b@gmail.com",
-      preferred_destination: "United Kingdom",
-      course_interest: "MBA",
-      preferred_date: new Date(Date.now() + 86400000).toISOString().split("T")[0],
-      preferred_time: "10:30 AM",
-      message: "Need information about UK post-study work rules.",
-      status: "requested",
-      assigned_name: "Unassigned",
-      created_at: new Date().toISOString(),
-    },
-    {
-      id: "2",
-      full_name: "Roshan Shrestha",
-      phone: "+9779841112233",
-      email: "roshan.s@gmail.com",
-      preferred_destination: "Japan",
-      course_interest: "Japanese Language Prep + Vocational",
-      preferred_date: new Date(Date.now() + 172800000).toISOString().split("T")[0],
-      preferred_time: "2:00 PM",
-      message: "Wants to start classes in Japan for October intake.",
-      status: "confirmed",
-      assigned_name: "Counselor Binod",
-      created_at: new Date(Date.now() - 3600000).toISOString(),
-    },
-  ];
-
   useEffect(() => {
     setLoading(true);
     const fetchBookings = async () => {
@@ -48,16 +17,14 @@ export default function BookingsPage() {
         const response = await fetch("/api/admin/bookings");
         if (response.ok) {
           const data = await response.json();
-          if (data && data.length > 0) {
-            setBookings(data);
-            setLoading(false);
-            return;
-          }
+          setBookings(data || []);
+          setLoading(false);
+          return;
         }
       } catch (err) {
-        console.warn("API Bookings fetch failed, using mock data.");
+        console.warn("API Bookings fetch failed.");
       }
-      setBookings(mockBookings);
+      setBookings([]);
       setLoading(false);
     };
     fetchBookings();

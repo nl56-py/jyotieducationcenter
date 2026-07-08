@@ -25,25 +25,18 @@ export default function TeamCMSPage() {
   const [sortOrder, setSortOrder] = useState(0);
   const [status, setStatus] = useState("draft");
 
-  const mockTeam = [
-    { id: "1", name: "EduMark CEO", role_title: "Managing Director", status: "published", bio: "Leading EduMark forward." },
-    { id: "2", name: "Binod Thapa", role_title: "Senior Counselor", status: "published", bio: "Counseling expert." }
-  ];
-
   const fetchTeam = async () => {
     setLoading(true);
     try {
       const res = await fetch("/api/admin/team");
       if (res.ok) {
         const data = await res.json();
-        if (data && data.length > 0) {
-          setTeam(data);
-          setLoading(false);
-          return;
-        }
+        setTeam(data || []);
+        setLoading(false);
+        return;
       }
     } catch (e) {}
-    setTeam(mockTeam);
+    setTeam([]);
     setLoading(false);
   };
 

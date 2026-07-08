@@ -36,53 +36,6 @@ export default function LeadsPage() {
   const [message, setMessage] = useState("");
   const [noteText, setNoteText] = useState("");
 
-  const mockLeads = [
-    {
-      id: "1",
-      full_name: "Ram Bahadur",
-      phone: "+9779851012345",
-      email: "ram@gmail.com",
-      preferred_destination: "Australia",
-      course_interest: "Bachelor of IT",
-      message: "Looking for scholarships in Melbourne.",
-      source: "home_form",
-      status: "new",
-      assigned_name: "Unassigned",
-      notes: [{ id: "n1", note: "Created via Homepage Inquiry form.", author: "System", created_at: new Date().toISOString() }],
-      created_at: new Date().toISOString(),
-    },
-    {
-      id: "2",
-      full_name: "Sita Kumari",
-      phone: "+9779841987654",
-      email: "sita@outlook.com",
-      preferred_destination: "Canada",
-      course_interest: "Post Graduate Diploma in Data Science",
-      message: "I completed my BCA. Need admission assistance.",
-      source: "consultation_form",
-      status: "contacted",
-      assigned_name: "Counselor Binod",
-      notes: [{ id: "n2", note: "Called student, discussed college options in Toronto.", author: "Counselor Binod", created_at: new Date(Date.now() - 3600000).toISOString() }],
-      created_at: new Date(Date.now() - 86400000).toISOString(),
-    },
-    {
-      id: "3",
-      full_name: "Hari Thapa",
-      phone: "+9779812345678",
-      email: "hari.thapa@yahoo.com",
-      preferred_destination: "USA",
-      course_interest: "Master of Science in Cybersecurity",
-      message: "Wants to apply for Fall 2026.",
-      source: "contact_form",
-      status: "in_progress",
-      assigned_name: "Counselor Binod",
-      notes: [
-        { id: "n3", note: "Sent checklists for transcripts and SOP drafting guidelines.", author: "Counselor Binod", created_at: new Date(Date.now() - 7200000).toISOString() }
-      ],
-      created_at: new Date(Date.now() - 172800000).toISOString(),
-    },
-  ];
-
   useEffect(() => {
     setLoading(true);
     const loadData = async () => {
@@ -95,21 +48,19 @@ export default function LeadsPage() {
         console.error("Failed to load session", err);
       }
 
-      // 2. Fetch Leads (from Supabase or Mock fallback)
+      // 2. Fetch Leads (from Supabase)
       try {
         const response = await fetch("/api/admin/leads");
         if (response.ok) {
           const data = await response.json();
-          if (data && data.length > 0) {
-            setLeads(data);
-            setLoading(false);
-            return;
-          }
+          setLeads(data || []);
+          setLoading(false);
+          return;
         }
       } catch (err) {
-        console.warn("API Leads fetch failed, using mock data.");
+        console.warn("API Leads fetch failed.");
       }
-      setLeads(mockLeads);
+      setLeads([]);
       setLoading(false);
     };
 

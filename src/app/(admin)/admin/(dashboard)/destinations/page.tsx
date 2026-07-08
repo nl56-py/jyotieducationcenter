@@ -38,45 +38,20 @@ export default function DestinationsCMSPage() {
   // Modal sub-tab state
   const [modalTab, setModalTab] = useState<"general" | "intro" | "courses" | "requirements" | "finances" | "faq">("general");
 
-  const mockDests = [
-    {
-      id: "1",
-      slug: "australia",
-      name: "Australia",
-      cost_range: "$20,000 - $45,000 AUD / Year",
-      intake_badges: ["Feb", "July", "Nov"],
-      summary: "Study in world-class cities with vibrant cultural diversity.",
-      status: "published",
-      featured: true
-    },
-    {
-      id: "2",
-      slug: "usa",
-      name: "United States",
-      cost_range: "$25,000 - $60,000 USD / Year",
-      intake_badges: ["Spring (Jan)", "Fall (Aug)"],
-      summary: "Access the largest network of top-ranking universities.",
-      status: "published",
-      featured: true
-    }
-  ];
-
   const fetchDests = async () => {
     setLoading(true);
     try {
       const response = await fetch("/api/admin/destinations");
       if (response.ok) {
         const data = await response.json();
-        if (data && data.length > 0) {
-          setDestinations(data);
-          setLoading(false);
-          return;
-        }
+        setDestinations(data || []);
+        setLoading(false);
+        return;
       }
     } catch (err) {
       console.warn("Failed to fetch destinations:", err);
     }
-    setDestinations(mockDests);
+    setDestinations([]);
     setLoading(false);
   };
 

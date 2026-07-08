@@ -17,27 +17,20 @@ export default function MediaLibraryPage() {
   const [sizeBytes, setSizeBytes] = useState("500000");
   const [altText, setAltText] = useState("");
 
-  const mockAssets = [
-    { id: "1", file_name: "australia_hero.jpg", size_bytes: 1200000, mime_type: "image/jpeg", path: "/placeholder.jpg", alt_text: "Australia Travel Guide Hero" },
-    { id: "2", file_name: "ielts_banner.png", size_bytes: 640000, mime_type: "image/png", path: "/placeholder.jpg", alt_text: "IELTS Exam Preparation Class Banner" }
-  ];
-
   const fetchAssets = async () => {
     setLoading(true);
     try {
       const response = await fetch("/api/admin/media");
       if (response.ok) {
         const data = await response.json();
-        if (data && data.length > 0) {
-          setAssets(data);
-          setLoading(false);
-          return;
-        }
+        setAssets(data || []);
+        setLoading(false);
+        return;
       }
     } catch (err) {
       console.warn("Failed to fetch media assets:", err);
     }
-    setAssets(mockAssets);
+    setAssets([]);
     setLoading(false);
   };
 

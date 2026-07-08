@@ -17,27 +17,20 @@ export default function RedirectsPage() {
   const [statusCode, setStatusCode] = useState(301);
   const [isActive, setIsActive] = useState(true);
 
-  const mockRedirects = [
-    { id: "1", source_path: "/old-ielts-class", target_path: "/test-preparation/ielts", status_code: 301, is_active: true },
-    { id: "2", source_path: "/apply-australia", target_path: "/destinations/australia", status_code: 302, is_active: true }
-  ];
-
   const fetchRedirects = async () => {
     setLoading(true);
     try {
       const response = await fetch("/api/admin/redirects");
       if (response.ok) {
         const data = await response.json();
-        if (data && data.length > 0) {
-          setRedirects(data);
-          setLoading(false);
-          return;
-        }
+        setRedirects(data || []);
+        setLoading(false);
+        return;
       }
     } catch (e) {
       console.warn("Failed to fetch redirects from API:", e);
     }
-    setRedirects(mockRedirects);
+    setRedirects([]);
     setLoading(false);
   };
 

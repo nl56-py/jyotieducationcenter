@@ -23,24 +23,18 @@ export default function TestimonialsCMSPage() {
   const [sortOrder, setSortOrder] = useState(0);
   const [status, setStatus] = useState("draft");
 
-  const mockTestimonials = [
-    { id: "1", student_name: "Ram Prasad", destination: "Australia", quote: "EduMark made my visa process so smooth!", status: "published" }
-  ];
-
   const fetchTestimonials = async () => {
     setLoading(true);
     try {
       const res = await fetch("/api/admin/testimonials");
       if (res.ok) {
         const data = await res.json();
-        if (data && data.length > 0) {
-          setTestimonials(data);
-          setLoading(false);
-          return;
-        }
+        setTestimonials(data || []);
+        setLoading(false);
+        return;
       }
     } catch (e) {}
-    setTestimonials(mockTestimonials);
+    setTestimonials([]);
     setLoading(false);
   };
 

@@ -20,28 +20,20 @@ export default function SEOControlPage() {
   const [canonicalPath, setCanonicalPath] = useState("");
   const [status, setStatus] = useState("draft");
 
-  const mockPages = [
-    { id: "1", slug: "home", title: "Homepage", page_type: "standard", seo_title: "EduMark | Leading Educational Consultancy in Nepal", seo_description: "Best counseling services and test preparation in Putalisadak.", canonical_path: "/", status: "published" },
-    { id: "2", slug: "about", title: "About Us", page_type: "standard", seo_title: "About EduMark | Expert Counselors", seo_description: "Learn about our vision, management, and student support teams.", canonical_path: "/about", status: "published" },
-    { id: "3", slug: "contact", title: "Contact Us", page_type: "standard", seo_title: "Contact EduMark | Get in Touch", seo_description: "Reach our Putalisadak office via phone, email, or live map navigation.", canonical_path: "/contact", status: "published" }
-  ];
-
   const fetchPages = async () => {
     setLoading(true);
     try {
       const response = await fetch("/api/admin/seo");
       if (response.ok) {
         const data = await response.json();
-        if (data && data.length > 0) {
-          setPages(data);
-          setLoading(false);
-          return;
-        }
+        setPages(data || []);
+        setLoading(false);
+        return;
       }
     } catch (e) {
       console.warn("Failed to fetch pages SEO from API:", e);
     }
-    setPages(mockPages);
+    setPages([]);
     setLoading(false);
   };
 
