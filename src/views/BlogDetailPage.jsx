@@ -3,7 +3,6 @@
 import { useEffect, useState, useRef } from "react";
 import { AppLink } from "../components/AppLink.jsx";
 import { PageHero } from "../components/PageHero.jsx";
-import { NewsletterSection } from "../components/NewsletterSection.jsx";
 import { Calendar, Clock, Share2, Link2, ArrowLeft } from "lucide-react";
 
 export function BlogDetailPage({ blog, relatedBlogs = [] }) {
@@ -238,8 +237,6 @@ export function BlogDetailPage({ blog, relatedBlogs = [] }) {
           </div>
         </section>
       )}
-
-      <NewsletterSection />
     </main>
   );
 }

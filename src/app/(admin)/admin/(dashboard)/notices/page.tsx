@@ -4,24 +4,6 @@ import { useEffect, useState } from "react";
 import { CalendarDays, Edit2, Megaphone, Plus, Trash2 } from "lucide-react";
 import { RichTextEditor } from "@/components/admin/RichTextEditor";
 
-const fallbackNotices = [
-  {
-    id: "demo-1",
-    slug: "july-application-week",
-    type: "event",
-    title: "July Application Week",
-    excerpt: "Free profile review for UK, Australia, Japan, and Finland applicants.",
-    body: { html: "Meet EduMark counselors for university shortlisting, document checks, and scholarship mapping." },
-    event_date: new Date().toISOString(),
-    location: "EduMark Office",
-    cta_label: "Book Seat",
-    cta_href: "/book-free-consultation",
-    featured: true,
-    sort_order: 1,
-    status: "published",
-  },
-];
-
 export default function NoticesEventsPage() {
   const [items, setItems] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
@@ -48,16 +30,14 @@ export default function NoticesEventsPage() {
       const res = await fetch("/api/admin/notices");
       if (res.ok) {
         const data = await res.json();
-        if (Array.isArray(data) && data.length > 0) {
-          setItems(data);
-          setLoading(false);
-          return;
-        }
+        setItems(data || []);
+        setLoading(false);
+        return;
       }
     } catch (err) {
       console.warn("Failed to load notices:", err);
     }
-    setItems(fallbackNotices);
+    setItems([]);
     setLoading(false);
   };
 

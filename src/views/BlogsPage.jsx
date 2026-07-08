@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { AppLink } from "../components/AppLink.jsx";
 import { PageHero } from "../components/PageHero.jsx";
-import { NewsletterSection } from "../components/NewsletterSection.jsx";
 import { assets } from "../data/assets.js";
 import { Search, Calendar, Clock, ArrowRight } from "lucide-react";
 
@@ -292,8 +291,6 @@ export function BlogsPage({ blogs = [], navigate = undefined }) {
 
         </div>
       </section>
-
-      <NewsletterSection />
     </main>
   );
 }

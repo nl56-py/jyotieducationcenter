@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { PageHero } from "../components/PageHero.jsx";
-import { NewsletterSection } from "../components/NewsletterSection.jsx";
 import { assets } from "../data/assets.js";
 import { Search, Calendar, MapPin, ArrowRight, Eye } from "lucide-react";
 
@@ -389,8 +388,6 @@ export function NoticesPage({ notices = [] }) {
           </div>
         </div>
       )}
-
-      <NewsletterSection />
     </main>
   );
 }
