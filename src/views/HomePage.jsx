@@ -105,8 +105,29 @@ export function HomePage({ initialVideos = [], initialBlogs = [], initialTestimo
   const [activeFaq, setActiveFaq] = useState(0);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
   const testimonialsList = initialTestimonials && initialTestimonials.length > 0 ? initialTestimonials : testimonials;
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (testimonialsList.length <= 1) return;
+    const maxIndex = isMobile ? testimonialsList.length - 1 : Math.max(0, testimonialsList.length - 3);
+    if (maxIndex <= 0) return;
+
+    const interval = setInterval(() => {
+      setActiveTestimonial((prev) => (prev >= maxIndex ? 0 : prev + 1));
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [isMobile, testimonialsList.length, activeTestimonial]);
 
   // Hero slideshow slides data
   const slidesData = [
@@ -772,12 +793,26 @@ export function HomePage({ initialVideos = [], initialBlogs = [], initialTestimo
                 <h4 className="process-step-title">Free Counseling</h4>
               </div>
 
+              <div className="process-step-arrow-mobile">
+                <svg width="16" height="30" viewBox="0 0 16 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M8 0V24" stroke="var(--accent-orange-red)" strokeWidth="3" strokeDasharray="4 4" strokeLinecap="round"/>
+                  <path d="M3 19L8 25L13 19" stroke="var(--accent-orange-red)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+
               <div className="process-timeline-step">
                 <div className="process-step-photo">
                   <span className="process-step-num">2</span>
                   <Image className="process-img-selection" src={assets.destinations} alt="Country Selection" width={160} height={160} sizes="(max-width: 991px) 96px, 124px" />
                 </div>
                 <h4 className="process-step-title">Country & Course Selection</h4>
+              </div>
+
+              <div className="process-step-arrow-mobile">
+                <svg width="16" height="30" viewBox="0 0 16 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M8 0V24" stroke="var(--accent-orange-red)" strokeWidth="3" strokeDasharray="4 4" strokeLinecap="round"/>
+                  <path d="M3 19L8 25L13 19" stroke="var(--accent-orange-red)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
               </div>
 
               <div className="process-timeline-step">
@@ -788,6 +823,13 @@ export function HomePage({ initialVideos = [], initialBlogs = [], initialTestimo
                 <h4 className="process-step-title">Application Submission</h4>
               </div>
 
+              <div className="process-step-arrow-mobile">
+                <svg width="16" height="30" viewBox="0 0 16 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M8 0V24" stroke="var(--accent-orange-red)" strokeWidth="3" strokeDasharray="4 4" strokeLinecap="round"/>
+                  <path d="M3 19L8 25L13 19" stroke="var(--accent-orange-red)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+
               <div className="process-timeline-step">
                 <div className="process-step-photo">
                   <span className="process-step-num">4</span>
@@ -796,12 +838,26 @@ export function HomePage({ initialVideos = [], initialBlogs = [], initialTestimo
                 <h4 className="process-step-title">Offer Letter & Docs</h4>
               </div>
 
+              <div className="process-step-arrow-mobile">
+                <svg width="16" height="30" viewBox="0 0 16 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M8 0V24" stroke="var(--accent-orange-red)" strokeWidth="3" strokeDasharray="4 4" strokeLinecap="round"/>
+                  <path d="M3 19L8 25L13 19" stroke="var(--accent-orange-red)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+
               <div className="process-timeline-step">
                 <div className="process-step-photo">
                   <span className="process-step-num">5</span>
                   <Image className="process-img-visa" src={assets.success} alt="Visa Processing" width={160} height={160} sizes="(max-width: 991px) 96px, 124px" />
                 </div>
                 <h4 className="process-step-title">Visa Processing</h4>
+              </div>
+
+              <div className="process-step-arrow-mobile">
+                <svg width="16" height="30" viewBox="0 0 16 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M8 0V24" stroke="var(--accent-orange-red)" strokeWidth="3" strokeDasharray="4 4" strokeLinecap="round"/>
+                  <path d="M3 19L8 25L13 19" stroke="var(--accent-orange-red)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
               </div>
 
               <div className="process-timeline-step">
@@ -896,58 +952,72 @@ export function HomePage({ initialVideos = [], initialBlogs = [], initialTestimo
 
         <div className="testimonials-v2-carousel">
           {testimonialsList.length > 0 && (
-            <div className="testimonial-v2-card">
-              <p className="testimonial-v2-quote">
-                {testimonialsList[activeTestimonial].quote}
-              </p>
-              
-              {/* Photo & Name/Route below the quote */}
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "16px", marginTop: "24px" }}>
-                {testimonialsList[activeTestimonial].photo ? (
-                  <img 
-                    src={testimonialsList[activeTestimonial].photo} 
-                    alt={testimonialsList[activeTestimonial].name} 
-                    style={{ margin: 0, width: "50px", height: "50px", objectFit: "cover", borderRadius: "50%" }} 
-                  />
-                ) : (
-                  <div 
-                    style={{ 
-                      margin: 0, 
-                      width: "50px", 
-                      height: "50px", 
-                      background: "var(--dm-primary)", 
-                      color: "#fff", 
-                      fontSize: "18px", 
-                      fontWeight: "bold",
-                      borderRadius: "50%",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center"
-                    }}
-                  >
-                    {testimonialsList[activeTestimonial].name.charAt(0).toUpperCase()}
+            <div className="testimonials-v2-carousel-container">
+              <div
+                className="testimonials-v2-track"
+                style={{
+                  transform: `translateX(-${activeTestimonial * (isMobile ? 100 : 33.333)}%)`
+                }}
+              >
+                {testimonialsList.map((t, idx) => (
+                  <div key={idx} className="testimonials-v2-slide">
+                    <div className="testimonial-v2-card">
+                      <p className="testimonial-v2-quote">
+                        {t.quote}
+                      </p>
+                      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "16px", marginTop: "24px" }}>
+                        {t.photo ? (
+                          <img
+                            src={t.photo}
+                            alt={t.name}
+                            style={{ margin: 0, width: "50px", height: "50px", objectFit: "cover", borderRadius: "50%" }}
+                          />
+                        ) : (
+                          <div
+                            style={{
+                              margin: 0,
+                              width: "50px",
+                              height: "50px",
+                              background: "var(--dm-primary)",
+                              color: "#fff",
+                              fontSize: "18px",
+                              fontWeight: "bold",
+                              borderRadius: "50%",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center"
+                            }}
+                          >
+                            {t.name.charAt(0).toUpperCase()}
+                          </div>
+                        )}
+                        <div style={{ textAlign: "left" }}>
+                          <div className="testimonial-v2-name" style={{ margin: 0 }}>{t.name}</div>
+                          <div className="testimonial-v2-route" style={{ margin: "2px 0 0 0" }}>{t.route}</div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                )}
-                <div style={{ textAlign: "left" }}>
-                  <div className="testimonial-v2-name" style={{ margin: 0 }}>{testimonialsList[activeTestimonial].name}</div>
-                  <div className="testimonial-v2-route" style={{ margin: "2px 0 0 0" }}>{testimonialsList[activeTestimonial].route}</div>
-                </div>
+                ))}
               </div>
             </div>
           )}
 
-          {testimonialsList.length > 1 && (
-            <div className="testimonial-v2-dots">
-              {testimonialsList.map((_, idx) => (
-                <button
-                  key={idx}
-                  className={`testimonial-v2-dot ${idx === activeTestimonial ? "active" : ""}`}
-                  onClick={() => setActiveTestimonial(idx)}
-                  aria-label={`Go to testimonial ${idx + 1}`}
-                />
-              ))}
-            </div>
-          )}
+          {testimonialsList.length > 1 && (() => {
+            const maxIndex = isMobile ? testimonialsList.length - 1 : Math.max(0, testimonialsList.length - 3);
+            return (
+              <div className="testimonial-v2-dots">
+                {Array.from({ length: maxIndex + 1 }, (_, idx) => (
+                  <button
+                    key={idx}
+                    className={`testimonial-v2-dot ${idx === activeTestimonial ? "active" : ""}`}
+                    onClick={() => setActiveTestimonial(idx)}
+                    aria-label={`Go to testimonial ${idx + 1}`}
+                  />
+                ))}
+              </div>
+            );
+          })()}
         </div>
       </section>
 

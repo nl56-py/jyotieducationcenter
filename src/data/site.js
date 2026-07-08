@@ -73,6 +73,7 @@ export const navItems = [
   },
   { label: "Blogs", path: "/blogs" },
   { label: "Videos", path: "/videos-gallery" },
-  { label: "Notices & Events", path: "/notices" },
+  { label: "Notices", path: "/notices" },
+  { label: "Events", path: "/events" },
   { label: "Contact", path: "/contact" },
 ];
