@@ -154,23 +154,7 @@ function LoginForm() {
           </button>
         </form>
 
-        <div 
-          style={{ 
-            marginTop: "24px", 
-            paddingTop: "16px", 
-            borderTop: "1px solid var(--dm-surface-container)", 
-            fontSize: "12px", 
-            color: "var(--dm-outline)",
-            textAlign: "center"
-          }}
-        >
-          <p>Local Mock Access Roles:</p>
-          <p style={{ marginTop: "4px" }}>
-            <strong>super@edumark.edu.np</strong> (Super Admin)<br />
-            <strong>counselor@edumark.edu.np</strong> (Counselor)<br />
-            Use any password (min 6 chars) to preview.
-          </p>
-        </div>
+
       </div>
     </div>
   );
