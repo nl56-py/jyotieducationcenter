@@ -2,7 +2,6 @@
 
 -- Foreign Key Indexes
 CREATE INDEX idx_admin_users_user_id ON admin_users(user_id);
-CREATE INDEX idx_audit_logs_actor_user_id ON audit_logs(actor_user_id);
 CREATE INDEX idx_media_assets_uploaded_by ON media_assets(uploaded_by);
 CREATE INDEX idx_site_settings_updated_by ON site_settings(updated_by);
 CREATE INDEX idx_navigation_items_parent_id ON navigation_items(parent_id);
@@ -32,7 +31,6 @@ CREATE INDEX idx_blog_posts_category_status_published ON blog_posts(category_id,
 CREATE INDEX idx_leads_status_created ON leads(status, created_at DESC);
 CREATE INDEX idx_leads_assigned_status ON leads(assigned_to, status);
 CREATE INDEX idx_consultation_bookings_status_date ON consultation_bookings(status, preferred_date);
-CREATE INDEX idx_audit_logs_created ON audit_logs(created_at DESC);
 CREATE INDEX idx_security_events_created ON security_events(created_at DESC);
 
 -- Full-Text Search Support (using GIN indexes)

@@ -13,7 +13,6 @@ import {
   Shield,
   Video,
   Layers,
-  BookOpen,
   X,
   Megaphone,
   Globe,
@@ -98,7 +97,6 @@ export function AdminSidebar({
       title: "System",
       items: [
         { label: "Users & Roles", href: "/admin/users", icon: Shield, roles: ["super_admin"] },
-        { label: "Audit Logs", href: "/admin/audit-logs", icon: BookOpen, roles: ["super_admin", "admin"] },
         { label: "Security Center", href: "/admin/security", icon: ShieldAlert, roles: ["super_admin", "admin"] },
       ],
     },

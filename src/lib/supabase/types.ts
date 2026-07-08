@@ -25,23 +25,7 @@ export interface Database {
         Insert: Omit<Database['public']['Tables']['admin_users']['Row'], 'id' | 'created_at' | 'updated_at'>;
         Update: Partial<Database['public']['Tables']['admin_users']['Row']>;
       };
-      audit_logs: {
-        Row: {
-          id: string;
-          actor_user_id: string | null;
-          actor_email: string | null;
-          action: string;
-          entity_table: string | null;
-          entity_id: string | null;
-          before: any | null;
-          after: any | null;
-          ip_hash: string | null;
-          user_agent_hash: string | null;
-          created_at: string;
-        };
-        Insert: Omit<Database['public']['Tables']['audit_logs']['Row'], 'id' | 'created_at'>;
-        Update: Partial<Database['public']['Tables']['audit_logs']['Row']>;
-      };
+
       security_events: {
         Row: {
           id: string;

@@ -10,7 +10,7 @@ export async function GET() {
       return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
     }
 
-    if (!hasPermission(user.role, "read:audit_logs")) {
+    if (!hasPermission(user.role, "manage:settings")) {
       return NextResponse.json({ success: false, error: "Forbidden" }, { status: 403 });
     }
 
@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
     }
 
-    if (!hasPermission(user.role, "read:audit_logs")) {
+    if (!hasPermission(user.role, "manage:settings")) {
       return NextResponse.json({ success: false, error: "Forbidden" }, { status: 403 });
     }
 

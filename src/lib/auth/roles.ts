@@ -2,7 +2,6 @@ import { AdminRole } from "../supabase/types";
 
 export type Permission = 
   | 'manage:users'      // Invite admins, change roles, suspend
-  | 'read:audit_logs'   // View system audit logs
   | 'manage:settings'   // Edit core site contact details
   | 'manage:content'    // Edit CMS pages, blogs, destinations, services, tests
   | 'read:leads'        // View student leads
@@ -16,7 +15,6 @@ export type Permission =
 export const ROLE_PERMISSIONS: Record<AdminRole, Permission[]> = {
   super_admin: [
     'manage:users',
-    'read:audit_logs',
     'manage:settings',
     'manage:content',
     'read:leads',

@@ -66,7 +66,7 @@ function LoginForm() {
         fullName = "Content Editor";
       } else if (email.startsWith("viewer")) {
         role = "viewer";
-        fullName = "Auditor Viewer";
+        fullName = "General Viewer";
       }
 
       const mockSession = {

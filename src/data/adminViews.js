@@ -35,6 +35,6 @@ export const adminViews = [
   {
     key: "security",
     label: "Security",
-    rows: ["MFA required for admins", "Role-based access", "Audit log enabled", "Form spam checks", "No service key in client"],
+    rows: ["MFA required for admins", "Role-based access", "Row level security enabled", "Form spam checks", "No service key in client"],
   },
 ];

@@ -2,7 +2,6 @@
 
 -- Enable RLS
 ALTER TABLE admin_users ENABLE ROW LEVEL SECURITY;
-ALTER TABLE audit_logs ENABLE ROW LEVEL SECURITY;
 ALTER TABLE security_events ENABLE ROW LEVEL SECURITY;
 ALTER TABLE media_assets ENABLE ROW LEVEL SECURITY;
 ALTER TABLE site_settings ENABLE ROW LEVEL SECURITY;
@@ -38,17 +37,6 @@ CREATE POLICY admin_users_manage_super_admin ON admin_users
   FOR ALL TO authenticated
   USING (has_admin_role(ARRAY['super_admin'::admin_role]))
   WITH CHECK (has_admin_role(ARRAY['super_admin'::admin_role]));
-
---------------------------------------------------------------------------------
--- 2. audit_logs policies
---------------------------------------------------------------------------------
-CREATE POLICY audit_logs_read_admin ON audit_logs
-  FOR SELECT TO authenticated
-  USING (has_admin_role(ARRAY['super_admin'::admin_role, 'admin'::admin_role]));
-
-CREATE POLICY audit_logs_write_system ON audit_logs
-  FOR INSERT TO authenticated, anon
-  WITH CHECK (true); -- Usually inserted via security definer trigger or service role, but allow insert for safety
 
 --------------------------------------------------------------------------------
 -- 3. security_events policies

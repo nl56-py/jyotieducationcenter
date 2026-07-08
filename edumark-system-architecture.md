@@ -220,7 +220,6 @@ src/app/
     admin/seo/page.tsx
     admin/redirects/page.tsx
     admin/users/page.tsx
-    admin/audit-logs/page.tsx
     admin/settings/page.tsx
     admin/security/page.tsx
   api/
@@ -432,24 +431,6 @@ Columns:
 - `last_seen_at timestamptz`
 - `created_at timestamptz`
 - `updated_at timestamptz`
-
-#### `audit_logs`
-
-Purpose: immutable record of admin actions and sensitive events.
-
-Columns:
-
-- `id uuid primary key`
-- `actor_user_id uuid`
-- `actor_email text`
-- `action text not null`
-- `entity_table text`
-- `entity_id uuid`
-- `before jsonb`
-- `after jsonb`
-- `ip_hash text`
-- `user_agent_hash text`
-- `created_at timestamptz not null`
 
 #### `security_events`
 

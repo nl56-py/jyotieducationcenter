@@ -13,20 +13,6 @@ CREATE TABLE admin_users (
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
-CREATE TABLE audit_logs (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  actor_user_id UUID, -- UUID of the admin (references admin_users.id or auth.users.id)
-  actor_email TEXT,
-  action TEXT NOT NULL,
-  entity_table TEXT,
-  entity_id UUID,
-  before JSONB,
-  after JSONB,
-  ip_hash TEXT,
-  user_agent_hash TEXT,
-  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
-);
-
 CREATE TABLE security_events (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   event_type TEXT NOT NULL,
