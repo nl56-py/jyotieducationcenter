@@ -3,14 +3,6 @@ import { assets } from "../data/assets.js";
 import { countries } from "../data/countries.js";
 import "@/styles/BookingPage.css";
 
-const slotConfig = [
-  { icon: "🎓", label: "Study Abroad" },
-  { icon: "🪪", label: "Visa Review" },
-  { icon: "🎧", label: "IELTS/PTE" },
-  { icon: "📖", label: "Entrance Prep" },
-  { icon: "🌐", label: "Europe Routes" },
-  { icon: "⛩️", label: "Japan/Korea" },
-];
 
 const trustItems = [
   { icon: "🛡️", bold: "100% Free", sub: "Counselling" },
@@ -43,6 +35,8 @@ export function BookingPage() {
   const [email, setEmail] = useState("");
   const [preferredDestination, setPreferredDestination] = useState("");
   const [courseInterest, setCourseInterest] = useState("");
+  const [languageCourse, setLanguageCourse] = useState("");
+  const [entranceCourse, setEntranceCourse] = useState("");
   const [preferredDate, setPreferredDate] = useState("");
   const [preferredTime, setPreferredTime] = useState("");
   const [honeypot, setHoneypot] = useState("");
@@ -56,6 +50,13 @@ export function BookingPage() {
 
     const fullPhone = `${selectedCountry.dial}${phone}`;
 
+    let apiCourseInterest = courseInterest;
+    if (courseInterest === "Test Preparation" && languageCourse) {
+      apiCourseInterest = `Test Prep: ${languageCourse}`;
+    } else if (courseInterest === "Entrance Preparation" && entranceCourse) {
+      apiCourseInterest = `Entrance Prep: ${entranceCourse}`;
+    }
+
     try {
       const response = await fetch("/api/forms/consultation", {
         method: "POST",
@@ -64,8 +65,8 @@ export function BookingPage() {
           fullName,
           phone: fullPhone,
           email,
-          preferredDestination: preferredDestination || undefined,
-          courseInterest: courseInterest || undefined,
+          preferredDestination: courseInterest === "Study Abroad" ? preferredDestination : undefined,
+          courseInterest: apiCourseInterest || undefined,
           preferredDate,
           preferredTime,
           honeypot,
@@ -187,33 +188,8 @@ export function BookingPage() {
           </h2>
 
           <p style={{ color: "var(--muted)", lineHeight: 1.72, marginBottom: 24, fontSize: 14 }}>
-            Select your consultation category below, choose a date/time that fits your schedule, and fill out the form to secure your free one-on-one session. You can also <a href="https://wa.me/9779820490823" target="_blank" rel="noopener noreferrer" style={{ color: "var(--purple)", fontWeight: 700, textDecoration: "underline" }}>contact us directly on WhatsApp</a> or call our office at <a href="tel:021590823" style={{ color: "var(--purple)", fontWeight: 700, textDecoration: "underline" }}>021-590823</a> if you have any questions.
+            Choose a date/time that fits your schedule, and fill out the form to secure your free one-on-one session. You can also <a href="https://wa.me/9779820490823" target="_blank" rel="noopener noreferrer" style={{ color: "var(--purple)", fontWeight: 700, textDecoration: "underline" }}>contact us directly on WhatsApp</a> or call our office at <a href="tel:021590823" style={{ color: "var(--purple)", fontWeight: 700, textDecoration: "underline" }}>021-590823</a> if you have any questions.
           </p>
-
-          {/* Slot cards — 3 columns with icons */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12, marginBottom: 28 }}>
-            {slotConfig.map(({ icon, label }) => (
-              <div
-                key={label}
-                style={{
-                  background: "var(--white)",
-                  border: "1.5px solid var(--line)",
-                  borderRadius: 12,
-                  padding: "16px 10px 14px",
-                  textAlign: "center",
-                  cursor: "pointer",
-                  transition: "border-color 0.18s, box-shadow 0.18s",
-                }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--purple)"; e.currentTarget.style.boxShadow = "0 4px 18px rgba(91,23,125,0.12)"; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--line)"; e.currentTarget.style.boxShadow = "none"; }}
-              >
-                <div style={{ width: 44, height: 44, borderRadius: "50%", background: "rgba(91,23,125,0.08)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 10px", fontSize: 20 }}>
-                  {icon}
-                </div>
-                <span style={{ fontSize: 12, fontWeight: 700, color: "var(--navy)", display: "block", lineHeight: 1.3 }}>{label}</span>
-              </div>
-            ))}
-          </div>
 
           {/* Trust badges — horizontal row */}
           <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
@@ -519,97 +495,20 @@ export function BookingPage() {
                 </div>
               </label>
 
-              {/* Preferred Route */}
-              <label
-                style={{
-                  display: "grid",
-                  gap: 6,
-                  fontWeight: 700,
-                  fontSize: 14,
-                  color: "var(--navy)",
-                }}
-              >
-                Preferred Route
-
+              {/* Interest */}
+              <label style={{ display: "grid", gap: 6, fontWeight: 700, fontSize: 14, color: "var(--navy)" }}>
+                Interest
                 <div style={{ position: "relative" }}>
-                  {/* Icon */}
-                  <span
-                    style={{
-                      position: "absolute",
-                      left: 16,
-                      top: "50%",
-                      transform: "translateY(-50%)",
-                      fontSize: 18,
-                      color: "#8B5CF6",
-                      pointerEvents: "none",
-                      zIndex: 2,
-                    }}
-                  >
-                    📍
-                  </span>
-
+                  <span style={{ position: "absolute", left: 16, top: "50%", transform: "translateY(-50%)", fontSize: 18, color: "#8B5CF6", pointerEvents: "none", zIndex: 2 }}>🎓</span>
                   <select
                     required
-                    value={preferredDestination}
-                    onChange={(e) => setPreferredDestination(e.target.value)}
-                    className="premium-select"
-                    style={{
-                      paddingLeft: "52px"
-                    }}
-                  >
-                    <option value="" disabled>
-                      Select route
-                    </option>
-
-                    {countries.map((c) => (
-                      <option key={c.slug} value={c.name}>
-                        {c.name}
-                      </option>
-                    ))}
-
-                    <option value="Entrance Preparation">
-                      Entrance Preparation
-                    </option>
-
-                    <option value="Test Preparation">
-                      Test Preparation
-                    </option>
-                  </select>
-                </div>
-              </label>
-
-              {/* Course Interest */}
-              <label
-                style={{
-                  display: "grid",
-                  gap: 6,
-                  fontWeight: 700,
-                  fontSize: 14,
-                  color: "var(--navy)"
-                }}
-              >
-                Course Interest
-
-                <div style={{ position: "relative" }}>
-                  {/* Left Icon */}
-                  <span
-                    style={{
-                      position: "absolute",
-                      left: 16,
-                      top: "50%",
-                      transform: "translateY(-50%)",
-                      fontSize: 18,
-                      color: "#8B5CF6",
-                      pointerEvents: "none",
-                      zIndex: 2
-                    }}
-                  >
-                    🎓
-                  </span>
-
-                  <select
                     value={courseInterest}
-                    onChange={(e) => setCourseInterest(e.target.value)}
+                    onChange={(e) => {
+                      setCourseInterest(e.target.value);
+                      setPreferredDestination("");
+                      setLanguageCourse("");
+                      setEntranceCourse("");
+                    }}
                     onFocus={(e) => {
                       e.target.style.backgroundColor = "#FFFFFF";
                       e.target.style.borderColor = "#7C3AED";
@@ -635,29 +534,153 @@ export function BookingPage() {
                       boxSizing: "border-box"
                     }}
                   >
-                    <option value="">Select one</option>
+                    <option value="" disabled>Select interest</option>
                     <option value="Study Abroad">Study Abroad</option>
-                    <option value="Test Preparation">Test Preparation</option>
+                    <option value="Test Preparation">Language Preparation</option>
                     <option value="Entrance Preparation">Entrance Preparation</option>
                     <option value="Visa Guidance">Visa Guidance</option>
                   </select>
-
-                  {/* Right Arrow */}
-                  <span
-                    style={{
-                      position: "absolute",
-                      right: 16,
-                      top: "50%",
-                      transform: "translateY(-50%)",
-                      pointerEvents: "none",
-                      color: "#64748B",
-                      fontSize: 14
-                    }}
-                  >
-                    ▼
-                  </span>
+                  <span style={{ position: "absolute", right: 16, top: "50%", transform: "translateY(-50%)", pointerEvents: "none", color: "#64748B", fontSize: 14 }}>▼</span>
                 </div>
               </label>
+
+              {/* Conditional Preferred Destination */}
+              {courseInterest === "Study Abroad" && (
+                <label style={{ display: "grid", gap: 6, fontWeight: 700, fontSize: 14, color: "var(--navy)" }}>
+                  Preferred Destination
+                  <div style={{ position: "relative" }}>
+                    <span style={{ position: "absolute", left: 16, top: "50%", transform: "translateY(-50%)", fontSize: 18, color: "#8B5CF6", pointerEvents: "none", zIndex: 2 }}>📍</span>
+                    <select
+                      required
+                      value={preferredDestination}
+                      onChange={(e) => setPreferredDestination(e.target.value)}
+                      onFocus={(e) => {
+                        e.target.style.backgroundColor = "#FFFFFF";
+                        e.target.style.borderColor = "#7C3AED";
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.backgroundColor = "#F3E8FF";
+                        e.target.style.borderColor = "var(--line)";
+                      }}
+                      style={{
+                        width: "100%",
+                        height: 48,
+                        paddingLeft: 50,
+                        paddingRight: 45,
+                        border: "1.5px solid var(--line)",
+                        borderRadius: 10,
+                        fontSize: 14,
+                        color: "var(--navy)",
+                        backgroundColor: "#F3E8FF",
+                        outline: "none",
+                        appearance: "none",
+                        cursor: "pointer",
+                        transition: "all .3s ease",
+                        boxSizing: "border-box"
+                      }}
+                    >
+                      <option value="" disabled>Select destination</option>
+                      {countries.map((c) => (
+                        <option key={c.slug} value={c.name}>
+                          {c.name}
+                        </option>
+                      ))}
+                    </select>
+                    <span style={{ position: "absolute", right: 16, top: "50%", transform: "translateY(-50%)", pointerEvents: "none", color: "#64748B", fontSize: 14 }}>▼</span>
+                  </div>
+                </label>
+              )}
+
+              {/* Conditional Language Course */}
+              {courseInterest === "Test Preparation" && (
+                <label style={{ display: "grid", gap: 6, fontWeight: 700, fontSize: 14, color: "var(--navy)" }}>
+                  Language Course
+                  <div style={{ position: "relative" }}>
+                    <span style={{ position: "absolute", left: 16, top: "50%", transform: "translateY(-50%)", fontSize: 18, color: "#8B5CF6", pointerEvents: "none", zIndex: 2 }}>🎧</span>
+                    <select
+                      required
+                      value={languageCourse}
+                      onChange={(e) => setLanguageCourse(e.target.value)}
+                      onFocus={(e) => {
+                        e.target.style.backgroundColor = "#FFFFFF";
+                        e.target.style.borderColor = "#7C3AED";
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.backgroundColor = "#F3E8FF";
+                        e.target.style.borderColor = "var(--line)";
+                      }}
+                      style={{
+                        width: "100%",
+                        height: 48,
+                        paddingLeft: 50,
+                        paddingRight: 45,
+                        border: "1.5px solid var(--line)",
+                        borderRadius: 10,
+                        fontSize: 14,
+                        color: "var(--navy)",
+                        backgroundColor: "#F3E8FF",
+                        outline: "none",
+                        appearance: "none",
+                        cursor: "pointer",
+                        transition: "all .3s ease",
+                        boxSizing: "border-box"
+                      }}
+                    >
+                      <option value="" disabled>Select language course</option>
+                      <option value="IELTS">IELTS</option>
+                      <option value="PTE Academic">PTE Academic</option>
+                      <option value="TOEFL">TOEFL</option>
+                      <option value="SAT">SAT</option>
+                    </select>
+                    <span style={{ position: "absolute", right: 16, top: "50%", transform: "translateY(-50%)", pointerEvents: "none", color: "#64748B", fontSize: 14 }}>▼</span>
+                  </div>
+                </label>
+              )}
+
+              {/* Conditional Entrance Course */}
+              {courseInterest === "Entrance Preparation" && (
+                <label style={{ display: "grid", gap: 6, fontWeight: 700, fontSize: 14, color: "var(--navy)" }}>
+                  Entrance Course
+                  <div style={{ position: "relative" }}>
+                    <span style={{ position: "absolute", left: 16, top: "50%", transform: "translateY(-50%)", fontSize: 18, color: "#8B5CF6", pointerEvents: "none", zIndex: 2 }}>📖</span>
+                    <select
+                      required
+                      value={entranceCourse}
+                      onChange={(e) => setEntranceCourse(e.target.value)}
+                      onFocus={(e) => {
+                        e.target.style.backgroundColor = "#FFFFFF";
+                        e.target.style.borderColor = "#7C3AED";
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.backgroundColor = "#F3E8FF";
+                        e.target.style.borderColor = "var(--line)";
+                      }}
+                      style={{
+                        width: "100%",
+                        height: 48,
+                        paddingLeft: 50,
+                        paddingRight: 45,
+                        border: "1.5px solid var(--line)",
+                        borderRadius: 10,
+                        fontSize: 14,
+                        color: "var(--navy)",
+                        backgroundColor: "#F3E8FF",
+                        outline: "none",
+                        appearance: "none",
+                        cursor: "pointer",
+                        transition: "all .3s ease",
+                        boxSizing: "border-box"
+                      }}
+                    >
+                      <option value="" disabled>Select entrance course</option>
+                      <option value="CMAT (Management)">CMAT (Management)</option>
+                      <option value="CEE (Medical)">CEE (Medical)</option>
+                      <option value="IOE (Engineering)">IOE (Engineering)</option>
+                    </select>
+                    <span style={{ position: "absolute", right: 16, top: "50%", transform: "translateY(-50%)", pointerEvents: "none", color: "#64748B", fontSize: 14 }}>▼</span>
+                  </div>
+                </label>
+              )}
 
               {/* Preferred date */}
               <label style={{ display: "grid", gap: 6, fontWeight: 700, fontSize: 14, color: "var(--navy)" }}>

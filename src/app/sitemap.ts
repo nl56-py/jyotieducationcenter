@@ -1,7 +1,5 @@
 import type { MetadataRoute } from "next";
-import { blogs } from "@/data/blogs";
-import { countries } from "@/data/countries";
-import { services } from "@/data/services";
+import { createClient } from "@supabase/supabase-js";
 
 const siteUrl = "https://edumark.edu.np";
 const now = new Date();
@@ -20,7 +18,7 @@ const staticRoutes = [
   { path: "/book-free-consultation", priority: 0.9, changeFrequency: "weekly" as const },
 ];
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticEntries = staticRoutes.map((route) => ({
     url: `${siteUrl}${route.path}`,
     lastModified: now,
@@ -28,28 +26,80 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: route.priority,
   }));
 
-  const serviceEntries = services.map((service) => ({
-    url: `${siteUrl}/services/${service.slug}`,
-    lastModified: now,
-    changeFrequency: "monthly" as const,
-    priority: 0.8,
-    images: [`${siteUrl}${service.image.replace(/ /g, "%20")}`],
-  }));
+  const isConfigured = 
+    process.env.NEXT_PUBLIC_SUPABASE_URL && 
+    !process.env.NEXT_PUBLIC_SUPABASE_URL.includes("placeholder-project") &&
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-  const destinationEntries = countries.map((country) => ({
-    url: `${siteUrl}/destinations/${country.slug}`,
-    lastModified: now,
-    changeFrequency: "monthly" as const,
-    priority: 0.78,
-  }));
+  if (!isConfigured) {
+    return staticEntries;
+  }
 
-  const blogEntries = blogs.map((blog) => ({
-    url: `${siteUrl}/blogs/${blog.slug}`,
-    lastModified: now,
-    changeFrequency: "monthly" as const,
-    priority: 0.65,
-    images: blog.image ? [`${siteUrl}${blog.image}`] : undefined,
-  }));
+  try {
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    );
 
-  return [...staticEntries, ...serviceEntries, ...destinationEntries, ...blogEntries];
+    // Fetch dynamic services
+    const { data: services } = await supabase
+      .from("services")
+      .select(`
+        slug,
+        updated_at,
+        media_assets:image_id ( path )
+      `)
+      .eq("status", "published");
+
+    const serviceEntries = (services || []).map((service: any) => {
+      const imagePath = service.media_assets?.path;
+      return {
+        url: `${siteUrl}/services/${service.slug}`,
+        lastModified: service.updated_at ? new Date(service.updated_at) : now,
+        changeFrequency: "monthly" as const,
+        priority: 0.8,
+        images: imagePath ? [`${siteUrl}${imagePath.replace(/ /g, "%20")}`] : undefined,
+      };
+    });
+
+    // Fetch dynamic destinations
+    const { data: destinations } = await supabase
+      .from("destinations")
+      .select("slug, updated_at")
+      .eq("status", "published");
+
+    const destinationEntries = (destinations || []).map((country: any) => ({
+      url: `${siteUrl}/destinations/${country.slug}`,
+      lastModified: country.updated_at ? new Date(country.updated_at) : now,
+      changeFrequency: "monthly" as const,
+      priority: 0.78,
+    }));
+
+    // Fetch dynamic blogs
+    const { data: blogs } = await supabase
+      .from("blog_posts")
+      .select(`
+        slug,
+        updated_at,
+        media_assets:cover_image_id ( path )
+      `)
+      .eq("status", "published");
+
+    const blogEntries = (blogs || []).map((blog: any) => {
+      const imagePath = blog.media_assets?.path;
+      return {
+        url: `${siteUrl}/blogs/${blog.slug}`,
+        lastModified: blog.updated_at ? new Date(blog.updated_at) : now,
+        changeFrequency: "monthly" as const,
+        priority: 0.65,
+        images: imagePath ? [`${siteUrl}${imagePath}`] : undefined,
+      };
+    });
+
+    return [...staticEntries, ...serviceEntries, ...destinationEntries, ...blogEntries];
+  } catch (err) {
+    console.error("Error generating dynamic sitemap:", err);
+    return staticEntries;
+  }
 }
+
