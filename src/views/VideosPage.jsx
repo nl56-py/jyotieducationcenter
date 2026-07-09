@@ -192,7 +192,7 @@ export function VideosPage({ videos = [] }) {
               background: "#000",
               borderRadius: "16px",
               overflow: "hidden",
-              maxWidth: "800px",
+              maxWidth: activeVideo.isPortrait ? "380px" : "800px",
               width: "100%",
               boxShadow: "0 25px 50px rgba(0,0,0,0.5)",
               position: "relative"
@@ -223,7 +223,7 @@ export function VideosPage({ videos = [] }) {
             </button>
 
             {/* Video Player Box */}
-            <div style={{ position: "relative", width: "100%", paddingTop: "56.25%" }}>
+            <div style={{ position: "relative", width: "100%", paddingTop: activeVideo.isPortrait ? "177.77%" : "56.25%" }}>
               {activeVideo.media === "video" ? (
                 <video 
                   controls 

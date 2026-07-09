@@ -888,7 +888,7 @@ export function HomePage({ initialVideos = [], initialBlogs = [], initialTestimo
             {initialVideos && initialVideos.length > 0 ? (
               initialVideos.map((video) => (
                 <div className="video-card" key={video.id} style={{ display: "flex", flexDirection: "column" }}>
-                  <div style={{ position: "relative", width: "100%", paddingTop: "56.25%", background: "#000", borderRadius: "12px", overflow: "hidden" }}>
+                  <div style={{ position: "relative", width: "100%", paddingTop: video.isPortrait ? "177.77%" : "56.25%", background: "#000", borderRadius: "12px", overflow: "hidden" }}>
                     {video.media === "video" || video.media === "local" ? (
                       <video controls poster={video.poster} style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", objectFit: "cover" }}>
                         <source src={video.videoUrl} type="video/mp4" />

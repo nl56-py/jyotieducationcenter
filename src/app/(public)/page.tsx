@@ -1,6 +1,6 @@
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { HomePage } from "@/views/HomePage";
-import { getDriveEmbedUrl } from "@/lib/utils/media";
+import { getDriveEmbedUrl, getVideoThumbnail, isPortraitVideo } from "@/lib/utils/media";
 
 export const dynamic = "force-dynamic";
 
@@ -27,25 +27,27 @@ export default async function HomeRoute() {
         let mediaType = v.provider || "video";
         let videoUrl = v.external_url || "";
         let youtubeId = v.provider_video_id || "";
+        let embedUrl = "";
 
         if (v.provider === "youtube" || youtubeId) {
           mediaType = "youtube";
-        } else if (v.media_asset) {
-          videoUrl = v.media_asset.path;
-        }
-
-        let embedUrl = "";
-        if (mediaType === "youtube") {
           embedUrl = youtubeId ? `https://www.youtube.com/embed/${youtubeId}` : videoUrl;
-        } else if (mediaType === "facebook" && videoUrl) {
+        } else if (v.provider === "facebook" && videoUrl) {
+          mediaType = "facebook";
           embedUrl = `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(videoUrl)}&show_text=0&width=500`;
-        } else if (mediaType === "instagram" && videoUrl) {
+        } else if (v.provider === "instagram" && videoUrl) {
+          mediaType = "instagram";
           const cleanUrl = videoUrl.endsWith("/") ? videoUrl : `${videoUrl}/`;
           embedUrl = `${cleanUrl}embed/`;
         } else if (v.provider === "google_drive" || mediaType === "google_drive") {
           mediaType = "google_drive";
           embedUrl = getDriveEmbedUrl(videoUrl);
+        } else if (v.media_asset) {
+          videoUrl = v.media_asset.path;
         }
+
+        const poster = getVideoThumbnail(v.provider, videoUrl, youtubeId, v.poster_asset?.path);
+        const isPortrait = isPortraitVideo(v.provider, videoUrl);
 
         return {
           id: v.id,
@@ -55,7 +57,8 @@ export default async function HomeRoute() {
           videoUrl,
           embedUrl,
           youtubeId,
-          poster: v.poster_asset ? v.poster_asset.path : "/images/generated/study-hero.png",
+          poster,
+          isPortrait,
         };
       });
     }
