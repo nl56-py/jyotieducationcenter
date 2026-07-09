@@ -4,6 +4,10 @@ import { countries } from "../data/countries.js";
 import { site } from "../data/site.js";
 import { assets } from "../data/assets.js";
 import { ArrowRight } from "lucide-react";
+import { Logo } from "./Logo.jsx";
+
+// Toggle this boolean to switch between the original image logo and the custom HTML/CSS logo
+const USE_CUSTOM_LOGO = false;
 
 export function Footer() {
   const quickLinks = [
@@ -42,13 +46,19 @@ export function Footer() {
       {/* Grid with 4 columns (Brand info + 3 links lists) */}
       <div className="footer-grid">
         <div>
-          <Link href="/" className="brand footer-brand" style={{ display: "flex", textDecoration: "none" }}>
-            <img 
-              src={assets.logo} 
-              alt="EduMark logo" 
-              style={{ filter: "brightness(0.9) contrast(1.1)", height: "55px", width: "auto" }}
-            />
-          </Link>
+          {USE_CUSTOM_LOGO ? (
+            <div className="footer-brand" style={{ marginBottom: "20px" }}>
+              <Logo />
+            </div>
+          ) : (
+            <Link href="/" className="brand footer-brand" style={{ display: "flex", textDecoration: "none" }}>
+              <img 
+                src={assets.logo} 
+                alt="EduMark logo" 
+                style={{ filter: "brightness(0.9) contrast(1.1)", height: "65px", width: "auto" }}
+              />
+            </Link>
+          )}
           <p className="footer-logo-desc">
             Leading multi-destination education consultancy guided by certified TITI counselors. Providing ethical, transparent university admission and visa guidance since 2012.
           </p>
