@@ -82,7 +82,9 @@ export function VideosPage({ videos = [] }) {
                     boxShadow: "0 10px 30px rgba(7, 31, 61, 0.04)",
                     border: "1px solid var(--line)",
                     cursor: "pointer",
-                    transition: "transform 0.3s ease, box-shadow 0.3s ease"
+                    transition: "transform 0.3s ease, box-shadow 0.3s ease",
+                    height: "auto",
+                    aspectRatio: "auto"
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = "translateY(-6px)";
