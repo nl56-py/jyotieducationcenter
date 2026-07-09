@@ -62,21 +62,60 @@ export async function PATCH(
 
     // Handle password update if provided
     let passwordUpdated = false;
+    let newUserId = targetUser.user_id;
+
     if (password !== undefined) {
       if (password.length < 6) {
         return NextResponse.json({ success: false, error: "Password must be at least 6 characters." }, { status: 400 });
       }
       if (!user.isMock && supabaseAdmin) {
-        if (!targetUser.user_id) {
-          return NextResponse.json({ success: false, error: "User does not have a linked authentication account." }, { status: 400 });
-        }
-        const { error: authError } = await supabaseAdmin.auth.admin.updateUserById(
-          targetUser.user_id,
-          { password }
-        );
-        if (authError) {
-          console.error("Error resetting user password in Auth:", authError);
-          return NextResponse.json({ success: false, error: `Auth update failed: ${authError.message}` }, { status: 500 });
+        if (!newUserId) {
+          // Attempt to find existing auth user by email
+          const { data: listData, error: listError } = await supabaseAdmin.auth.admin.listUsers({
+            perPage: 1000,
+          });
+          if (listError) {
+            console.error("Error listing users to find match:", listError);
+            return NextResponse.json({ success: false, error: `Failed to search Auth users: ${listError.message}` }, { status: 500 });
+          }
+
+          const existingAuthUser = listData?.users?.find(
+            (u: any) => u.email?.toLowerCase() === targetUser.email.toLowerCase()
+          );
+
+          if (existingAuthUser) {
+            newUserId = existingAuthUser.id;
+            const { error: authError } = await supabaseAdmin.auth.admin.updateUserById(
+              newUserId,
+              { password }
+            );
+            if (authError) {
+              console.error("Error resetting user password in Auth:", authError);
+              return NextResponse.json({ success: false, error: `Auth update failed: ${authError.message}` }, { status: 500 });
+            }
+          } else {
+            // Create user in Supabase Auth on the fly
+            const { data: authData, error: authError } = await supabaseAdmin.auth.admin.createUser({
+              email: targetUser.email,
+              password,
+              email_confirm: true,
+            });
+            if (authError) {
+              console.error("Error creating missing Auth user:", authError);
+              return NextResponse.json({ success: false, error: `Failed to create Auth account: ${authError.message}` }, { status: 500 });
+            }
+            newUserId = authData.user.id;
+          }
+        } else {
+          // Regular password update
+          const { error: authError } = await supabaseAdmin.auth.admin.updateUserById(
+            newUserId,
+            { password }
+          );
+          if (authError) {
+            console.error("Error resetting user password in Auth:", authError);
+            return NextResponse.json({ success: false, error: `Auth update failed: ${authError.message}` }, { status: 500 });
+          }
         }
       }
       passwordUpdated = true;
@@ -84,6 +123,10 @@ export async function PATCH(
 
     // Prepare updates
     const updates: any = {};
+    if (newUserId && newUserId !== targetUser.user_id) {
+      updates.user_id = newUserId;
+    }
+
     if (role !== undefined) {
       if (!VALID_ROLES.includes(role)) {
         return NextResponse.json({ success: false, error: `Invalid role: must be one of ${VALID_ROLES.join(", ")}` }, { status: 400 });
