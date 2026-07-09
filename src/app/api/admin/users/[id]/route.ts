@@ -21,19 +21,30 @@ export async function PATCH(
 
     const { id } = await params;
     const body = await request.json();
-    const { role, status } = body;
+    const { role, status, password } = body;
 
     const supabaseAdmin = createSupabaseAdminClient();
-    if (!supabaseAdmin) {
-      return NextResponse.json({ success: false, error: "Supabase Admin client not configured" }, { status: 500 });
+    if (!supabaseAdmin && !user.isMock) {
+      return NextResponse.json({ success: false, error: "Supabase Admin client not configured (Service Role key missing)" }, { status: 500 });
     }
 
     // 1. Fetch user to verify details and protect against self-modification
-    const { data: targetUser, error: fetchError } = await supabaseAdmin
-      .from("admin_users")
-      .select("*")
-      .eq("id", id)
-      .single();
+    let targetUser: any = null;
+    let fetchError: any = null;
+
+    if (supabaseAdmin) {
+      const { data, error } = await supabaseAdmin
+        .from("admin_users")
+        .select("*")
+        .eq("id", id)
+        .single();
+      targetUser = data;
+      fetchError = error;
+    } else if (user.isMock) {
+      targetUser = { id, user_id: "mock-id", email: "mock@example.com", role: "counselor", status: "active" };
+    } else {
+      return NextResponse.json({ success: false, error: "Database client not configured" }, { status: 500 });
+    }
 
     if (fetchError || !targetUser) {
       return NextResponse.json({ success: false, error: "User not found" }, { status: 404 });
@@ -44,9 +55,31 @@ export async function PATCH(
     const isSelf = targetUser.user_id === user.id || targetUser.email === user.email;
     if (isSelf) {
       return NextResponse.json(
-        { success: false, error: "Forbidden: You cannot change your own role or status." },
+        { success: false, error: "Forbidden: You cannot change your own password, role, or status here." },
         { status: 400 }
       );
+    }
+
+    // Handle password update if provided
+    let passwordUpdated = false;
+    if (password !== undefined) {
+      if (password.length < 6) {
+        return NextResponse.json({ success: false, error: "Password must be at least 6 characters." }, { status: 400 });
+      }
+      if (!user.isMock && supabaseAdmin) {
+        if (!targetUser.user_id) {
+          return NextResponse.json({ success: false, error: "User does not have a linked authentication account." }, { status: 400 });
+        }
+        const { error: authError } = await supabaseAdmin.auth.admin.updateUserById(
+          targetUser.user_id,
+          { password }
+        );
+        if (authError) {
+          console.error("Error resetting user password in Auth:", authError);
+          return NextResponse.json({ success: false, error: `Auth update failed: ${authError.message}` }, { status: 500 });
+        }
+      }
+      passwordUpdated = true;
     }
 
     // Prepare updates
@@ -66,7 +99,27 @@ export async function PATCH(
     }
 
     if (Object.keys(updates).length === 0) {
+      if (passwordUpdated) {
+        return NextResponse.json({ success: true, message: "Password updated successfully." });
+      }
       return NextResponse.json({ success: false, error: "No fields to update" }, { status: 400 });
+    }
+
+    // Handle database update for mock mode
+    if (user.isMock) {
+      const mockUpdatedProfile = {
+        id,
+        user_id: "mock-id",
+        email: "mock@example.com",
+        role: role !== undefined ? role : targetUser.role,
+        status: status !== undefined ? status : targetUser.status,
+        updated_at: new Date().toISOString()
+      };
+      return NextResponse.json({ success: true, user: mockUpdatedProfile });
+    }
+
+    if (!supabaseAdmin) {
+      return NextResponse.json({ success: false, error: "Database client not configured" }, { status: 500 });
     }
 
     // 2. Perform database update

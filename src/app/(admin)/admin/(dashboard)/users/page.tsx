@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, ShieldAlert, UserCheck, UserX, Loader2, X } from "lucide-react";
+import { Plus, ShieldAlert, UserCheck, UserX, Loader2, X, Lock } from "lucide-react";
 
 export default function UsersManagementPage() {
   const [currentUser, setCurrentUser] = useState<any>(null);
@@ -16,6 +16,60 @@ export default function UsersManagementPage() {
   const [newUserRole, setNewUserRole] = useState("counselor");
   const [submitting, setSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+
+  // Reset Password States
+  const [resetPasswordOpen, setResetPasswordOpen] = useState(false);
+  const [resetPasswordUser, setResetPasswordUser] = useState<any>(null);
+  const [resetPasswordVal, setResetPasswordVal] = useState("");
+  const [resetPasswordSubmitting, setResetPasswordSubmitting] = useState(false);
+  const [resetPasswordError, setResetPasswordError] = useState("");
+  const [resetPasswordSuccess, setResetPasswordSuccess] = useState("");
+
+  const handleOpenResetPasswordModal = (userItem: any) => {
+    setResetPasswordUser(userItem);
+    setResetPasswordVal("");
+    setResetPasswordError("");
+    setResetPasswordSuccess("");
+    setResetPasswordOpen(true);
+  };
+
+  const handleResetPasswordSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setResetPasswordError("");
+    setResetPasswordSuccess("");
+
+    if (!resetPasswordUser) return;
+    if (resetPasswordVal.length < 6) {
+      setResetPasswordError("Password must be at least 6 characters long.");
+      return;
+    }
+
+    setResetPasswordSubmitting(true);
+    try {
+      const response = await fetch(`/api/admin/users/${resetPasswordUser.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: resetPasswordVal }),
+      });
+
+      const result = await response.json();
+      if (response.ok && result.success) {
+        setResetPasswordSuccess("User's password has been updated successfully.");
+        setResetPasswordVal("");
+        setTimeout(() => {
+          setResetPasswordOpen(false);
+          setResetPasswordUser(null);
+        }, 1500);
+      } else {
+        setResetPasswordError(result.error || "Failed to reset password.");
+      }
+    } catch (err) {
+      console.error("Reset password error:", err);
+      setResetPasswordError("Failed to connect to the server.");
+    } finally {
+      setResetPasswordSubmitting(false);
+    }
+  };
 
   const fetchUsers = async () => {
     try {
@@ -251,6 +305,14 @@ export default function UsersManagementPage() {
                             </>
                           )}
                         </button>
+                        <button 
+                          className="btn btn-light" 
+                          style={{ height: "30px", padding: "0 10px", gap: "4px", fontSize: "12px" }}
+                          onClick={() => handleOpenResetPasswordModal(u)}
+                          disabled={isSelf}
+                        >
+                          <Lock size={12} /> Password
+                        </button>
                       </div>
                     </td>
                   </tr>
@@ -373,6 +435,95 @@ export default function UsersManagementPage() {
                 >
                   {submitting && <Loader2 size={14} className="animate-spin" />}
                   Create Account
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+      {/* Reset Password Modal */}
+      {resetPasswordOpen && resetPasswordUser && (
+        <div className="modal-overlay">
+          <div className="modal-content" style={{ maxWidth: "400px" }}>
+            <div className="modal-header">
+              <h3 className="modal-title">Reset Password</h3>
+              <button 
+                onClick={() => {
+                  setResetPasswordOpen(false);
+                  setResetPasswordUser(null);
+                }} 
+                style={{ background: "none", border: "none", cursor: "pointer", color: "var(--dm-outline)" }}
+              >
+                <X size={20} />
+              </button>
+            </div>
+            <form onSubmit={handleResetPasswordSubmit}>
+              <div className="modal-body">
+                <p style={{ fontSize: "13px", color: "var(--dm-outline)", marginBottom: "16px" }}>
+                  Set a new password for <strong>{resetPasswordUser.full_name}</strong> ({resetPasswordUser.email}).
+                </p>
+
+                {resetPasswordError && (
+                  <div style={{ 
+                    padding: "12px 16px", 
+                    backgroundColor: "var(--dm-error-container)", 
+                    color: "var(--dm-error)", 
+                    borderRadius: "var(--dm-rounded-md)", 
+                    fontSize: "13px", 
+                    marginBottom: "16px",
+                    fontWeight: 500
+                  }}>
+                    {resetPasswordError}
+                  </div>
+                )}
+
+                {resetPasswordSuccess && (
+                  <div style={{ 
+                    padding: "12px 16px", 
+                    backgroundColor: "var(--dm-primary-container)", 
+                    color: "var(--dm-primary)", 
+                    borderRadius: "var(--dm-rounded-md)", 
+                    fontSize: "13px", 
+                    marginBottom: "16px",
+                    fontWeight: 500
+                  }}>
+                    {resetPasswordSuccess}
+                  </div>
+                )}
+                
+                <div className="form-group" style={{ marginBottom: "20px" }}>
+                  <label className="form-label">New Password</label>
+                  <input 
+                    type="password" 
+                    className="form-input" 
+                    placeholder="Enter new password (min. 6 chars)"
+                    value={resetPasswordVal}
+                    onChange={(e) => setResetPasswordVal(e.target.value)}
+                    required
+                    minLength={6}
+                  />
+                </div>
+              </div>
+              <div className="modal-footer">
+                <button 
+                  type="button" 
+                  className="btn btn-light" 
+                  onClick={() => {
+                    setResetPasswordOpen(false);
+                    setResetPasswordUser(null);
+                  }}
+                  disabled={resetPasswordSubmitting}
+                >
+                  Cancel
+                </button>
+                <button 
+                  type="submit" 
+                  className="btn btn-primary"
+                  disabled={resetPasswordSubmitting}
+                  style={{ display: "flex", gap: "8px", alignItems: "center" }}
+                >
+                  {resetPasswordSubmitting && <Loader2 size={14} className="animate-spin" />}
+                  Reset Password
                 </button>
               </div>
             </form>

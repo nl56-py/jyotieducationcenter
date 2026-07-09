@@ -16,7 +16,8 @@ import {
   X,
   Megaphone,
   Globe,
-  MessageSquare
+  MessageSquare,
+  Settings
 } from "lucide-react";
 
 interface AdminSidebarProps {
@@ -98,6 +99,7 @@ export function AdminSidebar({
       items: [
         { label: "Users & Roles", href: "/admin/users", icon: Shield, roles: ["super_admin"] },
         { label: "Security Center", href: "/admin/security", icon: ShieldAlert, roles: ["super_admin", "admin"] },
+        { label: "Portal Settings", href: "/admin/settings", icon: Settings, roles: ["super_admin", "admin"] },
       ],
     },
   ];
