@@ -72,8 +72,15 @@ export const navItems = [
     ],
   },
   { label: "Blogs", path: "/blogs" },
-  { label: "Videos", path: "/videos-gallery" },
-  { label: "Notices", path: "/notices" },
-  { label: "Events", path: "/events" },
+  {
+    label: "More",
+    path: "#",
+    children: [
+      { label: "Photo Gallery", path: "/gallery" },
+      { label: "Video Gallery", path: "/videos-gallery" },
+      { label: "Events", path: "/events" },
+      { label: "Notices", path: "/notices" },
+    ],
+  },
   { label: "Contact", path: "/contact" },
 ];

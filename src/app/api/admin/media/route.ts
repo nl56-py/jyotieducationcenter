@@ -123,3 +123,43 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ success: false, error: err.message }, { status: 500 });
   }
 }
+
+export async function PATCH(request: NextRequest) {
+  try {
+    const user = await getCurrentUser();
+    if (!user) {
+      return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
+    }
+
+    const supabase = await createSupabaseServerClient();
+    if (!supabase) {
+      return NextResponse.json({ success: false, error: "Supabase not configured" }, { status: 500 });
+    }
+
+    const body = await request.json();
+    const { id, caption, alt_text } = body;
+
+    if (!id) {
+      return NextResponse.json({ success: false, error: "Missing media asset ID" }, { status: 400 });
+    }
+
+    const { data: updatedAsset, error } = await supabase
+      .from("media_assets")
+      .update({
+        caption: caption !== undefined ? caption : null,
+        alt_text: alt_text !== undefined ? alt_text : null,
+      })
+      .eq("id", id)
+      .select()
+      .single();
+
+    if (error) {
+      return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    }
+
+    return NextResponse.json({ success: true, mediaAsset: updatedAsset });
+  } catch (err: any) {
+    console.error("Media API PATCH error:", err);
+    return NextResponse.json({ success: false, error: err.message }, { status: 500 });
+  }
+}

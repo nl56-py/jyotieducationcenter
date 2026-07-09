@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Plus, Edit2, Archive, Globe, CheckCircle, Search, Eye } from "lucide-react";
 import { RichTextEditor } from "@/components/admin/RichTextEditor";
+import { MediaUploadField } from "@/components/admin/MediaUploadField";
 
 export default function BlogsCMSPage() {
   const [blogs, setBlogs] = useState<any[]>([]);
@@ -20,6 +21,8 @@ export default function BlogsCMSPage() {
   const [seoTitle, setSeoTitle] = useState("");
   const [seoDesc, setSeoDesc] = useState("");
   const [featured, setFeatured] = useState(false);
+  const [coverImageId, setCoverImageId] = useState<string | null>(null);
+  const [coverImagePath, setCoverImagePath] = useState<string | null>(null);
 
   useEffect(() => {
     setLoading(true);
@@ -50,6 +53,8 @@ export default function BlogsCMSPage() {
       setSeoTitle(blog.seoTitle || "");
       setSeoDesc(blog.seoDesc || "");
       setFeatured(blog.featured);
+      setCoverImageId(blog.coverImageId || null);
+      setCoverImagePath(blog.coverImagePath || null);
     } else {
       setTitle("");
       setSlug("");
@@ -59,6 +64,8 @@ export default function BlogsCMSPage() {
       setSeoTitle("");
       setSeoDesc("");
       setFeatured(false);
+      setCoverImageId(null);
+      setCoverImagePath(null);
     }
     setIsEditorOpen(true);
   };
@@ -82,6 +89,7 @@ export default function BlogsCMSPage() {
             seoTitle,
             seoDesc,
             featured,
+            coverImageId,
           }),
         });
         if (response.ok) {
@@ -105,6 +113,7 @@ export default function BlogsCMSPage() {
             seoTitle,
             seoDesc,
             featured,
+            coverImageId,
             status: "draft",
           }),
         });
@@ -254,6 +263,34 @@ export default function BlogsCMSPage() {
                   <input type="checkbox" id="featured" checked={featured} onChange={(e) => setFeatured(e.target.checked)} />
                   <label htmlFor="featured" className="form-label" style={{ cursor: "pointer", marginBottom: 0 }}>Feature this post on home banner</label>
                 </div>
+              </div>
+
+              <div className="panel-card" style={{ padding: "24px", margin: 0 }}>
+                <h4 style={{ fontSize: "15px", fontWeight: 700, marginBottom: "16px" }}>Cover Image</h4>
+                <MediaUploadField
+                  label="Select or Upload Cover Image"
+                  folder="blogs"
+                  accept="image/*"
+                  value={coverImageId || ""}
+                  previewUrl={coverImagePath || ""}
+                  onUploaded={(asset) => {
+                    setCoverImageId(asset.id);
+                    setCoverImagePath(asset.path);
+                  }}
+                />
+                {coverImagePath && (
+                  <button 
+                    type="button" 
+                    className="btn btn-light" 
+                    style={{ marginTop: "12px", width: "100%", color: "var(--dm-error)" }}
+                    onClick={() => {
+                      setCoverImageId(null);
+                      setCoverImagePath(null);
+                    }}
+                  >
+                    Remove Cover Image
+                  </button>
+                )}
               </div>
 
               <div className="panel-card" style={{ padding: "24px", margin: 0 }}>
