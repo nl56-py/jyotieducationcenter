@@ -74,14 +74,12 @@ export function VideosPage({ videos = [] }) {
                 <article 
                   className="video-card" 
                   key={video.title}
-                  onClick={() => setActiveVideo(video)}
                   style={{
                     background: "var(--white)",
                     borderRadius: "16px",
                     overflow: "hidden",
                     boxShadow: "0 10px 30px rgba(7, 31, 61, 0.04)",
                     border: "1px solid var(--line)",
-                    cursor: "pointer",
                     transition: "transform 0.3s ease, box-shadow 0.3s ease",
                     height: "auto",
                     aspectRatio: "auto"
@@ -95,47 +93,20 @@ export function VideosPage({ videos = [] }) {
                     e.currentTarget.style.boxShadow = "0 10px 30px rgba(7, 31, 61, 0.04)";
                   }}
                 >
-                  {/* Video Thumbnail with Play Button */}
-                  <div style={{ position: "relative", width: "100%", height: "200px", background: "#0a2440", overflow: "hidden" }}>
-                    <img 
-                      src={video.poster || video.image || assets.brochureHero} 
-                      alt={video.title} 
-                      style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.8 }} 
-                    />
-                    <div style={{
-                      position: "absolute",
-                      inset: 0,
-                      background: "rgba(7, 31, 61, 0.3)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center"
-                    }}>
-                      <div style={{
-                        width: "56px",
-                        height: "56px",
-                        borderRadius: "50%",
-                        background: "rgba(255, 255, 255, 0.95)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        boxShadow: "0 6px 20px rgba(0,0,0,0.2)",
-                        color: "var(--purple)"
-                      }}>
-                        <Play size={24} fill="currentColor" style={{ marginLeft: "4px" }} />
-                      </div>
-                    </div>
-                    {video.duration && (
-                      <span style={{
-                        position: "absolute",
-                        bottom: "12px",
-                        right: "12px",
-                        background: "rgba(0,0,0,0.72)",
-                        color: "#fff",
-                        fontSize: "11px",
-                        fontWeight: 700,
-                        padding: "3px 8px",
-                        borderRadius: "4px"
-                      }}>{video.duration}</span>
+                  {/* Inline Video Player Container */}
+                  <div style={{ position: "relative", width: "100%", paddingTop: video.isPortrait ? "177.77%" : "56.25%", background: "#000", overflow: "hidden" }}>
+                    {video.media === "video" || video.media === "local" ? (
+                      <video controls poster={video.poster} style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", objectFit: "cover" }}>
+                        <source src={video.videoUrl} type="video/mp4" />
+                      </video>
+                    ) : (
+                      <iframe 
+                        src={video.embedUrl || `https://www.youtube.com/embed/${video.youtubeId}`} 
+                        title={video.title}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowFullScreen
+                        style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
+                      />
                     )}
                   </div>
 
@@ -157,12 +128,14 @@ export function VideosPage({ videos = [] }) {
                       lineHeight: 1.4,
                       marginBottom: "8px"
                     }}>{video.title}</h3>
-                    <p style={{ 
-                      fontSize: "13px", 
-                      color: "var(--muted)", 
-                      lineHeight: 1.5,
-                      margin: 0
-                    }}>Click to play and watch our certified guides and updates.</p>
+                    {video.description && (
+                      <p style={{ 
+                        fontSize: "13px", 
+                        color: "var(--muted)", 
+                        lineHeight: 1.5,
+                        margin: 0
+                      }}>{video.description}</p>
+                    )}
                   </div>
                 </article>
               ))
@@ -171,108 +144,6 @@ export function VideosPage({ videos = [] }) {
 
         </div>
       </section>
-
-      {/* Video Modal Player Lightbox */}
-      {activeVideo && (
-        <div 
-          onClick={() => setActiveVideo(null)}
-          style={{
-            position: "fixed",
-            inset: 0,
-            background: "rgba(7, 31, 61, 0.9)",
-            zIndex: 9999,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "20px",
-            backdropFilter: "blur(4px)"
-          }}
-        >
-          <div 
-            onClick={(e) => e.stopPropagation()}
-            style={{
-              background: "#000",
-              borderRadius: "16px",
-              overflow: "hidden",
-              maxWidth: activeVideo.isPortrait ? "380px" : "800px",
-              width: "100%",
-              boxShadow: "0 25px 50px rgba(0,0,0,0.5)",
-              position: "relative"
-            }}
-          >
-            {/* Close Button */}
-            <button 
-              onClick={() => setActiveVideo(null)}
-              style={{
-                position: "absolute",
-                top: "16px",
-                right: "16px",
-                background: "rgba(255, 255, 255, 0.2)",
-                border: "none",
-                width: "36px",
-                height: "36px",
-                borderRadius: "50%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                cursor: "pointer",
-                fontWeight: "bold",
-                color: "#fff",
-                zIndex: 10
-              }}
-            >
-              <X size={18} />
-            </button>
-
-            {/* Video Player Box */}
-            <div style={{ position: "relative", width: "100%", paddingTop: activeVideo.isPortrait ? "177.77%" : "56.25%" }}>
-              {activeVideo.media === "video" ? (
-                <video 
-                  controls 
-                  autoPlay 
-                  poster={activeVideo.poster}
-                  style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "contain"
-                  }}
-                >
-                  <source src={activeVideo.videoUrl} type="video/mp4" />
-                </video>
-              ) : (
-                <iframe
-                  src={activeVideo.embedUrl || `https://www.youtube.com/embed/${activeVideo.youtubeId}?autoplay=1`}
-                  title={activeVideo.title}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                  style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    width: "100%",
-                    height: "100%",
-                    border: "none"
-                  }}
-                />
-              )}
-            </div>
-            
-            {/* Info Strip */}
-            <div style={{ padding: "20px", background: "var(--white)", color: "var(--navy)" }}>
-              <span style={{ fontSize: "11px", fontWeight: 700, color: "var(--purple)" }}>
-                {activeVideo.category}
-              </span>
-              <h4 style={{ fontSize: "16px", fontWeight: 800, marginTop: "4px", marginBottom: 0 }}>
-                {activeVideo.title}
-              </h4>
-            </div>
-
-          </div>
-        </div>
-      )}
     </main>
   );
 }

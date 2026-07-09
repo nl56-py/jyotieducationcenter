@@ -878,9 +878,10 @@ export function HomePage({ initialVideos = [], initialBlogs = [], initialTestimo
       <section className="video-gallery-section">
         <div className="video-gallery-container">
           
-          <div className="em-section-title-wrapper">
-            <span className="em-eyebrow">✈ VIDEO GALLERY</span>
-            <h2 className="em-h2">Hear From Our Successful Students</h2>
+          <div className="em-section-title-wrapper" style={{ marginBottom: "45px" }}>
+            <h2 className="em-h2" style={{ maxWidth: "800px", margin: "0 auto", fontSize: "28px", lineHeight: 1.4 }}>
+              A gallery-style page ready for office videos, reels, testimonials, destination guides, and preparation highlights.
+            </h2>
             <span className="em-title-line-decor" />
           </div>
 
