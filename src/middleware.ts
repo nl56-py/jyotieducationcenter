@@ -20,8 +20,8 @@ export async function middleware(request: NextRequest) {
       const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
       if (
-        supabaseUrl && 
-        supabaseAnonKey && 
+        supabaseUrl &&
+        supabaseAnonKey &&
         !supabaseUrl.includes("placeholder-project")
       ) {
         const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
@@ -59,7 +59,8 @@ export async function middleware(request: NextRequest) {
     }
 
     // 2. Fallback to mock session cookie for local preview/testing
-    if (!isAuthenticated) {
+    // SECURITY (OWASP A01): Only allow mock sessions in development
+    if (!isAuthenticated && process.env.NODE_ENV !== "production") {
       const mockSession = request.cookies.get("edumark_mock_session");
       if (mockSession?.value) {
         try {

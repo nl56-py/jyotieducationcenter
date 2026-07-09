@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { getCurrentUser } from "@/lib/auth/guards";
+import { hasPermission } from "@/lib/auth/roles";
 
 const categorySlugMap: Record<string, string> = {
   "Study Abroad Guides": "study-abroad",
@@ -20,12 +21,13 @@ export async function GET() {
       return NextResponse.json({ success: false, error: "Supabase not configured" }, { status: 500 });
     }
 
-    // Query blog posts with their categories
+    // Query blog posts with their categories and cover images
     const { data: dbBlogs, error } = await supabase
       .from("blog_posts")
       .select(`
         *,
-        blog_categories(name)
+        blog_categories(name),
+        cover_image:media_assets!blog_posts_cover_image_id_fkey(path)
       `)
       .order("created_at", { ascending: false });
 
@@ -47,6 +49,8 @@ export async function GET() {
       bodyText: typeof b.content === "object" && b.content?.blocks ? b.content.blocks[0]?.text || "" : b.content || "",
       seoTitle: b.seo_title,
       seoDesc: b.seo_description,
+      coverImageId: b.cover_image_id,
+      coverImagePath: b.cover_image ? b.cover_image.path : null,
     }));
 
     return NextResponse.json(mappedBlogs);
@@ -63,13 +67,18 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
     }
 
+    // SECURITY (OWASP A01): Enforce manage:content permission on write operations
+    if (!hasPermission(user.role, "manage:content")) {
+      return NextResponse.json({ success: false, error: "Forbidden" }, { status: 403 });
+    }
+
     const supabase = await createSupabaseServerClient();
     if (!supabase) {
       return NextResponse.json({ success: false, error: "Supabase not configured" }, { status: 500 });
     }
 
     const body = await request.json();
-    const { slug, title, excerpt, category, status, featured, bodyText, seoTitle, seoDesc } = body;
+    const { slug, title, excerpt, category, status, featured, bodyText, seoTitle, seoDesc, coverImageId } = body;
 
     if (!title || !slug) {
       return NextResponse.json({ success: false, error: "Missing title or slug" }, { status: 400 });
@@ -103,6 +112,7 @@ export async function POST(request: NextRequest) {
         excerpt: excerpt || null,
         content: contentJson,
         category_id: catData ? catData.id : null,
+        cover_image_id: coverImageId || null,
         status: status || "draft",
         featured: !!featured,
         published_at: status === "published" ? new Date().toISOString() : null,
@@ -131,13 +141,18 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
     }
 
+    // SECURITY (OWASP A01): Enforce manage:content permission on write operations
+    if (!hasPermission(user.role, "manage:content")) {
+      return NextResponse.json({ success: false, error: "Forbidden" }, { status: 403 });
+    }
+
     const supabase = await createSupabaseServerClient();
     if (!supabase) {
       return NextResponse.json({ success: false, error: "Supabase not configured" }, { status: 500 });
     }
 
     const body = await request.json();
-    const { id, slug, title, excerpt, category, status, featured, bodyText, seoTitle, seoDesc } = body;
+    const { id, slug, title, excerpt, category, status, featured, bodyText, seoTitle, seoDesc, coverImageId } = body;
 
     if (!id) {
       return NextResponse.json({ success: false, error: "Missing blog post ID" }, { status: 400 });
@@ -150,6 +165,7 @@ export async function PUT(request: NextRequest) {
     if (featured !== undefined) updates.featured = !!featured;
     if (seoTitle !== undefined) updates.seo_title = seoTitle || null;
     if (seoDesc !== undefined) updates.seo_description = seoDesc || null;
+    if (coverImageId !== undefined) updates.cover_image_id = coverImageId || null;
 
     if (status !== undefined) {
       updates.status = status;

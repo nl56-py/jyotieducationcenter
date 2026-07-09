@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { PageHero } from "../components/PageHero.jsx";
 import { assets } from "../data/assets.js";
+import { sanitizeHtml } from "../lib/security/sanitize-html";
 import { Search, ArrowRight, Eye } from "lucide-react";
 
 export function NoticesPage({ notices = [] }) {
@@ -273,7 +274,7 @@ export function NoticesPage({ notices = [] }) {
               <div 
                 className="rich-text-content"
                 style={{ fontSize: "15px", lineHeight: 1.8, color: "var(--navy)" }}
-                dangerouslySetInnerHTML={{ __html: selectedNotice.bodyHtml }}
+                dangerouslySetInnerHTML={{ __html: sanitizeHtml(selectedNotice.bodyHtml) }}
               />
             </div>
 

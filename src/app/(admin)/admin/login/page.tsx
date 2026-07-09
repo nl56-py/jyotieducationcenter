@@ -4,6 +4,23 @@ import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Shield } from "lucide-react";
 
+/**
+ * SECURITY (OWASP A01): Validate redirect target to prevent open redirects.
+ * Only allows relative paths starting with /admin.
+ */
+function getSafeRedirectPath(raw: string | null | undefined): string {
+  if (!raw) return "/admin";
+  // Block protocol-relative URLs, absolute URLs, and paths outside /admin
+  if (raw.includes("://") || raw.startsWith("//") || !raw.startsWith("/")) {
+    return "/admin";
+  }
+  // Ensure path is within /admin
+  if (!raw.startsWith("/admin")) {
+    return "/admin";
+  }
+  return raw;
+}
+
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -29,7 +46,7 @@ function LoginForm() {
 
       if (response.ok && result.success) {
         // Success redirect
-        const nextPath = searchParams ? searchParams.get("next") || "/admin" : "/admin";
+        const nextPath = getSafeRedirectPath(searchParams?.get("next"));
         router.push(nextPath);
         router.refresh();
         return;
@@ -45,8 +62,8 @@ function LoginForm() {
     // 2. Mock Mode Fallback (Allows testing the admin panel immediately!)
     // If password is 'admin123', log in as super_admin. Otherwise, check formats.
     if (email && password) {
-      if (password.length < 6) {
-        setError("Password must be at least 6 characters.");
+      if (password.length < 8) {
+        setError("Password must be at least 8 characters.");
         setLoading(false);
         return;
       }
@@ -81,7 +98,7 @@ function LoginForm() {
       expires.setDate(expires.getDate() + 1);
       document.cookie = `edumark_mock_session=${encodeURIComponent(JSON.stringify(mockSession))}; path=/; expires=${expires.toUTCString()}`;
 
-      const nextPath = searchParams ? searchParams.get("next") || "/admin" : "/admin";
+      const nextPath = getSafeRedirectPath(searchParams?.get("next"));
       router.push(nextPath);
       router.refresh();
     } else {

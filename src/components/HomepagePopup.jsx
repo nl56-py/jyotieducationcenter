@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { AppLink } from "./AppLink.jsx";
 import { Megaphone, X } from "lucide-react";
+import { sanitizeHtml } from "../lib/security/sanitize-html";
 
 export function HomepagePopup({ navigate }) {
   const [popup, setPopup] = useState(null);
@@ -38,7 +39,7 @@ export function HomepagePopup({ navigate }) {
         <span className="homepage-popup-kicker">{popup.display_mode === "banner" ? "Notice" : "EduMark Update"}</span>
         <h2 id="homepage-popup-title">{popup.title}</h2>
         {popup.subtitle && <p className="homepage-popup-subtitle">{popup.subtitle}</p>}
-        {popup.body && <div className="homepage-popup-body" dangerouslySetInnerHTML={{ __html: popup.body }} />}
+        {popup.body && <div className="homepage-popup-body" dangerouslySetInnerHTML={{ __html: sanitizeHtml(popup.body) }} />}
         {popup.cta_label && popup.cta_href && (
           <AppLink to={popup.cta_href} navigate={navigate} className="homepage-popup-cta">
             {popup.cta_label}

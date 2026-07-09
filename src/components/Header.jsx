@@ -96,8 +96,11 @@ export function Header({ onSearch }) {
               alt="EduMark logo"
               className="brand-logo-img"
               style={{
-                height: "78px",
+                height: "86px",
                 width: "auto",
+                objectFit: "contain",
+                imageRendering: "-webkit-optimize-contrast",
+                WebkitBackfaceVisibility: "hidden",
                 transition: "transform 0.3s ease"
               }}
               onMouseEnter={(e) => {
@@ -159,7 +162,17 @@ export function Header({ onSearch }) {
         <div className={`mobile-overlay-drawer ${menuOpen ? "open" : ""}`}>
           <div className="mobile-drawer-header">
             <div className="brand">
-              <img src={assets.logo} alt="EduMark logo" className="brand-logo-img" style={{ height: "62px" }} />
+              <img 
+                src={assets.logo} 
+                alt="EduMark logo" 
+                className="brand-logo-img" 
+                style={{ 
+                  height: "68px", 
+                  width: "auto",
+                  objectFit: "contain",
+                  imageRendering: "-webkit-optimize-contrast" 
+                }} 
+              />
             </div>
             <button
               className="mobile-drawer-close"

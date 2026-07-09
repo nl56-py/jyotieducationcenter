@@ -17,7 +17,8 @@ import {
   Megaphone,
   Globe,
   MessageSquare,
-  Settings
+  Settings,
+  Image
 } from "lucide-react";
 
 interface AdminSidebarProps {
@@ -86,7 +87,7 @@ export function AdminSidebar({
       items: [
         { label: "Blogs", href: "/admin/blogs", icon: FileText, roles: ["super_admin", "admin", "editor"] },
         { label: "Videos", href: "/admin/videos", icon: Video, roles: ["super_admin", "admin", "editor"] },
-        { label: "Photos", href: "/admin/media", icon: Folder, roles: ["super_admin", "admin", "editor"] },
+        { label: "Gallery", href: "/admin/gallery", icon: Image, roles: ["super_admin", "admin", "editor"] },
         { label: "Destinations", href: "/admin/destinations", icon: Globe, roles: ["super_admin", "admin", "editor"] },
         { label: "Key Personnel", href: "/admin/team", icon: Users, roles: ["super_admin", "admin", "editor"] },
         { label: "Student Testimonials", href: "/admin/testimonials", icon: MessageSquare, roles: ["super_admin", "admin", "editor"] },

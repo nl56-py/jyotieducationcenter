@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { getCurrentUser } from "@/lib/auth/guards";
+import { hasPermission } from "@/lib/auth/roles";
 
 export async function GET() {
   try {
@@ -41,6 +42,11 @@ export async function POST(request: NextRequest) {
     const user = await getCurrentUser();
     if (!user) {
       return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
+    }
+
+    // SECURITY (OWASP A01): Enforce manage:settings permission on write operations
+    if (!hasPermission(user.role, "manage:settings")) {
+      return NextResponse.json({ success: false, error: "Forbidden" }, { status: 403 });
     }
 
     const supabase = await createSupabaseServerClient();

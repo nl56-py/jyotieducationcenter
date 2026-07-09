@@ -42,23 +42,26 @@ export async function getCurrentUser(): Promise<AuthenticatedUser | null> {
   }
 
   // 2. Fallback to mock session cookie for local dev previews
-  try {
-    const cookieStore = await cookies();
-    const mockCookie = cookieStore.get("edumark_mock_session");
-    if (mockCookie?.value) {
-      const session = JSON.parse(mockCookie.value);
-      if (session && session.email) {
-        return {
-          id: session.id || "mock-admin-id-12345",
-          email: session.email,
-          role: (session.role as AdminRole) || "super_admin",
-          fullName: session.fullName || "Mock Admin User",
-          isMock: true,
-        };
+  // SECURITY (OWASP A01): Only allow mock sessions in development
+  if (process.env.NODE_ENV !== "production") {
+    try {
+      const cookieStore = await cookies();
+      const mockCookie = cookieStore.get("edumark_mock_session");
+      if (mockCookie?.value) {
+        const session = JSON.parse(mockCookie.value);
+        if (session && session.email) {
+          return {
+            id: session.id || "mock-admin-id-12345",
+            email: session.email,
+            role: (session.role as AdminRole) || "super_admin",
+            fullName: session.fullName || "Mock Admin User",
+            isMock: true,
+          };
+        }
       }
+    } catch (e) {
+      // Ignore cookies read error in static layouts
     }
-  } catch (e) {
-    // Ignore cookies read error in static layouts
   }
 
   return null;

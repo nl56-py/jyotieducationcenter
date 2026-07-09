@@ -4,6 +4,21 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { getCurrentUser } from "@/lib/auth/guards";
 import { hasPermission } from "@/lib/auth/roles";
 
+// SECURITY (OWASP A04): Allowlisted MIME types for media uploads
+const ALLOWED_MIME_TYPES = new Set([
+  "image/jpeg",
+  "image/png",
+  "image/gif",
+  "image/webp",
+  "image/avif",
+  "application/pdf",
+  "video/mp4",
+  "video/webm",
+]);
+
+// Maximum upload file size: 10MB
+const MAX_FILE_SIZE = 10 * 1024 * 1024;
+
 function cleanFileName(name: string) {
   const parts = name.split(".");
   const ext = parts.length > 1 ? `.${parts.pop()}` : "";
@@ -29,6 +44,22 @@ export async function POST(request: NextRequest) {
 
     if (!(file instanceof File)) {
       return NextResponse.json({ success: false, error: "Missing upload file" }, { status: 400 });
+    }
+
+    // SECURITY (OWASP A04): Validate file type and size
+    const mimeType = file.type || "application/octet-stream";
+    if (!ALLOWED_MIME_TYPES.has(mimeType)) {
+      return NextResponse.json(
+        { success: false, error: `File type "${mimeType}" is not allowed. Accepted: images, PDFs, and videos.` },
+        { status: 400 }
+      );
+    }
+
+    if (file.size > MAX_FILE_SIZE) {
+      return NextResponse.json(
+        { success: false, error: `File size exceeds the 10MB limit.` },
+        { status: 400 }
+      );
     }
 
     const supabase = createSupabaseAdminClient() || await createSupabaseServerClient();

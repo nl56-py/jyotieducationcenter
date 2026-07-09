@@ -48,18 +48,29 @@ export async function GET() {
       ];
     }
 
+    // SECURITY (OWASP A03): Neutralize CSV injection — prefix dangerous chars
+    const csvSafe = (val: string): string => {
+      if (!val) return "";
+      const escaped = val.replace(/"/g, '""');
+      // If a cell starts with a formula trigger character, prefix with single quote
+      if (/^[=+\-@\t\r]/.test(escaped)) {
+        return `'${escaped}`;
+      }
+      return escaped;
+    };
+
     // 3. Construct CSV
     const headers = ["Full Name", "Phone", "Email", "Preferred Destination", "Course Interest", "Source", "Status", "Created At"];
     const csvContent = [
       headers.join(","),
       ...leads.map(l => [
-        `"${l.full_name.replace(/"/g, '""')}"`,
-        `"${l.phone}"`,
-        `"${(l.email || "").replace(/"/g, '""')}"`,
-        `"${(l.preferred_destination || "").replace(/"/g, '""')}"`,
-        `"${(l.course_interest || "").replace(/"/g, '""')}"`,
-        `"${l.source}"`,
-        `"${l.status}"`,
+        `"${csvSafe(l.full_name)}"`,
+        `"${csvSafe(l.phone)}"`,
+        `"${csvSafe(l.email || "")}"`,
+        `"${csvSafe(l.preferred_destination || "")}"`,
+        `"${csvSafe(l.course_interest || "")}"`,
+        `"${csvSafe(l.source)}"`,
+        `"${csvSafe(l.status)}"`,
         `"${new Date(l.created_at).toISOString()}"`
       ].join(","))
     ].join("\n");

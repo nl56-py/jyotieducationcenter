@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth/guards";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
+import { safeErrorResponse } from "@/lib/security/api-error";
 
 const VALID_ROLES = ["super_admin", "admin", "editor", "counselor", "viewer"];
 const VALID_STATUSES = ["active", "suspended", "deleted"];
@@ -65,8 +66,8 @@ export async function PATCH(
     let newUserId = targetUser.user_id;
 
     if (password !== undefined) {
-      if (password.length < 6) {
-        return NextResponse.json({ success: false, error: "Password must be at least 6 characters." }, { status: 400 });
+      if (password.length < 8) {
+        return NextResponse.json({ success: false, error: "Password must be at least 8 characters." }, { status: 400 });
       }
       if (!user.isMock && supabaseAdmin) {
         if (!newUserId) {
@@ -180,7 +181,6 @@ export async function PATCH(
 
     return NextResponse.json({ success: true, user: updatedProfile });
   } catch (err: any) {
-    console.error("Users item PATCH error:", err);
-    return NextResponse.json({ success: false, error: err.message }, { status: 500 });
+    return safeErrorResponse(err, { logLabel: "Users item PATCH" });
   }
 }
