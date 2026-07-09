@@ -878,17 +878,18 @@ export function HomePage({ initialVideos = [], initialBlogs = [], initialTestimo
       <section className="video-gallery-section">
         <div className="video-gallery-container">
           
-          <div className="em-section-title-wrapper">
-            <span className="em-eyebrow">✈ VIDEO GALLERY</span>
-            <h2 className="em-h2">Hear From Our Successful Students</h2>
+          <div className="em-section-title-wrapper" style={{ marginBottom: "45px" }}>
+            <h2 className="em-h2" style={{ maxWidth: "800px", margin: "0 auto", fontSize: "28px", lineHeight: 1.4 }}>
+              A gallery-style page ready for office videos, reels, testimonials, destination guides, and preparation highlights.
+            </h2>
             <span className="em-title-line-decor" />
           </div>
 
           <div className="video-grid">
             {initialVideos && initialVideos.length > 0 ? (
               initialVideos.map((video) => (
-                <div className="video-card" key={video.id} style={{ display: "flex", flexDirection: "column" }}>
-                  <div style={{ position: "relative", width: "100%", paddingTop: "56.25%", background: "#000", borderRadius: "12px", overflow: "hidden" }}>
+                <div className="video-card" key={video.id} style={{ display: "flex", flexDirection: "column", height: "auto", aspectRatio: "auto" }}>
+                  <div style={{ position: "relative", width: "100%", paddingTop: video.isPortrait ? "177.77%" : "56.25%", background: "#000", borderRadius: "12px", overflow: "hidden" }}>
                     {video.media === "video" || video.media === "local" ? (
                       <video controls poster={video.poster} style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", objectFit: "cover" }}>
                         <source src={video.videoUrl} type="video/mp4" />

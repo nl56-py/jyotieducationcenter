@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Upload, Image as ImageIcon, Trash2, Eye, Edit2, Save, X } from "lucide-react";
 import { MediaUploadField } from "@/components/admin/MediaUploadField";
+import { getMediaUrl } from "@/lib/utils/media";
 
 export default function GalleryManagementPage() {
   const [assets, setAssets] = useState<any[]>([]);
@@ -169,7 +170,7 @@ export default function GalleryManagementPage() {
                   
                   {/* Image Preview */}
                   <div className="media-preview" style={{ height: "180px", display: "flex", alignItems: "center", justifyContent: "center", background: "var(--dm-surface-container-high)", position: "relative" }}>
-                    <img src={asset.path} alt={asset.alt_text || asset.file_name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                    <img src={getMediaUrl(asset.path)} alt={asset.alt_text || asset.file_name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                     <div style={{ position: "absolute", bottom: "8px", right: "8px", background: "rgba(0,0,0,0.6)", color: "#fff", fontSize: "10px", padding: "2px 6px", borderRadius: "3px" }}>
                       {asset.mime_type?.split("/")[1]?.toUpperCase() || "IMG"}
                     </div>

@@ -5,6 +5,7 @@ import { PageHero } from "../components/PageHero.jsx";
 import { assets } from "../data/assets.js";
 import { sanitizeHtml } from "../lib/security/sanitize-html";
 import { Search, ArrowRight, Eye } from "lucide-react";
+import { getMediaUrl } from "../lib/utils/media";
 
 export function NoticesPage({ notices = [] }) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -90,6 +91,17 @@ export function NoticesPage({ notices = [] }) {
                     position: "relative"
                   }}
                 >
+                  {/* Notice Image Header */}
+                  {item.imagePath && (
+                    <div style={{ height: "180px", overflow: "hidden", position: "relative", background: "var(--surface-mist)" }}>
+                      <img 
+                        src={getMediaUrl(item.imagePath)} 
+                        alt={item.title} 
+                        style={{ width: "100%", height: "100%", objectFit: "cover" }} 
+                      />
+                    </div>
+                  )}
+
                   {/* Badge */}
                   <div style={{
                     position: "absolute",
@@ -112,7 +124,7 @@ export function NoticesPage({ notices = [] }) {
                     </span>
                   </div>
 
-                  <div style={{ padding: "30px", paddingTop: "55px", display: "flex", flexDirection: "column", flex: 1 }}>
+                  <div style={{ padding: "30px", paddingTop: item.imagePath ? "24px" : "55px", display: "flex", flexDirection: "column", flex: 1 }}>
                     <div style={{ fontSize: "13px", color: "var(--muted)", marginBottom: "12px", display: "flex", alignItems: "center", gap: "6px" }}>
                       <span>📅 Published: {item.date}</span>
                     </div>
@@ -269,6 +281,15 @@ export function NoticesPage({ notices = [] }) {
 
             {/* Modal Body */}
             <div style={{ padding: "30px", overflowY: "auto" }}>
+              {selectedNotice.imagePath && (
+                <div style={{ width: "100%", maxHeight: "300px", overflow: "hidden", borderRadius: "12px", marginBottom: "20px" }}>
+                  <img 
+                    src={getMediaUrl(selectedNotice.imagePath)} 
+                    alt={selectedNotice.title} 
+                    style={{ width: "100%", height: "100%", objectFit: "cover" }} 
+                  />
+                </div>
+              )}
 
               {/* Rich Text Body */}
               <div 

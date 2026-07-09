@@ -9,12 +9,32 @@ import "../styles/frontend.css";
 
 import { navItems, site } from "../data/site.js";
 import { ChevronDown, ArrowRight, ArrowUpRight, Menu, X, Phone, MapPin } from "lucide-react";
+import { Logo } from "./Logo.jsx";
+
+// Toggle this boolean to switch between the original image logo and the custom HTML/CSS logo
+const USE_CUSTOM_LOGO = false;
 
 
 export function Header({ onSearch }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [banner, setBanner] = useState(null);
   const pathname = usePathname();
+
+  useEffect(() => {
+    let active = true;
+    fetch("/api/public/homepage-popup", { cache: "no-store" })
+      .then((res) => res.json())
+      .then((data) => {
+        if (active && data?.popup) {
+          setBanner(data.popup);
+        }
+      })
+      .catch((err) => console.warn("Failed to fetch announcement banner:", err));
+    return () => {
+      active = false;
+    };
+  }, []);
 
   const active = (target) => {
     if (target === "/") return pathname === "/";
@@ -56,16 +76,35 @@ export function Header({ onSearch }) {
         position: "relative",
         zIndex: 1000
       }}>
-        <span>📢 Applications are now open for the next intake!</span>
-        <Link href="/book-free-consultation" style={{
-          color: "#06b6d4",
-          textDecoration: "underline",
-          fontWeight: "700",
-          display: "inline-flex",
-          alignItems: "center"
-        }}>
-          Book Free Counseling Now <ArrowRight size={13} style={{ marginLeft: "4px", display: "inline-block" }} />
-        </Link>
+        {banner ? (
+          <>
+            <span>📢 {banner.title}</span>
+            {banner.cta_label && banner.cta_href && (
+              <Link href={banner.cta_href} style={{
+                color: "#06b6d4",
+                textDecoration: "underline",
+                fontWeight: "700",
+                display: "inline-flex",
+                alignItems: "center"
+              }}>
+                {banner.cta_label} <ArrowRight size={13} style={{ marginLeft: "4px", display: "inline-block" }} />
+              </Link>
+            )}
+          </>
+        ) : (
+          <>
+            <span>📢 Applications are now open for the next intake!</span>
+            <Link href="/book-free-consultation" style={{
+              color: "#06b6d4",
+              textDecoration: "underline",
+              fontWeight: "700",
+              display: "inline-flex",
+              alignItems: "center"
+            }}>
+              Book Free Counseling Now <ArrowRight size={13} style={{ marginLeft: "4px", display: "inline-block" }} />
+            </Link>
+          </>
+        )}
       </div>
 
       <header className="site-header">
@@ -90,32 +129,36 @@ export function Header({ onSearch }) {
 
         {/* Navigation Bar */}
         <div className="nav-shell">
-          <Link href="/" className="brand">
-            <img 
-              src={assets.logo} 
-              alt="EduMark logo"
-              className="brand-logo-img"
-              style={{
-                height: "86px",
-                width: "auto",
-                objectFit: "contain",
-                imageRendering: "-webkit-optimize-contrast",
-                WebkitBackfaceVisibility: "hidden",
-                transition: "transform 0.3s ease"
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "scale(1.08)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "scale(1)";
-              }}
-            />
-          </Link>
+          {USE_CUSTOM_LOGO ? (
+            <Logo />
+          ) : (
+            <Link href="/" className="brand">
+              <img 
+                src={assets.logo} 
+                alt="EduMark logo"
+                className="brand-logo-img"
+                style={{
+                  height: "96px",
+                  width: "auto",
+                  objectFit: "contain",
+                  imageRendering: "-webkit-optimize-contrast",
+                  WebkitBackfaceVisibility: "hidden",
+                  transition: "transform 0.3s ease"
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "scale(1.08)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "scale(1)";
+                }}
+              />
+            </Link>
+          )}
 
           {/* Desktop Navigation links */}
           <nav className="desktop-nav" aria-label="Primary navigation">
             {navItems.map((item) => (
-              <div className="nav-group" key={item.path}>
+              <div className="nav-group" key={item.label}>
                 <AppLink
                   to={item.path}
                   className={active(item.path) ? "nav-item nav-item-active" : "nav-item"}
@@ -126,7 +169,7 @@ export function Header({ onSearch }) {
                 {item.children ? (
                   <div className="nav-menu">
                     {item.children.map((child) => (
-                      <AppLink key={child.path} to={child.path} className="nav-subitem">
+                      <AppLink key={child.label} to={child.path} className="nav-subitem">
                         <span>{child.label}</span>
                         <ArrowUpRight size={13} />
                       </AppLink>
@@ -161,19 +204,23 @@ export function Header({ onSearch }) {
         />
         <div className={`mobile-overlay-drawer ${menuOpen ? "open" : ""}`}>
           <div className="mobile-drawer-header">
-            <div className="brand">
-              <img 
-                src={assets.logo} 
-                alt="EduMark logo" 
-                className="brand-logo-img" 
-                style={{ 
-                  height: "68px", 
-                  width: "auto",
-                  objectFit: "contain",
-                  imageRendering: "-webkit-optimize-contrast" 
-                }} 
-              />
-            </div>
+            {USE_CUSTOM_LOGO ? (
+              <Logo />
+            ) : (
+              <div className="brand">
+                <img 
+                  src={assets.logo} 
+                  alt="EduMark logo" 
+                  className="brand-logo-img" 
+                  style={{ 
+                    height: "68px", 
+                    width: "auto",
+                    objectFit: "contain",
+                    imageRendering: "-webkit-optimize-contrast" 
+                  }} 
+                />
+              </div>
+            )}
             <button
               className="mobile-drawer-close"
               type="button"
@@ -186,7 +233,7 @@ export function Header({ onSearch }) {
 
           <div className="mobile-drawer-links">
             {navItems.map((item) => (
-              <div key={item.path} style={{ display: "flex", flexDirection: "column" }}>
+              <div key={item.label} style={{ display: "flex", flexDirection: "column" }}>
                 <AppLink
                   to={item.path}
                   className="mobile-drawer-item"
@@ -197,7 +244,7 @@ export function Header({ onSearch }) {
                 {item.children
                   ? item.children.map((child) => (
                       <AppLink
-                        key={child.path}
+                        key={child.label}
                         to={child.path}
                         className="mobile-drawer-subitem"
                         onClick={() => setMenuOpen(false)}
