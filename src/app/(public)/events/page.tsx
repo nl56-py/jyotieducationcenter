@@ -15,7 +15,7 @@ export default async function EventsRoute() {
   if (supabase) {
     const { data: dbEvents } = await supabase
       .from("notices_events")
-      .select("*")
+      .select("*, media_assets(path)")
       .eq("type", "event")
       .eq("status", "published")
       .order("sort_order", { ascending: true })
@@ -40,6 +40,7 @@ export default async function EventsRoute() {
         ctaLabel: n.cta_label || "",
         ctaHref: n.cta_href || "",
         featured: n.featured,
+        imagePath: n.media_assets?.path || null,
         date: n.published_at
           ? new Date(n.published_at).toLocaleDateString("en-US", {
               year: "numeric",

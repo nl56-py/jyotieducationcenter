@@ -5,6 +5,7 @@ import { PageHero } from "../components/PageHero.jsx";
 import { assets } from "../data/assets.js";
 import { sanitizeHtml } from "../lib/security/sanitize-html";
 import { Search, Calendar, MapPin, ArrowRight, Eye } from "lucide-react";
+import { getMediaUrl } from "../lib/utils/media";
 
 export function EventsPage({ events = [] }) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -89,6 +90,17 @@ export function EventsPage({ events = [] }) {
                     position: "relative"
                   }}
                 >
+                  {/* Event Image Header */}
+                  {item.imagePath && (
+                    <div style={{ height: "180px", overflow: "hidden", position: "relative", background: "var(--surface-mist)" }}>
+                      <img 
+                        src={getMediaUrl(item.imagePath)} 
+                        alt={item.title} 
+                        style={{ width: "100%", height: "100%", objectFit: "cover" }} 
+                      />
+                    </div>
+                  )}
+
                   {/* Badge */}
                   <div style={{ position: "absolute", top: "20px", left: "20px", zIndex: 2 }}>
                     <span style={{
@@ -122,7 +134,7 @@ export function EventsPage({ events = [] }) {
                     )}
                   </div>
 
-                  <div style={{ padding: "30px", paddingTop: "55px", display: "flex", flexDirection: "column", flex: 1 }}>
+                  <div style={{ padding: "30px", paddingTop: item.imagePath ? "24px" : "55px", display: "flex", flexDirection: "column", flex: 1 }}>
                     <div style={{ fontSize: "13px", color: "var(--muted)", marginBottom: "12px", display: "flex", alignItems: "center", gap: "6px" }}>
                       <span>📅 Published: {item.date}</span>
                     </div>
@@ -305,6 +317,15 @@ export function EventsPage({ events = [] }) {
 
             {/* Modal Body */}
             <div style={{ padding: "30px", overflowY: "auto" }}>
+              {selectedEvent.imagePath && (
+                <div style={{ width: "100%", maxHeight: "300px", overflow: "hidden", borderRadius: "12px", marginBottom: "20px" }}>
+                  <img 
+                    src={getMediaUrl(selectedEvent.imagePath)} 
+                    alt={selectedEvent.title} 
+                    style={{ width: "100%", height: "100%", objectFit: "cover" }} 
+                  />
+                </div>
+              )}
               {(selectedEvent.eventDate || selectedEvent.location) && (
                 <div style={{
                   background: "var(--surface-mist)",

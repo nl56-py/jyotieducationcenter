@@ -4,6 +4,7 @@ import { useState } from "react";
 import { PageHero } from "../components/PageHero.jsx";
 import { assets } from "../data/assets.js";
 import { Eye, X, ChevronLeft, ChevronRight, Image as ImageIcon } from "lucide-react";
+import { isDriveUrl, getDriveEmbedUrl, getMediaUrl } from "../lib/utils/media";
 
 export function GalleryPage({ photos = [] }) {
   const [lightboxIndex, setLightboxIndex] = useState(null);
@@ -113,7 +114,7 @@ export function GalleryPage({ photos = [] }) {
                   {/* Photo Container */}
                   <div style={{ height: "240px", overflow: "hidden", position: "relative", background: "var(--surface-mist)" }}>
                     <img
-                      src={photo.path}
+                      src={getMediaUrl(photo.path)}
                       alt={photo.altText}
                       className="gallery-img"
                       style={{
@@ -287,17 +288,32 @@ export function GalleryPage({ photos = [] }) {
               justifyContent: "center",
               overflow: "hidden"
             }}>
-              <img
-                src={photos[lightboxIndex].path}
-                alt={photos[lightboxIndex].altText}
-                style={{
-                  maxHeight: "75vh",
-                  maxWidth: "100%",
-                  objectFit: "contain",
-                  borderRadius: "8px",
-                  boxShadow: "0 10px 50px rgba(0,0,0,0.5)"
-                }}
-              />
+              {isDriveUrl(photos[lightboxIndex].path) ? (
+                <iframe
+                  src={getDriveEmbedUrl(photos[lightboxIndex].path)}
+                  style={{
+                    width: "100%",
+                    height: "70vh",
+                    border: "none",
+                    borderRadius: "8px",
+                    boxShadow: "0 10px 50px rgba(0,0,0,0.5)",
+                    background: "#000"
+                  }}
+                  allow="autoplay"
+                />
+              ) : (
+                <img
+                  src={getMediaUrl(photos[lightboxIndex].path)}
+                  alt={photos[lightboxIndex].altText}
+                  style={{
+                    maxHeight: "75vh",
+                    maxWidth: "100%",
+                    objectFit: "contain",
+                    borderRadius: "8px",
+                    boxShadow: "0 10px 50px rgba(0,0,0,0.5)"
+                  }}
+                />
+              )}
             </div>
 
             {/* Lightbox Metadata */}
