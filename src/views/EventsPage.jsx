@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { PageHero } from "../components/PageHero.jsx";
 import { assets } from "../data/assets.js";
+import { sanitizeHtml } from "../lib/security/sanitize-html";
 import { Search, Calendar, MapPin, ArrowRight, Eye } from "lucide-react";
 
 export function EventsPage({ events = [] }) {
@@ -334,7 +335,7 @@ export function EventsPage({ events = [] }) {
               <div
                 className="rich-text-content"
                 style={{ fontSize: "15px", lineHeight: 1.8, color: "var(--navy)" }}
-                dangerouslySetInnerHTML={{ __html: selectedEvent.bodyHtml }}
+                dangerouslySetInnerHTML={{ __html: sanitizeHtml(selectedEvent.bodyHtml) }}
               />
             </div>
 

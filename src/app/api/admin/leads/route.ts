@@ -71,6 +71,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
     }
 
+    // SECURITY (OWASP A01): Enforce manage:leads permission on write operations
+    if (!hasPermission(user.role, "manage:leads")) {
+      return NextResponse.json({ success: false, error: "Forbidden" }, { status: 403 });
+    }
     const supabase = await createSupabaseServerClient();
     if (!supabase) {
       return NextResponse.json({ success: false, error: "Supabase not configured" }, { status: 500 });
@@ -128,6 +132,10 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
     }
 
+    // SECURITY (OWASP A01): Enforce manage:leads permission on write operations
+    if (!hasPermission(user.role, "manage:leads")) {
+      return NextResponse.json({ success: false, error: "Forbidden" }, { status: 403 });
+    }
     const supabase = await createSupabaseServerClient();
     if (!supabase) {
       return NextResponse.json({ success: false, error: "Supabase not configured" }, { status: 500 });

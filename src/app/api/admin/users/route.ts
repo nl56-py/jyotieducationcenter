@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth/guards";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { safeErrorResponse } from "@/lib/security/api-error";
 
 // Helper to check if role is valid
 const VALID_ROLES = ["super_admin", "admin", "editor", "counselor", "viewer"];
@@ -41,8 +42,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(dbUsers || []);
   } catch (err: any) {
-    console.error("Users API GET error:", err);
-    return NextResponse.json({ success: false, error: err.message }, { status: 500 });
+    return safeErrorResponse(err, { logLabel: "Users API GET" });
   }
 }
 
@@ -114,7 +114,6 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ success: true, user: profile });
   } catch (err: any) {
-    console.error("Users API POST error:", err);
-    return NextResponse.json({ success: false, error: err.message }, { status: 500 });
+    return safeErrorResponse(err, { logLabel: "Users API POST" });
   }
 }

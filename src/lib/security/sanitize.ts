@@ -35,7 +35,7 @@ export function normalizePhone(phone: string): string {
 /**
  * Hashes sensitive details (like IP addresses, user agents, or emails for matching) to protect privacy in logs
  */
-export function hashString(value: string, salt = "edumark-security-salt"): string {
+export function hashString(value: string, salt = process.env.HASH_SALT || "edumark-security-salt"): string {
   if (!value) return "";
   return createHash("sha256")
     .update(value + salt)

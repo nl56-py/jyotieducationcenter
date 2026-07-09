@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { getCurrentUser } from "@/lib/auth/guards";
+import { hasPermission } from "@/lib/auth/roles";
 
 const categorySlugMap: Record<string, string> = {
   "Study Abroad Guides": "study-abroad",
@@ -61,6 +62,11 @@ export async function POST(request: NextRequest) {
     const user = await getCurrentUser();
     if (!user) {
       return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
+    }
+
+    // SECURITY (OWASP A01): Enforce manage:content permission on write operations
+    if (!hasPermission(user.role, "manage:content")) {
+      return NextResponse.json({ success: false, error: "Forbidden" }, { status: 403 });
     }
 
     const supabase = await createSupabaseServerClient();
@@ -129,6 +135,11 @@ export async function PUT(request: NextRequest) {
     const user = await getCurrentUser();
     if (!user) {
       return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
+    }
+
+    // SECURITY (OWASP A01): Enforce manage:content permission on write operations
+    if (!hasPermission(user.role, "manage:content")) {
+      return NextResponse.json({ success: false, error: "Forbidden" }, { status: 403 });
     }
 
     const supabase = await createSupabaseServerClient();

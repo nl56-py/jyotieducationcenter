@@ -10,8 +10,8 @@ export async function POST(request: NextRequest) {
     }
 
     const { password } = await request.json();
-    if (!password || password.length < 6) {
-      return NextResponse.json({ success: false, error: "Password must be at least 6 characters long" }, { status: 400 });
+    if (!password || password.length < 8) {
+      return NextResponse.json({ success: false, error: "Password must be at least 8 characters long" }, { status: 400 });
     }
 
     // Mock mode handling

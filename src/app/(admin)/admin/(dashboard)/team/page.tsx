@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Plus, Edit2, Users, Trash2, Search } from "lucide-react";
 import { RichTextEditor } from "@/components/admin/RichTextEditor";
 import { MediaUploadField } from "@/components/admin/MediaUploadField";
+import { sanitizeHtml } from "@/lib/security/sanitize-html";
 
 export default function TeamCMSPage() {
   // Lists
@@ -189,7 +190,7 @@ export default function TeamCMSPage() {
                   </td>
                   <td>
                     <div style={{ fontWeight: 600 }}>{t.name}</div>
-                    {t.bio && <div style={{ fontSize: "12px", color: "var(--dm-outline)", maxWidth: "300px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} dangerouslySetInnerHTML={{ __html: t.bio }} />}
+                    {t.bio && <div style={{ fontSize: "12px", color: "var(--dm-outline)", maxWidth: "300px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} dangerouslySetInnerHTML={{ __html: sanitizeHtml(t.bio) }} />}
                   </td>
                   <td>{t.role_title}</td>
                   <td>{t.sort_order || 0}</td>
