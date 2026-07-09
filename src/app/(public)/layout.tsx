@@ -42,7 +42,7 @@ export default function PublicLayout({
   }, []);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+    <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh", overflowX: "hidden", position: "relative", width: "100%" }}>
       <Header onSearch={() => setSearchOpen(true)} />
       <main style={{ flex: 1 }}>
         {children}
