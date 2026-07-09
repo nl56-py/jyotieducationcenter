@@ -1,28 +1,26 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { CalendarDays, Edit2, Megaphone, Plus, Trash2 } from "lucide-react";
+import { Bell, Edit2, Plus, Trash2, Calendar } from "lucide-react";
 import { RichTextEditor } from "@/components/admin/RichTextEditor";
 import { MediaUploadField } from "@/components/admin/MediaUploadField";
 
-export default function NoticesEventsPage() {
+export default function BannersPage() {
   const [items, setItems] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [editorOpen, setEditorOpen] = useState(false);
   const [selected, setSelected] = useState<any | null>(null);
   const [form, setForm] = useState<any>({
-    type: "notice",
     title: "",
-    slug: "",
-    excerpt: "",
+    subtitle: "",
     bodyText: "",
-    event_date: "",
-    location: "",
     cta_label: "",
     cta_href: "",
     image_id: "",
     image_path: "",
-    featured: false,
+    display_mode: "modal",
+    starts_at: "",
+    ends_at: "",
     sort_order: 0,
     status: "draft",
   });
@@ -30,7 +28,7 @@ export default function NoticesEventsPage() {
   const loadItems = async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/admin/notices");
+      const res = await fetch("/api/admin/banners");
       if (res.ok) {
         const data = await res.json();
         setItems(data || []);
@@ -38,7 +36,7 @@ export default function NoticesEventsPage() {
         return;
       }
     } catch (err) {
-      console.warn("Failed to load notices:", err);
+      console.warn("Failed to load banners:", err);
     }
     setItems([]);
     setLoading(false);
@@ -52,22 +50,21 @@ export default function NoticesEventsPage() {
     setSelected(item || null);
     setForm(item ? {
       ...item,
-      bodyText: item.body?.html || "",
-      event_date: item.event_date ? item.event_date.slice(0, 16) : "",
+      bodyText: item.body || "",
       image_path: item.media_assets?.path || "",
+      starts_at: item.starts_at ? item.starts_at.slice(0, 16) : "",
+      ends_at: item.ends_at ? item.ends_at.slice(0, 16) : "",
     } : {
-      type: "notice",
       title: "",
-      slug: "",
-      excerpt: "",
+      subtitle: "",
       bodyText: "",
-      event_date: "",
-      location: "",
       cta_label: "",
       cta_href: "",
       image_id: "",
       image_path: "",
-      featured: false,
+      display_mode: "modal",
+      starts_at: "",
+      ends_at: "",
       sort_order: 0,
       status: "draft",
     });
@@ -80,14 +77,14 @@ export default function NoticesEventsPage() {
     event.preventDefault();
     setLoading(true);
     const payload = { ...form, id: selected?.id };
-    const res = await fetch("/api/admin/notices", {
+    const res = await fetch("/api/admin/banners", {
       method: selected ? "PUT" : "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
     if (!res.ok) {
       const data = await res.json();
-      alert(data.error || "Failed to save notice/event");
+      alert(data.error || "Failed to save banner");
     } else {
       setEditorOpen(false);
       await loadItems();
@@ -96,12 +93,12 @@ export default function NoticesEventsPage() {
   };
 
   const deleteItem = async (id: string) => {
-    if (!window.confirm("Delete this notice/event permanently?")) return;
+    if (!window.confirm("Delete this banner permanently?")) return;
     setLoading(true);
-    const res = await fetch(`/api/admin/notices?id=${id}`, { method: "DELETE" });
+    const res = await fetch(`/api/admin/banners?id=${id}`, { method: "DELETE" });
     if (!res.ok) {
       const data = await res.json();
-      alert(data.error || "Failed to delete notice/event");
+      alert(data.error || "Failed to delete banner");
     }
     await loadItems();
     setLoading(false);
@@ -111,12 +108,12 @@ export default function NoticesEventsPage() {
     <div>
       <div className="admin-page-hero">
         <div>
-          <span className="admin-kicker">Campaigns</span>
-          <h2>Notices, Events & Homepage Popups</h2>
-          <p>Create refresh-visible homepage popups, notice banners, and event cards.</p>
+          <span className="admin-kicker">Homepage Controls</span>
+          <h2>Homepage Popups & Announcement Banners</h2>
+          <p>Manage pop-up modals and header announcement banners shown on the home page.</p>
         </div>
         <button className="btn btn-primary" onClick={() => openEditor()}>
-          <Plus size={16} /> Add Notice/Event
+          <Plus size={16} /> Add Popup/Banner
         </button>
       </div>
 
@@ -125,29 +122,34 @@ export default function NoticesEventsPage() {
           <table className="admin-table">
             <thead>
               <tr>
-                <th>Title</th>
-                <th>Type</th>
-                <th>Event Date</th>
-                <th>Featured</th>
+                <th>Title / Subtitle</th>
+                <th>Display Mode</th>
+                <th>Schedule</th>
                 <th>Status</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
               {loading && items.length === 0 ? (
-                <tr><td colSpan={6} style={{ textAlign: "center", padding: 40 }}>Loading notices...</td></tr>
+                <tr><td colSpan={5} style={{ textAlign: "center", padding: 40 }}>Loading banners...</td></tr>
+              ) : items.length === 0 ? (
+                <tr><td colSpan={5} style={{ textAlign: "center", padding: 40 }}>No popups or banners created. Click "Add Popup/Banner" to create one.</td></tr>
               ) : items.map((item) => (
                 <tr key={item.id}>
                   <td>
                     <div style={{ display: "flex", gap: 10, alignItems: "center", fontWeight: 700 }}>
-                      {item.type === "event" ? <CalendarDays size={16} /> : <Megaphone size={16} />}
+                      <Bell size={16} />
                       {item.title}
                     </div>
-                    <div style={{ fontSize: 12, color: "var(--dm-outline)" }}>/{item.slug}</div>
+                    {item.subtitle && <div style={{ fontSize: 12, color: "var(--dm-outline)" }}>{item.subtitle}</div>}
                   </td>
-                  <td style={{ textTransform: "capitalize" }}>{item.type}</td>
-                  <td>{item.event_date ? new Date(item.event_date).toLocaleString() : "N/A"}</td>
-                  <td>{item.featured ? "Yes" : "No"}</td>
+                  <td style={{ textTransform: "capitalize" }}>{item.display_mode}</td>
+                  <td>
+                    <div style={{ fontSize: 12, display: "flex", flexDirection: "column" }}>
+                      <span><strong>Starts:</strong> {item.starts_at ? new Date(item.starts_at).toLocaleString() : "Immediately"}</span>
+                      <span><strong>Ends:</strong> {item.ends_at ? new Date(item.ends_at).toLocaleString() : "Never"}</span>
+                    </div>
+                  </td>
                   <td><span className={`status-badge content-${item.status}`}>{item.status}</span></td>
                   <td>
                     <div style={{ display: "flex", gap: 8 }}>
@@ -170,31 +172,27 @@ export default function NoticesEventsPage() {
         <div className="modal-overlay" onClick={() => setEditorOpen(false)}>
           <div className="modal-content" style={{ maxWidth: 820 }} onClick={(event) => event.stopPropagation()}>
             <div className="modal-header">
-              <h3 className="modal-title">{selected ? "Edit Notice/Event" : "Create Notice/Event"}</h3>
+              <h3 className="modal-title">{selected ? "Edit Homepage Popup/Banner" : "Create Homepage Popup/Banner"}</h3>
               <button className="btn btn-light" onClick={() => setEditorOpen(false)}>X</button>
             </div>
             <form onSubmit={saveItem}>
               <div className="modal-body" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
                 <div>
                   <div className="form-group">
-                    <label className="form-label">Type</label>
-                    <select className="form-select" value={form.type} onChange={(event) => updateForm({ type: event.target.value })}>
-                      <option value="notice">Notice</option>
-                      <option value="event">Event</option>
+                    <label className="form-label">Display Mode</label>
+                    <select className="form-select" value={form.display_mode} onChange={(event) => updateForm({ display_mode: event.target.value })}>
+                      <option value="modal">Modal Popup Box (Middle Screen)</option>
+                      <option value="banner">Header Announcement Strip (Top Header)</option>
                     </select>
                   </div>
                   <div className="form-group">
                     <label className="form-label">Title</label>
-                    <input className="form-input" value={form.title} onChange={(event) => {
-                      const title = event.target.value;
-                      updateForm({ title, slug: title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "") });
-                    }} required />
+                    <input className="form-input" value={form.title} onChange={(event) => updateForm({ title: event.target.value })} required />
                   </div>
                   <div className="form-group">
-                    <label className="form-label">Slug</label>
-                    <input className="form-input" value={form.slug} onChange={(event) => updateForm({ slug: event.target.value })} required />
+                    <label className="form-label">Subtitle / Description Excerpt</label>
+                    <input className="form-input" value={form.subtitle || ""} onChange={(event) => updateForm({ subtitle: event.target.value })} />
                   </div>
-                  <RichTextEditor label="Excerpt" value={form.excerpt || ""} onChange={(value) => updateForm({ excerpt: value })} minHeight={90} />
                   <div className="form-group">
                     <label className="form-label">Status</label>
                     <select className="form-select" value={form.status} onChange={(event) => updateForm({ status: event.target.value })}>
@@ -203,28 +201,35 @@ export default function NoticesEventsPage() {
                       <option value="archived">Archived</option>
                     </select>
                   </div>
+                  <div className="form-group">
+                    <label className="form-label">CTA Label</label>
+                    <input className="form-input" placeholder="e.g. Register Now" value={form.cta_label || ""} onChange={(event) => updateForm({ cta_label: event.target.value })} />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label">CTA Link URL</label>
+                    <input className="form-input" placeholder="e.g. /book-free-consultation" value={form.cta_href || ""} onChange={(event) => updateForm({ cta_href: event.target.value })} />
+                  </div>
                 </div>
                 <div>
-                  <RichTextEditor label="Long Body" value={form.bodyText || ""} onChange={(value) => updateForm({ bodyText: value })} minHeight={150} />
-                  <div className="form-group">
-                    <label className="form-label">Event Date</label>
-                    <input type="datetime-local" className="form-input" value={form.event_date || ""} onChange={(event) => updateForm({ event_date: event.target.value })} />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label">Location</label>
-                    <input className="form-input" value={form.location || ""} onChange={(event) => updateForm({ location: event.target.value })} />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label">CTA</label>
-                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-                      <input className="form-input" placeholder="Label" value={form.cta_label || ""} onChange={(event) => updateForm({ cta_label: event.target.value })} />
-                      <input className="form-input" placeholder="/path" value={form.cta_href || ""} onChange={(event) => updateForm({ cta_href: event.target.value })} />
+                  <RichTextEditor label="Long Body Message (for Modals)" value={form.bodyText || ""} onChange={(value) => updateForm({ bodyText: value })} minHeight={120} />
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+                    <div className="form-group">
+                      <label className="form-label">Starts At</label>
+                      <input type="datetime-local" className="form-input" value={form.starts_at || ""} onChange={(event) => updateForm({ starts_at: event.target.value })} />
                     </div>
+                    <div className="form-group">
+                      <label className="form-label">Ends At</label>
+                      <input type="datetime-local" className="form-input" value={form.ends_at || ""} onChange={(event) => updateForm({ ends_at: event.target.value })} />
+                    </div>
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label">Sort Order</label>
+                    <input type="number" className="form-input" value={form.sort_order} onChange={(event) => updateForm({ sort_order: Number(event.target.value) })} />
                   </div>
                   <div style={{ borderTop: "1px solid var(--dm-surface-container)", paddingTop: "12px", marginTop: "12px" }}>
                     <MediaUploadField
-                      label="Upload or Link Notice Image"
-                      folder="notices"
+                      label="Upload or Link Image Icon"
+                      folder="banners"
                       value={form.image_id || ""}
                       previewUrl={form.image_path || ""}
                       onUploaded={(asset) => {

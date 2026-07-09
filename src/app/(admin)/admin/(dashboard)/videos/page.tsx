@@ -96,7 +96,7 @@ export default function VideosCMSPage() {
         description,
         provider,
         provider_video_id: provider === "youtube" ? providerVideoId : "",
-        external_url: provider === "facebook" ? externalUrl : "",
+        external_url: (provider === "facebook" || provider === "instagram" || provider === "google_drive") ? externalUrl : "",
         media_id: provider === "local" ? mediaId : "",
         poster_id: posterId,
         category,
@@ -253,6 +253,7 @@ export default function VideosCMSPage() {
                     <option value="youtube">YouTube</option>
                     <option value="facebook">Facebook</option>
                     <option value="instagram">Instagram</option>
+                    <option value="google_drive">Google Drive Video</option>
                     <option value="local">Uploaded Video</option>
                   </select>
                 </div>
@@ -272,6 +273,12 @@ export default function VideosCMSPage() {
                   <div className="form-group">
                     <label className="form-label">Instagram Reel / Post URL</label>
                     <input type="url" className="form-input" placeholder="https://www.instagram.com/reel/... or /p/..." value={externalUrl} onChange={(e) => setExternalUrl(e.target.value)} />
+                  </div>
+                )}
+                {provider === "google_drive" && (
+                  <div className="form-group">
+                    <label className="form-label">Google Drive Sharing URL</label>
+                    <input type="url" className="form-input" placeholder="https://drive.google.com/..." value={externalUrl} onChange={(e) => setExternalUrl(e.target.value)} />
                   </div>
                 )}
                 {provider === "local" && (

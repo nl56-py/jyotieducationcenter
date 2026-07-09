@@ -1,5 +1,6 @@
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { HomePage } from "@/views/HomePage";
+import { getDriveEmbedUrl } from "@/lib/utils/media";
 
 export const dynamic = "force-dynamic";
 
@@ -41,6 +42,9 @@ export default async function HomeRoute() {
         } else if (mediaType === "instagram" && videoUrl) {
           const cleanUrl = videoUrl.endsWith("/") ? videoUrl : `${videoUrl}/`;
           embedUrl = `${cleanUrl}embed/`;
+        } else if (v.provider === "google_drive" || mediaType === "google_drive") {
+          mediaType = "google_drive";
+          embedUrl = getDriveEmbedUrl(videoUrl);
         }
 
         return {
