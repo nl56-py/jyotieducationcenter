@@ -215,6 +215,95 @@ export function ServicesPage({ navigate }) {
             padding: 0 26px !important;
             height: 48px !important;
           }
+          .service-charges-container {
+            max-width: 1200px;
+            margin: 0 auto 60px;
+            background: linear-gradient(135deg, var(--white), var(--surface-mist));
+            border: 1px solid var(--line);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(7, 31, 61, 0.02);
+          }
+          .service-charges-header {
+            margin-bottom: 24px;
+            text-align: left;
+          }
+          .service-charges-header h2 {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--navy);
+            margin: 0 0 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+          }
+          .service-charges-header p {
+            font-size: 14px;
+            color: var(--muted);
+            margin: 0;
+          }
+          .charges-table-wrapper {
+            overflow-x: auto;
+            border-radius: 16px;
+            border: 1px solid var(--line);
+            background: var(--white);
+          }
+          .charges-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 14px;
+          }
+          .charges-table th {
+            background: rgba(23, 21, 111, 0.04);
+            color: var(--navy);
+            font-weight: 800;
+            padding: 16px 24px;
+            border-bottom: 2px solid var(--line);
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 0.05em;
+          }
+          .charges-table td {
+            padding: 18px 24px;
+            border-bottom: 1px solid var(--line);
+            color: var(--navy);
+            font-weight: 500;
+            vertical-align: middle;
+          }
+          .charges-table tr:last-child td {
+            border-bottom: none;
+          }
+          .charges-table tr:hover {
+            background: rgba(91, 23, 125, 0.02);
+          }
+          .badge-free {
+            background: #dcfce7;
+            color: #15803d;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            display: inline-block;
+          }
+          .badge-range {
+            background: #fef3c7;
+            color: #b45309;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            display: inline-block;
+          }
+          .badge-standard {
+            background: #dbeafe;
+            color: #1d4ed8;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            display: inline-block;
+          }
           @media (max-width: 991px) {
             .service-cards-grid {
               gap: 48px !important;
@@ -234,8 +323,72 @@ export function ServicesPage({ navigate }) {
             .service-row-body h2 {
               font-size: 22px !important;
             }
+            .service-charges-container {
+              padding: 24px;
+              margin-bottom: 40px;
+            }
+            .service-charges-header h2 {
+              font-size: 20px;
+            }
+            .charges-table th, .charges-table td {
+              padding: 12px 16px;
+              font-size: 13px;
+            }
           }
         `}</style>
+
+        {/* Service Cost / Charges Section */}
+        <div className="service-charges-container">
+          <div className="service-charges-header">
+            <h2>💰 Our Service Charges</h2>
+            <p>We believe in absolute transparency. Below is a structured summary of our documentation and service fees.</p>
+          </div>
+          <div className="charges-table-wrapper">
+            <table className="charges-table">
+              <thead>
+                <tr>
+                  <th>Service Category</th>
+                  <th>Covered Destinations</th>
+                  <th>Pricing & Charges</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <span style={{ fontWeight: 700, display: "block" }}>Application & Documentation Support</span>
+                    <small style={{ color: "var(--muted)", fontSize: "11px" }}>Includes profile evaluation, drafting, and full filing support</small>
+                  </td>
+                  <td>All global colleges / general support admissions</td>
+                  <td>
+                    <span className="badge-standard">NRs. 15,000.00 – NRs. 25,000.00</span>
+                    <small style={{ display: "block", fontSize: "11px", color: "var(--muted)", marginTop: "4px" }}>*Includes standard VAT</small>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <span style={{ fontWeight: 700, display: "block" }}>Premium Study Abroad Processing</span>
+                    <small style={{ color: "var(--muted)", fontSize: "11px" }}>Complete documentation, mock interviews, and visa filing</small>
+                  </td>
+                  <td style={{ fontWeight: 700 }}>United Kingdom (UK), USA, Australia, New Zealand, India</td>
+                  <td>
+                    <span className="badge-free">No Service Charge (Free)</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <span style={{ fontWeight: 700, display: "block" }}>Specialized Country Processing</span>
+                    <small style={{ color: "var(--muted)", fontSize: "11px" }}>Advanced visa counseling, translators, and legal support</small>
+                  </td>
+                  <td>European Countries, South Korea, Japan</td>
+                  <td>
+                    <span className="badge-range">NRs. 1,00,000.00 – USD 1,000.00</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
         <div className="service-cards-grid">
 
           {services.map((service, index) => {
