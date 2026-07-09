@@ -40,74 +40,30 @@ const sourceData = [
 
 export function LeadGrowthChart() {
   return (
-    <div className="analytics-grid">
-      <div className="analytics-card analytics-card-large">
-        <div className="analytics-card-header">
-          <div>
-            <span className="admin-kicker">Pipeline</span>
-            <h3>Lead and booking momentum</h3>
-          </div>
-          <span className="analytics-pill">6 months</span>
+    <div className="analytics-card" style={{ width: "100%" }}>
+      <div className="analytics-card-header">
+        <div>
+          <span className="admin-kicker">Pipeline</span>
+          <h3>Lead and booking momentum</h3>
         </div>
-        <ResponsiveContainer width="100%" height={300}>
-          <AreaChart data={leadData}>
-            <defs>
-              <linearGradient id="leadGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#451ebb" stopOpacity={0.36} />
-                <stop offset="100%" stopColor="#451ebb" stopOpacity={0.02} />
-              </linearGradient>
-            </defs>
-            <CartesianGrid strokeDasharray="4 4" stroke="#e9e5f6" />
-            <XAxis dataKey="month" axisLine={false} tickLine={false} />
-            <YAxis axisLine={false} tickLine={false} />
-            <Tooltip />
-            <Area type="monotone" dataKey="leads" stroke="#451ebb" strokeWidth={3} fill="url(#leadGradient)" />
-            <Area type="monotone" dataKey="bookings" stroke="#006970" strokeWidth={3} fill="transparent" />
-          </AreaChart>
-        </ResponsiveContainer>
+        <span className="analytics-pill">6 months</span>
       </div>
-
-      <div className="analytics-card">
-        <div className="analytics-card-header compact">
-          <div>
-            <span className="admin-kicker">Demand</span>
-            <h3>Top services</h3>
-          </div>
-        </div>
-        <ResponsiveContainer width="100%" height={230}>
-          <BarChart data={serviceData}>
-            <CartesianGrid strokeDasharray="4 4" vertical={false} stroke="#edf0f5" />
-            <XAxis dataKey="name" axisLine={false} tickLine={false} fontSize={11} />
-            <YAxis axisLine={false} tickLine={false} fontSize={11} />
-            <Tooltip />
-            <Bar dataKey="value" radius={[8, 8, 0, 0]} fill="#ff4c29" />
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
-
-      <div className="analytics-card">
-        <div className="analytics-card-header compact">
-          <div>
-            <span className="admin-kicker">Sources</span>
-            <h3>Lead channels</h3>
-          </div>
-        </div>
-        <ResponsiveContainer width="100%" height={230}>
-          <PieChart>
-            <Pie data={sourceData} dataKey="value" nameKey="name" innerRadius={54} outerRadius={86} paddingAngle={4}>
-              {sourceData.map((entry) => (
-                <Cell key={entry.name} fill={entry.color} />
-              ))}
-            </Pie>
-            <Tooltip />
-          </PieChart>
-        </ResponsiveContainer>
-        <div className="source-legend">
-          {sourceData.map((entry) => (
-            <span key={entry.name}><i style={{ background: entry.color }} />{entry.name}</span>
-          ))}
-        </div>
-      </div>
+      <ResponsiveContainer width="100%" height={320}>
+        <AreaChart data={leadData}>
+          <defs>
+            <linearGradient id="leadGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#451ebb" stopOpacity={0.36} />
+              <stop offset="100%" stopColor="#451ebb" stopOpacity={0.02} />
+            </linearGradient>
+          </defs>
+          <CartesianGrid strokeDasharray="4 4" stroke="#e9e5f6" />
+          <XAxis dataKey="month" axisLine={false} tickLine={false} />
+          <YAxis axisLine={false} tickLine={false} />
+          <Tooltip />
+          <Area type="monotone" dataKey="leads" stroke="#451ebb" strokeWidth={3} fill="url(#leadGradient)" />
+          <Area type="monotone" dataKey="bookings" stroke="#006970" strokeWidth={3} fill="transparent" />
+        </AreaChart>
+      </ResponsiveContainer>
     </div>
   );
 }

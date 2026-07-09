@@ -153,6 +153,131 @@ export default function BlogsCMSPage() {
 
   const filteredBlogs = blogs.filter(b => b.title.toLowerCase().includes(search.toLowerCase()));
 
+  if (isEditorOpen) {
+    return (
+      <div>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px", borderBottom: "1px solid var(--dm-surface-container)", paddingBottom: "16px" }}>
+          <div>
+            <h2 style={{ fontSize: "22px", fontWeight: 700 }}>
+              {selectedBlog ? `Editing Article: ${title}` : "Create New Blog Article"}
+            </h2>
+            <p style={{ color: "var(--dm-outline)", fontSize: "14px" }}>
+              Draft your content, optimize details, and control search configurations.
+            </p>
+          </div>
+          
+          <div style={{ display: "flex", gap: "12px" }}>
+            <button type="button" className="btn btn-light" onClick={() => setIsEditorOpen(false)}>
+              Back to List
+            </button>
+            <button type="submit" form="blog-editor-form" className="btn btn-primary" disabled={loading}>
+              {loading ? "Saving Changes..." : "Save Blog Post"}
+            </button>
+          </div>
+        </div>
+
+        <form id="blog-editor-form" onSubmit={handleSave}>
+          <div style={{ display: "grid", gridTemplateColumns: "1.8fr 1fr", gap: "28px" }}>
+            
+            {/* Left Column: Big Post Body & SEO */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+              <div className="panel-card" style={{ padding: "24px", margin: 0 }}>
+                <RichTextEditor
+                  label="Article Content Body"
+                  value={bodyText}
+                  onChange={setBodyText}
+                  minHeight={480}
+                />
+              </div>
+
+              <div className="panel-card" style={{ padding: "24px", margin: 0 }}>
+                <h4 style={{ fontSize: "15px", fontWeight: 700, marginBottom: "16px" }}>Search Engine Optimization (SEO) Parameters</h4>
+                
+                <div className="form-group" style={{ marginBottom: "16px" }}>
+                  <label className="form-label">SEO Meta Title</label>
+                  <input 
+                    type="text" 
+                    className="form-input" 
+                    placeholder="e.g. Australian Student Visa Guide | EduMark" 
+                    value={seoTitle} 
+                    onChange={(e) => setSeoTitle(e.target.value)} 
+                  />
+                </div>
+                
+                <div className="form-group">
+                  <label className="form-label">SEO Meta Description</label>
+                  <textarea 
+                    className="form-textarea" 
+                    style={{ minHeight: "100px", resize: "vertical" }}
+                    placeholder="Write a brief, search-friendly summary of the post..."
+                    value={seoDesc} 
+                    onChange={(e) => setSeoDesc(e.target.value)} 
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: Settings & Details */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+              <div className="panel-card" style={{ padding: "24px", margin: 0 }}>
+                <h4 style={{ fontSize: "15px", fontWeight: 700, marginBottom: "16px" }}>Article Details & Settings</h4>
+                
+                <div className="form-group">
+                  <label className="form-label">Article Title</label>
+                  <input 
+                    type="text" 
+                    className="form-input" 
+                    value={title} 
+                    onChange={(e) => {
+                      setTitle(e.target.value);
+                      setSlug(e.target.value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, ""));
+                    }} 
+                    required 
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label className="form-label">Slug URL Path</label>
+                  <input type="text" className="form-input" value={slug} onChange={(e) => setSlug(e.target.value)} required />
+                </div>
+
+                <div className="form-group">
+                  <label className="form-label">Category</label>
+                  <select className="form-select" value={category} onChange={(e) => setCategory(e.target.value)}>
+                    <option value="Study Abroad Guides">Study Abroad Guides</option>
+                    <option value="Test Prep Tips">Test Prep Tips</option>
+                    <option value="Visa Advice">Visa Advice</option>
+                  </select>
+                </div>
+
+                <div className="form-group" style={{ flexDirection: "row", gap: "10px", alignItems: "center", marginTop: "16px" }}>
+                  <input type="checkbox" id="featured" checked={featured} onChange={(e) => setFeatured(e.target.checked)} />
+                  <label htmlFor="featured" className="form-label" style={{ cursor: "pointer", marginBottom: 0 }}>Feature this post on home banner</label>
+                </div>
+              </div>
+
+              <div className="panel-card" style={{ padding: "24px", margin: 0 }}>
+                <h4 style={{ fontSize: "15px", fontWeight: 700, marginBottom: "16px" }}>Excerpt Summary</h4>
+                <div className="form-group">
+                  <label className="form-label">Brief Description</label>
+                  <textarea 
+                    className="form-textarea" 
+                    style={{ minHeight: "120px", resize: "vertical" }} 
+                    value={excerpt} 
+                    onChange={(e) => setExcerpt(e.target.value)} 
+                    placeholder="Write a brief excerpt that will show on lists and previews..."
+                    required 
+                  />
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </form>
+      </div>
+    );
+  }
+
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px" }}>
@@ -248,94 +373,6 @@ export default function BlogsCMSPage() {
           </table>
         </div>
       </div>
-
-      {/* Editor Modal */}
-      {isEditorOpen && (
-        <div className="modal-overlay" onClick={() => setIsEditorOpen(false)}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: "800px" }}>
-            <div className="modal-header">
-              <h3 className="modal-title">{selectedBlog ? "Edit Blog Post" : "Create Blog Post"}</h3>
-              <button className="btn btn-light" style={{ height: "32px", padding: "0 10px" }} onClick={() => setIsEditorOpen(false)}>X</button>
-            </div>
-            
-            <form onSubmit={handleSave}>
-              <div className="modal-body" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px" }}>
-                {/* Main Content Info */}
-                <div>
-                  <h4 style={{ fontSize: "15px", fontWeight: 700, marginBottom: "16px" }}>Post Details</h4>
-                  
-                  <div className="form-group">
-                    <label className="form-label">Article Title</label>
-                    <input 
-                      type="text" 
-                      className="form-input" 
-                      value={title} 
-                      onChange={(e) => {
-                        setTitle(e.target.value);
-                        setSlug(e.target.value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, ""));
-                      }} 
-                      required 
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <label className="form-label">Slug URL</label>
-                    <input type="text" className="form-input" value={slug} onChange={(e) => setSlug(e.target.value)} required />
-                  </div>
-
-                  <div className="form-group">
-                    <label className="form-label">Category</label>
-                    <select className="form-select" value={category} onChange={(e) => setCategory(e.target.value)}>
-                      <option value="Study Abroad Guides">Study Abroad Guides</option>
-                      <option value="Test Prep Tips">Test Prep Tips</option>
-                      <option value="Visa Advice">Visa Advice</option>
-                    </select>
-                  </div>
-
-                  <div className="form-group">
-                    <label className="form-label">Excerpt Summary</label>
-                    <textarea className="form-textarea" style={{ minHeight: "60px" }} value={excerpt} onChange={(e) => setExcerpt(e.target.value)} required />
-                  </div>
-
-                  <div className="form-group" style={{ flexDirection: "row", gap: "10px", alignItems: "center" }}>
-                    <input type="checkbox" id="featured" checked={featured} onChange={(e) => setFeatured(e.target.checked)} />
-                    <label htmlFor="featured" className="form-label" style={{ cursor: "pointer", marginBottom: 0 }}>Feature this post on home page banner</label>
-                  </div>
-                </div>
-
-                {/* Content body & SEO fields */}
-                <div>
-                  <h4 style={{ fontSize: "15px", fontWeight: 700, marginBottom: "16px" }}>Body & SEO Control</h4>
-
-                  <RichTextEditor
-                    label="Post Body"
-                    value={bodyText}
-                    onChange={setBodyText}
-                    minHeight={190}
-                  />
-
-                  <div className="form-group">
-                    <label className="form-label">SEO Meta Title</label>
-                    <input type="text" className="form-input" placeholder="e.g. Australian Student Visa Guide | EduMark" value={seoTitle} onChange={(e) => setSeoTitle(e.target.value)} />
-                  </div>
-
-                  <RichTextEditor
-                    label="SEO Meta Description"
-                    value={seoDesc}
-                    onChange={setSeoDesc}
-                    minHeight={90}
-                  />
-                </div>
-              </div>
-
-              <div className="modal-footer">
-                <button type="button" className="btn btn-light" onClick={() => setIsEditorOpen(false)}>Cancel</button>
-                <button type="submit" className="btn btn-primary">Save Changes</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
