@@ -16,7 +16,7 @@ export function ApprovalsPage() {
       regNo: "Reg No: 546/2075",
       icon: <ShieldCheck size={28} style={{ color: "var(--accent-orange-red)" }} />,
       logo: "/images/trust images/ministry image.jfif",
-      docUrl: "/images/trust images/page_1_img_1.png", // Fallback scan or mock
+      docUrl: "/images/brand/MOEst  Renewal 81-82.pdf",
       description: "Officially certified and licensed by the Ministry of Education, Science and Technology (MoEST), Nepal, to operate as a professional educational consultancy for study abroad services.",
       date: "Approved since 2018",
     },
@@ -38,7 +38,7 @@ export function ApprovalsPage() {
       regNo: "Certification: TITI-TTE-2021",
       icon: <FileText size={28} style={{ color: "#22c55e" }} />,
       logo: "/images/trust images/titi.png",
-      docUrl: "/images/trust images/titi.png",
+      docUrl: "/images/brand/4. Ravi Gupta TITI.pdf",
       description: "Our counseling team is officially certified by the Training Institute for Technical Instruction (TITI) under CTVT, ensuring professional counseling methodologies and student visa mapping practices.",
       date: "Certified in 2021",
     },
@@ -49,9 +49,20 @@ export function ApprovalsPage() {
       regNo: "Agency ID: #5004",
       icon: <CheckCircle size={28} style={{ color: "#06b6d4" }} />,
       logo: "/images/ICEF-Logo_2023_500.jpg",
-      docUrl: "/images/ICEF-Logo_2023_500.jpg",
+      docUrl: "/images/brand/icef USA certificate.pdf",
       description: "Globally screened and vetted by ICEF, validating EduMark's compliance with international best practices, ethical student recruitment, and global university relations.",
       date: "Vetted since 2023",
+    },
+    {
+      id: "legacy",
+      title: "14+ Years Legacy & Company Registration",
+      issuer: "Office of the Company Registrar, Nepal",
+      regNo: "Reg No: 182746/074/075",
+      icon: <Award size={28} style={{ color: "#8b5cf6" }} />,
+      logo: "/images/trust images/14 years.png",
+      docUrl: "/images/brand/Registration Certificate EduMark.pdf",
+      description: "EduMark Pvt. Ltd. is a registered company officially incorporated under the Office of the Company Registrar, Government of Nepal, holding 14+ years of trust and legal compliance in student counseling.",
+      date: "Established in 2012",
     },
   ];
 
@@ -272,15 +283,48 @@ export function ApprovalsPage() {
               {selectedCert.issuer}
             </div>
             
-            <div style={{ 
-              width: "100%", 
-              height: "350px", 
-              background: `url("${selectedCert.docUrl}") center/contain no-repeat`,
-              backgroundColor: "#f8fafc",
-              borderRadius: "12px",
-              border: "1px solid var(--line)",
-              marginBottom: "20px"
-            }} />
+            {selectedCert.docUrl.endsWith(".pdf") ? (
+              <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center", gap: "12px" }}>
+                <iframe 
+                  src={selectedCert.docUrl} 
+                  title={selectedCert.title} 
+                  style={{
+                    width: "100%",
+                    height: "450px",
+                    border: "1px solid var(--line)",
+                    borderRadius: "12px",
+                    backgroundColor: "#f8fafc"
+                  }}
+                />
+                <a 
+                  href={selectedCert.docUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{
+                    fontSize: "13px",
+                    color: "var(--purple)",
+                    fontWeight: "700",
+                    textDecoration: "underline",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "4px",
+                    marginBottom: "16px"
+                  }}
+                >
+                  Open Certificate in New Tab ↗
+                </a>
+              </div>
+            ) : (
+              <div style={{ 
+                width: "100%", 
+                height: "350px", 
+                background: `url("${selectedCert.docUrl}") center/contain no-repeat`,
+                backgroundColor: "#f8fafc",
+                borderRadius: "12px",
+                border: "1px solid var(--line)",
+                marginBottom: "20px"
+              }} />
+            )}
 
             <div style={{ textAlign: "center", fontSize: "14px", color: "var(--muted)", lineHeight: 1.5 }}>
               <p style={{ fontWeight: 600, color: "var(--navy)", marginBottom: "4px" }}>{selectedCert.regNo}</p>

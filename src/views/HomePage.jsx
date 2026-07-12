@@ -106,6 +106,7 @@ export function HomePage({ initialVideos = [], initialBlogs = [], initialTestimo
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [selectedCertificate, setSelectedCertificate] = useState(null);
 
   const testimonialsList = initialTestimonials && initialTestimonials.length > 0 ? initialTestimonials : testimonials;
 
@@ -178,12 +179,36 @@ export function HomePage({ initialVideos = [], initialBlogs = [], initialTestimo
 
   // Accreditations/Badges
   const awardsList = [
-    { name: "Ministry Approved", desc: "Approved by Ministry of Education, Nepal" },
-    { name: "ECAN Member", desc: "Educational Consultancy Association of Nepal" },
-    { name: "TITI Certified", desc: "Training Institute for Technical Instruction" },
-    { name: "ICEF Screened", desc: "Global Educator Accreditation Network" },
-    { name: "14+ Years Legacy", desc: "Guiding students successfully since 2012" },
-    { name: "500+ Partner Universities", desc: "Direct institutional collaborations globally" }
+    { 
+      name: "Ministry Approved", 
+      desc: "Approved by Ministry of Education, Nepal",
+      certUrl: "/images/brand/MOEst  Renewal 81-82.pdf"
+    },
+    { 
+      name: "ECAN Member", 
+      desc: "Educational Consultancy Association of Nepal",
+      certUrl: "/images/trust images/ecan.png"
+    },
+    { 
+      name: "TITI Certified", 
+      desc: "Training Institute for Technical Instruction",
+      certUrl: "/images/brand/4. Ravi Gupta TITI.pdf"
+    },
+    { 
+      name: "ICEF Screened", 
+      desc: "Global Educator Accreditation Network",
+      certUrl: "/images/brand/icef USA certificate.pdf"
+    },
+    { 
+      name: "14+ Years Legacy", 
+      desc: "Guiding students successfully since 2012",
+      certUrl: "/images/brand/Registration Certificate EduMark.pdf"
+    },
+    { 
+      name: "500+ Partner Universities", 
+      desc: "Direct institutional collaborations globally",
+      certUrl: null
+    }
   ];
 
   useEffect(() => {
@@ -1118,37 +1143,102 @@ export function HomePage({ initialVideos = [], initialBlogs = [], initialTestimo
                 "ICEF Screened": "/images/ICEF-Logo_2023_500.jpg",
               };
               const imgSrc = awardImageMap[item.name];
+              const isClickable = !!item.certUrl;
               return (
-                <div key={idx} className="award-box" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "12px", padding: "24px 20px" }}>
-                  {imgSrc ? (
-                    <img 
-                      src={imgSrc} 
-                      alt={item.name} 
-                      style={{ 
+                <div 
+                  key={idx} 
+                  className="award-box" 
+                  onClick={() => isClickable && setSelectedCertificate(item)}
+                  onMouseEnter={(e) => {
+                    if (isClickable) {
+                      e.currentTarget.style.transform = "translateY(-6px)";
+                      e.currentTarget.style.boxShadow = "0 12px 24px rgba(91, 23, 125, 0.08)";
+                      e.currentTarget.style.borderColor = "var(--purple)";
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (isClickable) {
+                      e.currentTarget.style.transform = "translateY(0)";
+                      e.currentTarget.style.boxShadow = "none";
+                      e.currentTarget.style.borderColor = "rgba(10, 25, 47, 0.08)";
+                    }
+                  }}
+                  style={{ 
+                    display: "flex", 
+                    flexDirection: "column", 
+                    alignItems: "center", 
+                    justifyContent: "space-between",
+                    gap: "12px", 
+                    padding: "24px 20px",
+                    cursor: isClickable ? "pointer" : "default",
+                    transition: "transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease",
+                    border: "1px solid rgba(10, 25, 47, 0.08)",
+                    borderRadius: "8px",
+                    background: "var(--white)",
+                    height: "auto",
+                    minHeight: "190px"
+                  }}
+                >
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "12px", width: "100%" }}>
+                    {imgSrc ? (
+                      <img 
+                        src={imgSrc} 
+                        alt={item.name} 
+                        style={{ 
+                          height: "55px", 
+                          width: "auto", 
+                          maxWidth: "100%",
+                          objectFit: "contain"
+                        }} 
+                      />
+                    ) : (
+                      <div style={{ 
                         height: "55px", 
-                        width: "auto", 
-                        maxWidth: "100%",
-                        objectFit: "contain"
-                      }} 
-                    />
-                  ) : (
-                    <div style={{ 
-                      height: "55px", 
-                      width: "55px", 
-                      borderRadius: "50%", 
-                      background: "rgba(91, 23, 125, 0.08)", 
-                      display: "flex", 
-                      alignItems: "center", 
-                      justifyContent: "center", 
-                      fontSize: "20px"
-                    }}>
-                      {item.name.includes("Partner") ? "🏫" : "🌍"}
+                        width: "55px", 
+                        borderRadius: "50%", 
+                        background: "rgba(91, 23, 125, 0.08)", 
+                        display: "flex", 
+                        alignItems: "center", 
+                        justifyContent: "center", 
+                        fontSize: "20px"
+                      }}>
+                        {item.name.includes("Partner") ? "🏫" : "🌍"}
+                      </div>
+                    )}
+                    <div style={{ textAlign: "center" }}>
+                      <h4 style={{ color: "var(--primary-navy)", margin: "0 0 4px 0", fontSize: "15px", fontWeight: "700" }}>{item.name}</h4>
+                      <small style={{ color: "var(--muted)", fontSize: "11px", fontWeight: "500" }}>{item.desc}</small>
                     </div>
-                  )}
-                  <div style={{ textAlign: "center" }}>
-                    <h4 style={{ color: "var(--primary-navy)", margin: "0 0 4px 0", fontSize: "15px", fontWeight: "700" }}>{item.name}</h4>
-                    <small style={{ color: "var(--muted)", fontSize: "11px", fontWeight: "500" }}>{item.desc}</small>
                   </div>
+                  {isClickable && (
+                    <button 
+                      style={{
+                        marginTop: "8px",
+                        padding: "5px 12px",
+                        fontSize: "11px",
+                        fontWeight: "700",
+                        color: "var(--white)",
+                        background: "linear-gradient(135deg, var(--purple) 0%, #a855f7 100%)",
+                        border: "none",
+                        borderRadius: "20px",
+                        cursor: "pointer",
+                        boxShadow: "0 2px 6px rgba(168, 85, 247, 0.2)",
+                        transition: "all 0.2s ease"
+                      }}
+                      onMouseEnter={(e) => {
+                        e.stopPropagation();
+                        e.currentTarget.style.transform = "scale(1.05)";
+                        e.currentTarget.style.boxShadow = "0 4px 10px rgba(168, 85, 247, 0.4)";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.stopPropagation();
+                        e.currentTarget.style.transform = "scale(1)";
+                        e.currentTarget.style.boxShadow = "0 2px 6px rgba(168, 85, 247, 0.2)";
+                      }}
+                    >
+                      See Certificate
+                    </button>
+                  )}
                 </div>
               );
             })}
@@ -1188,6 +1278,139 @@ export function HomePage({ initialVideos = [], initialBlogs = [], initialTestimo
       >
         &uarr;
       </button>
+
+      {/* CERTIFICATE MODAL */}
+      {selectedCertificate && (
+        <div 
+          onClick={() => setSelectedCertificate(null)}
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(7, 31, 61, 0.8)",
+            zIndex: 99999,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "20px",
+            backdropFilter: "blur(6px)"
+          }}
+        >
+          <div 
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              background: "var(--white)",
+              borderRadius: "20px",
+              padding: "28px",
+              maxWidth: "700px",
+              width: "100%",
+              boxShadow: "0 25px 60px rgba(0,0,0,0.35)",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              position: "relative",
+              border: "1px solid rgba(255, 255, 255, 0.1)"
+            }}
+          >
+            <button 
+              onClick={() => setSelectedCertificate(null)}
+              style={{
+                position: "absolute",
+                top: "16px",
+                right: "16px",
+                background: "rgba(91, 23, 125, 0.06)",
+                border: "none",
+                width: "36px",
+                height: "36px",
+                borderRadius: "50%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+                fontWeight: "bold",
+                color: "var(--purple)",
+                fontSize: "14px",
+                transition: "all 0.2s ease"
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "var(--purple)";
+                e.currentTarget.style.color = "var(--white)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "rgba(91, 23, 125, 0.06)";
+                e.currentTarget.style.color = "var(--purple)";
+              }}
+            >
+              ✕
+            </button>
+            <h3 style={{ fontSize: "1.4rem", fontWeight: 800, color: "var(--primary-navy)", marginBottom: "6px", textAlign: "center" }}>
+              {selectedCertificate.name}
+            </h3>
+            <div style={{ fontSize: "13px", color: "var(--purple)", fontWeight: 700, marginBottom: "20px", textAlign: "center" }}>
+              {selectedCertificate.desc}
+            </div>
+            
+            {selectedCertificate.certUrl ? (
+              selectedCertificate.certUrl.endsWith(".pdf") ? (
+                <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center", gap: "12px" }}>
+                  <iframe 
+                    src={selectedCertificate.certUrl} 
+                    title={selectedCertificate.name} 
+                    style={{
+                      width: "100%",
+                      height: "450px",
+                      border: "1px solid rgba(10, 25, 47, 0.08)",
+                      borderRadius: "12px",
+                      backgroundColor: "#f8fafc"
+                    }}
+                  />
+                  <a 
+                    href={selectedCertificate.certUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    style={{
+                      fontSize: "13px",
+                      color: "var(--purple)",
+                      fontWeight: "700",
+                      textDecoration: "underline",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "4px"
+                    }}
+                  >
+                    Open Certificate in New Tab ↗
+                  </a>
+                </div>
+              ) : (
+                <div style={{ 
+                  width: "100%", 
+                  height: "350px", 
+                  background: `url("${selectedCertificate.certUrl}") center/contain no-repeat`,
+                  backgroundColor: "#f8fafc",
+                  borderRadius: "12px",
+                  border: "1px solid rgba(10, 25, 47, 0.08)",
+                  width: "100%"
+                }} />
+              )
+            ) : (
+              <div style={{ 
+                width: "100%", 
+                height: "200px", 
+                display: "flex", 
+                alignItems: "center", 
+                justifyContent: "center",
+                backgroundColor: "#f8fafc",
+                borderRadius: "12px",
+                border: "1px solid rgba(10, 25, 47, 0.08)",
+                color: "var(--muted)",
+                fontSize: "14px",
+                fontWeight: "500"
+              }}>
+                Institutional Collaboration Info Verified
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
     </main>
   );
