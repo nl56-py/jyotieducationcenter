@@ -424,6 +424,42 @@ export function AboutPage({ navigate }) {
   const tiltCard = useTiltCard(5);
 
   const [activeMilestone, setActiveMilestone] = useState(MILESTONES.length - 1);
+  const [selectedCertificate, setSelectedCertificate] = useState(null);
+
+  const accreditationsList = [
+    {
+      id: "moe",
+      name: "Approved by Ministry",
+      subtitle: "Government of Nepal",
+      desc: "Officially approved by the Ministry of Education, Science and Technology, satisfying all national regulatory benchmarks for abroad study consultancies.",
+      logo: "/images/trust images/ministry image.jfif",
+      certUrl: "/images/brand/MOEst_Renewal_81-82.pdf"
+    },
+    {
+      id: "ecan",
+      name: "ECAN Member",
+      subtitle: "Educational Consultancy Association",
+      desc: "A proud active member of the Educational Consultancy Association of Nepal (ECAN), committing to the association's ethical standards and counseling code of conduct.",
+      logo: "/images/trust images/ecan.png",
+      certUrl: "/images/trust images/ecan.png"
+    },
+    {
+      id: "titi",
+      name: "TITI Certified",
+      subtitle: "Professional Training Standards",
+      desc: "Our counselors are certified by the Training Institute for Technical Instruction (TITI), guaranteeing expert career advice and visa mapping.",
+      logo: "/images/trust images/titi.png",
+      certUrl: "/images/brand/4_Ravi_Gupta_TITI.pdf"
+    },
+    {
+      id: "icef",
+      name: "ICEF Screened",
+      subtitle: "Global Educator Accreditation",
+      desc: "EduMark is ICEF-screened and certified, validating our compliance with international best practices and ethical student recruitment standards.",
+      logo: "/images/ICEF-Logo_2023_500.jpg",
+      certUrl: "/images/brand/icef_USA_certificate.pdf"
+    }
+  ];
 
   return (
     <main className="about-page">
@@ -1399,44 +1435,197 @@ export function AboutPage({ navigate }) {
           align="center"
         />
         <div className="accreditations-grid" data-reveal="scale">
-          <div className="accreditation-card">
-            <div className="accreditation-icon-wrap moe" style={{ background: "transparent", border: "none", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <img src="/images/trust images/ministry image.jfif" alt="Ministry Approval" style={{ width: "100%", height: "100%", objectFit: "contain", borderRadius: "8px" }} />
-            </div>
-            <h3>Approved by Ministry</h3>
-            <span className="accreditation-subtitle">Government of Nepal</span>
-            <p>Officially approved by the Ministry of Education, Science and Technology, satisfying all national regulatory benchmarks for abroad study consultancies.</p>
-          </div>
-
-          <div className="accreditation-card">
-            <div className="accreditation-icon-wrap ecan" style={{ background: "transparent", border: "none", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <img src="/images/trust images/ecan.png" alt="ECAN Member" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
-            </div>
-            <h3>ECAN Member</h3>
-            <span className="accreditation-subtitle">Educational Consultancy Association</span>
-            <p>A proud active member of the Educational Consultancy Association of Nepal (ECAN), committing to the association's ethical standards and counseling code of conduct.</p>
-          </div>
-
-          <div className="accreditation-card">
-            <div className="accreditation-icon-wrap titi" style={{ background: "transparent", border: "none", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <img src="/images/trust images/titi.png" alt="TITI Certified" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
-            </div>
-            <h3>TITI Certified</h3>
-            <span className="accreditation-subtitle">Professional Training Standards</span>
-            <p>Our counselors are certified by the Training Institute for Technical Instruction (TITI), guaranteeing expert career advice and visa mapping.</p>
-          </div>
-
-          <div className="accreditation-card">
-            <div className="accreditation-icon-wrap icef" style={{ background: "transparent", border: "none", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <img src="/images/ICEF-Logo_2023_500.jpg" alt="ICEF Screened" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
-            </div>
-            <h3>ICEF Screened</h3>
-            <span className="accreditation-subtitle">Global Educator Accreditation</span>
-            <p>EduMark is ICEF-screened and certified, validating our compliance with international best practices and ethical student recruitment standards.</p>
-          </div>
+          {accreditationsList.map((card) => {
+            const isClickable = !!card.certUrl;
+            return (
+              <div 
+                key={card.id} 
+                className="accreditation-card"
+                onClick={() => isClickable && setSelectedCertificate(card)}
+                style={{ cursor: isClickable ? "pointer" : "default" }}
+              >
+                <div className={`accreditation-icon-wrap ${card.id}`} style={{ background: "transparent", border: "none", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <img src={card.logo} alt={card.name} style={{ width: "100%", height: "100%", objectFit: "contain", borderRadius: card.id === "moe" ? "8px" : "0px" }} />
+                </div>
+                <h3>{card.name}</h3>
+                <span className="accreditation-subtitle">{card.subtitle}</span>
+                <p>{card.desc}</p>
+                {isClickable && (
+                  <button 
+                    className="accreditation-btn" 
+                    style={{
+                      marginTop: "1.2rem",
+                      padding: "6px 14px",
+                      fontSize: "12px",
+                      fontWeight: "700",
+                      color: "var(--white)",
+                      background: "linear-gradient(135deg, var(--purple) 0%, #a855f7 100%)",
+                      border: "none",
+                      borderRadius: "20px",
+                      cursor: "pointer",
+                      boxShadow: "0 2px 6px rgba(168, 85, 247, 0.2)",
+                      transition: "all 0.2s ease"
+                    }}
+                    onMouseEnter={(e) => {
+                      e.stopPropagation();
+                      e.currentTarget.style.transform = "scale(1.05)";
+                      e.currentTarget.style.boxShadow = "0 4px 10px rgba(168, 85, 247, 0.4)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.stopPropagation();
+                      e.currentTarget.style.transform = "scale(1)";
+                      e.currentTarget.style.boxShadow = "0 2px 6px rgba(168, 85, 247, 0.2)";
+                    }}
+                  >
+                    See Certificate
+                  </button>
+                )}
+              </div>
+            );
+          })}
         </div>
       </section>
 
+
+      {/* CERTIFICATE MODAL */}
+      {selectedCertificate && (
+        <div 
+          onClick={() => setSelectedCertificate(null)}
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(7, 31, 61, 0.8)",
+            zIndex: 99999,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "20px",
+            backdropFilter: "blur(6px)"
+          }}
+        >
+          <div 
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              background: "var(--white)",
+              borderRadius: "20px",
+              padding: "28px",
+              maxWidth: "700px",
+              width: "100%",
+              boxShadow: "0 25px 60px rgba(0,0,0,0.35)",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              position: "relative",
+              border: "1px solid rgba(255, 255, 255, 0.1)"
+            }}
+          >
+            <button 
+              onClick={() => setSelectedCertificate(null)}
+              style={{
+                position: "absolute",
+                top: "16px",
+                right: "16px",
+                background: "rgba(91, 23, 125, 0.06)",
+                border: "none",
+                width: "36px",
+                height: "36px",
+                borderRadius: "50%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+                fontWeight: "bold",
+                color: "var(--purple)",
+                fontSize: "14px",
+                transition: "all 0.2s ease"
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "var(--purple)";
+                e.currentTarget.style.color = "var(--white)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "rgba(91, 23, 125, 0.06)";
+                e.currentTarget.style.color = "var(--purple)";
+              }}
+            >
+              ✕
+            </button>
+            <h3 style={{ fontSize: "1.4rem", fontWeight: 800, color: "var(--dark)", marginBottom: "6px", textAlign: "center" }}>
+              {selectedCertificate.name}
+            </h3>
+            <div style={{ fontSize: "13px", color: "var(--primary)", fontWeight: 700, marginBottom: "20px", textAlign: "center" }}>
+              {selectedCertificate.subtitle}
+            </div>
+            
+            {selectedCertificate.certUrl.endsWith(".pdf") ? (
+              <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center", gap: "20px", padding: "20px 0" }}>
+                <div style={{
+                  width: "100px",
+                  height: "100px",
+                  borderRadius: "50%",
+                  background: "rgba(91, 23, 125, 0.05)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "40px",
+                  color: "var(--primary)"
+                }}>
+                  📄
+                </div>
+                <div style={{ textAlign: "center", maxWidth: "450px" }}>
+                  <p style={{ fontSize: "15px", color: "var(--dark)", fontWeight: "700", marginBottom: "8px" }}>
+                    Official Certificate Document (PDF)
+                  </p>
+                  <p style={{ fontSize: "13px", color: "var(--text-muted)", lineHeight: 1.6, margin: 0 }}>
+                    This document is a certified PDF scan. To protect user security and ensure proper rendering across mobile devices, click the button below to view or download the certificate in a new window.
+                  </p>
+                </div>
+                <a 
+                  href={selectedCertificate.certUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{
+                    padding: "12px 28px",
+                    fontSize: "14px",
+                    fontWeight: "700",
+                    color: "var(--white)",
+                    background: "linear-gradient(135deg, var(--purple) 0%, #a855f7 100%)",
+                    border: "none",
+                    borderRadius: "30px",
+                    cursor: "pointer",
+                    textDecoration: "none",
+                    boxShadow: "0 4px 12px rgba(168, 85, 247, 0.3)",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "8px",
+                    transition: "all 0.2s ease"
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "translateY(-2px)";
+                    e.currentTarget.style.boxShadow = "0 6px 15px rgba(168, 85, 247, 0.4)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "translateY(0)";
+                    e.currentTarget.style.boxShadow = "0 4px 12px rgba(168, 85, 247, 0.3)";
+                  }}
+                >
+                  View Official Document ↗
+                </a>
+              </div>
+            ) : (
+              <div style={{ 
+                width: "100%", 
+                height: "350px", 
+                background: `url("${selectedCertificate.certUrl}") center/contain no-repeat`,
+                backgroundColor: "#f8fafc",
+                borderRadius: "12px",
+                border: "1px solid var(--border-color)",
+                width: "100%"
+              }} />
+            )}
+          </div>
+        </div>
+      )}
 
     </main>
   );

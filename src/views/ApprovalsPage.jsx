@@ -16,7 +16,7 @@ export function ApprovalsPage() {
       regNo: "Reg No: 546/2075",
       icon: <ShieldCheck size={28} style={{ color: "var(--accent-orange-red)" }} />,
       logo: "/images/trust images/ministry image.jfif",
-      docUrl: "/images/brand/MOEst  Renewal 81-82.pdf",
+      docUrl: "/images/brand/MOEst_Renewal_81-82.pdf",
       description: "Officially certified and licensed by the Ministry of Education, Science and Technology (MoEST), Nepal, to operate as a professional educational consultancy for study abroad services.",
       date: "Approved since 2018",
     },
@@ -38,7 +38,7 @@ export function ApprovalsPage() {
       regNo: "Certification: TITI-TTE-2021",
       icon: <FileText size={28} style={{ color: "#22c55e" }} />,
       logo: "/images/trust images/titi.png",
-      docUrl: "/images/brand/4. Ravi Gupta TITI.pdf",
+      docUrl: "/images/brand/4_Ravi_Gupta_TITI.pdf",
       description: "Our counseling team is officially certified by the Training Institute for Technical Instruction (TITI) under CTVT, ensuring professional counseling methodologies and student visa mapping practices.",
       date: "Certified in 2021",
     },
@@ -49,7 +49,7 @@ export function ApprovalsPage() {
       regNo: "Agency ID: #5004",
       icon: <CheckCircle size={28} style={{ color: "#06b6d4" }} />,
       logo: "/images/ICEF-Logo_2023_500.jpg",
-      docUrl: "/images/brand/icef USA certificate.pdf",
+      docUrl: "/images/brand/icef_USA_certificate.pdf",
       description: "Globally screened and vetted by ICEF, validating EduMark's compliance with international best practices, ethical student recruitment, and global university relations.",
       date: "Vetted since 2023",
     },
@@ -60,7 +60,7 @@ export function ApprovalsPage() {
       regNo: "Reg No: 182746/074/075",
       icon: <Award size={28} style={{ color: "#8b5cf6" }} />,
       logo: "/images/trust images/14 years.png",
-      docUrl: "/images/brand/Registration Certificate EduMark.pdf",
+      docUrl: "/images/brand/Registration_Certificate_EduMark.pdf",
       description: "EduMark Pvt. Ltd. is a registered company officially incorporated under the Office of the Company Registrar, Government of Nepal, holding 14+ years of trust and legal compliance in student counseling.",
       date: "Established in 2012",
     },
@@ -284,34 +284,58 @@ export function ApprovalsPage() {
             </div>
             
             {selectedCert.docUrl.endsWith(".pdf") ? (
-              <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center", gap: "12px" }}>
-                <iframe 
-                  src={selectedCert.docUrl} 
-                  title={selectedCert.title} 
-                  style={{
-                    width: "100%",
-                    height: "450px",
-                    border: "1px solid var(--line)",
-                    borderRadius: "12px",
-                    backgroundColor: "#f8fafc"
-                  }}
-                />
+              <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center", gap: "20px", padding: "20px 0" }}>
+                <div style={{
+                  width: "100px",
+                  height: "100px",
+                  borderRadius: "50%",
+                  background: "rgba(91, 23, 125, 0.05)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "40px",
+                  color: "var(--purple)"
+                }}>
+                  📄
+                </div>
+                <div style={{ textAlign: "center", maxWidth: "450px" }}>
+                  <p style={{ fontSize: "15px", color: "var(--navy)", fontWeight: "700", marginBottom: "8px" }}>
+                    Official Certificate Document (PDF)
+                  </p>
+                  <p style={{ fontSize: "13px", color: "var(--muted)", lineHeight: 1.6, margin: 0 }}>
+                    This document is a certified PDF scan. To protect user security and ensure proper rendering across mobile devices, click the button below to view or download the certificate in a new window.
+                  </p>
+                </div>
                 <a 
                   href={selectedCert.docUrl}
                   target="_blank"
                   rel="noreferrer"
                   style={{
-                    fontSize: "13px",
-                    color: "var(--purple)",
+                    padding: "12px 28px",
+                    fontSize: "14px",
                     fontWeight: "700",
-                    textDecoration: "underline",
-                    display: "flex",
+                    color: "var(--white)",
+                    background: "linear-gradient(135deg, var(--purple) 0%, #a855f7 100%)",
+                    border: "none",
+                    borderRadius: "30px",
+                    cursor: "pointer",
+                    textDecoration: "none",
+                    boxShadow: "0 4px 12px rgba(168, 85, 247, 0.3)",
+                    display: "inline-flex",
                     alignItems: "center",
-                    gap: "4px",
-                    marginBottom: "16px"
+                    gap: "8px",
+                    transition: "all 0.2s ease"
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "translateY(-2px)";
+                    e.currentTarget.style.boxShadow = "0 6px 15px rgba(168, 85, 247, 0.4)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "translateY(0)";
+                    e.currentTarget.style.boxShadow = "0 4px 12px rgba(168, 85, 247, 0.3)";
                   }}
                 >
-                  Open Certificate in New Tab ↗
+                  View Official Document ↗
                 </a>
               </div>
             ) : (

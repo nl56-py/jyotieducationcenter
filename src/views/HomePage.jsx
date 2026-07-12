@@ -182,7 +182,7 @@ export function HomePage({ initialVideos = [], initialBlogs = [], initialTestimo
     { 
       name: "Ministry Approved", 
       desc: "Approved by Ministry of Education, Nepal",
-      certUrl: "/images/brand/MOEst  Renewal 81-82.pdf"
+      certUrl: "/images/brand/MOEst_Renewal_81-82.pdf"
     },
     { 
       name: "ECAN Member", 
@@ -192,17 +192,17 @@ export function HomePage({ initialVideos = [], initialBlogs = [], initialTestimo
     { 
       name: "TITI Certified", 
       desc: "Training Institute for Technical Instruction",
-      certUrl: "/images/brand/4. Ravi Gupta TITI.pdf"
+      certUrl: "/images/brand/4_Ravi_Gupta_TITI.pdf"
     },
     { 
       name: "ICEF Screened", 
       desc: "Global Educator Accreditation Network",
-      certUrl: "/images/brand/icef USA certificate.pdf"
+      certUrl: "/images/brand/icef_USA_certificate.pdf"
     },
     { 
       name: "14+ Years Legacy", 
       desc: "Guiding students successfully since 2012",
-      certUrl: "/images/brand/Registration Certificate EduMark.pdf"
+      certUrl: "/images/brand/Registration_Certificate_EduMark.pdf"
     },
     { 
       name: "500+ Partner Universities", 
@@ -1348,36 +1348,60 @@ export function HomePage({ initialVideos = [], initialBlogs = [], initialTestimo
             <div style={{ fontSize: "13px", color: "var(--purple)", fontWeight: 700, marginBottom: "20px", textAlign: "center" }}>
               {selectedCertificate.desc}
             </div>
-            
             {selectedCertificate.certUrl ? (
               selectedCertificate.certUrl.endsWith(".pdf") ? (
-                <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center", gap: "12px" }}>
-                  <iframe 
-                    src={selectedCertificate.certUrl} 
-                    title={selectedCertificate.name} 
-                    style={{
-                      width: "100%",
-                      height: "450px",
-                      border: "1px solid rgba(10, 25, 47, 0.08)",
-                      borderRadius: "12px",
-                      backgroundColor: "#f8fafc"
-                    }}
-                  />
+                <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center", gap: "20px", padding: "20px 0" }}>
+                  <div style={{
+                    width: "100px",
+                    height: "100px",
+                    borderRadius: "50%",
+                    background: "rgba(91, 23, 125, 0.05)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: "40px",
+                    color: "var(--purple)"
+                  }}>
+                    📄
+                  </div>
+                  <div style={{ textAlign: "center", maxWidth: "450px" }}>
+                    <p style={{ fontSize: "15px", color: "var(--primary-navy)", fontWeight: "700", marginBottom: "8px" }}>
+                      Official Certificate Document (PDF)
+                    </p>
+                    <p style={{ fontSize: "13px", color: "var(--muted)", lineHeight: 1.6, margin: 0 }}>
+                      This document is a certified PDF scan. To protect user security and ensure proper rendering across mobile devices, click the button below to view or download the certificate in a new window.
+                    </p>
+                  </div>
                   <a 
                     href={selectedCertificate.certUrl}
                     target="_blank"
                     rel="noreferrer"
                     style={{
-                      fontSize: "13px",
-                      color: "var(--purple)",
+                      padding: "12px 28px",
+                      fontSize: "14px",
                       fontWeight: "700",
-                      textDecoration: "underline",
-                      display: "flex",
+                      color: "var(--white)",
+                      background: "linear-gradient(135deg, var(--purple) 0%, #a855f7 100%)",
+                      border: "none",
+                      borderRadius: "30px",
+                      cursor: "pointer",
+                      textDecoration: "none",
+                      boxShadow: "0 4px 12px rgba(168, 85, 247, 0.3)",
+                      display: "inline-flex",
                       alignItems: "center",
-                      gap: "4px"
+                      gap: "8px",
+                      transition: "all 0.2s ease"
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = "translateY(-2px)";
+                      e.currentTarget.style.boxShadow = "0 6px 15px rgba(168, 85, 247, 0.4)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = "translateY(0)";
+                      e.currentTarget.style.boxShadow = "0 4px 12px rgba(168, 85, 247, 0.3)";
                     }}
                   >
-                    Open Certificate in New Tab ↗
+                    View Official Certificate ↗
                   </a>
                 </div>
               ) : (
