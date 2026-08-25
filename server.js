@@ -191,6 +191,34 @@ function unzipSync(zipPath, destDir) {
     }
   }
 
+  // 6. Execute SQL statements (POST body = raw SQL)
+  if (pathname === '/__run_sql__' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => { body += chunk; });
+    req.on('end', async () => {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      try {
+        const mysql = require('mysql2/promise');
+        const conn = await mysql.createConnection({
+          host: 'localhost',
+          user: 'jyoti_jecusr',
+          password: 'JyotiEducations2026!#',
+          database: 'jyoti_jecapp',
+          multipleStatements: true
+        });
+        const [results] = await conn.query(body);
+        await conn.end();
+        const info = Array.isArray(results)
+          ? results.map((r, i) => ({ statement: i+1, affectedRows: r.affectedRows, changedRows: r.changedRows }))
+          : { affectedRows: results.affectedRows, changedRows: results.changedRows };
+        return res.end(JSON.stringify({ success: true, info }));
+      } catch(e) {
+        return res.end(JSON.stringify({ success: false, error: e.message }));
+      }
+    });
+    return;
+  }
+
   if (prepareError) {
     res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
     return res.end('Next.js Prepare Error:\n' + (prepareError.stack || prepareError.message || String(prepareError)));
