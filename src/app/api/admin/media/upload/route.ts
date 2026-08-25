@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createSupabaseAdminClient } from "@/lib/supabase/admin";
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { promises as fs } from "fs";
+import path from "path";
 import { getCurrentUser } from "@/lib/auth/guards";
 import { hasPermission } from "@/lib/auth/roles";
+import prisma from "@/lib/db/prisma";
 
 // SECURITY (OWASP A04): Allowlisted MIME types for media uploads
 const ALLOWED_MIME_TYPES = new Set([
@@ -11,13 +12,14 @@ const ALLOWED_MIME_TYPES = new Set([
   "image/gif",
   "image/webp",
   "image/avif",
+  "image/svg+xml",
   "application/pdf",
   "video/mp4",
   "video/webm",
 ]);
 
-// Maximum upload file size: 10MB
-const MAX_FILE_SIZE = 10 * 1024 * 1024;
+// Maximum upload file size: 20MB
+const MAX_FILE_SIZE = 20 * 1024 * 1024;
 
 function cleanFileName(name: string) {
   const parts = name.split(".");
@@ -38,7 +40,7 @@ export async function POST(request: NextRequest) {
 
     const formData = await request.formData();
     const file = formData.get("file");
-    const folder = String(formData.get("folder") || "general");
+    const folder = String(formData.get("folder") || "general").replace(/[^a-z0-9_-]/gi, "");
     const altText = String(formData.get("alt_text") || "");
     const caption = String(formData.get("caption") || "");
 
@@ -46,7 +48,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: false, error: "Missing upload file" }, { status: 400 });
     }
 
-    // SECURITY (OWASP A04): Validate file type and size
+    // SECURITY: Validate file type and size
     const mimeType = file.type || "application/octet-stream";
     if (!ALLOWED_MIME_TYPES.has(mimeType)) {
       return NextResponse.json(
@@ -57,54 +59,60 @@ export async function POST(request: NextRequest) {
 
     if (file.size > MAX_FILE_SIZE) {
       return NextResponse.json(
-        { success: false, error: `File size exceeds the 10MB limit.` },
+        { success: false, error: `File size exceeds the 20MB limit.` },
         { status: 400 }
       );
     }
 
-    const supabase = createSupabaseAdminClient() || await createSupabaseServerClient();
-    if (!supabase) {
-      return NextResponse.json({ success: false, error: "Supabase not configured" }, { status: 500 });
-    }
+    const fileName = cleanFileName(file.name);
+    const targetDir = path.join(process.cwd(), "public", "uploads", folder);
+    await fs.mkdir(targetDir, { recursive: true });
 
-    const objectPath = `${folder.replace(/[^a-z0-9/_-]+/gi, "-")}/${cleanFileName(file.name)}`;
-    const bytes = await file.arrayBuffer();
+    const filePath = path.join(targetDir, fileName);
+    const arrayBuffer = await file.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+    await fs.writeFile(filePath, buffer);
 
-    const { error: uploadError } = await supabase.storage
-      .from("media")
-      .upload(objectPath, bytes, {
-        contentType: file.type || "application/octet-stream",
-        upsert: false,
-      });
-
-    if (uploadError) {
-      return NextResponse.json({ success: false, error: uploadError.message }, { status: 500 });
-    }
-
-    const { data: publicUrl } = supabase.storage.from("media").getPublicUrl(objectPath);
+    const publicUrl = `/uploads/${folder}/${fileName}`;
     const authorAdminId = user.isMock ? null : user.id;
 
-    const { data: mediaAsset, error: insertError } = await supabase
-      .from("media_assets")
-      .insert({
-        bucket: "media",
-        path: publicUrl.publicUrl,
+    // Record asset in database
+    let mediaAsset = null;
+    try {
+      mediaAsset = await prisma.mediaAsset.create({
+        data: {
+          bucket: "local",
+          path: publicUrl,
+          file_name: file.name,
+          mime_type: mimeType,
+          size_bytes: BigInt(file.size),
+          alt_text: altText || null,
+          caption: caption || publicUrl,
+          uploaded_by: authorAdminId,
+        },
+      });
+    } catch (e) {
+      mediaAsset = {
+        id: `local-${Date.now()}`,
+        path: publicUrl,
         file_name: file.name,
-        mime_type: file.type || "application/octet-stream",
+        mime_type: mimeType,
         size_bytes: file.size,
-        alt_text: altText || null,
-        caption: caption || objectPath,
-        uploaded_by: authorAdminId,
-      })
-      .select()
-      .single();
-
-    if (insertError) {
-      return NextResponse.json({ success: false, error: insertError.message }, { status: 500 });
+        alt_text: altText,
+        caption,
+      };
     }
 
-    return NextResponse.json({ success: true, mediaAsset });
+    return NextResponse.json({
+      success: true,
+      url: publicUrl,
+      mediaAsset: {
+        ...mediaAsset,
+        size_bytes: mediaAsset.size_bytes ? Number(mediaAsset.size_bytes) : file.size,
+      },
+    });
   } catch (err: any) {
+    console.error("Media upload error:", err);
     return NextResponse.json({ success: false, error: err.message }, { status: 500 });
   }
 }

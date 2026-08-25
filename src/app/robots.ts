@@ -14,7 +14,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/admin/", "/api/"],
       },
     ],
-    sitemap: "https://edumark.edu.np/sitemap.xml",
-    host: "https://edumark.edu.np",
+    sitemap: "https://jyotieducations.edu.np/sitemap.xml",
+    host: "https://jyotieducations.edu.np",
   };
 }

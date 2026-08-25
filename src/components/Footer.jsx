@@ -1,13 +1,9 @@
 import Link from "next/link";
 import { AppLink } from "./AppLink.jsx";
 import { countries } from "../data/countries.js";
-import { site } from "../data/site.js";
-import { assets } from "../data/assets.js";
+import { siteConfig } from "../data/siteConfig";
 import { ArrowRight } from "lucide-react";
 import { Logo } from "./Logo.jsx";
-
-// Toggle this boolean to switch between the original image logo and the custom HTML/CSS logo
-const USE_CUSTOM_LOGO = false;
 
 export function Footer() {
   const quickLinks = [
@@ -25,8 +21,8 @@ export function Footer() {
     { label: "PTE Preparation", path: "/test-preparation/pte" },
     { label: "TOEFL Classes", path: "/test-preparation/toefl" },
     { label: "SAT Training", path: "/test-preparation/sat" },
-    { label: "CEE Medical Prep", path: "/entrance-preparations" },
-    { label: "CMAT Classes", path: "/entrance-preparations" }
+    { label: "Japanese (JLPT)", path: "/test-preparation/japanese-jlpt" },
+    { label: "CEE Medical Prep", path: "/entrance-preparations" }
   ];
 
   return (
@@ -34,8 +30,8 @@ export function Footer() {
       {/* Top Banner Tagline */}
       <div className="footer-top-cta">
         <div className="footer-top-tagline">
-          <h3>We are shaping your dream future</h3>
-          <p>Your gateway to global education, certified test preparation, and structured counseling.</p>
+          <h3>Empowering Academic Excellence & Global Education</h3>
+          <p>Your gateway to world-class universities, expert test preparation, and transparent visa guidance.</p>
         </div>
         <AppLink to="/book-free-consultation" className="book-now-button">
           Book Free Counseling
@@ -46,24 +42,14 @@ export function Footer() {
       {/* Grid with 4 columns (Brand info + 3 links lists) */}
       <div className="footer-grid">
         <div>
-          {USE_CUSTOM_LOGO ? (
-            <div className="footer-brand" style={{ marginBottom: "20px" }}>
-              <Logo />
-            </div>
-          ) : (
-            <Link href="/" className="brand footer-brand" style={{ display: "flex", textDecoration: "none" }}>
-              <img 
-                src={assets.logo} 
-                alt="EduMark logo" 
-                style={{ filter: "brightness(0.9) contrast(1.1)", height: "65px", width: "auto" }}
-              />
-            </Link>
-          )}
+          <div className="footer-brand" style={{ marginBottom: "20px" }}>
+            <Logo isFooter={true} />
+          </div>
           <p className="footer-logo-desc">
-            Leading multi-destination education consultancy guided by certified TITI counselors. Providing ethical, transparent university admission and visa guidance since 2012.
+            {siteConfig.legalName} is a government-registered educational consultancy providing reliable, professional, and student-focused international guidance. Well managed for your success.
           </p>
           <p style={{ fontSize: "13px", color: "var(--muted)", fontWeight: "500" }}>
-            Approved by Ministry of Education • Member of ECAN
+            Putalisadak, Kathmandu, Nepal • {siteConfig.contact.primaryPhone}
           </p>
         </div>
 
@@ -78,7 +64,7 @@ export function Footer() {
 
         <div>
           <h3>Study Abroad</h3>
-          {countries.slice(0, 6).map((country) => (
+          {countries.slice(0, 7).map((country) => (
             <AppLink key={country.slug} to={`/destinations/${country.slug}`} className="footer-link">
               Study in {country.name}
             </AppLink>
@@ -98,7 +84,7 @@ export function Footer() {
       {/* Bottom copyrights bar */}
       <div className="footer-bottom-bar">
         <div className="footer-bottom-inner">
-          <span>&copy; {new Date().getFullYear()} EduMark Pvt. Ltd. All rights reserved.</span>
+          <span>&copy; {new Date().getFullYear()} {siteConfig.legalName}. All rights reserved.</span>
           <div className="footer-bottom-links">
             <Link href="/privacy-policy">Privacy Policy</Link>
             <span>|</span>
@@ -111,14 +97,14 @@ export function Footer() {
           <h3>Our Location</h3>
           <div style={{ borderRadius: "8px", overflow: "hidden", border: "1px solid rgba(255, 255, 255, 0.12)", height: "160px" }}>
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d114315.65586380185!2d87.19299150225115!3d26.443985383028362!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39ef7447d71fda8f%3A0xd35ca9b1d45dc14c!2sEduMark%20Pvt.%20Ltd.!5e0!3m2!1sen!2snp!4v1782145143568!5m2!1sen!2snp"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.4172465355653!2d85.31828777546747!3d27.704403076182155!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb19a7147b2c5d%3A0x6b9d62d29f8f4165!2sPutalisadak%2C%20Kathmandu!5e0!3m2!1sen!2snp!4v1710000000000!5m2!1sen!2snp"
               width="100%"
               height="100%"
               style={{ border: 0 }}
               allowFullScreen=""
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              title="EduMark Footer Map"
+              title="Jyoti Educations Location Map"
             />
           </div>
         </div>

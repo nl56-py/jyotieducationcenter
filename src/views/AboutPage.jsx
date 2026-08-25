@@ -321,17 +321,17 @@ function RealGlobe() {
 }
 
 const STATS = [
-  { value: "2012", label: "Established Legacy", desc: "A decade-long commitment to honest counseling" },
-  { value: "14+", label: "Years of Excellence", desc: "Guiding students through complex paths" },
+  { value: "2015", label: "Established Legacy", desc: "A decade-long commitment to honest counseling" },
+  { value: "10+", label: "Years of Excellence", desc: "Guiding students through complex paths" },
   { value: "500+", label: "University Partners", desc: "Direct routes to global academic institutes" },
-  { value: "2,400+", label: "Successful Placements", desc: "Students pursuing global study goals" },
+  { value: "2,000+", label: "Successful Placements", desc: "Students pursuing global study goals" },
 ];
 
 const MILESTONES = [
-  { year: "2012", title: "The Foundation", tagline: "Where integrity met advice", description: "EduMark was established in Biratnagar as a specialized test preparation and counseling center. Our mission was simple: provide honest, uncompromised paths for ambitious students from Koshi Province.", metric: "Est. 2012", metricLabel: "in Biratnagar", accent: "var(--purple)" },
-  { year: "2015", title: "ECAN Membership", tagline: "Committing to professional standards", description: "EduMark officially became a member of the Educational Consultancy Association of Nepal (ECAN), committing to the association's ethical standards and counseling code of conduct.", metric: "ECAN", metricLabel: "Member Since 2015", accent: "var(--cyan)" },
-  { year: "2018", title: "Ministry Approval", tagline: "Certified by the government", description: "We received formal approval and certification from the Ministry of Education, Science and Technology, Nepal, cementing our status as a licensed consultancy.", metric: "Approved", metricLabel: "Ministry of Education", accent: "var(--red)" },
-  { year: "2026", title: "14 Years of Excellence", tagline: "Eastern region's trusted name", description: "With 14 years of dedicated service, 500+ partner universities worldwide, and hundreds of successful student placements, we continue to shape global academic futures.", metric: "500+", metricLabel: "Partner Universities", accent: "var(--indigo)" },
+  { year: "2015", title: "The Foundation", tagline: "Where integrity meets student advice", description: "Jyoti Education Corner Pvt. Ltd. was established in Putalisadak, Kathmandu with the vision of providing reliable, transparent, and student-focused study abroad counseling.", metric: "Est. 2015", metricLabel: "in Kathmandu", accent: "var(--purple)" },
+  { year: "2017", title: "ECAN Membership", tagline: "Committing to professional standards", description: "Jyoti Education Corner officially became an active member of the Educational Consultancy Association of Nepal (ECAN), upholding strict ethical counseling guidelines.", metric: "ECAN", metricLabel: "Member Since 2017", accent: "var(--cyan)" },
+  { year: "2019", title: "Ministry Approval", tagline: "Certified by the government", description: "We received formal approval and accreditation from the Ministry of Education, Science and Technology, Nepal, cementing our status as a licensed educational consultancy.", metric: "Approved", metricLabel: "Ministry of Education", accent: "var(--red)" },
+  { year: "2026", title: "10+ Years of Success", tagline: "Trusted global education pathways", description: "Guiding students across the USA, UK, Australia, Canada, New Zealand, Germany, Denmark, Finland, Japan, South Korea, and Europe with a student-first philosophy.", metric: "500+", metricLabel: "Partner Universities", accent: "var(--indigo)" },
 ];
 
 const PILLARS = [
@@ -342,10 +342,10 @@ const PILLARS = [
 ];
 
 const LEADER_METADATA = {
-  "CEO": { badgeIcon: "star", badgeText: "Founding Visionary", bio: "14+ years pioneering education consulting in Eastern Nepal, leading with integrity and student-first advice.", accent: "var(--purple)", gradient: "linear-gradient(135deg, var(--purple) 0%, #a855f7 100%)" },
-  "Operational Director": { badgeIcon: "shield", badgeText: "Operations Maestro", bio: "Overseeing all documentation, compliance, and university communication with a 12-year flawless track record.", accent: "var(--cyan)", gradient: "linear-gradient(135deg, var(--cyan) 0%, #06b6d4 100%)" },
-  "Marketing Director": { badgeIcon: "network", badgeText: "Outreach Leader", bio: "Driving student outreach, campus seminars, and test preparation excellence across Koshi Province.", accent: "var(--red)", gradient: "linear-gradient(135deg, var(--red) 0%, #f43f5e 100%)" },
-  "Director Abroad Studies": { badgeIcon: "compass", badgeText: "Pathway Specialist", bio: "Directly linking local talents with over 500+ top-tier universities across Australia, UK, and North America.", accent: "var(--yellow)", gradient: "linear-gradient(135deg, var(--yellow) 0%, #eab308 100%)" },
+  "Director": { badgeIcon: "star", badgeText: "Executive Leadership", bio: "Nearly a decade of dedicated leadership guiding students to premier global universities with honest and ethical advice.", accent: "var(--purple)", gradient: "linear-gradient(135deg, var(--purple) 0%, #a855f7 100%)" },
+  "Board of Director": { badgeIcon: "shield", badgeText: "Governance & Quality", bio: "Ensuring regulatory compliance, transparent counseling standards, and exceptional student support systems.", accent: "var(--cyan)", gradient: "linear-gradient(135deg, var(--cyan) 0%, #06b6d4 100%)" },
+  "Manager": { badgeIcon: "network", badgeText: "Operations Lead", bio: "Overseeing day-to-day counseling coordination, documentation review, university liaison, and student success.", accent: "var(--red)", gradient: "linear-gradient(135deg, var(--red) 0%, #f43f5e 100%)" },
+  "Front Desk Officer": { badgeIcon: "compass", badgeText: "Student Relations", bio: "First point of contact for welcoming students and parents, organizing counseling slots, and intake processing.", accent: "var(--yellow)", gradient: "linear-gradient(135deg, var(--yellow) 0%, #eab308 100%)" },
 };
 
 const ABOUT_COLLEGE_IMAGES = [
@@ -1226,11 +1226,11 @@ export function AboutPage({ navigate }) {
         <div className="hero-title-wrap" data-reveal="left">
           <div className="eyebrow-container">
             <span className="eyebrow-dot" />
-            <span className="eyebrow-text">About EduMark</span>
+            <span className="eyebrow-text">About Jyoti Educations</span>
           </div>
-          <h1>The Most Trusted Consultancy in <em>Koshi Province.</em></h1>
+          <h1>Empowering Academic Excellence & <em>Global Education.</em></h1>
           <p className="hero-desc">
-            Since 2012, EduMark has pioneered transparent counseling, academic preparation, and study abroad guidance from our center in Biratnagar. We believe in honest pathways, zero hidden terms, and lifetime student success.
+            Nearly a decade of dedicated service in Putalisadak, Kathmandu. Jyoti Education Corner pioneers transparent study abroad guidance, structured test preparation, and student-focused counseling. We believe in honest pathways, ethical practices, and lifetime student success.
           </p>
           <AppLink to="/book-free-consultation" navigate={navigate} className="hero-cta-btn">
             Get Free Counselling →
@@ -1253,7 +1253,7 @@ export function AboutPage({ navigate }) {
                 <div className="mosaic-img" key={image}>
                   <img
                     src={image}
-                    alt={`EduMark college partner ${index + 1}`}
+                    alt={`Jyoti Educations college partner ${index + 1}`}
                     style={{ objectPosition: index === 0 ? "center" : "center 30%" }}
                   />
                 </div>
@@ -1262,13 +1262,13 @@ export function AboutPage({ navigate }) {
             <div className="college-logo-strip" aria-label="College partner logos">
               {ABOUT_COLLEGE_IMAGES.slice(3).map((image, index) => (
                 <div className="college-logo-chip" key={image}>
-                  <img src={image} alt={`EduMark partner logo ${index + 4}`} />
+                  <img src={image} alt={`Jyoti Educations partner logo ${index + 4}`} />
                 </div>
               ))}
             </div>
             <div className="founding-stamp">
-              <strong>2012</strong>
-              <span>Est. Biratnagar</span>
+              <strong>2015</strong>
+              <span>Est. Kathmandu</span>
             </div>
           </div>
 
@@ -1281,9 +1281,9 @@ export function AboutPage({ navigate }) {
               </div>
               <h2>Leading multi-destination education consultancy</h2>
               <p className="journey-story-text">
-                Nestled in Biratnagar, EduMark Pvt. Ltd. represents the peak of personalized counseling and visa advisory services across Koshi Province. Over the years, we have guided hundreds of students toward the best international academic opportunities. 
+                Located in Putalisadak, Kathmandu, Jyoti Education Corner Pvt. Ltd. represents the peak of personalized counseling and visa advisory services across Nepal. Over the years, we have guided thousands of students toward the best international academic opportunities across Australia, UK, USA, Canada, New Zealand, Germany, Denmark, Finland, Japan, and South Korea. 
                 <br /><br />
-                We specialize in comprehensive, end-to-end guidance including **career counseling, university selection, admission processing, visa documentation assistance, and pre-departure briefings**, all backed by transparent processes and strong institutional partnerships.
+                We specialize in comprehensive, end-to-end guidance including <strong>career counseling, university selection, admission processing, visa documentation assistance, test preparation, and pre-departure briefings</strong>, all backed by transparent processes and strong institutional partnerships.
               </p>
             </div>
 
@@ -1302,7 +1302,7 @@ export function AboutPage({ navigate }) {
               <span className="trust-badge"><span className="trust-badge-dot" style={{ background: "#22c55e" }} />Registered Consultancy</span>
               <span className="trust-badge"><span className="trust-badge-dot" style={{ background: "var(--cyan)" }} />Certified Counselors</span>
               <span className="trust-badge"><span className="trust-badge-dot" style={{ background: "var(--purple)" }} />Zero Hidden Fees</span>
-              <span className="trust-badge"><span className="trust-badge-dot" style={{ background: "var(--yellow)" }} />Koshi Province #1</span>
+              <span className="trust-badge"><span className="trust-badge-dot" style={{ background: "var(--yellow)" }} />Kathmandu #1</span>
             </div>
 
             <AppLink to="/contact" navigate={navigate} className="primary-button">
@@ -1329,39 +1329,39 @@ export function AboutPage({ navigate }) {
         </div>
       </section>
 
-      {/* CEO Message */}
+      {/* CEO / Director Message */}
       <section className="section ceo-message-section" ref={ceoRef} id="ceo">
         <div className="ceo-message-inner" data-reveal="scale">
           <div className="ceo-image-side">
             <div className="ceo-image-frame">
-              <img src={assets.leaders[0]} alt="Ravi Gupta, Founder & CEO" />
+              <img src={assets.leaders[0]} alt="Kedar Poudel, Director" />
               <div className="ceo-image-overlay" />
             </div>
             <div className="ceo-signature-block">
-              <span className="ceo-sig-text">Ravi Gupta</span>
-              <span className="ceo-sig-title">Founder & CEO, EduMark</span>
+              <span className="ceo-sig-text">Kedar Poudel</span>
+              <span className="ceo-sig-title">Director, Jyoti Education Corner</span>
             </div>
           </div>
           <div className="ceo-text-side">
             <div className="ceo-eyebrow">
               <span className="ceo-eyebrow-line" />
-              Message from the CEO
+              Message from the Director
             </div>
             <blockquote>
-              "At EduMark, we don't just process university applications—we shape global careers with honesty, transparency, and absolute dedication. Your trust is our legacy."
+              "At Jyoti Education Corner, we don't just process university applications—we empower students to achieve global academic excellence with honesty, transparency, and personal mentorship. Well managed for your success."
             </blockquote>
             <div className="ceo-letter">
               <p>
                 Dear Students and Parents,
               </p>
               <p>
-                Since our foundation in 2012, EduMark has been driven by a singular commitment: providing ethical, clear, and uncompromised pathways to international education. We understand that choosing to study abroad is a life-defining decision, filled with both aspirations and anxieties. 
+                Since our inception, Jyoti Education Corner Pvt. Ltd. has been driven by a singular commitment: providing ethical, clear, and uncompromised pathways to international education. We understand that choosing to study abroad is a life-defining decision, filled with both high aspirations and understandable anxieties.
               </p>
               <p>
-                That is why our team in Biratnagar works tirelessly to align your academic background and career goals with the finest global opportunities. We believe in providing personalized, end-to-end support—from matching you with the right course and university, to guiding you through visa documentation, mock interviews, and pre-departure briefings.
+                That is why our expert counseling team in Putalisadak, Kathmandu works tirelessly to align your academic background, aptitude, and financial budget with the finest global institutions. We believe in providing personalized, end-to-end support—from matching you with the right course and university, to guiding you through visa documentation, financial statements, and pre-departure readiness.
               </p>
               <p>
-                Our processes are built on trust and transparency. We have no hidden charges, and we give advice that genuinely aligns with your capabilities. I invite you to visit our Traffic Chowk center and let us help you turn your aspirations into global realities.
+                Our core processes are built on trust, transparency, and continuous student support. We have no hidden charges, and we give advice that genuinely serves the student's best interest. I warmly invite you to visit our Putalisadak office and let us help you turn your global education dreams into reality.
               </p>
             </div>
             <AppLink to="/book-free-consultation" navigate={navigate} className="ceo-cta-btn-link">
@@ -1373,10 +1373,10 @@ export function AboutPage({ navigate }) {
 
       {/* Leadership (Our Team) */}
       <section className="section leadership-section" ref={leadershipRef} id="team">
-        <SectionIntro eyebrow="Our Counselors" title="The leadership driving EduMark" text="An experienced, certified core team working out of our Biratnagar center, assuring transparency and correct pathways." align="center" />
+        <SectionIntro eyebrow="Our Team" title="The leadership driving Jyoti Educations" text="An experienced, certified core team working out of our Putalisadak, Kathmandu center, assuring transparency and correct pathways." align="center" />
         <div className="leaders-layout-grid">
           {leaders.map((leader, i) => {
-            const meta = LEADER_METADATA[leader.role] || { badgeIcon: "user", badgeText: "Advisor", bio: "Dedicated EduMark team member assisting students in Biratnagar.", accent: "var(--primary)", gradient: "linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%)" };
+            const meta = LEADER_METADATA[leader.role] || { badgeIcon: "user", badgeText: "Advisor", bio: "Dedicated Jyoti Educations team member assisting students in Kathmandu.", accent: "var(--primary)", gradient: "linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%)" };
             return (
               <article className="leader-card-premium" key={leader.name} data-reveal="scale" data-delay={i + 1}>
                 <div className="leader-gradient-bar" style={{ background: meta.gradient }} />

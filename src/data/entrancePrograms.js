@@ -28,8 +28,8 @@ export const entrancePrograms = [
 ];
 
 export const leaders = [
-  { name: "Ravi Gupta", role: "CEO", image: assets.leaders[0] },
-  { name: "Kabiraj Paudel", role: "Operational Director", image: assets.leaders[1] },
-  { name: "Dipendra Mehta", role: "Marketing Director", image: assets.leaders[2] },
-  { name: "Tilak Thapa", role: "Director Abroad Studies", image: assets.leaders[3] },
+  { name: "Kedar Poudel", role: "Director", image: assets.leaders[0] },
+  { name: "Chandra Kala Dahal", role: "Board of Director", image: assets.leaders[1] },
+  { name: "Narayan Poudel", role: "Manager", image: assets.leaders[2] },
+  { name: "Sherya Basnet", role: "Front Desk Officer", image: assets.leaders[3] },
 ];

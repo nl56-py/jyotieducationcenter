@@ -2,22 +2,23 @@
 
 import React from "react";
 import Link from "next/link";
+import { siteConfig } from "../data/siteConfig";
 
 export function Logo({ isFooter = false }) {
   return (
-    <Link href="/" className="edumark-logo-link">
-      {/* Icon from apple-touch-icon.png */}
+    <Link href="/" className="edumark-logo-link" style={{ textDecoration: "none" }}>
+      {/* Official JEC Logo Icon */}
       <img
-        src="/favicon/apple-touch-icon.png"
-        alt="EduMark Icon"
+        src="/images/brand/jec.jpeg"
+        alt="Jyoti Education Corner Logo"
         className="edumark-logo-icon"
+        style={{ objectFit: "contain", borderRadius: "6px" }}
       />
       
       {/* Text block */}
       <div className="edumark-logo-text">
-        {/* EduMark */}
         <span className="edumark-logo-title">
-          EduMark
+          {siteConfig.brandName}
         </span>
         
         {/* Red separator line */}
@@ -25,7 +26,7 @@ export function Logo({ isFooter = false }) {
         
         {/* Tagline */}
         <span className="edumark-logo-tagline">
-          Multi Destination Study Abroad and VISA Services
+          {siteConfig.tagline}
         </span>
       </div>
     </Link>

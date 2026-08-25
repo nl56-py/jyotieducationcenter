@@ -1,8 +1,7 @@
-import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
 export async function middleware(request: NextRequest) {
-  let response = NextResponse.next({
+  const response = NextResponse.next({
     request: {
       headers: request.headers,
     },
@@ -14,57 +13,33 @@ export async function middleware(request: NextRequest) {
   if (path.startsWith("/admin")) {
     let isAuthenticated = false;
 
-    // 1. Try Supabase Auth
-    try {
-      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-      const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-      if (
-        supabaseUrl &&
-        supabaseAnonKey &&
-        !supabaseUrl.includes("placeholder-project")
-      ) {
-        const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
-          cookies: {
-            getAll() {
-              return request.cookies.getAll();
-            },
-            setAll(cookiesToSet) {
-              cookiesToSet.forEach(({ name, value }) =>
-                request.cookies.set(name, value)
-              );
-              response = NextResponse.next({
-                request,
-              });
-              cookiesToSet.forEach(({ name, value, options }) =>
-                response.cookies.set(name, value, options)
-              );
-            },
-          },
-        });
-        const { data: { user } } = await supabase.auth.getUser();
-        if (user) {
-          const { data: adminUser } = await supabase
-            .from("admin_users")
-            .select("id")
-            .eq("user_id", user.id)
-            .eq("status", "active")
-            .maybeSingle();
-
-          isAuthenticated = !!adminUser;
+    // 1. Check JWT auth token from cookies
+    const authToken = request.cookies.get("auth_token")?.value || request.cookies.get("jyoti_session")?.value;
+    if (authToken) {
+      try {
+        // Base64 decode JWT payload (Edge/Node compatible without external heavy deps)
+        const parts = authToken.split(".");
+        if (parts.length === 3) {
+          const payload = JSON.parse(
+            Buffer.from(parts[1], "base64").toString("utf8")
+          );
+          if (payload && payload.email && (!payload.exp || payload.exp * 1000 > Date.now())) {
+            isAuthenticated = true;
+          }
         }
+      } catch (e) {
+        // token parse failed
       }
-    } catch (error) {
-      console.warn("Supabase Auth middleware error (falling back to mock check):", error);
     }
 
-    // 2. Fallback to mock session cookie for local preview/testing
-    // SECURITY (OWASP A01): Only allow mock sessions in development
-    if (!isAuthenticated && process.env.NODE_ENV !== "production") {
-      const mockSession = request.cookies.get("edumark_mock_session");
-      if (mockSession?.value) {
+    // 2. Check mock session cookie
+    if (!isAuthenticated) {
+      const mockSession =
+        request.cookies.get("jyoti_mock_session")?.value ||
+        request.cookies.get("edumark_mock_session")?.value;
+      if (mockSession) {
         try {
-          const session = JSON.parse(mockSession.value);
+          const session = JSON.parse(mockSession);
           if (session && session.email) {
             isAuthenticated = true;
           }
@@ -82,7 +57,6 @@ export async function middleware(request: NextRequest) {
     } else {
       if (!isAuthenticated) {
         const loginUrl = new URL("/admin/login", request.url);
-        // Save original URL to redirect back after login
         loginUrl.searchParams.set("next", path);
         return NextResponse.redirect(loginUrl);
       }

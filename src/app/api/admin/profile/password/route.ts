@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
+import bcrypt from "bcryptjs";
 import { getCurrentUser } from "@/lib/auth/guards";
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import prisma from "@/lib/db/prisma";
 
 export async function POST(request: NextRequest) {
   try {
@@ -10,30 +11,21 @@ export async function POST(request: NextRequest) {
     }
 
     const { password } = await request.json();
-    if (!password || password.length < 8) {
-      return NextResponse.json({ success: false, error: "Password must be at least 8 characters long" }, { status: 400 });
+    if (!password || password.length < 6) {
+      return NextResponse.json({ success: false, error: "Password must be at least 6 characters long" }, { status: 400 });
     }
 
-    // Mock mode handling
-    if (user.isMock) {
-      return NextResponse.json({ success: true, message: "Password updated (Mock Mode)" });
-    }
+    // Hash new password
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Live mode handling
-    const supabase = await createSupabaseServerClient();
-    if (!supabase) {
-      return NextResponse.json({ success: false, error: "Supabase not configured" }, { status: 500 });
-    }
+    await prisma.adminUser.update({
+      where: { id: user.id },
+      data: { password_hash: hashedPassword },
+    });
 
-    const { error } = await supabase.auth.updateUser({ password });
-    if (error) {
-      console.error("Error updating own password:", error);
-      return NextResponse.json({ success: false, error: error.message }, { status: 400 });
-    }
-
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, message: "Password updated successfully" });
   } catch (err: any) {
     console.error("Profile password update error:", err);
-    return NextResponse.json({ success: false, error: err.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: err.message || "Failed to update password" }, { status: 500 });
   }
 }

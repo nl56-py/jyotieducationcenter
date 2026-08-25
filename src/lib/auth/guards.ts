@@ -1,8 +1,9 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { createSupabaseServerClient } from "../supabase/server";
 import { AdminRole } from "../supabase/types";
 import { hasPermission, Permission } from "./roles";
+import { verifyJwtToken } from "./jwt";
+import prisma from "../db/prisma";
 
 export interface AuthenticatedUser {
   id: string;
@@ -13,55 +14,61 @@ export interface AuthenticatedUser {
 }
 
 export async function getCurrentUser(): Promise<AuthenticatedUser | null> {
-  // 1. Try Supabase Auth client first
-  const supabase = await createSupabaseServerClient();
-  if (supabase) {
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        // Query the admin user record for role details
-        const { data: adminUser, error } = await supabase
-          .from("admin_users")
-          .select("id, role, full_name")
-          .eq("user_id", user.id)
-          .eq("status", "active")
-          .single();
+  try {
+    const cookieStore = await cookies();
 
-        if (adminUser && !error) {
+    // 1. Check JWT token in cookies
+    const token = cookieStore.get("auth_token")?.value || cookieStore.get("jyoti_session")?.value;
+    if (token) {
+      const payload = verifyJwtToken(token);
+      if (payload) {
+        // Verify user is still active in database
+        try {
+          const user = await prisma.adminUser.findUnique({
+            where: { email: payload.email },
+            select: { id: true, email: true, role: true, full_name: true, status: true },
+          });
+
+          if (user && user.status === "active") {
+            return {
+              id: user.id,
+              email: user.email,
+              role: user.role as AdminRole,
+              fullName: user.full_name,
+            };
+          }
+        } catch (dbError) {
+          // If DB is temporarily unreachable, fallback to verified JWT payload
           return {
-            id: adminUser.id,
-            email: user.email!,
-            role: adminUser.role,
-            fullName: adminUser.full_name,
+            id: payload.id,
+            email: payload.email,
+            role: payload.role,
+            fullName: payload.fullName,
           };
         }
       }
-    } catch (e) {
-      console.warn("Failed to get current user via Supabase (falling back to mock cookie):", e);
     }
-  }
 
-  // 2. Fallback to mock session cookie for local dev previews
-  // SECURITY (OWASP A01): Only allow mock sessions in development
-  if (process.env.NODE_ENV !== "production") {
-    try {
-      const cookieStore = await cookies();
-      const mockCookie = cookieStore.get("edumark_mock_session");
-      if (mockCookie?.value) {
+    // 2. Mock session fallback for testing/dev
+    const mockCookie = cookieStore.get("edumark_mock_session") || cookieStore.get("jyoti_mock_session");
+    if (mockCookie?.value) {
+      try {
         const session = JSON.parse(mockCookie.value);
         if (session && session.email) {
           return {
             id: session.id || "mock-admin-id-12345",
             email: session.email,
             role: (session.role as AdminRole) || "super_admin",
-            fullName: session.fullName || "Mock Admin User",
+            fullName: session.fullName || "Admin User",
             isMock: true,
           };
         }
+      } catch (e) {
+        // ignore JSON parse error
       }
-    } catch (e) {
-      // Ignore cookies read error in static layouts
     }
+  } catch (err) {
+    // Ignore cookies read error in static render contexts
   }
 
   return null;

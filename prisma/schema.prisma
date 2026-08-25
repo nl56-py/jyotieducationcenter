@@ -1,0 +1,509 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model AdminUser {
+  id            String    @id @default(uuid())
+  user_id       String?   @unique
+  full_name     String
+  email         String    @unique
+  password_hash String?   @default("")
+  role          String    @default("admin")
+  status        String    @default("active")
+  mfa_required  Boolean   @default(false)
+  last_seen_at  DateTime?
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @default(now()) @updatedAt
+
+  uploaded_media MediaAsset[]
+  blog_posts     BlogPost[]
+  assigned_leads Lead[]
+  lead_notes     LeadNote[]
+  bookings       ConsultationBooking[]
+
+  @@map("admin_users")
+}
+
+model SecurityEvent {
+  id          String    @id @default(uuid())
+  event_type  String
+  severity    String    @default("info")
+  fingerprint String?
+  ip_hash     String?
+  details     Json?
+  resolved_at DateTime?
+  created_at  DateTime  @default(now())
+
+  @@map("security_events")
+}
+
+model MediaAsset {
+  id          String   @id @default(uuid())
+  bucket      String   @default("public")
+  path        String   @unique
+  file_name   String
+  mime_type   String
+  size_bytes  BigInt   @default(0)
+  width       Int?
+  height      Int?
+  alt_text    String?  @db.Text
+  caption     String?  @db.Text
+  uploaded_by String?
+  created_at  DateTime @default(now())
+
+  uploader AdminUser? @relation(fields: [uploaded_by], references: [id], onDelete: SetNull)
+
+  blog_posts   BlogPost[]
+  testimonials Testimonial[]
+  team_members TeamMember[]
+  banners      HomepagePopupBanner[]
+  notices      NoticeEvent[]
+  pages        Page[]
+  page_sections PageSection[]
+  services     Service[]
+  service_sections ServiceSection[]
+  videos_media Video[] @relation("VideoMedia")
+  videos_poster Video[] @relation("VideoPoster")
+  videos_thumb Video[] @relation("VideoThumbnail")
+
+  @@map("media_assets")
+}
+
+model SiteSetting {
+  id          String   @id @default(uuid())
+  key         String   @unique
+  value       Json
+  description String?  @db.Text
+  updated_by  String?
+  updated_at  DateTime @default(now()) @updatedAt
+
+  @@map("site_settings")
+}
+
+model NavigationItem {
+  id         String   @id @default(uuid())
+  label      String
+  href       String
+  parent_id  String?
+  sort_order Int      @default(0)
+  is_cta     Boolean  @default(false)
+  status     String   @default("draft")
+
+  parent   NavigationItem?  @relation("NavHierarchy", fields: [parent_id], references: [id], onDelete: Cascade)
+  children NavigationItem[] @relation("NavHierarchy")
+
+  @@map("navigation_items")
+}
+
+model Redirect {
+  id          String   @id @default(uuid())
+  source_path String   @unique
+  target_path String
+  status_code Int      @default(301)
+  is_active   Boolean  @default(true)
+  created_at  DateTime @default(now())
+
+  @@map("redirects")
+}
+
+model Page {
+  id              String    @id @default(uuid())
+  slug            String    @unique
+  title           String
+  page_type       String    @default("standard")
+  status          String    @default("draft")
+  seo_title       String?
+  seo_description String?   @db.Text
+  og_image_id     String?
+  canonical_path  String?
+  published_at    DateTime?
+  created_at      DateTime  @default(now())
+  updated_at      DateTime  @default(now()) @updatedAt
+
+  og_image MediaAsset?   @relation(fields: [og_image_id], references: [id], onDelete: SetNull)
+  sections PageSection[]
+
+  @@map("pages")
+}
+
+model PageSection {
+  id           String  @id @default(uuid())
+  page_id      String
+  section_key  String
+  section_type String
+  title        String?
+  subtitle     String?
+  body         Json
+  media_id     String?
+  sort_order   Int     @default(0)
+  status       String  @default("draft")
+
+  page  Page        @relation(fields: [page_id], references: [id], onDelete: Cascade)
+  media MediaAsset? @relation(fields: [media_id], references: [id], onDelete: SetNull)
+
+  @@map("page_sections")
+}
+
+model Destination {
+  id              String    @id @default(uuid())
+  slug            String    @unique
+  name            String
+  country_code    String?
+  summary         String?   @db.Text
+  hero_title      String?
+  hero_body       String?   @db.Text
+  cost_range      String?
+  intake_badges   Json?
+  featured        Boolean   @default(false)
+  status          String    @default("draft")
+  seo_title       String?
+  seo_description String?   @db.Text
+  published_at    DateTime?
+  created_at      DateTime  @default(now())
+  updated_at      DateTime  @default(now()) @updatedAt
+
+  sections     DestinationSection[]
+  universities University[]
+
+  @@map("destinations")
+}
+
+model DestinationSection {
+  id             String @id @default(uuid())
+  destination_id String
+  section_type   String
+  title          String?
+  body           Json
+  sort_order     Int    @default(0)
+
+  destination Destination @relation(fields: [destination_id], references: [id], onDelete: Cascade)
+
+  @@map("destination_sections")
+}
+
+model University {
+  id             String   @id @default(uuid())
+  destination_id String
+  name           String
+  city           String?
+  ranking_notes  String?  @db.Text
+  website_url    String?
+  fees           String?
+  courses        String?  @db.Text
+  image          String?
+  status         String   @default("published")
+  created_at     DateTime @default(now())
+  updated_at     DateTime @default(now()) @updatedAt
+
+  destination Destination @relation(fields: [destination_id], references: [id], onDelete: Cascade)
+
+  @@map("universities")
+}
+
+model TestPreparation {
+  id              String   @id @default(uuid())
+  slug            String   @unique
+  name            String
+  summary         String?  @db.Text
+  test_type       String?
+  format          Json?
+  features        Json?
+  status          String   @default("draft")
+  seo_title       String?
+  seo_description String?  @db.Text
+  created_at      DateTime @default(now())
+  updated_at      DateTime @default(now()) @updatedAt
+
+  @@map("test_preparations")
+}
+
+model EntranceProgram {
+  id         String   @id @default(uuid())
+  slug       String   @unique
+  name       String
+  summary    String?  @db.Text
+  features   Json?
+  offer      Json?
+  status     String   @default("draft")
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  @@map("entrance_programs")
+}
+
+model Service {
+  id              String    @id @default(uuid())
+  slug            String    @unique
+  name            String
+  label           String?
+  summary         String?   @db.Text
+  detail          String?   @db.Text
+  body            Json?
+  image_id        String?
+  sort_order      Int       @default(0)
+  status          String    @default("draft")
+  seo_title       String?
+  seo_description String?   @db.Text
+  published_at    DateTime?
+  created_at      DateTime  @default(now())
+  updated_at      DateTime  @default(now()) @updatedAt
+
+  image    MediaAsset?      @relation(fields: [image_id], references: [id], onDelete: SetNull)
+  sections ServiceSection[]
+
+  @@map("services")
+}
+
+model ServiceSection {
+  id           String  @id @default(uuid())
+  service_id   String
+  section_key  String
+  section_type String
+  title        String?
+  body         Json
+  media_id     String?
+  sort_order   Int     @default(0)
+  status       String  @default("published")
+
+  service Service     @relation(fields: [service_id], references: [id], onDelete: Cascade)
+  media   MediaAsset? @relation(fields: [media_id], references: [id], onDelete: SetNull)
+
+  @@map("service_sections")
+}
+
+model TeamMember {
+  id           String   @id @default(uuid())
+  slug         String?  @unique
+  name         String
+  role_title   String
+  bio          String?  @db.Text
+  email        String?
+  phone        String?
+  badge_text   String?
+  badge_icon   String?
+  image_id     String?
+  sort_order   Int      @default(0)
+  status       String   @default("draft")
+  featured     Boolean  @default(false)
+  social_links Json?
+  metadata     Json?
+  created_at   DateTime @default(now())
+  updated_at   DateTime @default(now()) @updatedAt
+
+  image MediaAsset? @relation(fields: [image_id], references: [id], onDelete: SetNull)
+
+  @@map("team_members")
+}
+
+model Testimonial {
+  id           String   @id @default(uuid())
+  student_name String
+  destination  String?
+  quote        String   @db.Text
+  image_id     String?
+  status       String   @default("draft")
+  sort_order   Int?     @default(0)
+  created_at   DateTime @default(now())
+  updated_at   DateTime @default(now()) @updatedAt
+
+  image MediaAsset? @relation(fields: [image_id], references: [id], onDelete: SetNull)
+
+  @@map("testimonials")
+}
+
+model BlogCategory {
+  id          String   @id @default(uuid())
+  slug        String   @unique
+  name        String
+  description String?  @db.Text
+  sort_order  Int?     @default(0)
+  created_at  DateTime @default(now())
+  updated_at  DateTime @default(now()) @updatedAt
+
+  posts BlogPost[]
+
+  @@map("blog_categories")
+}
+
+model BlogPost {
+  id              String    @id @default(uuid())
+  slug            String    @unique
+  title           String
+  excerpt         String?   @db.Text
+  content         Json
+  category_id     String?
+  cover_image_id  String?
+  author_admin_id String?
+  status          String    @default("draft")
+  featured        Boolean   @default(false)
+  published_at    DateTime?
+  seo_title       String?
+  seo_description String?   @db.Text
+  created_at      DateTime  @default(now())
+  updated_at      DateTime  @default(now()) @updatedAt
+
+  category     BlogCategory? @relation(fields: [category_id], references: [id], onDelete: SetNull)
+  cover_image  MediaAsset?   @relation(fields: [cover_image_id], references: [id], onDelete: SetNull)
+  author_admin AdminUser?    @relation(fields: [author_admin_id], references: [id], onDelete: SetNull)
+
+  @@map("blog_posts")
+}
+
+model Video {
+  id               String   @id @default(uuid())
+  title            String
+  description      String?  @db.Text
+  provider         String?
+  provider_video_id String?
+  media_id         String?
+  poster_id        String?
+  external_url     String?
+  category         String   @default("General")
+  thumbnail_id     String?
+  duration_seconds Int?
+  status           String   @default("draft")
+  sort_order       Int?     @default(0)
+  created_at       DateTime @default(now())
+  updated_at       DateTime @default(now()) @updatedAt
+
+  media     MediaAsset? @relation("VideoMedia", fields: [media_id], references: [id], onDelete: SetNull)
+  poster    MediaAsset? @relation("VideoPoster", fields: [poster_id], references: [id], onDelete: SetNull)
+  thumbnail MediaAsset? @relation("VideoThumbnail", fields: [thumbnail_id], references: [id], onDelete: SetNull)
+
+  @@map("videos")
+}
+
+model HomepagePopupBanner {
+  id            String    @id @default(uuid())
+  title         String
+  subtitle      String?
+  body          String?   @db.Text
+  cta_label     String?
+  cta_href      String?
+  image_id      String?
+  display_mode  String    @default("modal")
+  starts_at     DateTime?
+  ends_at       DateTime?
+  frequency_key String?   @default("homepage-popup")
+  sort_order    Int       @default(0)
+  status        String    @default("draft")
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @default(now()) @updatedAt
+
+  image MediaAsset? @relation(fields: [image_id], references: [id], onDelete: SetNull)
+
+  @@map("homepage_popup_banners")
+}
+
+model NoticeEvent {
+  id           String    @id @default(uuid())
+  slug         String    @unique
+  type         String    @default("notice")
+  title        String
+  excerpt      String?   @db.Text
+  body         Json
+  event_date   DateTime?
+  location     String?
+  cta_label    String?
+  cta_href     String?
+  image_id     String?
+  featured     Boolean   @default(false)
+  sort_order   Int       @default(0)
+  status       String    @default("draft")
+  published_at DateTime?
+  created_at   DateTime  @default(now())
+  updated_at   DateTime  @default(now()) @updatedAt
+
+  image MediaAsset? @relation(fields: [image_id], references: [id], onDelete: SetNull)
+
+  @@map("notices_events")
+}
+
+model Lead {
+  id                    String   @id @default(uuid())
+  full_name             String
+  phone                 String
+  email                 String?
+  preferred_destination String?
+  course_interest       String?
+  message               String?  @db.Text
+  source                String   @default("website")
+  status                String   @default("new")
+  assigned_to           String?
+  spam_score            Float?   @default(0)
+  ip_hash               String?
+  user_agent_hash       String?
+  created_at            DateTime @default(now())
+  updated_at            DateTime @default(now()) @updatedAt
+
+  assignee AdminUser?  @relation(fields: [assigned_to], references: [id], onDelete: SetNull)
+  notes    LeadNote[]
+  events   LeadEvent[]
+  bookings ConsultationBooking[]
+
+  @@map("leads")
+}
+
+model LeadNote {
+  id              String   @id @default(uuid())
+  lead_id         String
+  author_admin_id String?
+  note            String   @db.Text
+  created_at      DateTime @default(now())
+
+  lead   Lead       @relation(fields: [lead_id], references: [id], onDelete: Cascade)
+  author AdminUser? @relation(fields: [author_admin_id], references: [id], onDelete: SetNull)
+
+  @@map("lead_notes")
+}
+
+model LeadEvent {
+  id         String   @id @default(uuid())
+  lead_id    String
+  event_type String
+  metadata   Json?
+  created_at DateTime @default(now())
+
+  lead Lead @relation(fields: [lead_id], references: [id], onDelete: Cascade)
+
+  @@map("lead_events")
+}
+
+model ConsultationBooking {
+  id                    String    @id @default(uuid())
+  full_name             String
+  phone                 String
+  email                 String?
+  preferred_destination String?
+  course_interest       String?
+  preferred_date        DateTime?
+  preferred_time        String?
+  message               String?   @db.Text
+  status                String    @default("requested")
+  assigned_to           String?
+  lead_id               String?
+  ip_hash               String?
+  user_agent_hash       String?
+  created_at            DateTime  @default(now())
+  updated_at            DateTime  @default(now()) @updatedAt
+
+  assignee AdminUser? @relation(fields: [assigned_to], references: [id], onDelete: SetNull)
+  lead     Lead?      @relation(fields: [lead_id], references: [id], onDelete: SetNull)
+
+  @@map("consultation_bookings")
+}
+
+model NewsletterSubscriber {
+  id         String   @id @default(uuid())
+  email      String   @unique
+  status     String   @default("active")
+  source     String?
+  created_at DateTime @default(now())
+
+  @@map("newsletter_subscribers")
+}

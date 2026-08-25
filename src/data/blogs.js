@@ -12,7 +12,7 @@ export const blogs = [
     content: [
       "The right destination is not only the most popular one. A strong choice fits the student's budget, grades, family income, English score, and career plan.",
       "Compare total first-year cost, intake timing, scholarship options, part-time rules, and long-term career pathways before committing.",
-      "EduMark starts with profile review so students can see realistic routes across English-speaking, European, and Asian destinations.",
+      "Jyoti Education Corner starts with a detailed profile review so students can see realistic routes across English-speaking, European, and Asian destinations.",
     ],
   },
   {
@@ -64,11 +64,11 @@ export const blogs = [
     date: "Feb 2026",
     readTime: "5 min read",
     image: assets.europe,
-    excerpt: "Finland, Lithuania, Malta, and nearby European routes can work well when cost and course fit align.",
+    excerpt: "Germany, Denmark, Finland, Lithuania, Malta, and nearby European routes can work well when cost and course fit align.",
     content: [
-      "Europe is not one single route. Finland, Lithuania, Malta, Austria, Ireland, and other destinations have different costs, intakes, language expectations, and career outcomes.",
+      "Europe is not one single route. Germany, Denmark, Finland, Lithuania, Malta, and other destinations have different costs, intakes, language expectations, and career outcomes.",
       "Students should compare tuition, living cost, scholarship deadlines, accommodation availability, and course relevance.",
-      "EduMark's brochure highlights Europe because it can offer quality education, global exposure, and budget-sensitive options for the right profile.",
+      "Jyoti Education Corner provides specialized guidance for European university admissions, scholarship applications, and Schengen visa processing.",
     ],
   },
 ];

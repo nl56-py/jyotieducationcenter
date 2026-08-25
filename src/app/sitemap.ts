@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
-import { createClient } from "@supabase/supabase-js";
+import prisma from "@/lib/db/prisma";
 
-const siteUrl = "https://edumark.com.np";
+const siteUrl = "https://jyotieducations.edu.np";
 const now = new Date();
 
 const staticRoutes = [
@@ -21,21 +21,13 @@ const staticRoutes = [
 
 function formatImageUrl(path: string): string {
   if (!path) return "";
-  
-  // Replace the old domain with the correct domain if absolute
-  let cleanPath = path.replace(/edumark\.edu\.np/g, "edumark.com.np");
-  
-  // Remove spaces
-  cleanPath = cleanPath.replace(/ /g, "%20");
-  
+  let cleanPath = path.replace(/ /g, "%20");
   if (cleanPath.startsWith("http://") || cleanPath.startsWith("https://")) {
     return cleanPath;
   }
-  
   if (cleanPath.startsWith("/")) {
     return `${siteUrl}${cleanPath}`;
   }
-  
   return `${siteUrl}/${cleanPath}`;
 }
 
@@ -47,33 +39,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: route.priority,
   }));
 
-  const isConfigured = 
-    process.env.NEXT_PUBLIC_SUPABASE_URL && 
-    !process.env.NEXT_PUBLIC_SUPABASE_URL.includes("placeholder-project") &&
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-  if (!isConfigured) {
-    return staticEntries;
-  }
-
   try {
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-    );
+    const services = await prisma.service.findMany({
+      where: { status: "published" },
+      select: { slug: true, updated_at: true, image: { select: { path: true } } },
+    });
 
-    // Fetch dynamic services
-    const { data: services } = await supabase
-      .from("services")
-      .select(`
-        slug,
-        updated_at,
-        media_assets:image_id ( path )
-      `)
-      .eq("status", "published");
-
-    const serviceEntries = (services || []).map((service: any) => {
-      const imagePath = service.media_assets?.path;
+    const serviceEntries = (services || []).map((service) => {
+      const imagePath = service.image?.path;
       return {
         url: `${siteUrl}/services/${service.slug}`,
         lastModified: service.updated_at ? new Date(service.updated_at) : now,
@@ -83,31 +56,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       };
     });
 
-    // Fetch dynamic destinations
-    const { data: destinations } = await supabase
-      .from("destinations")
-      .select("slug, updated_at")
-      .eq("status", "published");
+    const destinations = await prisma.destination.findMany({
+      where: { status: "published" },
+      select: { slug: true, updated_at: true },
+    });
 
-    const destinationEntries = (destinations || []).map((country: any) => ({
+    const destinationEntries = (destinations || []).map((country) => ({
       url: `${siteUrl}/destinations/${country.slug}`,
       lastModified: country.updated_at ? new Date(country.updated_at) : now,
       changeFrequency: "monthly" as const,
       priority: 0.78,
     }));
 
-    // Fetch dynamic blogs
-    const { data: blogs } = await supabase
-      .from("blog_posts")
-      .select(`
-        slug,
-        updated_at,
-        media_assets:cover_image_id ( path )
-      `)
-      .eq("status", "published");
+    const blogs = await prisma.blogPost.findMany({
+      where: { status: "published" },
+      select: { slug: true, updated_at: true, cover_image: { select: { path: true } } },
+    });
 
-    const blogEntries = (blogs || []).map((blog: any) => {
-      const imagePath = blog.media_assets?.path;
+    const blogEntries = (blogs || []).map((blog) => {
+      const imagePath = blog.cover_image?.path;
       return {
         url: `${siteUrl}/blogs/${blog.slug}`,
         lastModified: blog.updated_at ? new Date(blog.updated_at) : now,
@@ -119,8 +86,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     return [...staticEntries, ...serviceEntries, ...destinationEntries, ...blogEntries];
   } catch (err) {
-    console.error("Error generating dynamic sitemap:", err);
     return staticEntries;
   }
 }
-

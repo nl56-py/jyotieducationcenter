@@ -4,17 +4,17 @@ export const testimonials = [
   {
     name: "Sanjana R.",
     route: "UK student visa",
-    quote: "EduMark helped me select universities, arrange documents, and prepare for every interview question with confidence.",
+    quote: "Jyoti Education Corner helped me select universities, arrange documents, and prepare for every interview question with confidence.",
   },
   {
     name: "Aayush M.",
     route: "Australia admission",
-    quote: "The counselling felt practical. I knew exactly what to submit, when to submit it, and what the next step was.",
+    quote: "The counselling was transparent and practical. I knew exactly what to submit, when to submit it, and what the next step was.",
   },
   {
     name: "Nisha P.",
-    route: "CEE preparation",
-    quote: "The classes were structured, the mocks were useful, and the team kept me focused after +2.",
+    route: "IELTS & Canada Pathway",
+    quote: "The classes were structured, the mock tests were extremely useful, and the counseling team kept me focused throughout.",
   },
 ];
 
@@ -46,7 +46,7 @@ export const processSteps = [
 ];
 
 export const videoItems = [
-  { title: "EduMark office and student moments", category: "Office Tours", media: "video", videoUrl: "/videos/edumark-campus.mp4", poster: assets.brochureHero, duration: "01:25" },
+  { title: "Jyoti Education Corner counseling and student moments", category: "Office Tours", media: "video", videoUrl: "/videos/edumark-campus.mp4", poster: assets.brochureHero, duration: "01:25" },
   { title: "Study abroad seminar highlights", category: "Destination Guides", media: "youtube", youtubeId: "3Uskw8oGg38", image: assets.counselling, duration: "03:40" },
   { title: "IELTS classroom practice", category: "Test Preparation", media: "youtube", youtubeId: "co1i2881g9A", image: assets.testPrep, duration: "02:20" },
   { title: "Visa success story", category: "Testimonials", media: "youtube", youtubeId: "W8_N44bE0rA", image: assets.success, duration: "04:15" },

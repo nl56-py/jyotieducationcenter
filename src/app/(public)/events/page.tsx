@@ -4,8 +4,8 @@ import { EventsPage } from "@/views/EventsPage";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Events — EduMark Pvt. Ltd.",
-  description: "Explore counseling fairs, orientation sessions, scholarship workshops, and community gatherings at EduMark Biratnagar.",
+  title: "Events — Jyoti Educations",
+  description: "Explore counseling fairs, orientation sessions, scholarship workshops, and community gatherings at Jyoti Education Corner Kathmandu.",
 };
 
 export default async function EventsRoute() {

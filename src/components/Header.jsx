@@ -11,9 +11,8 @@ import { navItems, site } from "../data/site.js";
 import { ChevronDown, ArrowRight, ArrowUpRight, Menu, X, Phone, MapPin } from "lucide-react";
 import { Logo } from "./Logo.jsx";
 
-// Toggle this boolean to switch between the original image logo and the custom HTML/CSS logo
-const USE_CUSTOM_LOGO = false;
-
+// Use customized brand logo component
+const USE_CUSTOM_LOGO = true;
 
 export function Header({ onSearch }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -93,7 +92,7 @@ export function Header({ onSearch }) {
           </>
         ) : (
           <>
-            <span>📢 Applications are now open for the next intake!</span>
+            <span>📢 Applications are now open for upcoming academic intakes!</span>
             <Link href="/book-free-consultation" style={{
               color: "#06b6d4",
               textDecoration: "underline",
@@ -122,7 +121,7 @@ export function Header({ onSearch }) {
               </span>
             </div>
             <div className="top-strip-right">
-              <span>Approved by Ministry of Education • ECAN Member • Since 2012</span>
+              <span>Approved by Ministry of Education • ECAN Member • Jyoti Education Corner</span>
             </div>
           </div>
         </div>
@@ -135,10 +134,10 @@ export function Header({ onSearch }) {
             <Link href="/" className="brand">
               <img 
                 src={assets.logo} 
-                alt="EduMark logo"
+                alt="Jyoti Educations logo"
                 className="brand-logo-img"
                 style={{
-                  height: "96px",
+                  height: "80px",
                   width: "auto",
                   objectFit: "contain",
                   imageRendering: "-webkit-optimize-contrast",
@@ -210,7 +209,7 @@ export function Header({ onSearch }) {
               <div className="brand">
                 <img 
                   src={assets.logo} 
-                  alt="EduMark logo" 
+                  alt="Jyoti Educations logo" 
                   className="brand-logo-img" 
                   style={{ 
                     height: "68px", 

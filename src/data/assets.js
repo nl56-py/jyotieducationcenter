@@ -1,5 +1,5 @@
 export const assets = {
-  logo: "/advance logo.JPG",
+  logo: "/images/brand/jec.jpeg",
   worldMap: "/images/generated/world-map.png",
   heroGenerated: "/images/generated/study-hero.png",
   heroGlobal: "/images/generated/edumark_hero_global.png",

@@ -2,10 +2,10 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "EduMark Pvt. Ltd.",
-    short_name: "EduMark",
+    name: "Jyoti Education Corner Pvt. Ltd.",
+    short_name: "Jyoti Educations",
     description:
-      "Study abroad counselling, visa assistance, admissions, and test preparation from Biratnagar, Nepal.",
+      "Study abroad counselling, visa assistance, admissions, and test preparation from Putalisadak, Kathmandu, Nepal.",
     start_url: "/",
     scope: "/",
     display: "standalone",

@@ -40,10 +40,10 @@ export default async function DashboardPage() {
       const { data: draftPreps } = await supabase.from("test_preparations").select("id, name, slug").eq("status", "draft");
       const { data: draftEntrance } = await supabase.from("entrance_programs").select("id, name, slug").eq("status", "draft");
 
-      if (draftBlogs) draftBlogs.forEach(b => draftWarnings.push({ type: "Blog", label: b.title, link: "/admin/blogs" }));
-      if (draftDests) draftDests.forEach(d => draftWarnings.push({ type: "Destination", label: d.name, link: "/admin/destinations" }));
-      if (draftPreps) draftPreps.forEach(p => draftWarnings.push({ type: "Test Prep", label: p.name, link: "/admin/services?tab=testprep" }));
-      if (draftEntrance) draftEntrance.forEach(e => draftWarnings.push({ type: "Entrance", label: e.name, link: "/admin/services?tab=entrance" }));
+      if (draftBlogs) (draftBlogs as any[]).forEach((b: any) => draftWarnings.push({ type: "Blog", label: b.title, link: "/admin/blogs" }));
+      if (draftDests) (draftDests as any[]).forEach((d: any) => draftWarnings.push({ type: "Destination", label: d.name, link: "/admin/destinations" }));
+      if (draftPreps) (draftPreps as any[]).forEach((p: any) => draftWarnings.push({ type: "Test Prep", label: p.name, link: "/admin/services?tab=testprep" }));
+      if (draftEntrance) (draftEntrance as any[]).forEach((e: any) => draftWarnings.push({ type: "Entrance", label: e.name, link: "/admin/services?tab=entrance" }));
 
     } catch (e) {
       console.warn("Could not load dashboard stats from Supabase:", e);

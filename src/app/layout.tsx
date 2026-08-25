@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import "@/styles/frontend.css";
+import { siteConfig } from "@/data/siteConfig";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta",
@@ -10,21 +11,22 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://edumark.edu.np"),
+  metadataBase: new URL("https://jyotieducations.edu.np"),
   title: {
-    default: "EduMark Pvt. Ltd. | Study Abroad from Biratnagar, Nepal",
-    template: "%s | EduMark Pvt. Ltd.",
+    default: `${siteConfig.brandName} | Empowering Academic Excellence & Global Education`,
+    template: `%s | ${siteConfig.brandName}`,
   },
   description:
-    "EduMark Pvt. Ltd. in Biratnagar, Nepal helps students with study abroad counselling, visa assistance, admissions, IELTS, PTE, TOEFL, SAT, CEE, CMAT, and university applications.",
+    "Jyoti Education Corner in Putalisadak, Kathmandu, Nepal provides study abroad counselling, student visa assistance, university admissions, IELTS, PTE, TOEFL, SAT, and test preparation.",
   keywords: [
-    "education consultancy in Biratnagar",
+    "education consultancy in Kathmandu",
     "study abroad from Nepal",
-    "EduMark Pvt. Ltd.",
+    "Jyoti Education Corner",
+    "Jyoti Educations",
     "visa assistance Nepal",
-    "IELTS PTE classes Biratnagar",
-    "abroad study consultancy Nepal",
-    "student visa counselling",
+    "IELTS PTE classes Kathmandu",
+    "study in Australia UK USA Canada New Zealand Germany Europe",
+    "student visa counselling Kathmandu",
   ],
   alternates: {
     canonical: "/",
@@ -32,9 +34,9 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_NP",
-    url: "https://edumark.edu.np",
-    siteName: "EduMark Pvt. Ltd.",
-    title: "EduMark Pvt. Ltd. | Study Abroad from Biratnagar, Nepal",
+    url: "https://jyotieducations.edu.np",
+    siteName: siteConfig.brandName,
+    title: `${siteConfig.brandName} | Study Abroad Consultancy Kathmandu`,
     description:
       "Study abroad counselling, admission support, visa guidance, test preparation, and entrance preparation for Nepali students.",
     images: [
@@ -42,15 +44,15 @@ export const metadata: Metadata = {
         url: "/images/generated/study-hero.png",
         width: 1200,
         height: 630,
-        alt: "EduMark Pvt. Ltd. study abroad counselling in Nepal",
+        alt: `${siteConfig.brandName} study abroad counselling in Nepal`,
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "EduMark Pvt. Ltd. | Study Abroad from Biratnagar",
+    title: `${siteConfig.brandName} | Study Abroad from Kathmandu`,
     description:
-      "Study abroad, visa assistance, admissions, IELTS, PTE, TOEFL, SAT, CEE, and CMAT support from Biratnagar, Nepal.",
+      "Study abroad, visa assistance, admissions, IELTS, PTE, TOEFL, SAT, CEE, and CMAT support from Kathmandu, Nepal.",
     images: ["/images/generated/study-hero.png"],
   },
   icons: {
@@ -79,32 +81,32 @@ export const metadata: Metadata = {
 const localBusinessSchema = {
   "@context": "https://schema.org",
   "@type": ["EducationalOrganization", "LocalBusiness"],
-  "@id": "https://edumark.edu.np/#organization",
-  name: "EduMark Pvt. Ltd.",
-  url: "https://edumark.edu.np",
-  logo: "https://edumark.edu.np/favicon/android-chrome-512x512.png",
-  image: "https://edumark.edu.np/images/generated/study-hero.png",
+  "@id": "https://jyotieducations.edu.np/#organization",
+  name: siteConfig.legalName,
+  url: "https://jyotieducations.edu.np",
+  logo: "https://jyotieducations.edu.np/favicon/android-chrome-512x512.png",
+  image: "https://jyotieducations.edu.np/images/generated/study-hero.png",
   description:
-    "Study abroad consultancy and test preparation center in Biratnagar, Nepal.",
-  telephone: "+977-21-590823",
-  email: "info@edumark.edu.np",
+    "Study abroad consultancy and test preparation center in Putalisadak, Kathmandu, Nepal.",
+  telephone: siteConfig.contact.primaryPhone,
+  email: siteConfig.contact.infoEmail,
   priceRange: "$$",
   address: {
     "@type": "PostalAddress",
-    streetAddress: "Arniko Bhawan, Traffic Chowk",
-    addressLocality: "Biratnagar",
-    postalCode: "56613",
-    addressRegion: "Koshi Province",
+    streetAddress: "Putalisadak",
+    addressLocality: "Kathmandu",
+    postalCode: "44600",
+    addressRegion: "Bagmati Province",
     addressCountry: "NP",
   },
   geo: {
     "@type": "GeoCoordinates",
-    latitude: 26.4525,
-    longitude: 87.2718,
+    latitude: 27.7044,
+    longitude: 85.3183,
   },
   areaServed: [
     { "@type": "Country", name: "Nepal" },
-    { "@type": "City", name: "Biratnagar" },
+    { "@type": "City", name: "Kathmandu" },
   ],
   openingHoursSpecification: [
     {
@@ -115,7 +117,7 @@ const localBusinessSchema = {
     },
   ],
   sameAs: [
-    "https://edumark.edu.np",
+    "https://jyotieducations.edu.np",
   ],
   knowsAbout: [
     "Study abroad counselling",
@@ -132,13 +134,13 @@ const localBusinessSchema = {
 const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  "@id": "https://edumark.edu.np/#website",
-  url: "https://edumark.edu.np",
-  name: "EduMark Pvt. Ltd.",
-  publisher: { "@id": "https://edumark.edu.np/#organization" },
+  "@id": "https://jyotieducations.edu.np/#website",
+  url: "https://jyotieducations.edu.np",
+  name: siteConfig.brandName,
+  publisher: { "@id": "https://jyotieducations.edu.np/#organization" },
   potentialAction: {
     "@type": "SearchAction",
-    target: "https://edumark.edu.np/search?q={search_term_string}",
+    target: "https://jyotieducations.edu.np/search?q={search_term_string}",
     "query-input": "required name=search_term_string",
   },
 };
@@ -146,14 +148,14 @@ const websiteSchema = {
 const serviceSchema = {
   "@context": "https://schema.org",
   "@type": "Service",
-  "@id": "https://edumark.edu.np/#study-abroad-service",
+  "@id": "https://jyotieducations.edu.np/#study-abroad-service",
   name: "Study Abroad Counselling and Visa Assistance",
-  provider: { "@id": "https://edumark.edu.np/#organization" },
+  provider: { "@id": "https://jyotieducations.edu.np/#organization" },
   areaServed: { "@type": "Country", name: "Nepal" },
   serviceType: "Education consultancy",
   hasOfferCatalog: {
     "@type": "OfferCatalog",
-    name: "EduMark Services",
+    name: "Jyoti Educations Services",
     itemListElement: [
       "Educational counselling",
       "Career counselling",
@@ -176,18 +178,18 @@ const faqSchema = {
   mainEntity: [
     {
       "@type": "Question",
-      name: "Which study abroad destinations does EduMark support?",
+      name: "Which study abroad destinations does Jyoti Educations support?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "EduMark supports study routes for the UK, USA, Australia, Finland, Lithuania, South Korea, Japan, India, Malta, Dubai, and other suitable destinations based on student profiles.",
+        text: "Jyoti Educations supports study routes for the UK, USA, Australia, Canada, New Zealand, Germany, Denmark, Finland, Lithuania, South Korea, Japan, India, Malta, Dubai, and other suitable destinations.",
       },
     },
     {
       "@type": "Question",
-      name: "Where is EduMark Pvt. Ltd. located?",
+      name: "Where is Jyoti Education Corner located?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "EduMark Pvt. Ltd. is located at Arniko Bhawan, Traffic Chowk, Biratnagar-09, Nepal.",
+        text: "Jyoti Education Corner Pvt. Ltd. is located in Putalisadak, Kathmandu, Nepal.",
       },
     },
   ],

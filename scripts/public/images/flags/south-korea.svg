@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" width="100%" height="100%">
+<rect width="900" height="600" fill="#ffffff"/>
+<!-- Taegeuk -->
+<circle cx="450" cy="300" r="150" fill="#cd2e3a"/>
+<path d="M300,300 A75,75 0 0,0 450,300 A75,75 0 0,1 600,300 A150,150 0 0,1 300,300 Z" fill="#0047a0"/>
+<circle cx="375" cy="300" r="75" fill="#cd2e3a"/>
+<!-- Trigrams in corners -->
+<rect x="180" y="120" width="15" height="90" fill="#000" transform="rotate(33.7 180 120)"/>
+<rect x="205" y="120" width="15" height="90" fill="#000" transform="rotate(33.7 205 120)"/>
+<rect x="230" y="120" width="15" height="90" fill="#000" transform="rotate(33.7 230 120)"/>
+<rect x="680" y="390" width="15" height="90" fill="#000" transform="rotate(33.7 680 390)"/>
+<rect x="705" y="390" width="15" height="90" fill="#000" transform="rotate(33.7 705 390)"/>
+<rect x="730" y="390" width="15" height="90" fill="#000" transform="rotate(33.7 730 390)"/>
+</svg>

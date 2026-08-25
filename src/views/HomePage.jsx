@@ -329,15 +329,15 @@ export function HomePage({ initialVideos = [], initialBlogs = [], initialTestimo
             <div className="em-section-title-wrapper left">
               <span className="em-eyebrow">✈ ABOUT US</span>
               <h2 className="em-h2">
-                EduMark <span className="em-h2-light">Pvt Ltd</span>
+                Jyoti Educations <span className="em-h2-light">Corner</span>
               </h2>
               <span className="em-title-line-decor" />
             </div>
 
             <p className="about-stats-text">
-              Since 2012, EduMark has been a guiding lighthouse for students across Koshi Province seeking international academic excellence. Based in Traffic Chowk, Biratnagar, we are fully approved by the Ministry of Education and staffed with certified counselors. 
+              Nearly a decade of dedicated service, Jyoti Education Corner Pvt. Ltd. has been a guiding lighthouse for students across Nepal seeking international academic excellence. Based in Putalisadak, Kathmandu, we are fully approved by the Ministry of Education and staffed with certified counselors. 
               <br /><br />
-              We believe in building careers rather than just processing documents. Through our institutional relationships with over 500 universities in the UK, USA, Australia, Japan, and Europe, we provide genuine, transparent, and step-by-step guidance.
+              We believe in building careers rather than just processing documents. Through our institutional relationships with over 500 universities across the UK, USA, Australia, Canada, New Zealand, Germany, Denmark, Finland, Japan, South Korea, and Europe, we provide genuine, transparent, and step-by-step guidance.
             </p>
 
             <AppLink to="/about" navigate={navigate} className="learn-more-btn">
@@ -674,7 +674,7 @@ export function HomePage({ initialVideos = [], initialBlogs = [], initialTestimo
             <span className="map-stats-eyebrow">🌍 Overseas Presence</span>
             <h2 className="map-stats-title">Accelerating your academic growth overseas</h2>
             <p className="map-stats-desc">
-              Our certified education consultants at EduMark support you with excellence in career guidance and student visa processing from Biratnagar, Nepal. Established in 2012, we are MOEST-approved and ECAN-affiliated, serving as Koshi Province&apos;s leading bridge to premier global destinations including the UK, USA, Australia, Japan, Finland, Lithuania, South Korea, Malta, Dubai, and India.
+              Our certified education consultants at Jyoti Education Corner support you with excellence in career guidance and student visa processing from Putalisadak, Kathmandu, Nepal. We are MOEST-approved and ECAN-affiliated, serving as a leading bridge to premier global destinations including Australia, the UK, USA, Canada, New Zealand, Germany, Denmark, Finland, Japan, South Korea, Lithuania, Malta, Dubai, and India.
             </p>
           </div>
 
@@ -683,7 +683,7 @@ export function HomePage({ initialVideos = [], initialBlogs = [], initialTestimo
             <div className="map-stats-map-wrapper">
               <img 
                 src={assets.worldMap} 
-                alt="EduMark Destination Countries Map" 
+                alt="Jyoti Educations Destination Countries Map" 
                 className="map-stats-map-img" 
               />
               

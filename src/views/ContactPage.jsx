@@ -9,8 +9,8 @@ export function ContactPage({ navigate }) {
     <main>
       <PageHero
         eyebrow="Contact"
-        title="Visit EduMark at Traffic Chowk, Biratnagar"
-        text="Call, message, WhatsApp, or submit an inquiry for abroad study, preparation classes, or entrance guidance."
+        title="Visit Jyoti Educations at Putalisadak, Kathmandu"
+        text="Call, message, WhatsApp, or submit an inquiry for abroad study, test preparation classes, or visa counseling."
         image={assets.counselling}
       />
       <section className="section contact-layout">
@@ -31,14 +31,14 @@ export function ContactPage({ navigate }) {
           </article>
           <div className="map-panel" style={{ padding: 0, overflow: "hidden", minHeight: "320px" }}>
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d114315.65586380185!2d87.19299150225115!3d26.443985383028362!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39ef7447d71fda8f%3A0xd35ca9b1d45dc14c!2sEduMark%20Pvt.%20Ltd.!5e0!3m2!1sen!2snp!4v1782145143568!5m2!1sen!2snp"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.4172465355653!2d85.31828777546747!3d27.704403076182155!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb19a7147b2c5d%3A0x6b9d62d29f8f4165!2sPutalisadak%2C%20Kathmandu!5e0!3m2!1sen!2snp!4v1710000000000!5m2!1sen!2snp"
               width="100%"
               height="100%"
               style={{ border: 0, minHeight: "320px", display: "block" }}
               allowFullScreen=""
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              title="EduMark Map Location"
+              title="Jyoti Educations Map Location"
             />
           </div>
           <AppLink to="/book-free-consultation" navigate={navigate} className="secondary-button">
