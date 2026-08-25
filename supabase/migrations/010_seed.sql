@@ -5,19 +5,19 @@ INSERT INTO site_settings (key, value, description) VALUES
 ('contact_info', '{
   "address": "Putalisadak, Kathmandu, Nepal",
   "phone": "+977-1-4412345, +977-9851000000",
-  "email": "info@edumark.edu.np",
+  "email": "info@jyotieducations.edu.np",
   "office_hours": "Sun - Fri: 9:00 AM - 6:00 PM"
-}', 'EduMark main contact details'),
+}', 'Jyoti Educations main contact details'),
 
 ('social_links', '{
-  "facebook": "https://facebook.com/edumark.np",
-  "instagram": "https://instagram.com/edumark.np",
-  "linkedin": "https://linkedin.com/company/edumark-nepal",
-  "youtube": "https://youtube.com/c/edumark"
-}', 'EduMark official social handles'),
+  "facebook": "https://facebook.com/jyoti.np",
+  "instagram": "https://instagram.com/jyoti.np",
+  "linkedin": "https://linkedin.com/company/jyoti-nepal",
+  "youtube": "https://youtube.com/c/jyoti"
+}', 'Jyoti Educations official social handles'),
 
 ('form_destinations', '{
-  "inquiry_email": "leads@edumark.edu.np",
+  "inquiry_email": "leads@jyotieducations.edu.np",
   "whatsapp_fallback": "+9779851000000"
 }', 'Form submissions alert settings');
 

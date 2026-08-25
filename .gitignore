@@ -41,3 +41,21 @@ yarn-error.log*
 next-env.d.ts
 /edumark-frontend
 
+# deploy artifacts
+*.tar.gz
+*.zip
+deploy_next.zip
+mysql2_full.zip
+mysql2_all_deps.zip
+tools.zip
+deploy.zip
+app_source.tar.gz
+deploy.tar.gz
+next_build.tar.gz
+next_prod.tar.gz
+prisma_build.tar.gz
+prisma_full.tar.gz
+prisma_linux.tar.gz
+modules_bundle.tar.gz
+unzip_pure.js
+diagnose.js

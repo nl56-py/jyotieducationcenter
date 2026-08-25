@@ -1,4 +1,4 @@
--- Create custom enum types for EduMark
+-- Create custom enum types for Jyoti Educations
 
 CREATE TYPE admin_role AS ENUM (
   'super_admin',

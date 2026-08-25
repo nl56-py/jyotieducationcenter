@@ -139,7 +139,7 @@ VALUES
 ('public', '/images/brand/leader-kabiraj-paudel.jpg', 'leader-kabiraj-paudel.jpg', 'image/jpeg', 0, 'Kabiraj Paudel portrait'),
 ('public', '/images/brand/leader-dipendra-mehta.png', 'leader-dipendra-mehta.png', 'image/png', 0, 'Dipendra Mehta portrait'),
 ('public', '/images/brand/leader-tilak-thapa.jpg', 'leader-tilak-thapa.jpg', 'image/jpeg', 0, 'Tilak Thapa portrait'),
-('public', '/videos/edumark-campus.mp4', 'edumark-campus.mp4', 'video/mp4', 0, 'EduMark campus video')
+('public', '/videos/jyoti-campus.mp4', 'jyoti-campus.mp4', 'video/mp4', 0, 'Jyoti Educations campus video')
 ON CONFLICT (path) DO UPDATE SET
   file_name = EXCLUDED.file_name,
   mime_type = EXCLUDED.mime_type,
@@ -173,8 +173,8 @@ ON CONFLICT (slug) DO UPDATE SET
 
 INSERT INTO notices_events (slug, type, title, excerpt, body, event_date, location, cta_label, cta_href, featured, sort_order, status, published_at)
 VALUES
-('july-application-week', 'event', 'July Application Week', 'Free profile review for UK, Australia, Japan, Finland, and South Korea applicants.', '{"html":"<p>Bring your academic documents for university shortlisting, scholarship mapping, and visa timeline planning with EduMark counselors.</p>"}', now() + interval '10 days', 'EduMark Office', 'Book Free Consultation', '/book-free-consultation', true, 1, 'published', now()),
-('ielts-pte-mock-test', 'notice', 'IELTS/PTE Mock Test Seats Open', 'Limited mock-test seats are available this week for language preparation students.', '{"html":"<p>Register early to receive speaking feedback, score analytics, and a counselor review.</p>"}', null, 'EduMark Test Lab', 'Reserve Seat', '/book-free-consultation', false, 2, 'published', now())
+('july-application-week', 'event', 'July Application Week', 'Free profile review for UK, Australia, Japan, Finland, and South Korea applicants.', '{"html":"<p>Bring your academic documents for university shortlisting, scholarship mapping, and visa timeline planning with Jyoti Educations counselors.</p>"}', now() + interval '10 days', 'Jyoti Educations Office', 'Book Free Consultation', '/book-free-consultation', true, 1, 'published', now()),
+('ielts-pte-mock-test', 'notice', 'IELTS/PTE Mock Test Seats Open', 'Limited mock-test seats are available this week for language preparation students.', '{"html":"<p>Register early to receive speaking feedback, score analytics, and a counselor review.</p>"}', null, 'Jyoti Educations Test Lab', 'Reserve Seat', '/book-free-consultation', false, 2, 'published', now())
 ON CONFLICT (slug) DO UPDATE SET
   title = EXCLUDED.title,
   excerpt = EXCLUDED.excerpt,
@@ -191,7 +191,7 @@ ON CONFLICT (slug) DO UPDATE SET
 
 INSERT INTO homepage_popup_banners (title, subtitle, body, cta_label, cta_href, display_mode, sort_order, status)
 VALUES
-('July Application Week is open', 'Free profile review and application timeline planning.', '<p>Meet EduMark counselors for destination comparison, university shortlisting, and visa document guidance.</p>', 'Book My Slot', '/book-free-consultation', 'modal', 1, 'published');
+('July Application Week is open', 'Free profile review and application timeline planning.', '<p>Meet Jyoti Educations counselors for destination comparison, university shortlisting, and visa document guidance.</p>', 'Book My Slot', '/book-free-consultation', 'modal', 1, 'published');
 
 INSERT INTO team_members (slug, name, role_title, bio, image_id, sort_order, status, featured, badge_text, metadata)
 VALUES
@@ -213,5 +213,5 @@ ON CONFLICT (slug) DO UPDATE SET
 
 INSERT INTO videos (title, description, provider, provider_video_id, media_id, category, status, sort_order)
 VALUES
-('EduMark Campus Walkthrough', 'A quick look at EduMark counseling and preparation spaces.', null, null, (SELECT id FROM media_assets WHERE path = '/videos/edumark-campus.mp4'), 'Campus', 'published', 1)
+('Jyoti Educations Campus Walkthrough', 'A quick look at Jyoti Educations counseling and preparation spaces.', null, null, (SELECT id FROM media_assets WHERE path = '/videos/jyoti-campus.mp4'), 'Campus', 'published', 1)
 ON CONFLICT (id) DO NOTHING;

@@ -701,27 +701,27 @@ export function HomePage({ initialVideos = [], initialBlogs = [], initialTestimo
             <div className="why-choose-list">
               <div className="why-choose-item">
                 <div className="why-choose-check"><Check size={14} strokeWidth={3} /></div>
-                <span className="why-choose-text">Approved by the Ministry of Education (MOEST) & ECAN Member</span>
+                <span className="why-choose-text">Well Managed for Your Success with dedicated, student-first guidance</span>
               </div>
               <div className="why-choose-item">
                 <div className="why-choose-check"><Check size={14} strokeWidth={3} /></div>
-                <span className="why-choose-text">Certified & experienced counselors with TITI credentials</span>
+                <span className="why-choose-text">Experienced educational counselors providing accurate, ethical pathways</span>
               </div>
               <div className="why-choose-item">
                 <div className="why-choose-check"><Check size={14} strokeWidth={3} /></div>
-                <span className="why-choose-text">Proven track record of high student visa approvals since 2012</span>
+                <span className="why-choose-text">Proven track record of high visa approvals for Australia, UK, USA, Canada, Japan & Europe</span>
               </div>
               <div className="why-choose-item">
                 <div className="why-choose-check"><Check size={14} strokeWidth={3} /></div>
-                <span className="why-choose-text">Comprehensive SOP review, CV mapping, and documentation checking</span>
+                <span className="why-choose-text">Comprehensive profile assessment, SOP guidance, and rigorous documentation checks</span>
               </div>
               <div className="why-choose-item">
                 <div className="why-choose-check"><Check size={14} strokeWidth={3} /></div>
-                <span className="why-choose-text">100% transparent counseling with zero hidden agency costs</span>
+                <span className="why-choose-text">100% transparent counseling process with zero hidden agency charges</span>
               </div>
               <div className="why-choose-item">
                 <div className="why-choose-check"><Check size={14} strokeWidth={3} /></div>
-                <span className="why-choose-text">Pre-departure briefings and post-arrival emergency contact network</span>
+                <span className="why-choose-text">Full support from test prep (IELTS/PTE) to pre-departure briefings and post-arrival guidance</span>
               </div>
             </div>
           </div>
