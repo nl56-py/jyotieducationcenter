@@ -106,7 +106,6 @@ export function HomePage({ initialVideos = [], initialBlogs = [], initialTestimo
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
-  const [selectedCertificate, setSelectedCertificate] = useState(null);
 
   const testimonialsList = initialTestimonials && initialTestimonials.length > 0 ? initialTestimonials : testimonials;
 
@@ -160,8 +159,8 @@ export function HomePage({ initialVideos = [], initialBlogs = [], initialTestimo
   // FAQ list data
   const faqData = [
     {
-      q: "What services does EduMark provide?",
-      a: "EduMark provides complete end-to-end support for international education: including certified career counseling, university and course selection, application assistance, documentation checks, visa filing support, pre-departure orientation, and accommodation guidance."
+      q: "What services does Jyoti Educations provide?",
+      a: "Jyoti Educations provides complete end-to-end support for international education: including certified career counseling, university and course selection, application assistance, documentation checks, visa filing support, pre-departure orientation, and accommodation guidance."
     },
     {
       q: "Is IELTS mandatory for studying in the UK or Australia?",
@@ -172,42 +171,8 @@ export function HomePage({ initialVideos = [], initialBlogs = [], initialTestimo
       a: "Standard requirements include your high school and college transcripts/certificates, character certificates, a valid passport copy, a Statement of Purpose (SOP), recommendation letters, and English proficiency test scores (IELTS/PTE)."
     },
     {
-      q: "How does EduMark help with the student visa interview?",
+      q: "How does Jyoti Educations help with the student visa interview?",
       a: "We conduct intensive, personalized mock interview sessions replicating the exact environment of embassies (such as the US or Australian high commission). We guide you on articulating your goals, explaining finances, and demonstrating genuine student intent."
-    }
-  ];
-
-  // Accreditations/Badges
-  const awardsList = [
-    { 
-      name: "Ministry Approved", 
-      desc: "Approved by Ministry of Education, Nepal",
-      certUrl: "/images/brand/MOEst_Renewal_81-82.pdf"
-    },
-    { 
-      name: "ECAN Member", 
-      desc: "Educational Consultancy Association of Nepal",
-      certUrl: "/images/trust images/ecan.png"
-    },
-    { 
-      name: "TITI Certified", 
-      desc: "Training Institute for Technical Instruction",
-      certUrl: "/images/brand/4_Ravi_Gupta_TITI.pdf"
-    },
-    { 
-      name: "ICEF Screened", 
-      desc: "Global Educator Accreditation Network",
-      certUrl: "/images/brand/icef_USA_certificate.pdf"
-    },
-    { 
-      name: "14+ Years Legacy", 
-      desc: "Guiding students successfully since 2012",
-      certUrl: "/images/brand/Registration_Certificate_EduMark.pdf"
-    },
-    { 
-      name: "500+ Partner Universities", 
-      desc: "Direct institutional collaborations globally",
-      certUrl: null
     }
   ];
 
@@ -1123,147 +1088,23 @@ export function HomePage({ initialVideos = [], initialBlogs = [], initialTestimo
         </div>
       </section>
 
-      {/* 12. AWARDS / ACCREDITATIONS GRID */}
-      <section className="awards-section">
-        <div className="awards-container">
-          
-          <div className="em-section-title-wrapper">
-            <span className="em-eyebrow">✈ ACCREDITATIONS</span>
-            <h2 className="em-h2">Recognitions & Trust Badges</h2>
-            <span className="em-title-line-decor" />
-          </div>
-
-          <div className="awards-grid">
-            {awardsList.map((item, idx) => {
-              const awardImageMap = {
-                "Ministry Approved": "/images/trust images/ministry image.jfif",
-                "ECAN Member": "/images/trust images/ecan.png",
-                "TITI Certified": "/images/trust images/titi.png",
-                "14+ Years Legacy": "/images/trust images/14 years.png",
-                "ICEF Screened": "/images/ICEF-Logo_2023_500.jpg",
-              };
-              const imgSrc = awardImageMap[item.name];
-              const isClickable = !!item.certUrl;
-              return (
-                <div 
-                  key={idx} 
-                  className="award-box" 
-                  onClick={() => isClickable && setSelectedCertificate(item)}
-                  onMouseEnter={(e) => {
-                    if (isClickable) {
-                      e.currentTarget.style.transform = "translateY(-6px)";
-                      e.currentTarget.style.boxShadow = "0 12px 24px rgba(91, 23, 125, 0.08)";
-                      e.currentTarget.style.borderColor = "var(--purple)";
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (isClickable) {
-                      e.currentTarget.style.transform = "translateY(0)";
-                      e.currentTarget.style.boxShadow = "none";
-                      e.currentTarget.style.borderColor = "rgba(10, 25, 47, 0.08)";
-                    }
-                  }}
-                  style={{ 
-                    display: "flex", 
-                    flexDirection: "column", 
-                    alignItems: "center", 
-                    justifyContent: "space-between",
-                    gap: "12px", 
-                    padding: "24px 20px",
-                    cursor: isClickable ? "pointer" : "default",
-                    transition: "transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease",
-                    border: "1px solid rgba(10, 25, 47, 0.08)",
-                    borderRadius: "8px",
-                    background: "var(--white)",
-                    height: "auto",
-                    minHeight: "190px"
-                  }}
-                >
-                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "12px", width: "100%" }}>
-                    {imgSrc ? (
-                      <img 
-                        src={imgSrc} 
-                        alt={item.name} 
-                        style={{ 
-                          height: "55px", 
-                          width: "auto", 
-                          maxWidth: "100%",
-                          objectFit: "contain"
-                        }} 
-                      />
-                    ) : (
-                      <div style={{ 
-                        height: "55px", 
-                        width: "55px", 
-                        borderRadius: "50%", 
-                        background: "rgba(91, 23, 125, 0.08)", 
-                        display: "flex", 
-                        alignItems: "center", 
-                        justifyContent: "center", 
-                        fontSize: "20px"
-                      }}>
-                        {item.name.includes("Partner") ? "🏫" : "🌍"}
-                      </div>
-                    )}
-                    <div style={{ textAlign: "center" }}>
-                      <h4 style={{ color: "var(--primary-navy)", margin: "0 0 4px 0", fontSize: "15px", fontWeight: "700" }}>{item.name}</h4>
-                      <small style={{ color: "var(--muted)", fontSize: "11px", fontWeight: "500" }}>{item.desc}</small>
-                    </div>
-                  </div>
-                  {isClickable && (
-                    <button 
-                      style={{
-                        marginTop: "8px",
-                        padding: "5px 12px",
-                        fontSize: "11px",
-                        fontWeight: "700",
-                        color: "var(--white)",
-                        background: "linear-gradient(135deg, var(--purple) 0%, #a855f7 100%)",
-                        border: "none",
-                        borderRadius: "20px",
-                        cursor: "pointer",
-                        boxShadow: "0 2px 6px rgba(168, 85, 247, 0.2)",
-                        transition: "all 0.2s ease"
-                      }}
-                      onMouseEnter={(e) => {
-                        e.stopPropagation();
-                        e.currentTarget.style.transform = "scale(1.05)";
-                        e.currentTarget.style.boxShadow = "0 4px 10px rgba(168, 85, 247, 0.4)";
-                      }}
-                      onMouseLeave={(e) => {
-                        e.stopPropagation();
-                        e.currentTarget.style.transform = "scale(1)";
-                        e.currentTarget.style.boxShadow = "0 2px 6px rgba(168, 85, 247, 0.2)";
-                      }}
-                    >
-                      See Certificate
-                    </button>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-
-        </div>
-      </section>
-
       <section className="contact-strip-section">
         <div className="contact-strip-container">
           <div className="contact-strip-left" style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-            <img src={assets.logo} alt="EduMark logo" style={{ height: "45px", width: "auto" }} />
+            <img src="/images/brand/jec.jpeg" alt="Jyoti Education Corner logo" style={{ height: "48px", width: "auto", borderRadius: "6px", objectFit: "contain" }} />
             <div className="contact-strip-info">
-              📞 021-590823 | 9802724823
+              📞 +977-1-4432100 | +977-9851000000
             </div>
           </div>
 
           <div className="contact-strip-socials">
-            <a href="https://www.facebook.com/EduMarkStudyAbroad" target="_blank" rel="noreferrer" className="contact-strip-icon-btn" aria-label="Facebook">
+            <a href="https://facebook.com/jyotieducations" target="_blank" rel="noreferrer" className="contact-strip-icon-btn" aria-label="Facebook">
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
             </a>
-            <a href="https://instagram.com" target="_blank" rel="noreferrer" className="contact-strip-icon-btn" aria-label="Instagram">
+            <a href="https://instagram.com/jyotieducations" target="_blank" rel="noreferrer" className="contact-strip-icon-btn" aria-label="Instagram">
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
             </a>
-            <a href="https://youtube.com" target="_blank" rel="noreferrer" className="contact-strip-icon-btn" aria-label="Youtube">
+            <a href="https://youtube.com/@jyotieducations" target="_blank" rel="noreferrer" className="contact-strip-icon-btn" aria-label="Youtube">
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17z"/><path d="m10 15 5-3-5-3z"/></svg>
             </a>
           </div>
@@ -1278,164 +1119,6 @@ export function HomePage({ initialVideos = [], initialBlogs = [], initialTestimo
       >
         &uarr;
       </button>
-
-      {/* CERTIFICATE MODAL */}
-      {selectedCertificate && (
-        <div 
-          onClick={() => setSelectedCertificate(null)}
-          style={{
-            position: "fixed",
-            inset: 0,
-            background: "rgba(7, 31, 61, 0.8)",
-            zIndex: 99999,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "20px",
-            backdropFilter: "blur(6px)"
-          }}
-        >
-          <div 
-            onClick={(e) => e.stopPropagation()}
-            style={{
-              background: "var(--white)",
-              borderRadius: "20px",
-              padding: "28px",
-              maxWidth: "700px",
-              width: "100%",
-              boxShadow: "0 25px 60px rgba(0,0,0,0.35)",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              position: "relative",
-              border: "1px solid rgba(255, 255, 255, 0.1)"
-            }}
-          >
-            <button 
-              onClick={() => setSelectedCertificate(null)}
-              style={{
-                position: "absolute",
-                top: "16px",
-                right: "16px",
-                background: "rgba(91, 23, 125, 0.06)",
-                border: "none",
-                width: "36px",
-                height: "36px",
-                borderRadius: "50%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                cursor: "pointer",
-                fontWeight: "bold",
-                color: "var(--purple)",
-                fontSize: "14px",
-                transition: "all 0.2s ease"
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = "var(--purple)";
-                e.currentTarget.style.color = "var(--white)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = "rgba(91, 23, 125, 0.06)";
-                e.currentTarget.style.color = "var(--purple)";
-              }}
-            >
-              ✕
-            </button>
-            <h3 style={{ fontSize: "1.4rem", fontWeight: 800, color: "var(--primary-navy)", marginBottom: "6px", textAlign: "center" }}>
-              {selectedCertificate.name}
-            </h3>
-            <div style={{ fontSize: "13px", color: "var(--purple)", fontWeight: 700, marginBottom: "20px", textAlign: "center" }}>
-              {selectedCertificate.desc}
-            </div>
-            {selectedCertificate.certUrl ? (
-              selectedCertificate.certUrl.endsWith(".pdf") ? (
-                <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center", gap: "20px", padding: "20px 0" }}>
-                  <div style={{
-                    width: "100px",
-                    height: "100px",
-                    borderRadius: "50%",
-                    background: "rgba(91, 23, 125, 0.05)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: "40px",
-                    color: "var(--purple)"
-                  }}>
-                    📄
-                  </div>
-                  <div style={{ textAlign: "center", maxWidth: "450px" }}>
-                    <p style={{ fontSize: "15px", color: "var(--primary-navy)", fontWeight: "700", marginBottom: "8px" }}>
-                      Official Certificate Document (PDF)
-                    </p>
-                    <p style={{ fontSize: "13px", color: "var(--muted)", lineHeight: 1.6, margin: 0 }}>
-                      This document is a certified PDF scan. To protect user security and ensure proper rendering across mobile devices, click the button below to view or download the certificate in a new window.
-                    </p>
-                  </div>
-                  <a 
-                    href={selectedCertificate.certUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    style={{
-                      padding: "12px 28px",
-                      fontSize: "14px",
-                      fontWeight: "700",
-                      color: "var(--white)",
-                      background: "linear-gradient(135deg, var(--purple) 0%, #a855f7 100%)",
-                      border: "none",
-                      borderRadius: "30px",
-                      cursor: "pointer",
-                      textDecoration: "none",
-                      boxShadow: "0 4px 12px rgba(168, 85, 247, 0.3)",
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: "8px",
-                      transition: "all 0.2s ease"
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = "translateY(-2px)";
-                      e.currentTarget.style.boxShadow = "0 6px 15px rgba(168, 85, 247, 0.4)";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = "translateY(0)";
-                      e.currentTarget.style.boxShadow = "0 4px 12px rgba(168, 85, 247, 0.3)";
-                    }}
-                  >
-                    View Official Certificate ↗
-                  </a>
-                </div>
-              ) : (
-                <div style={{ 
-                  width: "100%", 
-                  height: "350px", 
-                  background: `url("${selectedCertificate.certUrl}") center/contain no-repeat`,
-                  backgroundColor: "#f8fafc",
-                  borderRadius: "12px",
-                  border: "1px solid rgba(10, 25, 47, 0.08)",
-                  width: "100%"
-                }} />
-              )
-            ) : (
-              <div style={{ 
-                width: "100%", 
-                height: "200px", 
-                display: "flex", 
-                alignItems: "center", 
-                justifyContent: "center",
-                backgroundColor: "#f8fafc",
-                borderRadius: "12px",
-                border: "1px solid rgba(10, 25, 47, 0.08)",
-                color: "var(--muted)",
-                fontSize: "14px",
-                fontWeight: "500"
-              }}>
-                Institutional Collaboration Info Verified
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
     </main>
   );
 }

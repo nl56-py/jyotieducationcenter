@@ -2,7 +2,6 @@
 
 import React from "react";
 import Link from "next/link";
-import { siteConfig } from "../data/siteConfig";
 
 export function Logo({ isFooter = false }) {
   return (
@@ -10,25 +9,18 @@ export function Logo({ isFooter = false }) {
       {/* Official JEC Logo Icon */}
       <img
         src="/images/brand/jec.jpeg"
-        alt="Jyoti Education Corner Logo"
+        alt="Jyoti Education Corner"
         className="edumark-logo-icon"
-        style={{ objectFit: "contain", borderRadius: "6px" }}
+        style={{
+          height: isFooter ? "68px" : "62px",
+          width: "auto",
+          maxWidth: "180px",
+          objectFit: "contain",
+          borderRadius: "6px",
+          display: "block",
+          transition: "transform 0.25s ease",
+        }}
       />
-      
-      {/* Text block */}
-      <div className="edumark-logo-text">
-        <span className="edumark-logo-title">
-          {siteConfig.brandName}
-        </span>
-        
-        {/* Red separator line */}
-        <div className="edumark-logo-line" />
-        
-        {/* Tagline */}
-        <span className="edumark-logo-tagline">
-          {siteConfig.tagline}
-        </span>
-      </div>
     </Link>
   );
 }

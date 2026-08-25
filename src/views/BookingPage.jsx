@@ -4,12 +4,7 @@ import { countries } from "../data/countries.js";
 import "@/styles/BookingPage.css";
 
 
-const trustItems = [
-  { icon: "🛡️", bold: "100% Free", sub: "Counselling" },
-  { icon: "👥", bold: "Certified", sub: "Counsellors" },
-  { icon: "🎧", bold: "End-to-end", sub: "Support" },
-  { icon: "⭐", bold: "Since", sub: "2012" },
-];
+
 
 const phoneCountries = [
   { code: "NP", name: "Nepal", flag: "🇳🇵", dial: "+977", length: 10, pattern: "(98|97|96)[0-9]{8}" },
@@ -188,23 +183,8 @@ export function BookingPage() {
           </h2>
 
           <p style={{ color: "var(--muted)", lineHeight: 1.72, marginBottom: 24, fontSize: 14 }}>
-            Choose a date/time that fits your schedule, and fill out the form to secure your free one-on-one session. You can also <a href="https://wa.me/9779820490823" target="_blank" rel="noopener noreferrer" style={{ color: "var(--purple)", fontWeight: 700, textDecoration: "underline" }}>contact us directly on WhatsApp</a> or call our office at <a href="tel:021590823" style={{ color: "var(--purple)", fontWeight: 700, textDecoration: "underline" }}>021-590823</a> if you have any questions.
+            Choose a date/time that fits your schedule, and fill out the form to secure your free one-on-one session. You can also <a href="https://wa.me/9779851000000" target="_blank" rel="noopener noreferrer" style={{ color: "var(--purple)", fontWeight: 700, textDecoration: "underline" }}>contact us directly on WhatsApp</a> or call our office at <a href="tel:+97714432100" style={{ color: "var(--purple)", fontWeight: 700, textDecoration: "underline" }}>+977-1-4432100</a> if you have any questions.
           </p>
-
-          {/* Trust badges — horizontal row */}
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-            {trustItems.map(({ icon, bold, sub }) => (
-              <div key={bold} style={{ display: "flex", alignItems: "center", gap: 8, background: "var(--white)", border: "1px solid var(--line)", borderRadius: 10, padding: "8px 12px", flex: "1 1 auto", minWidth: 100 }}>
-                <div style={{ width: 32, height: 32, borderRadius: "50%", background: "rgba(91,23,125,0.08)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, flexShrink: 0 }}>
-                  {icon}
-                </div>
-                <div>
-                  <div style={{ fontSize: 12, fontWeight: 800, color: "var(--navy)", lineHeight: 1.2 }}>{bold}</div>
-                  <div style={{ fontSize: 11, color: "var(--muted)", lineHeight: 1.2 }}>{sub}</div>
-                </div>
-              </div>
-            ))}
-          </div>
 
           {/* Decorative cityscape silhouette */}
           <div aria-hidden style={{ marginTop: 32, opacity: 0.18 }}>

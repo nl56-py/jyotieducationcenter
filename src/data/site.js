@@ -22,7 +22,6 @@ export const navItems = [
       { label: "Director Message", path: "/about#ceo" },
       { label: "Our Team", path: "/about#team" },
       { label: "Milestones", path: "/about#milestones" },
-      { label: "Approvals & Certifications", path: "/approvals" },
     ],
   },
   {

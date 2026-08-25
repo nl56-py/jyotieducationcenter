@@ -12050,82 +12050,38 @@ video {
   }
 }
 
-/* --- Custom HTML/CSS Logo Styling --- */
+/* --- Custom Brand Logo Styling --- */
 .edumark-logo-link {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 12px;
   text-decoration: none;
-  font-family: var(--font-plus-jakarta), "Plus Jakarta Sans", sans-serif;
   transition: transform 0.3s ease;
+  flex-shrink: 0;
 }
 
 .edumark-logo-link:hover .edumark-logo-icon {
-  transform: scale(1.06);
+  transform: scale(1.05);
 }
 
 .edumark-logo-icon {
-  height: 56px;
+  height: 62px;
+  max-height: 66px;
   width: auto;
-  border-radius: 8px;
+  border-radius: 6px;
   object-fit: contain;
   transition: transform 0.3s ease;
 }
 
-.edumark-logo-text {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  line-height: 1.1;
-  text-align: left;
-}
-
-.edumark-logo-title {
-  font-size: 32px;
-  font-weight: 800;
-  color: #0b5cd4; /* Vibrant royal blue */
-  letter-spacing: -0.5px;
-  line-height: 1;
-  display: block;
-}
-
-.edumark-logo-line {
-  height: 2px;
-  background-color: #e9262d; /* Red divider line */
-  margin: 4px 0 3px 0;
-  width: 100%;
-}
-
-.edumark-logo-tagline {
-  font-size: 10px;
-  font-weight: 700;
-  color: #e9262d; /* Red tagline */
-  letter-spacing: 0.1px;
-  white-space: nowrap;
-  line-height: 1;
-  display: block;
-}
-
 @media (max-width: 991px) {
   .edumark-logo-icon {
-    height: 46px;
-  }
-  .edumark-logo-title {
-    font-size: 26px;
-  }
-  .edumark-logo-tagline {
-    font-size: 8px;
+    height: 48px;
+    max-height: 52px;
   }
 }
 
 @media (max-width: 375px) {
   .edumark-logo-icon {
-    height: 38px;
-  }
-  .edumark-logo-title {
-    font-size: 21px;
-  }
-  .edumark-logo-tagline {
-    font-size: 7px;
+    height: 42px;
+    max-height: 46px;
   }
 }

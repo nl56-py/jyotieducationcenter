@@ -62,15 +62,6 @@ export interface SiteConfig {
   }>;
 
   team: TeamMemberConfig[];
-
-  accreditations: Array<{
-    id: string;
-    name: string;
-    subtitle: string;
-    description: string;
-    logo: string;
-  }>;
-
   copyright: string;
 }
 
@@ -166,37 +157,6 @@ export const siteConfig: SiteConfig = {
       bio: "Welcoming students and parents with warm counseling intake, scheduling profile reviews, and initial guidance.",
       badge: "Student Relations",
       email: "frontdesk@jyotieducations.edu.np",
-    },
-  ],
-
-  accreditations: [
-    {
-      id: "moe",
-      name: "Approved by Ministry",
-      subtitle: "Government of Nepal",
-      description: "Officially approved by the Ministry of Education, Science and Technology, satisfying all national regulatory benchmarks for abroad study consultancies.",
-      logo: "/images/trust images/ministry image.jfif",
-    },
-    {
-      id: "ecan",
-      name: "ECAN Member",
-      subtitle: "Educational Consultancy Association of Nepal",
-      description: "Proud member adhering to strict ethical counseling guidelines, transparent procedures, and student-first principles.",
-      logo: "/images/trust images/ecan.png",
-    },
-    {
-      id: "titi",
-      name: "TITI Certified",
-      subtitle: "Professional Training Standards",
-      description: "Certified career counseling instructors equipped to provide rigorous profile assessments and visa guidance.",
-      logo: "/images/trust images/titi.png",
-    },
-    {
-      id: "icef",
-      name: "ICEF Screened",
-      subtitle: "Global Educator Accreditation",
-      description: "International agency accreditation upholding global benchmarks for ethical student recruitment.",
-      logo: "/images/ICEF-Logo_2023_500.jpg",
     },
   ],
 

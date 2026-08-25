@@ -121,7 +121,7 @@ export function Header({ onSearch }) {
               </span>
             </div>
             <div className="top-strip-right">
-              <span>Approved by Ministry of Education • ECAN Member • Jyoti Education Corner</span>
+              <span>Well Managed for Your Success • Putalisadak, Kathmandu</span>
             </div>
           </div>
         </div>
