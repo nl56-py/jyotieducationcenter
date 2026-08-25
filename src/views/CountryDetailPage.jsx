@@ -22,6 +22,20 @@ const flagImageMap = {
   IN: "/images/flags/india.svg",
   AE: "/images/flags/uae.svg",
   MT: "/images/flags/malta.svg",
+  uk: "/images/flags/uk.svg",
+  usa: "/images/flags/usa.svg",
+  australia: "/images/flags/australia.svg",
+  canada: "/images/flags/canada.svg",
+  "new-zealand": "/images/flags/new-zealand.svg",
+  germany: "/images/flags/germany.svg",
+  denmark: "/images/flags/denmark.svg",
+  finland: "/images/flags/finland.svg",
+  lithuania: "/images/flags/lithuania.svg",
+  "south-korea": "/images/flags/south-korea.svg",
+  japan: "/images/flags/japan.svg",
+  india: "/images/flags/india.svg",
+  dubai: "/images/flags/uae.svg",
+  malta: "/images/flags/malta.svg"
 };
 
 const countryLandmarkMap = {
@@ -227,8 +241,8 @@ export function CountryDetailPage({ country }) {
     return a.name.localeCompare(b.name);
   });
 
-  const heroImage = countryHeroImageMap[country.slug] || country.universitiesDetail?.[0]?.image || flagImageMap[country.code];
-  const heroFlag = flagImageMap[country.code];
+  const heroFlag = flagImageMap[country.code] || flagImageMap[country.slug] || "/images/flags/uk.svg";
+  const heroImage = countryHeroImageMap[country.slug] || country.universitiesDetail?.[0]?.image || heroFlag;
   const heroLandmark = countryLandmarkMap[country.slug] || "Global study route";
 
   return (
@@ -396,7 +410,7 @@ export function CountryDetailPage({ country }) {
           
           <div className="country-sidebar-nav">
             {sortedCountries.map((c) => {
-              const cFlag = flagImageMap[c.code];
+              const cFlag = flagImageMap[c.code] || flagImageMap[c.slug] || (c.country_code ? flagImageMap[c.country_code.toUpperCase()] : null) || "/images/flags/uk.svg";
               return (
               <AppLink
                 key={c.slug}
@@ -411,17 +425,14 @@ export function CountryDetailPage({ country }) {
                 }}
               >
                 <div className="country-sidebar-flag-wrapper">
-                  {cFlag ? (
-                    <Image
-                      src={cFlag}
-                      alt={`${c.name} flag`}
-                      className="country-sidebar-flag-img"
-                      width={28}
-                      height={28}
-                    />
-                  ) : (
-                    <span className="flag-code" style={{ zIndex: 2, fontSize: "11px", fontWeight: 800 }}>{c.code}</span>
-                  )}
+                  <Image
+                    src={cFlag}
+                    alt={`${c.name} flag`}
+                    className="country-sidebar-flag-img"
+                    width={28}
+                    height={28}
+                    style={{ borderRadius: "50%", objectFit: "cover" }}
+                  />
                   <svg className="sidebar-airplane-loop" viewBox="0 0 40 40" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none" }}>
                     <circle cx="20" cy="20" r="14" stroke="currentColor" strokeWidth="1" strokeDasharray="3 3" fill="none" opacity="0.25"/>
                     <g className="sidebar-looping-plane-group" style={{ transformOrigin: "20px 20px" }}>
@@ -433,16 +444,6 @@ export function CountryDetailPage({ country }) {
                 </div>
                 <span className="country-sidebar-name" style={{ fontWeight: 700 }}>
                   <span className="country-sidebar-name-text">{getSidebarName(c)}</span>
-                  {cFlag && (
-                    <Image
-                      src={cFlag}
-                      alt=""
-                      className="country-sidebar-name-flag"
-                      width={22}
-                      height={22}
-                      aria-hidden="true"
-                    />
-                  )}
                 </span>
               </AppLink>
               );
