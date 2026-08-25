@@ -5,7 +5,7 @@ export function InquiryBand() {
     <section className="inquiry-band">
       <div>
         <span>Free counselling available</span>
-        <h2>Plan your next intake with EduMark.</h2>
+        <h2>Plan your next intake with Jyoti Educations.</h2>
       </div>
       <div>
         <AppLink to="/book-free-consultation" className="light-button">

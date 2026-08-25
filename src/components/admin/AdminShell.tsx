@@ -38,7 +38,7 @@ export default function AdminShell({
 
                 <main className="admin-main">
                     <AdminHeader
-                        title="EduMark Portal"
+                        title="Jyoti Educations Portal"
                         user={user}
                         sidebarOpen={sidebarOpen}
                         onMenuToggle={() => setSidebarOpen((prev) => !prev)}

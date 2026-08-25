@@ -148,7 +148,7 @@ export function BlogDetailPage({ blog, relatedBlogs = [] }) {
                 <ArrowLeft size={15} /> Back to Blogs
               </AppLink>
               <AppLink to="/book-free-consultation" className="primary-button">
-                Ask EduMark Counselors
+                Ask Jyoti Educations Counselors
               </AppLink>
             </div>
           </article>
@@ -177,10 +177,10 @@ export function BlogDetailPage({ blog, relatedBlogs = [] }) {
                 fontWeight: "bold",
                 color: "var(--purple)"
               }}>
-                EM
+                JEC
               </div>
               <h4 style={{ fontSize: "16px", fontWeight: 800, color: "var(--navy)", marginBottom: "4px" }}>
-                EduMark Counselors
+                Jyoti Educations Counselors
               </h4>
               <div style={{ fontSize: "12px", color: "var(--purple)", fontWeight: 700, textTransform: "uppercase", marginBottom: "12px" }}>
                 Verified Advising Team

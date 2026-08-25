@@ -3,8 +3,8 @@ import AdminShell from "@/components/admin/AdminShell";
 import "@/styles/admin.css";
 
 export const metadata = {
-  title: "EduMark Admin Panel",
-  description: "Management dashboard for EduMark consultancy portal",
+  title: "Jyoti Educations Admin Panel",
+  description: "Management dashboard for Jyoti Educations consultancy portal",
 };
 
 export default async function DashboardGroupLayout({

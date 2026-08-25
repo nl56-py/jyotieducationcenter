@@ -17,16 +17,16 @@ export const metadata: Metadata = {
     template: `%s | ${siteConfig.brandName}`,
   },
   description:
-    "Jyoti Education Corner in Putalisadak, Kathmandu, Nepal provides study abroad counselling, student visa assistance, university admissions, IELTS, PTE, TOEFL, SAT, and test preparation.",
+    "Jyoti Education Corner in Damak, Jhapa, Nepal provides study abroad counselling, student visa assistance, university admissions, IELTS, PTE, TOEFL, SAT, and test preparation.",
   keywords: [
-    "education consultancy in Kathmandu",
+    "education consultancy in Damak Jhapa",
     "study abroad from Nepal",
     "Jyoti Education Corner",
     "Jyoti Educations",
     "visa assistance Nepal",
-    "IELTS PTE classes Kathmandu",
+    "IELTS PTE classes Damak",
     "study in Australia UK USA Canada New Zealand Germany Europe",
-    "student visa counselling Kathmandu",
+    "student visa counselling Damak",
   ],
   alternates: {
     canonical: "/",
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     locale: "en_NP",
     url: "https://jyotieducations.edu.np",
     siteName: siteConfig.brandName,
-    title: `${siteConfig.brandName} | Study Abroad Consultancy Kathmandu`,
+    title: `${siteConfig.brandName} | Study Abroad Consultancy Damak, Jhapa`,
     description:
       "Study abroad counselling, admission support, visa guidance, test preparation, and entrance preparation for Nepali students.",
     images: [
@@ -50,9 +50,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `${siteConfig.brandName} | Study Abroad from Kathmandu`,
+    title: `${siteConfig.brandName} | Study Abroad from Damak, Jhapa`,
     description:
-      "Study abroad, visa assistance, admissions, IELTS, PTE, TOEFL, SAT, CEE, and CMAT support from Kathmandu, Nepal.",
+      "Study abroad, visa assistance, admissions, IELTS, PTE, TOEFL, SAT, CEE, and CMAT support from Damak, Jhapa, Nepal.",
     images: ["/images/generated/study-hero.png"],
   },
   icons: {
@@ -87,26 +87,27 @@ const localBusinessSchema = {
   logo: "https://jyotieducations.edu.np/favicon/android-chrome-512x512.png",
   image: "https://jyotieducations.edu.np/images/generated/study-hero.png",
   description:
-    "Study abroad consultancy and test preparation center in Putalisadak, Kathmandu, Nepal.",
+    "Study abroad consultancy and test preparation center in Damak, Jhapa, Nepal.",
   telephone: siteConfig.contact.primaryPhone,
   email: siteConfig.contact.infoEmail,
   priceRange: "$$",
   address: {
     "@type": "PostalAddress",
-    streetAddress: "Putalisadak",
-    addressLocality: "Kathmandu",
-    postalCode: "44600",
-    addressRegion: "Bagmati Province",
+    streetAddress: "Damak",
+    addressLocality: "Damak",
+    postalCode: "57217",
+    addressRegion: "Koshi Province",
     addressCountry: "NP",
   },
   geo: {
     "@type": "GeoCoordinates",
-    latitude: 27.7044,
-    longitude: 85.3183,
+    latitude: 26.6614,
+    longitude: 87.6976,
   },
   areaServed: [
     { "@type": "Country", name: "Nepal" },
-    { "@type": "City", name: "Kathmandu" },
+    { "@type": "City", name: "Damak" },
+    { "@type": "AdministrativeArea", name: "Jhapa" },
   ],
   openingHoursSpecification: [
     {
@@ -189,7 +190,7 @@ const faqSchema = {
       name: "Where is Jyoti Education Corner located?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Jyoti Education Corner Pvt. Ltd. is located in Putalisadak, Kathmandu, Nepal.",
+        text: "Jyoti Education Corner Pvt. Ltd. is located in Damak, Jhapa, Nepal.",
       },
     },
   ],

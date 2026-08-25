@@ -35,7 +35,7 @@ export function TestPreparationPage({ navigate }) {
       </section>
       <section className="section split-section">
         <div className="brochure-frame">
-          <img src={assets.testPrep} alt="EduMark test preparation classes" />
+          <img src={assets.testPrep} alt="Jyoti Educations test preparation classes" />
         </div>
         <div>
           <SectionIntro

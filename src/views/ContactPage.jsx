@@ -9,7 +9,7 @@ export function ContactPage({ navigate }) {
     <main>
       <PageHero
         eyebrow="Contact"
-        title="Visit Jyoti Educations at Putalisadak, Kathmandu"
+        title="Visit Jyoti Educations at Damak, Jhapa"
         text="Call, message, WhatsApp, or submit an inquiry for abroad study, test preparation classes, or visa counseling."
         image={assets.counselling}
       />

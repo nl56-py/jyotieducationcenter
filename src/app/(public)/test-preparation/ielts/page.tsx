@@ -10,7 +10,7 @@ export default function IELTSPage() {
                 <div className="ielts-overlay">
                     <h1>IELTS Preparation Classes</h1>
                     <div className="ielts-breadcrumb">
-                        EduMark Pvt. Ltd. / IELTS
+                        Jyoti Education Corner / IELTS
                     </div>
                 </div>
             </section>

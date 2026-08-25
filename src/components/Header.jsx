@@ -121,7 +121,7 @@ export function Header({ onSearch }) {
               </span>
             </div>
             <div className="top-strip-right">
-              <span>Well Managed for Your Success • Putalisadak, Kathmandu</span>
+              <span>Well Managed for Your Success • Damak, Jhapa</span>
             </div>
           </div>
         </div>

@@ -49,7 +49,7 @@ export function Footer() {
             {siteConfig.legalName} is a government-registered educational consultancy providing reliable, professional, and student-focused international guidance. Well managed for your success.
           </p>
           <p style={{ fontSize: "13px", color: "var(--muted)", fontWeight: "500" }}>
-            Putalisadak, Kathmandu, Nepal • {siteConfig.contact.primaryPhone}
+            Damak, Jhapa, Nepal • {siteConfig.contact.primaryPhone}
           </p>
         </div>
 

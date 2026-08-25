@@ -285,7 +285,7 @@ export function CMAT({ navigate }) {
       {/* ── 5. WHY CHOOSE SECTION ── */}
       <motion.section className="cmat-why-section" variants={fadeInUp}>
         <div className="cmat-section-divider">
-          <span>WHY CHOOSE EDUMARK FOR CMAT PREPARATION?</span>
+          <span>WHY CHOOSE JYOTI EDUCATIONS FOR CMAT PREPARATION?</span>
         </div>
 
         <motion.div className="cmat-why-grid" variants={staggerContainer}>

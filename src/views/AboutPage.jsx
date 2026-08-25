@@ -378,7 +378,7 @@ function AnimatedHeroVisual() {
       <div className="visual-glow glow-cyan" />
       <div className="visual-main-frame">
         <div className="image-wrapper">
-          <img src="/images/about_page/hero.jpg" alt="EduMark students and counselors" />
+          <img src="/images/about_page/hero.jpg" alt="Jyoti Educations students and counselors" />
           <div className="image-overlay" />
         </div>
       </div>

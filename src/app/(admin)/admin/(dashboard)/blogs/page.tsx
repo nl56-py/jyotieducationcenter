@@ -207,7 +207,7 @@ export default function BlogsCMSPage() {
                   <input 
                     type="text" 
                     className="form-input" 
-                    placeholder="e.g. Australian Student Visa Guide | EduMark" 
+                    placeholder="e.g. Australian Student Visa Guide | Jyoti Educations" 
                     value={seoTitle} 
                     onChange={(e) => setSeoTitle(e.target.value)} 
                   />

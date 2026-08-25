@@ -5,7 +5,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "Events — Jyoti Educations",
-  description: "Explore counseling fairs, orientation sessions, scholarship workshops, and community gatherings at Jyoti Education Corner Kathmandu.",
+  description: "Explore counseling fairs, orientation sessions, scholarship workshops, and community gatherings at Jyoti Education Corner Damak, Jhapa.",
 };
 
 export default async function EventsRoute() {

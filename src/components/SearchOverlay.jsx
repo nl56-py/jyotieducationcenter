@@ -44,7 +44,7 @@ export function SearchOverlay({ open, onClose }) {
     <div className="search-overlay" role="dialog" aria-modal="true" aria-label="Site search">
       <div className="search-card">
         <div className="search-head">
-          <h2>Search EduMark</h2>
+          <h2>Search Jyoti Educations</h2>
           <button type="button" onClick={onClose}>
             Close
           </button>

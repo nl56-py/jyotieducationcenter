@@ -111,7 +111,7 @@ export function AdminSidebar({
     <aside className={`admin-sidebar ${sidebarOpen ? "open" : ""}`}>
       <div className="sidebar-header">
         <div className="sidebar-brand">
-          EduMark
+          Jyoti Educations
           <span className="sidebar-brand-badge">
             {user.isMock ? "MOCK" : "LIVE"}
           </span>

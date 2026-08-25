@@ -272,7 +272,7 @@ export function CEE({ navigate }) {
       {/* ── 5. WHY CHOOSE SECTION ── */}
       <motion.section className="cee-why-section" variants={fadeInUp}>
         <div className="cee-section-divider">
-          <span>WHY CHOOSE EDUMARK FOR CEE PREPARATION?</span>
+          <span>WHY CHOOSE JYOTI EDUCATIONS FOR CEE PREPARATION?</span>
         </div>
 
         <motion.div className="cee-why-grid" variants={staggerContainer}>

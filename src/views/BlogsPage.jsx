@@ -26,7 +26,7 @@ export function BlogsPage({ blogs = [], navigate = undefined }) {
     <main style={{ background: "var(--surface-mist)" }}>
       <PageHero
         eyebrow="RESOURCES & INSIGHTS"
-        title="EduMark Student Knowledge Hub"
+        title="Jyoti Educations Student Knowledge Hub"
         text="Essential guidance for study abroad, visas, language tests, and technical entrance prep from our certified team."
         image={assets.success}
       />

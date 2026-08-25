@@ -4,8 +4,8 @@ import { NoticesPage } from "@/views/NoticesPage";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Notices — EduMark Pvt. Ltd.",
-  description: "Stay updated with the latest admission calls, preparation class announcements, and important academic notifications from EduMark.",
+  title: "Notices — Jyoti Education Corner Pvt. Ltd.",
+  description: "Stay updated with the latest admission calls, preparation class announcements, and important academic notifications from Jyoti Educations.",
 };
 
 export default async function NoticesRoute() {

@@ -76,20 +76,20 @@ export const siteConfig: SiteConfig = {
   experienceYears: "10+",
 
   contact: {
-    address: "Putalisadak, Kathmandu, Nepal",
-    city: "Kathmandu",
-    province: "Bagmati Province",
+    address: "Damak, Jhapa, Nepal",
+    city: "Damak",
+    province: "Koshi Province",
     country: "Nepal",
-    primaryPhone: "+977-1-4432100",
-    secondaryPhone: "+977-1-4432101",
-    mobile: "+977-9851000000",
-    whatsapp: "+977-9851000000",
+    primaryPhone: "023-575541",
+    secondaryPhone: "+977-23-575541",
+    mobile: "986-1247784",
+    whatsapp: "986-1247784",
     email: "info@jyotieducations.edu.np",
     infoEmail: "info@jyotieducations.edu.np",
     admissionEmail: "apply@jyotieducations.edu.np",
     hours: "7:00 AM – 6:00 PM",
     workingDays: "Sunday – Friday (Saturday Closed)",
-    googleMapsUrl: "https://maps.google.com/?q=Putalisadak+Kathmandu+Nepal",
+    googleMapsUrl: "https://maps.google.com/?q=Jyoti+Education+Corner+Pvt.+Ltd.+Damak+Nepal",
   },
 
   socialLinks: {

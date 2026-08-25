@@ -41,7 +41,7 @@ export function GalleryPage({ photos = [] }) {
     <main style={{ background: "var(--surface-mist)" }}>
       <PageHero
         eyebrow="PHOTO GALLERY"
-        title="Explore life and activities at EduMark"
+        title="Explore life and activities at Jyoti Educations"
         text="A visual record of our student counseling fairs, seminar events, office spaces, visa celebration moments, and community sessions."
         image={assets.success}
       />
@@ -169,7 +169,7 @@ export function GalleryPage({ photos = [] }) {
                       WebkitLineClamp: "2",
                       WebkitBoxOrient: "vertical"
                     }}>
-                      {photo.caption || photo.fileName || "EduMark Gallery Image"}
+                      {photo.caption || photo.fileName || "Jyoti Educations Gallery Image"}
                     </h4>
                   </div>
                 </div>

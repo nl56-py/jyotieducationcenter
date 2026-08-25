@@ -80,7 +80,7 @@ export function ServiceDetailPage({ service }) {
             {service.title}
             <span className="eyebrow-line" />
           </span>
-          <h1 className="hero-main-title">{service.title} with EduMark</h1>
+          <h1 className="hero-main-title">{service.title} with Jyoti Educations</h1>
           <p className="hero-desc-text">
             {service.slug === "career-counselling"
               ? "A professional session helps students compare abroad study, entrance preparation, test preparation, and local pathways before making financial commitments."
@@ -166,7 +166,7 @@ export function ServiceDetailPage({ service }) {
         </div>
 
         <div className="outcomes-brochure-frame">
-          <img src={assets.whyChoose} alt="EduMark support highlights" />
+          <img src={assets.whyChoose} alt="Jyoti Educations support highlights" />
         </div>
       </section>
     </main>

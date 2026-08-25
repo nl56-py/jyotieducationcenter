@@ -18,7 +18,7 @@ export function DestinationsPage({ navigate }) {
         <div>
           <SectionIntro
             eyebrow="Europe Focus"
-            title="Affordable European pathways are a strong EduMark category"
+            title="Affordable European pathways are a strong Jyoti Educations category"
             text="The brochure highlights Europe-first study messaging, so the page gives Finland, Lithuania, and UK routes enough visibility without losing Australia, Japan, USA, South Korea, or India."
           />
           <AppLink to="/book-free-consultation" navigate={navigate} className="primary-button">
@@ -26,7 +26,7 @@ export function DestinationsPage({ navigate }) {
           </AppLink>
         </div>
         <div className="brochure-frame">
-          <img src={assets.europe} alt="EduMark Europe study brochure artwork" />
+          <img src={assets.europe} alt="Jyoti Educations Europe study brochure artwork" />
         </div>
       </section>
     </main>

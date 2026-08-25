@@ -324,7 +324,7 @@ export function EntrancePage({ navigate }) {
           viewport={{ once: true, margin: "-100px" }}
           variants={containerVariants}
         >
-          <motion.span className="ep-why-eyebrow" variants={itemVariants}>WHY PREPARE WITH EDUMARK</motion.span>
+          <motion.span className="ep-why-eyebrow" variants={itemVariants}>WHY PREPARE WITH JYOTI EDUCATIONS</motion.span>
           <motion.h2 variants={itemVariants}>A proven approach<br />to your success</motion.h2>
           <motion.p variants={itemVariants}>Our structured preparation methodology ensures conceptual clarity, consistent practice, and performance improvement.</motion.p>
           <div className="ep-why-features">

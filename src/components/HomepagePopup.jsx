@@ -36,7 +36,7 @@ export function HomepagePopup({ navigate }) {
         <div className="homepage-popup-icon">
           <Megaphone size={24} />
         </div>
-        <span className="homepage-popup-kicker">{popup.display_mode === "banner" ? "Notice" : "EduMark Update"}</span>
+        <span className="homepage-popup-kicker">{popup.display_mode === "banner" ? "Notice" : "Jyoti Educations Update"}</span>
         <h2 id="homepage-popup-title">{popup.title}</h2>
         {popup.subtitle && <p className="homepage-popup-subtitle">{popup.subtitle}</p>}
         {popup.body && <div className="homepage-popup-body" dangerouslySetInnerHTML={{ __html: sanitizeHtml(popup.body) }} />}

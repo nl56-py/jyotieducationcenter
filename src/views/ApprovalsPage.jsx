@@ -50,7 +50,7 @@ export function ApprovalsPage() {
       icon: <CheckCircle size={28} style={{ color: "#06b6d4" }} />,
       logo: "/images/ICEF-Logo_2023_500.jpg",
       docUrl: "/images/brand/icef_USA_certificate.pdf",
-      description: "Globally screened and vetted by ICEF, validating EduMark's compliance with international best practices, ethical student recruitment, and global university relations.",
+      description: "Globally screened and vetted by ICEF, validating Jyoti Education Corner's compliance with international best practices, ethical student recruitment, and global university relations.",
       date: "Vetted since 2023",
     },
     {
@@ -61,7 +61,7 @@ export function ApprovalsPage() {
       icon: <Award size={28} style={{ color: "#8b5cf6" }} />,
       logo: "/images/trust images/14 years.png",
       docUrl: "/images/brand/Registration_Certificate_EduMark.pdf",
-      description: "EduMark Pvt. Ltd. is a registered company officially incorporated under the Office of the Company Registrar, Government of Nepal, holding 14+ years of trust and legal compliance in student counseling.",
+      description: "Jyoti Education Corner Pvt. Ltd. is a registered company officially incorporated under the Office of the Company Registrar, Government of Nepal, holding proven trust and legal compliance in student counseling.",
       date: "Established in 2012",
     },
   ];
@@ -71,7 +71,7 @@ export function ApprovalsPage() {
       <PageHero
         eyebrow="LICENSES & CERTIFICATIONS"
         title="Official Approvals & Government Registrations"
-        text="EduMark Pvt. Ltd. is a fully registered, licensed, and audited educational consultancy. We adhere strictly to national regulations and international ethical codes."
+        text="Jyoti Education Corner Pvt. Ltd. is a fully registered, licensed, and audited educational consultancy. We adhere strictly to national regulations and international ethical codes."
         image={assets.success}
       />
 
@@ -206,7 +206,7 @@ export function ApprovalsPage() {
               Verifiable & Compliant Education Agency
             </h3>
             <p style={{ color: "var(--muted)", maxWidth: "800px", margin: "0 auto 20px", fontSize: "14px", lineHeight: 1.6 }}>
-              All our consulting services are provided by certified counselors who have passed professional TITI training and regulatory exams. EduMark is fully tax compliant and registered with the Koshi Province administration office.
+              All our consulting services are provided by certified counselors who have passed professional TITI training and regulatory exams. Jyoti Education Corner is fully tax compliant and registered with the Koshi Province administration office.
             </p>
             <div style={{ display: "flex", gap: "10px", justifyContent: "center", flexWrap: "wrap" }}>
               <span style={{ background: "rgba(34, 197, 94, 0.1)", color: "#16a34a", padding: "6px 14px", borderRadius: "20px", fontSize: "13px", fontWeight: 700 }}>

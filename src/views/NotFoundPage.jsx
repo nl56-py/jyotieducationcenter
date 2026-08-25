@@ -7,7 +7,7 @@ export function NotFoundPage({ navigate }) {
     <main>
       <PageHero
         eyebrow="Page Not Found"
-        title="This EduMark page is not available yet"
+        title="This Jyoti Educations page is not available yet"
         text="Use the navigation or return to the homepage to continue exploring the site."
         image={assets.destinations}
       />
@@ -16,7 +16,7 @@ export function NotFoundPage({ navigate }) {
           Back Home
         </AppLink>
         <AppLink to="/contact" navigate={navigate} className="secondary-button">
-          Contact EduMark
+          Contact Jyoti Educations
         </AppLink>
       </section>
     </main>

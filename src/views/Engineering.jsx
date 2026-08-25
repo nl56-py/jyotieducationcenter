@@ -173,7 +173,7 @@ export function Engineering({ navigate }) {
       {/* ── 5. WHY CHOOSE SECTION ── */}
       <motion.section className="eng-why-section" variants={fadeInUp}>
         <div className="eng-section-divider">
-          <span>WHY CHOOSE EDUMARK?</span>
+          <span>WHY CHOOSE JYOTI EDUCATIONS?</span>
         </div>
 
         <motion.div className="eng-why-grid" variants={staggerContainer}>

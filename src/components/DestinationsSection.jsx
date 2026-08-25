@@ -14,7 +14,7 @@ export function DestinationsSection({ navigate, compact = false }) {
     <section className="section destinations-band">
       <SectionIntro
         eyebrow="Study Destinations"
-        title="Countries EduMark supports from counselling to visa readiness"
+        title="Countries Jyoti Educations supports from counselling to visa readiness"
         text="Explore popular study routes with intake planning, program shortlisting, cost awareness, and practical document guidance."
         align="center"
       />

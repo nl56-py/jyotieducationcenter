@@ -70,11 +70,11 @@ function LoginForm() {
 
       // Determine role from email / password
       let role = "admin";
-      let fullName = "EduMark Administrator";
+      let fullName = "Jyoti Educations Administrator";
 
       if (email.startsWith("super")) {
         role = "super_admin";
-        fullName = "EduMark Super Admin";
+        fullName = "Jyoti Educations Super Admin";
       } else if (email.startsWith("counselor")) {
         role = "counselor";
         fullName = "Senior Counselor";
@@ -112,7 +112,7 @@ function LoginForm() {
       <div className="login-card">
         <div className="login-logo">
           <Shield size={32} />
-          EduMark Portal
+          Jyoti Educations Portal
         </div>
         <p className="login-subtitle">
           Sign in with your credentials to manage leads and content.
@@ -141,7 +141,7 @@ function LoginForm() {
               id="email"
               type="email"
               className="form-input"
-              placeholder="e.g. admin@edumark.edu.np"
+              placeholder="e.g. admin@jyotieducations.edu.np"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required

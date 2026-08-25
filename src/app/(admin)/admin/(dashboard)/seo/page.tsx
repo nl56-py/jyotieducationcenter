@@ -237,7 +237,7 @@ export default function SEOControlPage() {
                 </div>
                 <div className="form-group">
                   <label className="form-label">SEO Meta Title (recommended 50-60 chars)</label>
-                  <input type="text" className="form-input" placeholder="e.g. Language Classes & Counseling Services | EduMark" value={seoTitle} onChange={(e) => setSeoTitle(e.target.value)} required />
+                  <input type="text" className="form-input" placeholder="e.g. Language Classes & Counseling Services | Jyoti Educations" value={seoTitle} onChange={(e) => setSeoTitle(e.target.value)} required />
                 </div>
                 <div className="form-group">
                   <label className="form-label">SEO Meta Description (recommended 150-160 chars)</label>

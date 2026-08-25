@@ -4,8 +4,8 @@ import { GalleryPage } from "@/views/GalleryPage";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Photo Gallery — EduMark Pvt. Ltd.",
-  description: "View photos of our offices, student success stories, events, and activities at EduMark.",
+  title: "Photo Gallery — Jyoti Education Corner Pvt. Ltd.",
+  description: "View photos of our offices, student success stories, events, and activities at Jyoti Educations.",
 };
 
 export default async function GalleryRoute() {

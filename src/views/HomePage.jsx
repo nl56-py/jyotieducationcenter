@@ -269,8 +269,8 @@ export function HomePage({ initialVideos = [], initialBlogs = [], initialTestimo
           {/* Left: Stacked images and stats widget */}
           <div className="about-stats-left">
             <div className="about-image-stack">
-              <img src={assets.counselling} alt="EduMark Office Counseling" className="about-img-1" />
-              <img src={assets.success} alt="EduMark Student Success Story" className="about-img-2" />
+              <img src={assets.counselling} alt="Jyoti Education Corner Office Counseling" className="about-img-1" />
+              <img src={assets.success} alt="Jyoti Education Corner Student Success Story" className="about-img-2" />
             </div>
 
             {/* Trust Badge Widget (No Audited Placement Stats) */}
@@ -300,7 +300,7 @@ export function HomePage({ initialVideos = [], initialBlogs = [], initialTestimo
             </div>
 
             <p className="about-stats-text">
-              Nearly a decade of dedicated service, Jyoti Education Corner Pvt. Ltd. has been a guiding lighthouse for students across Nepal seeking international academic excellence. Based in Putalisadak, Kathmandu, we are fully approved by the Ministry of Education and staffed with certified counselors. 
+              Nearly a decade of dedicated service, Jyoti Education Corner Pvt. Ltd. has been a guiding lighthouse for students across Nepal seeking international academic excellence. Based in Damak, Jhapa, we are fully approved by the Ministry of Education and staffed with certified counselors. 
               <br /><br />
               We believe in building careers rather than just processing documents. Through our institutional relationships with over 500 universities across the UK, USA, Australia, Canada, New Zealand, Germany, Denmark, Finland, Japan, South Korea, and Europe, we provide genuine, transparent, and step-by-step guidance.
             </p>
@@ -639,7 +639,7 @@ export function HomePage({ initialVideos = [], initialBlogs = [], initialTestimo
             <span className="map-stats-eyebrow">🌍 Overseas Presence</span>
             <h2 className="map-stats-title">Accelerating your academic growth overseas</h2>
             <p className="map-stats-desc">
-              Our certified education consultants at Jyoti Education Corner support you with excellence in career guidance and student visa processing from Putalisadak, Kathmandu, Nepal. We are MOEST-approved and ECAN-affiliated, serving as a leading bridge to premier global destinations including Australia, the UK, USA, Canada, New Zealand, Germany, Denmark, Finland, Japan, South Korea, Lithuania, Malta, Dubai, and India.
+              Our certified education consultants at Jyoti Education Corner support you with excellence in career guidance and student visa processing from Damak, Jhapa, Nepal. We are MOEST-approved and ECAN-affiliated, serving as a leading bridge to premier global destinations including Australia, the UK, USA, Canada, New Zealand, Germany, Denmark, Finland, Japan, South Korea, Lithuania, Malta, Dubai, and India.
             </p>
           </div>
 
@@ -727,7 +727,7 @@ export function HomePage({ initialVideos = [], initialBlogs = [], initialTestimo
           </div>
 
           <div className="why-choose-right">
-            <img src="/images/why choose us.jpg" alt="Successful EduMark Student" className="why-choose-photo" />
+            <img src="/images/why choose us.jpg" alt="Successful Jyoti Educations Student" className="why-choose-photo" />
           </div>
 
         </div>
@@ -905,7 +905,7 @@ export function HomePage({ initialVideos = [], initialBlogs = [], initialTestimo
                 <div className="video-card">
                   <iframe 
                     src="https://www.youtube.com/embed/3Uskw8oGg38" 
-                    title="EduMark Study Abroad Guide"
+                    title="Jyoti Educations Study Abroad Guide"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     allowFullScreen
                   />
@@ -1093,7 +1093,7 @@ export function HomePage({ initialVideos = [], initialBlogs = [], initialTestimo
           <div className="contact-strip-left" style={{ display: "flex", alignItems: "center", gap: "16px" }}>
             <img src="/images/brand/jec.jpeg" alt="Jyoti Education Corner logo" style={{ height: "48px", width: "auto", borderRadius: "6px", objectFit: "contain" }} />
             <div className="contact-strip-info">
-              📞 +977-1-4432100 | +977-9851000000
+              📞 023-575541 | 986-1247784
             </div>
           </div>
 

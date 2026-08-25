@@ -77,7 +77,7 @@ export default function SATPage() {
                 </p>
 
                 <p>
-                    SAT Preparation Classes at EduMark provide comprehensive
+                    SAT Preparation Classes at Jyoti Educations provide comprehensive
                     coaching, updated study resources, and personalized support
                     to help students maximize their scores and achieve their
                     academic goals.
@@ -85,7 +85,7 @@ export default function SATPage() {
 
                 <div className="why-card">
 
-                    <h3>Why Choose EduMark?</h3>
+                    <h3>Why Choose Jyoti Educations?</h3>
 
                     <div className="feature">
                         <strong>Experienced SAT Trainers</strong>

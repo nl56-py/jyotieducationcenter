@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "Jyoti Education Corner Pvt. Ltd.",
     short_name: "Jyoti Educations",
     description:
-      "Study abroad counselling, visa assistance, admissions, and test preparation from Putalisadak, Kathmandu, Nepal.",
+      "Study abroad counselling, visa assistance, admissions, and test preparation from Damak, Jhapa, Nepal.",
     start_url: "/",
     scope: "/",
     display: "standalone",

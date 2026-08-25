@@ -79,7 +79,7 @@ export async function GET() {
     return new NextResponse(csvContent, {
       headers: {
         "Content-Type": "text/csv",
-        "Content-Disposition": `attachment; filename="edumark_leads_export_${Date.now()}.csv"`,
+        "Content-Disposition": `attachment; filename="jyoti_leads_export_${Date.now()}.csv"`,
         "Cache-Control": "no-store",
       }
     });

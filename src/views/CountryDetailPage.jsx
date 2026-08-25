@@ -709,7 +709,7 @@ export function CountryDetailPage({ country }) {
                 {country.visa.map((v, idx) => (
                   <div className="fallback-req-card" key={idx}>
                     <h4>{v}</h4>
-                    <p>EduMark provides detailed counsel on preparing files, certifications, and mock practice sessions for this step.</p>
+                    <p>Jyoti Educations provides detailed counsel on preparing files, certifications, and mock practice sessions for this step.</p>
                   </div>
                 ))}
               </div>

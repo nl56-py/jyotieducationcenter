@@ -22,7 +22,7 @@ export function EventsPage({ events = [] }) {
     <main style={{ background: "var(--surface-mist)", minHeight: "100vh" }}>
       <PageHero
         eyebrow="UPCOMING & PAST EVENTS"
-        title="Events at EduMark"
+        title="Events at Jyoti Educations"
         text="Explore our counseling fairs, orientation sessions, scholarship workshops, and community gatherings."
         image={assets.counselling}
       />
