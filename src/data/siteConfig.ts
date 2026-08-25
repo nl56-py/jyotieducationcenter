@@ -66,7 +66,7 @@ export interface SiteConfig {
 }
 
 export const siteConfig: SiteConfig = {
-  brandName: "Jyoti Educations",
+  brandName: "Jyoti Education Corner",
   legalName: "Jyoti Education Corner Pvt. Ltd.",
   shortName: "JEC",
   tagline: "Empowering Academic Excellence & Global Education",

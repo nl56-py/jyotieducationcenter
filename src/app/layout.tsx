@@ -11,17 +11,17 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://jyotieducations.edu.np"),
+  metadataBase: new URL("https://jyotieducation.edu.np"),
   title: {
     default: `${siteConfig.brandName} | Empowering Academic Excellence & Global Education`,
     template: `%s | ${siteConfig.brandName}`,
   },
   description:
-    "Jyoti Education Corner in Damak, Jhapa, Nepal provides study abroad counselling, student visa assistance, university admissions, IELTS, PTE, TOEFL, SAT, and test preparation.",
+    "Jyoti Education Corner in Damak, Jhapa, Nepal provides expert study abroad counselling, student visa assistance, university admissions, IELTS, PTE, TOEFL, SAT, CEE, and CMAT classes.",
   keywords: [
+    "Jyoti Education Corner",
     "education consultancy in Damak Jhapa",
     "study abroad from Nepal",
-    "Jyoti Education Corner",
     "Jyoti Educations",
     "visa assistance Nepal",
     "IELTS PTE classes Damak",
@@ -34,14 +34,14 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_NP",
-    url: "https://jyotieducations.edu.np",
+    url: "https://jyotieducation.edu.np",
     siteName: siteConfig.brandName,
     title: `${siteConfig.brandName} | Study Abroad Consultancy Damak, Jhapa`,
     description:
-      "Study abroad counselling, admission support, visa guidance, test preparation, and entrance preparation for Nepali students.",
+      "Study abroad counselling, university admissions, student visa assistance, IELTS, PTE, TOEFL, SAT classes & entrance prep in Damak, Jhapa, Nepal.",
     images: [
       {
-        url: "/images/generated/study-hero.png",
+        url: "/og-image.png",
         width: 1200,
         height: 630,
         alt: `${siteConfig.brandName} study abroad counselling in Nepal`,
@@ -50,10 +50,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `${siteConfig.brandName} | Study Abroad from Damak, Jhapa`,
+    title: `${siteConfig.brandName} | Study Abroad Consultancy Damak, Jhapa`,
     description:
-      "Study abroad, visa assistance, admissions, IELTS, PTE, TOEFL, SAT, CEE, and CMAT support from Damak, Jhapa, Nepal.",
-    images: ["/images/generated/study-hero.png"],
+      "Study abroad counselling, student visa guidance, admissions, IELTS, PTE, TOEFL, SAT, CEE & CMAT classes in Damak, Jhapa, Nepal.",
+    images: ["/og-image.png"],
   },
   icons: {
     icon: [
@@ -81,11 +81,11 @@ export const metadata: Metadata = {
 const localBusinessSchema = {
   "@context": "https://schema.org",
   "@type": ["EducationalOrganization", "LocalBusiness"],
-  "@id": "https://jyotieducations.edu.np/#organization",
+  "@id": "https://jyotieducation.edu.np/#organization",
   name: siteConfig.legalName,
-  url: "https://jyotieducations.edu.np",
-  logo: "https://jyotieducations.edu.np/favicon/android-chrome-512x512.png",
-  image: "https://jyotieducations.edu.np/images/generated/study-hero.png",
+  url: "https://jyotieducation.edu.np",
+  logo: "https://jyotieducation.edu.np/favicon/android-chrome-512x512.png",
+  image: "https://jyotieducation.edu.np/og-image.png",
   description:
     "Study abroad consultancy and test preparation center in Damak, Jhapa, Nepal.",
   telephone: siteConfig.contact.primaryPhone,
