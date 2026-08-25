@@ -79,7 +79,7 @@ function AnimatedCounter({ end, duration = 2000 }) {
 
 /* ─────────────────── SECTION WRAPPERS & DETAILS ─────────────────── */
 
-export function HomePage({ initialVideos = [], initialBlogs = [], initialTestimonials = [] }) {
+export function HomePage({ initialVideos = [], initialBlogs = [], initialTestimonials = [], initialDestinations = [], initialServices = [] }) {
   const router = useRouter();
   const navigate = (to) => router.push(to);
 
@@ -94,7 +94,11 @@ export function HomePage({ initialVideos = [], initialBlogs = [], initialTestimo
       india: { type: 'img', src: '/india.png' },
       dubai: { type: 'img', src: '/dubai.png' },
       "south-korea": { type: 'img', src: '/south-korea.png' },
-      japan: { type: 'img', src: '/japan.png' }
+      japan: { type: 'img', src: '/japan.png' },
+      germany: { type: 'img', src: '/images/flags/germany.svg' },
+      denmark: { type: 'img', src: '/images/flags/denmark.svg' },
+      "new-zealand": { type: 'img', src: '/images/flags/new-zealand.svg' },
+      canada: { type: 'img', src: '/images/flags/canada.svg' }
     };
     return flagMap[slug] || { type: 'emoji', char: '🌍' };
   };
@@ -107,7 +111,41 @@ export function HomePage({ initialVideos = [], initialBlogs = [], initialTestimo
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
 
-  const testimonialsList = initialTestimonials && initialTestimonials.length > 0 ? initialTestimonials : testimonials;
+  const testimonialsList = (initialTestimonials && initialTestimonials.length > 0 ? initialTestimonials : testimonials).map(t => ({
+    name: t.student_name || t.name || "Student",
+    route: t.destination || t.route || "Study Abroad",
+    quote: t.quote,
+    photo: t.media_assets?.path || t.photo || t.image || "/images/generated/student_male_1.png"
+  }));
+
+  const destinationsList = (initialDestinations && initialDestinations.length > 0 ? initialDestinations : countries).map(c => {
+    if (typeof c === "string") return { name: c, slug: c };
+    return {
+      name: c.name,
+      slug: c.slug,
+      accent: c.accent || "#0A6DAA",
+      why: Array.isArray(c.why) ? c.why : [],
+      scholarshipsList: Array.isArray(c.scholarships_list) ? c.scholarships_list : (c.scholarshipsList || [])
+    };
+  });
+
+  const blogsList = (initialBlogs && initialBlogs.length > 0 ? initialBlogs : blogs).map(b => {
+    const rawDate = b.date || (b.published_at ? new Date(b.published_at).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" }) : "Recent");
+    return {
+      slug: b.slug,
+      title: b.title,
+      excerpt: b.excerpt || "",
+      category: typeof b.category === "string" ? b.category : (b.blog_categories?.name || "Study Abroad"),
+      date: String(rawDate),
+      image: b.media_assets?.path || b.image || "/images/generated/study-hero.png"
+    };
+  });
+
+  const servicesList = (initialServices && initialServices.length > 0 ? initialServices : services).map((s, idx) => ({
+    slug: s.slug || `service-${idx+1}`,
+    title: s.title || s.name,
+    image: s.media_assets?.path || s.image || "/images/services/educational-consulting.jpg"
+  }));
 
   useEffect(() => {
     const handleResize = () => {
@@ -325,7 +363,7 @@ export function HomePage({ initialVideos = [], initialBlogs = [], initialTestimo
 
           <div className="visa-slider-wrapper">
             <div className="visa-slider-track">
-              {services.map((svc, idx) => {
+              {servicesList.map((svc, idx) => {
                 const badge = `SERVICE ${String(idx + 1).padStart(2, "0")}`;
                 const imageSrc = svc.image || "/images/services/educational-consulting.jpg";
                 return (
@@ -372,7 +410,7 @@ export function HomePage({ initialVideos = [], initialBlogs = [], initialTestimo
 
           {/* Desktop Horizontal Accordion Layout */}
           <div className="destinations-accordion-wrapper">
-            {countries.map((country, idx) => {
+            {destinationsList.map((country, idx) => {
               const isActive = idx === activeCountry;
               const flagInfo = getCountryFlag(country.slug);
               const flagEl = flagInfo.type === 'img' ? (
@@ -383,7 +421,7 @@ export function HomePage({ initialVideos = [], initialBlogs = [], initialTestimo
 
               // Calculate panel width dynamically to trigger smooth transitions:
               // Active panel gets the remaining width after subtraction of all inactive tab widths (50px each)
-              const panelWidth = isActive ? `calc(100% - ${(countries.length - 1) * 50}px)` : '50px';
+              const panelWidth = isActive ? `calc(100% - ${(destinationsList.length - 1) * 50}px)` : '50px';
 
               if (!isActive) {
                 return (
@@ -1061,7 +1099,7 @@ export function HomePage({ initialVideos = [], initialBlogs = [], initialTestimo
           </div>
 
           <div className="blog-grid-v2">
-            {(initialBlogs && initialBlogs.length > 0 ? initialBlogs : blogs).slice(0, 3).map((blog, idx) => (
+            {blogsList.slice(0, 3).map((blog, idx) => (
               <article 
                 key={blog.slug} 
                 className="blog-card-v2"
