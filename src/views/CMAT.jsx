@@ -122,8 +122,8 @@ export function CMAT({ navigate }) {
             
             <motion.div className="cmat-hero-img-wrap" variants={scaleIn}>
               <img
-                src="/images/CMAT.png"
-                alt="Student preparing for CMAT"
+                src="/images/cmat-hero.jpg"
+                alt="Student preparing for CMAT Entrance"
               />
             </motion.div>
 

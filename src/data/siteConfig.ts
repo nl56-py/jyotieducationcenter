@@ -129,7 +129,7 @@ export const siteConfig: SiteConfig = {
     {
       name: "Kedar Poudel",
       role: "Director",
-      image: "/images/brand/leader-kedar-poudel.jpg",
+      image: "/images/brand/jec.jpeg",
       bio: "Over a decade of visionary leadership in higher education counseling, university tie-ups, and ethical student pathways.",
       badge: "Leadership",
       email: "director@jyotieducations.edu.np",
@@ -137,7 +137,7 @@ export const siteConfig: SiteConfig = {
     {
       name: "Chandra Kala Dahal",
       role: "Board of Director",
-      image: "/images/brand/leader-chandra-kala.jpg",
+      image: "/images/brand/jec.jpeg",
       bio: "Strategic oversight, institutional governance, and compliance ensuring quality service benchmarks across all operations.",
       badge: "Governance",
       email: "chandrakala@jyotieducations.edu.np",
@@ -145,7 +145,7 @@ export const siteConfig: SiteConfig = {
     {
       name: "Narayan Poudel",
       role: "Manager",
-      image: "/images/brand/leader-narayan-poudel.jpg",
+      image: "/images/brand/jec.jpeg",
       bio: "Managing daily administrative excellence, university liaison, documentation protocols, and counselor alignment.",
       badge: "Management",
       email: "manager@jyotieducations.edu.np",
@@ -153,7 +153,7 @@ export const siteConfig: SiteConfig = {
     {
       name: "Sherya Basnet",
       role: "Front Desk Officer",
-      image: "/images/brand/leader-sherya-basnet.jpg",
+      image: "/images/brand/jec.jpeg",
       bio: "Welcoming students and parents with warm counseling intake, scheduling profile reviews, and initial guidance.",
       badge: "Student Relations",
       email: "frontdesk@jyotieducations.edu.np",

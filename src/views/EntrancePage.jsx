@@ -169,8 +169,8 @@ export function EntrancePage({ navigate }) {
               transition={{ type: "spring", stiffness: 80, damping: 15, delay: 0.1 }}
             >
               <img
-                src={assets.entrance || "/images/brochure/entrance-prep.jpg"}
-                alt="Student preparing"
+                src="/images/entrance-main.jpg"
+                alt="Student preparing for entrance exams"
               />
             </motion.div>
 

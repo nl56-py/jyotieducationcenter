@@ -20,9 +20,9 @@ export const assets = {
   cee: "/images/brochure/cee.jpg",
   cmat: "/images/brochure/cmat.jpg",
   leaders: [
-    "/images/brand/leader-ravi-gupta.jpg",
-    "/images/brand/leader-kabiraj-paudel.jpg",
-    "/images/brand/dipendra mehta.jpeg",
-    "/images/brand/leader-tilak-thapa.jpg",
+    "/images/brand/jec.jpeg",
+    "/images/brand/jec.jpeg",
+    "/images/brand/jec.jpeg",
+    "/images/brand/jec.jpeg",
   ],
 };

@@ -132,8 +132,8 @@ export function CEE({ navigate }) {
             
             <motion.div className="cee-hero-img-wrap" variants={scaleIn}>
               <img
-                src="/images/CEE.png"
-                alt="Student preparing for CEE"
+                src="/images/cee-hero.jpg"
+                alt="Student preparing for CEE Medical Entrance"
               />
             </motion.div>
 

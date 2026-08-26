@@ -121,7 +121,7 @@ export function Engineering({ navigate }) {
           <motion.div className="eng-hero-right" variants={scaleIn}>
             <div className="eng-img-container">
               <img
-                src="/images/CEE.png"
+                src="/images/engineering-hero.jpg"
                 alt="Student preparing for Engineering Entrance"
               />
             </div>

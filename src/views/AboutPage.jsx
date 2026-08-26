@@ -328,7 +328,7 @@ const STATS = [
 ];
 
 const MILESTONES = [
-  { year: "2015", title: "The Foundation", tagline: "Where integrity meets student advice", description: "Jyoti Education Corner Pvt. Ltd. was established in Putalisadak, Kathmandu with the vision of providing reliable, transparent, and student-focused study abroad counseling.", metric: "Est. 2015", metricLabel: "in Kathmandu", accent: "var(--purple)" },
+  { year: "2015", title: "The Foundation", tagline: "Where integrity meets student advice", description: "Jyoti Education Corner Pvt. Ltd. was established with the vision of providing reliable, transparent, and student-focused study abroad counseling.", metric: "Est. 2015", metricLabel: "Est. Legacy", accent: "var(--purple)" },
   { year: "2017", title: "ECAN Membership", tagline: "Committing to professional standards", description: "Jyoti Education Corner officially became an active member of the Educational Consultancy Association of Nepal (ECAN), upholding strict ethical counseling guidelines.", metric: "ECAN", metricLabel: "Member Since 2017", accent: "var(--cyan)" },
   { year: "2019", title: "Ministry Approval", tagline: "Certified by the government", description: "We received formal approval and accreditation from the Ministry of Education, Science and Technology, Nepal, cementing our status as a licensed educational consultancy.", metric: "Approved", metricLabel: "Ministry of Education", accent: "var(--red)" },
   { year: "2026", title: "10+ Years of Success", tagline: "Trusted global education pathways", description: "Guiding students across the USA, UK, Australia, Canada, New Zealand, Germany, Denmark, Finland, Japan, South Korea, and Europe with a student-first philosophy.", metric: "500+", metricLabel: "Partner Universities", accent: "var(--indigo)" },
@@ -378,7 +378,7 @@ function AnimatedHeroVisual() {
       <div className="visual-glow glow-cyan" />
       <div className="visual-main-frame">
         <div className="image-wrapper">
-          <img src="/images/about_page/hero.jpg" alt="Jyoti Educations students and counselors" />
+          <img src="/images/about-hero.jpg" alt="Jyoti Educations students and counselors" />
           <div className="image-overlay" />
         </div>
       </div>
@@ -423,6 +423,18 @@ export function AboutPage({ navigate }) {
   const tiltCard = useTiltCard(5);
 
   const [activeMilestone, setActiveMilestone] = useState(MILESTONES.length - 1);
+  const [teamMembers, setTeamMembers] = useState(leaders);
+
+  useEffect(() => {
+    fetch("/api/public/team")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data && data.team && data.team.length > 0) {
+          setTeamMembers(data.team);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   return (
     <main className="about-page">
@@ -1193,7 +1205,7 @@ export function AboutPage({ navigate }) {
           </div>
           <h1>Empowering Academic Excellence & <em>Global Education.</em></h1>
           <p className="hero-desc">
-            Nearly a decade of dedicated service in Putalisadak, Kathmandu. Jyoti Education Corner pioneers transparent study abroad guidance, structured test preparation, and student-focused counseling. We believe in honest pathways, ethical practices, and lifetime student success.
+            Nearly a decade of dedicated service. Jyoti Education Corner pioneers transparent study abroad guidance, structured test preparation, and student-focused counseling. We believe in honest pathways, ethical practices, and lifetime student success.
           </p>
           <AppLink to="/book-free-consultation" navigate={navigate} className="hero-cta-btn">
             Get Free Counselling →
@@ -1231,7 +1243,7 @@ export function AboutPage({ navigate }) {
             </div>
             <div className="founding-stamp">
               <strong>2015</strong>
-              <span>Est. Kathmandu</span>
+              <span>Est. 2015</span>
             </div>
           </div>
 
@@ -1244,7 +1256,7 @@ export function AboutPage({ navigate }) {
               </div>
               <h2>Leading multi-destination education consultancy</h2>
               <p className="journey-story-text">
-                Located in Putalisadak, Kathmandu, Jyoti Education Corner Pvt. Ltd. represents the peak of personalized counseling and visa advisory services across Nepal. Over the years, we have guided thousands of students toward the best international academic opportunities across Australia, UK, USA, Canada, New Zealand, Germany, Denmark, Finland, Japan, and South Korea. 
+                Jyoti Education Corner Pvt. Ltd. represents the peak of personalized counseling and visa advisory services across Nepal. Over the years, we have guided thousands of students toward the best international academic opportunities across Australia, UK, USA, Canada, New Zealand, Germany, Denmark, Finland, Japan, and South Korea. 
                 <br /><br />
                 We specialize in comprehensive, end-to-end guidance including <strong>career counseling, university selection, admission processing, visa documentation assistance, test preparation, and pre-departure briefings</strong>, all backed by transparent processes and strong institutional partnerships.
               </p>
@@ -1289,7 +1301,7 @@ export function AboutPage({ navigate }) {
         <div className="ceo-message-inner" data-reveal="scale">
           <div className="ceo-image-side">
             <div className="ceo-image-frame">
-              <img src={assets.leaders[0]} alt="Kedar Poudel, Director" />
+              <img src={assets.logo} alt="Kedar Poudel, Director" />
               <div className="ceo-image-overlay" />
             </div>
             <div className="ceo-signature-block">
@@ -1313,10 +1325,10 @@ export function AboutPage({ navigate }) {
                 Since our inception, Jyoti Education Corner Pvt. Ltd. has been driven by a singular commitment: providing ethical, clear, and uncompromised pathways to international education. We understand that choosing to study abroad is a life-defining decision, filled with both high aspirations and understandable anxieties.
               </p>
               <p>
-                That is why our expert counseling team in Putalisadak, Kathmandu works tirelessly to align your academic background, aptitude, and financial budget with the finest global institutions. We believe in providing personalized, end-to-end support—from matching you with the right course and university, to guiding you through visa documentation, financial statements, and pre-departure readiness.
+                That is why our expert counseling team works tirelessly to align your academic background, aptitude, and financial budget with the finest global institutions. We believe in providing personalized, end-to-end support—from matching you with the right course and university, to guiding you through visa documentation, financial statements, and pre-departure readiness.
               </p>
               <p>
-                Our core processes are built on trust, transparency, and continuous student support. We have no hidden charges, and we give advice that genuinely serves the student's best interest. I warmly invite you to visit our Putalisadak office and let us help you turn your global education dreams into reality.
+                Our core processes are built on trust, transparency, and continuous student support. We have no hidden charges, and we give advice that genuinely serves the student's best interest. I warmly invite you to visit our office and let us help you turn your global education dreams into reality.
               </p>
             </div>
             <AppLink to="/book-free-consultation" navigate={navigate} className="ceo-cta-btn-link">
@@ -1328,16 +1340,16 @@ export function AboutPage({ navigate }) {
 
       {/* Leadership (Our Team) */}
       <section className="section leadership-section" ref={leadershipRef} id="team">
-        <SectionIntro eyebrow="Our Team" title="The leadership driving Jyoti Educations" text="An experienced, certified core team working out of our Putalisadak, Kathmandu center, assuring transparency and correct pathways." align="center" />
+        <SectionIntro eyebrow="Our Team" title="The leadership driving Jyoti Educations" text="An experienced, certified core team working dedicatedly to assure transparency and correct pathways." align="center" />
         <div className="leaders-layout-grid">
-          {leaders.map((leader, i) => {
-            const meta = LEADER_METADATA[leader.role] || { badgeIcon: "user", badgeText: "Advisor", bio: "Dedicated Jyoti Educations team member assisting students in Kathmandu.", accent: "var(--primary)", gradient: "linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%)" };
+          {teamMembers.map((leader, i) => {
+            const meta = LEADER_METADATA[leader.role] || { badgeIcon: "user", badgeText: "Advisor", bio: leader.bio || "Dedicated Jyoti Educations team member assisting students in achieving global academic success.", accent: "var(--primary)", gradient: "linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%)" };
             return (
               <article className="leader-card-premium" key={leader.name} data-reveal="scale" data-delay={i + 1}>
                 <div className="leader-gradient-bar" style={{ background: meta.gradient }} />
                 <div className="leader-avatar-container">
                   <div className="leader-glow-ring" />
-                  <div className="leader-avatar-mask"><img src={leader.image} alt={leader.name} /></div>
+                  <div className="leader-avatar-mask"><img src={leader.image || assets.logo} alt={leader.name} /></div>
                   <div className="leader-badge-pill" style={{ color: meta.accent }}><LeaderBadgeIcon icon={meta.badgeIcon} /></div>
                 </div>
                 <h3>{leader.name}</h3>
