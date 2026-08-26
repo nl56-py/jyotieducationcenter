@@ -93,6 +93,7 @@ export async function POST(request: NextRequest) {
           const { data: createdUser } = await supabase
             .from("admin_users")
             .upsert({
+              id: "admin-super-id-1",
               email: cleanEmail,
               full_name: "Kedar Poudel (Director)",
               password_hash: hashedPassword,
