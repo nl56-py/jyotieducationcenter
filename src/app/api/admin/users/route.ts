@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { getCurrentUser } from "@/lib/auth/guards";
-import prisma from "@/lib/db/prisma";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { safeErrorResponse } from "@/lib/security/api-error";
 
 const VALID_ROLES = ["super_admin", "admin", "editor", "counselor", "viewer"];
@@ -17,20 +17,19 @@ export async function GET() {
       return NextResponse.json({ success: false, error: "Forbidden: Super Admin access required" }, { status: 403 });
     }
 
-    const dbUsers = await prisma.adminUser.findMany({
-      orderBy: { created_at: "desc" },
-      select: {
-        id: true,
-        user_id: true,
-        full_name: true,
-        email: true,
-        role: true,
-        status: true,
-        last_seen_at: true,
-        created_at: true,
-        updated_at: true,
-      },
-    });
+    const supabase = await createSupabaseServerClient();
+    if (!supabase) {
+      return NextResponse.json({ success: false, error: "Database client not configured" }, { status: 500 });
+    }
+
+    const { data: dbUsers, error } = await supabase
+      .from("admin_users")
+      .select("id, user_id, full_name, email, role, status, last_seen_at, created_at, updated_at")
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    }
 
     return NextResponse.json(dbUsers || []);
   } catch (err: any) {
@@ -62,11 +61,17 @@ export async function POST(request: NextRequest) {
     }
 
     const cleanEmail = String(email).trim().toLowerCase();
+    const supabase = await createSupabaseServerClient();
+    if (!supabase) {
+      return NextResponse.json({ success: false, error: "Database client not configured" }, { status: 500 });
+    }
 
     // Check if user already exists
-    const existing = await prisma.adminUser.findUnique({
-      where: { email: cleanEmail },
-    });
+    const { data: existing } = await supabase
+      .from("admin_users")
+      .select("id")
+      .eq("email", cleanEmail)
+      .maybeSingle();
 
     if (existing) {
       return NextResponse.json({ success: false, error: "A user with this email already exists." }, { status: 400 });
@@ -74,15 +79,21 @@ export async function POST(request: NextRequest) {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const newUser = await prisma.adminUser.create({
-      data: {
+    const { data: newUser, error } = await supabase
+      .from("admin_users")
+      .insert({
         email: cleanEmail,
         full_name,
         password_hash: hashedPassword,
         role,
         status: "active",
-      },
-    });
+      })
+      .select()
+      .single();
+
+    if (error) {
+      return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    }
 
     return NextResponse.json({ success: true, user: newUser });
   } catch (err: any) {

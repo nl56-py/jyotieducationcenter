@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { getCurrentUser } from "@/lib/auth/guards";
-import prisma from "@/lib/db/prisma";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { safeErrorResponse } from "@/lib/security/api-error";
 
 const VALID_ROLES = ["super_admin", "admin", "editor", "counselor", "viewer"];
@@ -25,9 +25,16 @@ export async function PATCH(
     const body = await request.json();
     const { role, status, password } = body;
 
-    const targetUser = await prisma.adminUser.findUnique({
-      where: { id },
-    });
+    const supabase = await createSupabaseServerClient();
+    if (!supabase) {
+      return NextResponse.json({ success: false, error: "Database client not configured" }, { status: 500 });
+    }
+
+    const { data: targetUser } = await supabase
+      .from("admin_users")
+      .select("id, email")
+      .eq("id", id)
+      .single();
 
     if (!targetUser) {
       return NextResponse.json({ success: false, error: "User not found" }, { status: 404 });
@@ -69,10 +76,14 @@ export async function PATCH(
       return NextResponse.json({ success: false, error: "No fields to update" }, { status: 400 });
     }
 
-    const updatedUser = await prisma.adminUser.update({
-      where: { id },
-      data: updates,
-    });
+    const { data: updatedUser, error: updateError } = await supabase
+      .from("admin_users")
+      .update(updates)
+      .eq("id", id);
+
+    if (updateError) {
+      return NextResponse.json({ success: false, error: updateError.message }, { status: 500 });
+    }
 
     return NextResponse.json({ success: true, user: updatedUser });
   } catch (err: any) {
