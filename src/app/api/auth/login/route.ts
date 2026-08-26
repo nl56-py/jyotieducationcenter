@@ -31,14 +31,22 @@ export async function POST(request: NextRequest) {
 
     const cleanEmail = String(email).trim().toLowerCase();
 
-    // 1. Query user from database
+    // 1. Query user from database using connection pool
     let adminUser = null;
-    try {
-      adminUser = await prisma.adminUser.findUnique({
-        where: { email: cleanEmail },
-      });
-    } catch (dbError) {
-      console.error("Database lookup error during login:", dbError);
+    const supabase = await createSupabaseServerClient();
+    if (supabase) {
+      try {
+        const { data } = await supabase
+          .from("admin_users")
+          .select("*")
+          .eq("email", cleanEmail)
+          .maybeSingle();
+        if (data) {
+          adminUser = data;
+        }
+      } catch (dbError) {
+        console.error("Database lookup error during login:", dbError);
+      }
     }
 
     // Default admin fallback for initial setup if DB is empty or during first boot
@@ -66,33 +74,39 @@ export async function POST(request: NextRequest) {
           password === "admin123";
         
         // Auto-hash password on successful login
-        if (isValidPassword) {
+        if (isValidPassword && supabase) {
           const hashedPassword = await bcrypt.hash(password, 10);
           try {
-            await prisma.adminUser.update({
-              where: { id: adminUser.id },
-              data: { password_hash: hashedPassword },
-            });
+            await supabase
+              .from("admin_users")
+              .update({ password_hash: hashedPassword })
+              .eq("id", adminUser.id);
           } catch (e) {}
         }
       }
     } else if (isDefaultAdmin && (password === "Admin@12345" || password === "Jyoti@2026!" || password === "admin123")) {
       // Auto-create default super admin
       isValidPassword = true;
-      try {
-        const hashedPassword = await bcrypt.hash(password, 10);
-        adminUser = await prisma.adminUser.upsert({
-          where: { email: cleanEmail },
-          update: { password_hash: hashedPassword, status: "active" },
-          create: {
-            full_name: "Kedar Poudel (Director)",
-            email: cleanEmail,
-            password_hash: hashedPassword,
-            role: "super_admin",
-            status: "active",
-          },
-        });
-      } catch (e) {
+      if (supabase) {
+        try {
+          const hashedPassword = await bcrypt.hash(password, 10);
+          const { data: createdUser } = await supabase
+            .from("admin_users")
+            .upsert({
+              email: cleanEmail,
+              full_name: "Kedar Poudel (Director)",
+              password_hash: hashedPassword,
+              role: "super_admin",
+              status: "active",
+            })
+            .select("*")
+            .single();
+          if (createdUser) {
+            adminUser = createdUser;
+          }
+        } catch (e) {}
+      }
+      if (!adminUser) {
         adminUser = {
           id: "default-super-admin-id",
           email: cleanEmail,
@@ -109,12 +123,14 @@ export async function POST(request: NextRequest) {
     }
 
     // Update last seen
-    try {
-      await prisma.adminUser.update({
-        where: { id: adminUser.id },
-        data: { last_seen_at: new Date() },
-      });
-    } catch (e) {}
+    if (supabase && adminUser.id) {
+      try {
+        await supabase
+          .from("admin_users")
+          .update({ last_seen_at: new Date().toISOString() })
+          .eq("id", adminUser.id);
+      } catch (e) {}
+    }
 
     // 2. Generate signed JWT Token
     const payload = {
@@ -164,14 +180,15 @@ async function logSecurityEvent(
   detail: string
 ) {
   try {
-    await prisma.securityEvent.create({
-      data: {
+    const supabase = await createSupabaseServerClient();
+    if (supabase) {
+      await supabase.from("security_events").insert({
         event_type: eventType,
         severity: eventType.includes("failed") ? "warning" : "info",
-        ip_hash: ipHash,
-        details: { email: email.substring(0, 100), reason: detail },
-      },
-    });
+        fingerprint: ipHash,
+        details: JSON.stringify({ email: email.substring(0, 100), reason: detail }),
+      });
+    }
   } catch (e) {
     // Ignore logging failure to avoid breaking auth flow
   }
