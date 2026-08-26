@@ -170,7 +170,7 @@ export async function POST(request: NextRequest) {
     return response;
   } catch (error: any) {
     console.error("Login API route error:", error);
-    return NextResponse.json({ success: false, error: "Internal server error" }, { status: 500 });
+    return NextResponse.json({ success: false, error: error?.message || String(error) }, { status: 500 });
   }
 }
 
