@@ -534,6 +534,16 @@ export class QueryBuilder {
         return { data: results, error: null };
       }
 
+function toMysqlDatetime(val: any) {
+  if (val instanceof Date) {
+    return val.toISOString().slice(0, 19).replace('T', ' ');
+  }
+  if (typeof val === 'string' && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/.test(val)) {
+    return val.slice(0, 19).replace('T', ' ');
+  }
+  return val;
+}
+
       if (this.action === "insert") {
         const items = Array.isArray(this.insertData) ? this.insertData : [this.insertData];
         const createdItems: any[] = [];
@@ -546,6 +556,8 @@ export class QueryBuilder {
           for (const [k, v] of Object.entries(toInsert)) {
             if (v && typeof v === "object" && !(v instanceof Date)) {
               toInsert[k] = JSON.stringify(v);
+            } else {
+              toInsert[k] = toMysqlDatetime(v);
             }
           }
 
@@ -573,6 +585,8 @@ export class QueryBuilder {
         for (const [k, v] of Object.entries(item)) {
           if (v && typeof v === "object" && !(v instanceof Date)) {
             item[k] = JSON.stringify(v);
+          } else {
+            item[k] = toMysqlDatetime(v);
           }
         }
 
@@ -597,6 +611,8 @@ export class QueryBuilder {
         for (const [k, v] of Object.entries(toUpdate)) {
           if (v && typeof v === "object" && !(v instanceof Date)) {
             toUpdate[k] = JSON.stringify(v);
+          } else {
+            toUpdate[k] = toMysqlDatetime(v);
           }
         }
 
