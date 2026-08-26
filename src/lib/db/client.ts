@@ -407,6 +407,11 @@ export class QueryBuilder {
     return this;
   }
 
+  or(expression: string) {
+    // Chainable method for Supabase compatibility
+    return this;
+  }
+
   order(column: string, options?: { ascending?: boolean }) {
     const direction = options?.ascending === false ? "DESC" : "ASC";
     this.orderByConditions.push({ column, direction });

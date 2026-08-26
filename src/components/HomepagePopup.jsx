@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { AppLink } from "./AppLink.jsx";
 import { Megaphone, X } from "lucide-react";
 import { sanitizeHtml } from "../lib/security/sanitize-html";
+import { getMediaUrl } from "../lib/utils/media";
 
 export function HomepagePopup({ navigate }) {
   const [popup, setPopup] = useState(null);
@@ -33,9 +34,17 @@ export function HomepagePopup({ navigate }) {
         <button className="homepage-popup-close" onClick={() => setVisible(false)} aria-label="Close notice">
           <X size={18} />
         </button>
-        <div className="homepage-popup-icon">
-          <Megaphone size={24} />
-        </div>
+
+        {popup.image_path ? (
+          <div style={{ marginBottom: "16px", borderRadius: "12px", overflow: "hidden", maxHeight: "240px" }}>
+            <img src={getMediaUrl(popup.image_path)} alt={popup.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          </div>
+        ) : (
+          <div className="homepage-popup-icon">
+            <Megaphone size={24} />
+          </div>
+        )}
+
         <span className="homepage-popup-kicker">{popup.display_mode === "banner" ? "Notice" : "Jyoti Educations Update"}</span>
         <h2 id="homepage-popup-title">{popup.title}</h2>
         {popup.subtitle && <p className="homepage-popup-subtitle">{popup.subtitle}</p>}

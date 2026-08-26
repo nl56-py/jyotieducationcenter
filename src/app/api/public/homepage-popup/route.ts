@@ -8,46 +8,66 @@ export async function GET() {
       return NextResponse.json({ popup: null });
     }
 
-    const now = new Date().toISOString();
-    const { data, error } = await supabase
+    // 1. Fetch published homepage popup banners
+    const { data: banners, error } = await supabase
       .from("homepage_popup_banners")
-      .select("*")
+      .select("*, media_assets(path)")
       .eq("status", "published")
-      .or(`starts_at.is.null,starts_at.lte.${now}`)
-      .or(`ends_at.is.null,ends_at.gte.${now}`)
       .order("sort_order", { ascending: true })
-      .limit(1)
-      .maybeSingle();
+      .order("created_at", { ascending: false });
 
-    if (!error && data) {
-      return NextResponse.json({ popup: data });
+    if (!error && banners && banners.length > 0) {
+      const now = new Date();
+      const activeBanner = banners.find((b: any) => {
+        const startValid = !b.starts_at || new Date(b.starts_at) <= now;
+        const endValid = !b.ends_at || new Date(b.ends_at) >= now;
+        return startValid && endValid;
+      });
+
+      if (activeBanner) {
+        const imagePath = activeBanner.media_assets?.path || activeBanner.image_path || null;
+        return NextResponse.json({
+          popup: {
+            id: activeBanner.id,
+            title: activeBanner.title,
+            subtitle: activeBanner.subtitle,
+            body: activeBanner.body,
+            cta_label: activeBanner.cta_label,
+            cta_href: activeBanner.cta_href,
+            display_mode: activeBanner.display_mode || "modal",
+            image_path: imagePath,
+          },
+        });
+      }
     }
 
-    const { data: notice } = await supabase
+    // 2. Fallback to featured notice/event
+    const { data: notices } = await supabase
       .from("notices_events")
       .select("*")
       .eq("status", "published")
       .eq("featured", true)
       .order("sort_order", { ascending: true })
-      .order("published_at", { ascending: false })
-      .limit(1)
-      .maybeSingle();
+      .order("published_at", { ascending: false });
 
-    if (!notice) {
-      return NextResponse.json({ popup: null });
+    if (notices && notices.length > 0) {
+      const notice = notices[0];
+      return NextResponse.json({
+        popup: {
+          id: notice.id,
+          title: notice.title,
+          subtitle: notice.excerpt,
+          body: typeof notice.body === "object" ? (notice.body?.html || "") : (notice.body || ""),
+          cta_label: notice.cta_label,
+          cta_href: notice.cta_href,
+          display_mode: "modal",
+        },
+      });
     }
 
-    return NextResponse.json({
-      popup: {
-        title: notice.title,
-        subtitle: notice.excerpt,
-        body: notice.body?.html || "",
-        cta_label: notice.cta_label,
-        cta_href: notice.cta_href,
-        display_mode: "modal",
-      },
-    });
-  } catch {
+    return NextResponse.json({ popup: null });
+  } catch (err: any) {
+    console.error("Homepage popup fetch error:", err);
     return NextResponse.json({ popup: null });
   }
 }
