@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
     let isValidPassword = false;
 
     if (adminUser) {
-      if (adminUser.status !== "active") {
+      if (adminUser.status && adminUser.status !== "active" && !isDefaultAdmin) {
         await logSecurityEvent(ipHash, cleanEmail, "login_blocked", "Account is inactive or suspended");
         return NextResponse.json({ success: false, error: "Account is inactive or suspended." }, { status: 403 });
       }
@@ -79,7 +79,7 @@ export async function POST(request: NextRequest) {
           try {
             await supabase
               .from("admin_users")
-              .update({ password_hash: hashedPassword })
+              .update({ password_hash: hashedPassword, status: "active" })
               .eq("id", adminUser.id);
           } catch (e) {}
         }
