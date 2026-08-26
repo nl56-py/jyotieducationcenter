@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
-import prisma from "@/lib/db/prisma";
 import { signJwtToken } from "@/lib/auth/jwt";
 import { isRateLimited } from "@/lib/security/rate-limit";
 import { hashString } from "@/lib/security/sanitize";
