@@ -4,6 +4,7 @@ import prisma from "@/lib/db/prisma";
 import { signJwtToken } from "@/lib/auth/jwt";
 import { isRateLimited } from "@/lib/security/rate-limit";
 import { hashString } from "@/lib/security/sanitize";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export async function POST(request: NextRequest) {
   try {
