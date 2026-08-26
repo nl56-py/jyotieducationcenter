@@ -57,6 +57,10 @@ export default function BookingsPage() {
     }
   };
 
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
   const filteredBookings = bookings.filter(b => {
     const matchesSearch = 
       b.full_name.toLowerCase().includes(search.toLowerCase()) || 
@@ -64,6 +68,10 @@ export default function BookingsPage() {
     const matchesStatus = statusFilter === "all" || b.status === statusFilter;
     return matchesSearch && matchesStatus;
   });
+
+  const totalPages = Math.ceil(filteredBookings.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedBookings = filteredBookings.slice(startIndex, startIndex + itemsPerPage);
 
   return (
     <div>
@@ -127,12 +135,12 @@ export default function BookingsPage() {
                 <tr>
                   <td colSpan={7} style={{ textAlign: "center", padding: "40px" }}>Loading bookings...</td>
                 </tr>
-              ) : filteredBookings.length === 0 ? (
+              ) : paginatedBookings.length === 0 ? (
                 <tr>
                   <td colSpan={7} style={{ textAlign: "center", padding: "40px" }}>No consultation bookings found.</td>
                 </tr>
               ) : (
-                filteredBookings.map((b) => (
+                paginatedBookings.map((b) => (
                   <tr key={b.id}>
                     <td>
                       <div style={{ fontWeight: 600 }}>{b.full_name}</div>
@@ -196,6 +204,43 @@ export default function BookingsPage() {
             </tbody>
           </table>
         </div>
+
+        {/* Admin Bookings Pagination Bar */}
+        {totalPages > 1 && (
+          <div style={{ padding: "16px 24px", display: "flex", justifyContent: "space-between", alignItems: "center", borderTop: "1px solid var(--dm-surface-container)" }}>
+            <span style={{ fontSize: "13px", color: "var(--dm-outline)" }}>
+              Showing {startIndex + 1}-{Math.min(startIndex + itemsPerPage, filteredBookings.length)} of {filteredBookings.length} bookings
+            </span>
+            <div style={{ display: "flex", gap: "8px" }}>
+              <button
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                className="btn btn-light"
+                style={{ fontSize: "12px", height: "32px", padding: "0 12px" }}
+              >
+                Previous
+              </button>
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
+                <button
+                  key={p}
+                  onClick={() => setCurrentPage(p)}
+                  className={p === currentPage ? "btn btn-primary" : "btn btn-light"}
+                  style={{ width: "32px", height: "32px", padding: 0, fontSize: "12px" }}
+                >
+                  {p}
+                </button>
+              ))}
+              <button
+                disabled={currentPage === totalPages}
+                onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                className="btn btn-light"
+                style={{ fontSize: "12px", height: "32px", padding: "0 12px" }}
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Booking View Modal */}

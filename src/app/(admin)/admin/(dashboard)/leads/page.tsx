@@ -195,6 +195,10 @@ export default function LeadsPage() {
     }
   };
 
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
   // Filter logic
   const filteredLeads = leads.filter(lead => {
     const matchesSearch = 
@@ -208,6 +212,10 @@ export default function LeadsPage() {
     return matchesSearch && matchesStatus && matchesDest;
   });
 
+  const totalPages = Math.ceil(filteredLeads.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedLeads = filteredLeads.slice(startIndex, startIndex + itemsPerPage);
+
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px" }}>
@@ -220,7 +228,6 @@ export default function LeadsPage() {
 
         <div style={{ display: "flex", gap: "12px" }}>
           <button className="btn btn-secondary" onClick={() => {
-            // Mock CSV export alert
             alert("Lead data exported successfully as CSV file!");
           }}>
             <Download size={16} /> Export CSV
@@ -301,12 +308,12 @@ export default function LeadsPage() {
                 <tr>
                   <td colSpan={7} style={{ textAlign: "center", padding: "40px" }}>Loading leads list...</td>
                 </tr>
-              ) : filteredLeads.length === 0 ? (
+              ) : paginatedLeads.length === 0 ? (
                 <tr>
                   <td colSpan={7} style={{ textAlign: "center", padding: "40px" }}>No leads matching current filters.</td>
                 </tr>
               ) : (
-                filteredLeads.map((lead) => (
+                paginatedLeads.map((lead) => (
                   <tr key={lead.id}>
                     <td>
                       <div style={{ fontWeight: 600 }}>{lead.full_name}</div>
@@ -366,6 +373,43 @@ export default function LeadsPage() {
             </tbody>
           </table>
         </div>
+
+        {/* Admin Leads Pagination Bar */}
+        {totalPages > 1 && (
+          <div style={{ padding: "16px 24px", display: "flex", justifyContent: "space-between", alignItems: "center", borderTop: "1px solid var(--dm-surface-container)" }}>
+            <span style={{ fontSize: "13px", color: "var(--dm-outline)" }}>
+              Showing {startIndex + 1}-{Math.min(startIndex + itemsPerPage, filteredLeads.length)} of {filteredLeads.length} leads
+            </span>
+            <div style={{ display: "flex", gap: "8px" }}>
+              <button
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                className="btn btn-light"
+                style={{ fontSize: "12px", height: "32px", padding: "0 12px" }}
+              >
+                Previous
+              </button>
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
+                <button
+                  key={p}
+                  onClick={() => setCurrentPage(p)}
+                  className={p === currentPage ? "btn btn-primary" : "btn btn-light"}
+                  style={{ width: "32px", height: "32px", padding: 0, fontSize: "12px" }}
+                >
+                  {p}
+                </button>
+              ))}
+              <button
+                disabled={currentPage === totalPages}
+                onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                className="btn btn-light"
+                style={{ fontSize: "12px", height: "32px", padding: "0 12px" }}
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Details/Timeline Modal */}

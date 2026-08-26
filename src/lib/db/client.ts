@@ -397,6 +397,16 @@ export class QueryBuilder {
     return this;
   }
 
+  like(column: string, pattern: string) {
+    this.whereConditions[column] = { like: pattern };
+    return this;
+  }
+
+  ilike(column: string, pattern: string) {
+    this.whereConditions[column] = { like: pattern };
+    return this;
+  }
+
   order(column: string, options?: { ascending?: boolean }) {
     const direction = options?.ascending === false ? "DESC" : "ASC";
     this.orderByConditions.push({ column, direction });
@@ -480,6 +490,9 @@ export class QueryBuilder {
           } else if (val && typeof val === "object" && "lte" in val) {
             whereClauses.push(`${colPrefix} <= ?`);
             params.push(val.lte);
+          } else if (val && typeof val === "object" && "like" in val) {
+            whereClauses.push(`${colPrefix} LIKE ?`);
+            params.push(val.like);
           } else {
             whereClauses.push(`${colPrefix} = ?`);
             params.push(val);

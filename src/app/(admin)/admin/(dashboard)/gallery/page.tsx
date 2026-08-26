@@ -20,15 +20,23 @@ export default function GalleryManagementPage() {
   const [editHeading, setEditHeading] = useState("");
   const [editAltText, setEditAltText] = useState("");
 
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 12;
+
+  const totalPages = Math.ceil(assets.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedAssets = assets.slice(startIndex, startIndex + itemsPerPage);
+
   const fetchAssets = async () => {
     setLoading(true);
     try {
       const response = await fetch("/api/admin/media");
       if (response.ok) {
         const data = await response.json();
-        // Filter to show only image assets for the photo gallery
+        // Filter to show gallery images/photos
         const imagesOnly = (data || []).filter((asset: any) =>
-          asset.mime_type?.startsWith("image/")
+          !asset.mime_type || asset.mime_type.startsWith("image/") || asset.path?.includes("drive") || asset.path?.includes("images")
         );
         setAssets(imagesOnly);
       }
@@ -51,7 +59,6 @@ export default function GalleryManagementPage() {
   }, []);
 
   const handleUploadComplete = async (mediaAsset: any) => {
-    // If the user specified a heading or custom alt text, send a PATCH request to update the asset
     if (heading || altText) {
       try {
         await fetch("/api/admin/media", {
@@ -68,7 +75,6 @@ export default function GalleryManagementPage() {
       }
     }
     
-    // Reset states and reload list
     setHeading("");
     setAltText("");
     setIsUploadOpen(false);
@@ -153,8 +159,15 @@ export default function GalleryManagementPage() {
       <div className="panel-card">
         <div style={{ padding: "24px", display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: "1px solid var(--dm-surface-container)", background: "var(--dm-surface-container-low)" }}>
           <div style={{ display: "flex", gap: "8px" }}>
-            <span style={{ padding: "4px 12px", background: "var(--dm-primary-container)", color: "var(--dm-on-primary-container)", borderRadius: "var(--dm-rounded-full)", fontSize: "12px", fontWeight: 600 }}>All Gallery Images ({assets.length})</span>
+            <span style={{ padding: "4px 12px", background: "var(--dm-primary-container)", color: "var(--dm-on-primary-container)", borderRadius: "var(--dm-rounded-full)", fontSize: "12px", fontWeight: 600 }}>
+              All Gallery Images ({assets.length})
+            </span>
           </div>
+          {assets.length > 0 && (
+            <span style={{ fontSize: "13px", color: "var(--dm-outline)" }}>
+              Showing {startIndex + 1}-{Math.min(startIndex + itemsPerPage, assets.length)} of {assets.length}
+            </span>
+          )}
         </div>
 
         <div className="media-grid" style={{ padding: "24px", display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "24px" }}>
@@ -163,7 +176,7 @@ export default function GalleryManagementPage() {
           ) : assets.length === 0 ? (
             <div style={{ gridColumn: "1/-1", textAlign: "center", padding: "40px" }}>No photos uploaded in the gallery.</div>
           ) : (
-            assets.map((asset) => {
+            paginatedAssets.map((asset) => {
               const isEditing = editingId === asset.id;
               return (
                 <div key={asset.id} className="media-card" style={{ border: "1px solid var(--dm-surface-container)", borderRadius: "var(--dm-rounded-md)", overflow: "hidden", display: "flex", flexDirection: "column", background: "var(--dm-surface-container-low)", transition: "all 0.2s ease" }}>
@@ -256,6 +269,38 @@ export default function GalleryManagementPage() {
             })
           )}
         </div>
+
+        {/* Admin Gallery Pagination Bar */}
+        {totalPages > 1 && (
+          <div style={{ padding: "16px 24px", display: "flex", justifyContent: "center", alignItems: "center", gap: "8px", borderTop: "1px solid var(--dm-surface-container)" }}>
+            <button
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+              className="btn btn-light"
+              style={{ fontSize: "12px", height: "32px", padding: "0 12px" }}
+            >
+              Previous
+            </button>
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
+              <button
+                key={p}
+                onClick={() => setCurrentPage(p)}
+                className={p === currentPage ? "btn btn-primary" : "btn btn-light"}
+                style={{ width: "32px", height: "32px", padding: 0, fontSize: "12px" }}
+              >
+                {p}
+              </button>
+            ))}
+            <button
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+              className="btn btn-light"
+              style={{ fontSize: "12px", height: "32px", padding: "0 12px" }}
+            >
+              Next
+            </button>
+          </div>
+        )}
       </div>
 
       {isUploadOpen && (

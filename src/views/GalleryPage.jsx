@@ -8,9 +8,15 @@ import { isDriveUrl, getDriveEmbedUrl, getMediaUrl } from "../lib/utils/media";
 
 export function GalleryPage({ photos = [] }) {
   const [lightboxIndex, setLightboxIndex] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 12;
+
+  const totalPages = Math.ceil(photos.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedPhotos = photos.slice(startIndex, startIndex + itemsPerPage);
 
   const openLightbox = (index) => {
-    setLightboxIndex(index);
+    setLightboxIndex(startIndex + index);
   };
 
   const closeLightbox = () => {
@@ -78,103 +84,178 @@ export function GalleryPage({ photos = [] }) {
               </p>
             </div>
           ) : (
-            <div style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-              gap: "30px"
-            }}>
-              {photos.map((photo, index) => (
-                <div
-                  key={photo.id}
-                  onClick={() => openLightbox(index)}
-                  style={{
-                    background: "var(--white)",
-                    borderRadius: "16px",
-                    overflow: "hidden",
-                    boxShadow: "0 10px 30px rgba(7, 31, 61, 0.03)",
-                    border: "1px solid var(--line)",
-                    cursor: "pointer",
-                    transition: "all 0.3s ease",
-                    position: "relative"
-                  }}
-                  className="gallery-card"
-                  onMouseEnter={(e) => {
-                    const img = e.currentTarget.querySelector(".gallery-img");
-                    if (img) img.style.transform = "scale(1.06)";
-                    const overlay = e.currentTarget.querySelector(".gallery-overlay");
-                    if (overlay) overlay.style.opacity = "1";
-                  }}
-                  onMouseLeave={(e) => {
-                    const img = e.currentTarget.querySelector(".gallery-img");
-                    if (img) img.style.transform = "scale(1)";
-                    const overlay = e.currentTarget.querySelector(".gallery-overlay");
-                    if (overlay) overlay.style.opacity = "0";
-                  }}
-                >
-                  {/* Photo Container */}
-                  <div style={{ height: "240px", overflow: "hidden", position: "relative", background: "var(--surface-mist)" }}>
-                    <img
-                      src={getMediaUrl(photo.path)}
-                      alt={photo.altText}
-                      className="gallery-img"
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                        transition: "transform 0.5s ease"
-                      }}
-                    />
-                    
-                    {/* Hover Overlay */}
-                    <div
-                      className="gallery-overlay"
-                      style={{
-                        position: "absolute",
-                        inset: 0,
-                        background: "rgba(23, 21, 111, 0.65)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        opacity: 0,
-                        transition: "opacity 0.3s ease"
-                      }}
-                    >
-                      <div style={{
-                        width: "50px",
-                        height: "50px",
-                        borderRadius: "50%",
-                        background: "rgba(255,255,255,0.9)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        color: "var(--navy)",
-                        boxShadow: "0 10px 20px rgba(0,0,0,0.15)"
-                      }}>
-                        <Eye size={22} />
+            <>
+              <div style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginBottom: "24px",
+                color: "var(--muted)",
+                fontSize: "14px"
+              }}>
+                <span>Showing <strong>{startIndex + 1}</strong> - <strong>{Math.min(startIndex + itemsPerPage, photos.length)}</strong> of <strong>{photos.length}</strong> gallery photos</span>
+              </div>
+
+              <div style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+                gap: "30px"
+              }}>
+                {paginatedPhotos.map((photo, index) => (
+                  <div
+                    key={photo.id}
+                    onClick={() => openLightbox(index)}
+                    style={{
+                      background: "var(--white)",
+                      borderRadius: "16px",
+                      overflow: "hidden",
+                      boxShadow: "0 10px 30px rgba(7, 31, 61, 0.03)",
+                      border: "1px solid var(--line)",
+                      cursor: "pointer",
+                      transition: "all 0.3s ease",
+                      position: "relative"
+                    }}
+                    className="gallery-card"
+                    onMouseEnter={(e) => {
+                      const img = e.currentTarget.querySelector(".gallery-img");
+                      if (img) img.style.transform = "scale(1.06)";
+                      const overlay = e.currentTarget.querySelector(".gallery-overlay");
+                      if (overlay) overlay.style.opacity = "1";
+                    }}
+                    onMouseLeave={(e) => {
+                      const img = e.currentTarget.querySelector(".gallery-img");
+                      if (img) img.style.transform = "scale(1)";
+                      const overlay = e.currentTarget.querySelector(".gallery-overlay");
+                      if (overlay) overlay.style.opacity = "0";
+                    }}
+                  >
+                    {/* Photo Container */}
+                    <div style={{ height: "240px", overflow: "hidden", position: "relative", background: "var(--surface-mist)" }}>
+                      <img
+                        src={getMediaUrl(photo.path)}
+                        alt={photo.altText}
+                        className="gallery-img"
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                          transition: "transform 0.5s ease"
+                        }}
+                      />
+                      
+                      {/* Hover Overlay */}
+                      <div
+                        className="gallery-overlay"
+                        style={{
+                          position: "absolute",
+                          inset: 0,
+                          background: "rgba(23, 21, 111, 0.65)",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          opacity: 0,
+                          transition: "opacity 0.3s ease"
+                        }}
+                      >
+                        <div style={{
+                          width: "50px",
+                          height: "50px",
+                          borderRadius: "50%",
+                          background: "rgba(255,255,255,0.9)",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          color: "var(--navy)",
+                          boxShadow: "0 10px 20px rgba(0,0,0,0.15)"
+                        }}>
+                          <Eye size={22} />
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Caption & Heading */}
-                  <div style={{ padding: "20px" }}>
-                    <h4 style={{
-                      fontSize: "16px",
-                      fontWeight: 800,
-                      color: "var(--navy)",
-                      lineHeight: 1.4,
-                      margin: 0,
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      display: "-webkit-box",
-                      WebkitLineClamp: "2",
-                      WebkitBoxOrient: "vertical"
-                    }}>
-                      {photo.caption || photo.fileName || "Jyoti Educations Gallery Image"}
-                    </h4>
+                    {/* Caption & Heading */}
+                    <div style={{ padding: "20px" }}>
+                      <h4 style={{
+                        fontSize: "16px",
+                        fontWeight: 800,
+                        color: "var(--navy)",
+                        lineHeight: 1.4,
+                        margin: 0,
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        display: "-webkit-box",
+                        WebkitLineClamp: "2",
+                        WebkitBoxOrient: "vertical"
+                      }}>
+                        {photo.caption || photo.fileName || "Jyoti Educations Gallery Image"}
+                      </h4>
+                    </div>
                   </div>
+                ))}
+              </div>
+
+              {/* Pagination Bar */}
+              {totalPages > 1 && (
+                <div style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: "12px",
+                  marginTop: "50px"
+                }}>
+                  <button
+                    disabled={currentPage === 1}
+                    onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                    style={{
+                      padding: "10px 18px",
+                      borderRadius: "8px",
+                      border: "1px solid var(--line)",
+                      background: currentPage === 1 ? "#f1f5f9" : "#fff",
+                      color: currentPage === 1 ? "#94a3b8" : "var(--navy)",
+                      fontWeight: "600",
+                      cursor: currentPage === 1 ? "not-allowed" : "pointer"
+                    }}
+                  >
+                    Previous
+                  </button>
+
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
+                    <button
+                      key={p}
+                      onClick={() => setCurrentPage(p)}
+                      style={{
+                        width: "40px",
+                        height: "40px",
+                        borderRadius: "8px",
+                        border: p === currentPage ? "none" : "1px solid var(--line)",
+                        background: p === currentPage ? "var(--brand-red, #dc2626)" : "#fff",
+                        color: p === currentPage ? "#fff" : "var(--navy)",
+                        fontWeight: "700",
+                        cursor: "pointer"
+                      }}
+                    >
+                      {p}
+                    </button>
+                  ))}
+
+                  <button
+                    disabled={currentPage === totalPages}
+                    onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                    style={{
+                      padding: "10px 18px",
+                      borderRadius: "8px",
+                      border: "1px solid var(--line)",
+                      background: currentPage === totalPages ? "#f1f5f9" : "#fff",
+                      color: currentPage === totalPages ? "#94a3b8" : "var(--navy)",
+                      fontWeight: "600",
+                      cursor: currentPage === totalPages ? "not-allowed" : "pointer"
+                    }}
+                  >
+                    Next
+                  </button>
                 </div>
-              ))}
-            </div>
+              )}
+            </>
           )}
 
         </div>

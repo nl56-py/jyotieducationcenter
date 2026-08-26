@@ -160,7 +160,14 @@ export default function BlogsCMSPage() {
     }
   };
 
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
   const filteredBlogs = blogs.filter(b => b.title.toLowerCase().includes(search.toLowerCase()));
+  const totalPages = Math.ceil(filteredBlogs.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedBlogs = filteredBlogs.slice(startIndex, startIndex + itemsPerPage);
 
   if (isEditorOpen) {
     return (
@@ -339,7 +346,7 @@ export default function BlogsCMSPage() {
               className="form-input search-input" 
               placeholder="Search blogs by title..." 
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) => { setSearch(e.target.value); setCurrentPage(1); }}
             />
           </div>
         </div>
@@ -361,12 +368,12 @@ export default function BlogsCMSPage() {
                 <tr>
                   <td colSpan={6} style={{ textAlign: "center", padding: "40px" }}>Loading blogs...</td>
                 </tr>
-              ) : filteredBlogs.length === 0 ? (
+              ) : paginatedBlogs.length === 0 ? (
                 <tr>
                   <td colSpan={6} style={{ textAlign: "center", padding: "40px" }}>No articles found.</td>
                 </tr>
               ) : (
-                filteredBlogs.map((b) => (
+                paginatedBlogs.map((b) => (
                   <tr key={b.id}>
                     <td style={{ maxWidth: "300px" }}>
                       <div style={{ fontWeight: 600 }}>{b.title}</div>
@@ -409,6 +416,43 @@ export default function BlogsCMSPage() {
             </tbody>
           </table>
         </div>
+
+        {/* Admin Blogs Pagination Bar */}
+        {totalPages > 1 && (
+          <div style={{ padding: "16px 24px", display: "flex", justifyContent: "space-between", alignItems: "center", borderTop: "1px solid var(--dm-surface-container)" }}>
+            <span style={{ fontSize: "13px", color: "var(--dm-outline)" }}>
+              Showing {startIndex + 1}-{Math.min(startIndex + itemsPerPage, filteredBlogs.length)} of {filteredBlogs.length} articles
+            </span>
+            <div style={{ display: "flex", gap: "8px" }}>
+              <button
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                className="btn btn-light"
+                style={{ fontSize: "12px", height: "32px", padding: "0 12px" }}
+              >
+                Previous
+              </button>
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
+                <button
+                  key={p}
+                  onClick={() => setCurrentPage(p)}
+                  className={p === currentPage ? "btn btn-primary" : "btn btn-light"}
+                  style={{ width: "32px", height: "32px", padding: 0, fontSize: "12px" }}
+                >
+                  {p}
+                </button>
+              ))}
+              <button
+                disabled={currentPage === totalPages}
+                onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                className="btn btn-light"
+                style={{ fontSize: "12px", height: "32px", padding: "0 12px" }}
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

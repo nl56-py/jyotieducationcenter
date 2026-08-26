@@ -62,7 +62,6 @@ export default async function GalleryRoute() {
       const { data: dbMedia, error } = await supabase
         .from("media_assets")
         .select("*")
-        .like("mime_type", "image/%")
         .order("created_at", { ascending: false });
 
       if (!error && dbMedia && dbMedia.length > 0) {
