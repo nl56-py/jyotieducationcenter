@@ -567,7 +567,7 @@ export class QueryBuilder {
 
       if (this.action === "upsert") {
         const item = { ...this.insertData };
-        if (!item.id && !item.key) item.id = crypto.randomUUID();
+        if (!item.id) item.id = crypto.randomUUID();
         const conflictCol = this.upsertOnConflict || "id";
 
         for (const [k, v] of Object.entries(item)) {
