@@ -93,10 +93,8 @@ function LoginForm() {
         fullName: fullName,
       };
 
-      // Set cookie expiring in 1 day
-      const expires = new Date();
-      expires.setDate(expires.getDate() + 1);
-      document.cookie = `edumark_mock_session=${encodeURIComponent(JSON.stringify(mockSession))}; path=/; expires=${expires.toUTCString()}`;
+      // Set session cookie (cleared when browser tab/window is closed)
+      document.cookie = `edumark_mock_session=${encodeURIComponent(JSON.stringify(mockSession))}; path=/; SameSite=Lax`;
 
       const nextPath = getSafeRedirectPath(searchParams?.get("next"));
       router.push(nextPath);

@@ -138,7 +138,6 @@ export async function POST(request: NextRequest) {
       secure: isProduction,
       sameSite: "lax" as const,
       path: "/",
-      maxAge: 7 * 24 * 60 * 60, // 7 days
     };
 
     response.cookies.set("auth_token", token, cookieOptions);
