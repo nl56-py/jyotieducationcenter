@@ -117,7 +117,9 @@ export function Header({ onSearch }) {
               </span>
               <span style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
                 <Phone size={13} style={{ color: "var(--accent-orange-red)" }} />
-                {site.phone} / {site.mobile}
+                <a href={`tel:${site.phone.replace(/[^0-9+]/g, '')}`} style={{ color: "inherit", textDecoration: "none" }}>{site.phone}</a>
+                <span style={{ opacity: 0.5 }}>/</span>
+                <a href={`tel:${site.mobile.replace(/[^0-9+]/g, '')}`} style={{ color: "inherit", textDecoration: "none" }}>{site.mobile}</a>
               </span>
             </div>
             <div className="top-strip-right">

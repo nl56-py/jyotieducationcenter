@@ -183,7 +183,7 @@ export function BookingPage() {
           </h2>
 
           <p style={{ color: "var(--muted)", lineHeight: 1.72, marginBottom: 24, fontSize: 14 }}>
-            Choose a date/time that fits your schedule, and fill out the form to secure your free one-on-one session. You can also <a href="https://wa.me/9779851000000" target="_blank" rel="noopener noreferrer" style={{ color: "var(--purple)", fontWeight: 700, textDecoration: "underline" }}>contact us directly on WhatsApp</a> or call our office at <a href="tel:+97714432100" style={{ color: "var(--purple)", fontWeight: 700, textDecoration: "underline" }}>+977-1-4432100</a> if you have any questions.
+            Choose a date/time that fits your schedule, and fill out the form to secure your free one-on-one session. You can also <a href="https://wa.me/9779861247784" target="_blank" rel="noopener noreferrer" style={{ color: "var(--purple)", fontWeight: 700, textDecoration: "underline" }}>contact us directly on WhatsApp</a> or call our office at <a href="tel:023575541" style={{ color: "var(--purple)", fontWeight: 700, textDecoration: "underline" }}>023-575541</a> if you have any questions.
           </p>
 
           {/* Decorative cityscape silhouette */}

@@ -49,7 +49,7 @@ export function Footer() {
             {siteConfig.legalName} is a government-registered educational consultancy providing reliable, professional, and student-focused international guidance. Well managed for your success.
           </p>
           <p style={{ fontSize: "13px", color: "var(--muted)", fontWeight: "500" }}>
-            Damak, Jhapa, Nepal • {siteConfig.contact.primaryPhone}
+            Damak, Jhapa, Nepal • <a href={`tel:${siteConfig.contact.primaryPhone.replace(/[^0-9+]/g, '')}`} style={{ color: "inherit", textDecoration: "none" }}>{siteConfig.contact.primaryPhone}</a>
           </p>
         </div>
 

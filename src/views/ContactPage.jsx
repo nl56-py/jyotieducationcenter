@@ -20,13 +20,37 @@ export function ContactPage({ navigate }) {
             <h3>{site.address}</h3>
           </article>
           <article>
-            <span>Phone</span>
-            <h3>{site.phone}</h3>
-            <p>{site.mobile} | {site.alternateMobile} | WhatsApp {site.whatsapp}</p>
+            <span>Phone & WhatsApp</span>
+            <h3>
+              <a href={`tel:${site.phone.replace(/[^0-9+]/g, '')}`} style={{ color: "inherit", textDecoration: "none" }}>
+                {site.phone}
+              </a>
+            </h3>
+            <p style={{ display: "flex", flexWrap: "wrap", gap: "10px", alignItems: "center", marginTop: "6px" }}>
+              <a 
+                href={`tel:${site.mobile.replace(/[^0-9+]/g, '')}`} 
+                style={{ color: "inherit", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "4px" }}
+              >
+                📞 {site.mobile}
+              </a>
+              <span style={{ opacity: 0.4 }}>|</span>
+              <a
+                href={`https://wa.me/977${site.whatsapp.replace(/[^0-9]/g, '')}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: "#25D366", fontWeight: 700, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "4px" }}
+              >
+                💬 WhatsApp: {site.whatsapp}
+              </a>
+            </p>
           </article>
           <article>
             <span>Email And Hours</span>
-            <h3>{site.email}</h3>
+            <h3>
+              <a href={`mailto:${site.email}`} style={{ color: "inherit", textDecoration: "none" }}>
+                {site.email}
+              </a>
+            </h3>
             <p>{site.hours}</p>
           </article>
           <div className="map-panel" style={{ padding: 0, overflow: "hidden", minHeight: "320px" }}>
