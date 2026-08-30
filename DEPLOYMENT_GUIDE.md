@@ -149,7 +149,7 @@ Choose **one** of the following methods to deploy your code to `jyotieducation.e
 
 2. **Package `.next` into a zip**:
    ```powershell
-   python -c "import os, zipfile; z=zipfile.ZipFile('deploy_next.zip','w',zipfile.ZIP_DEFLATED); [z.write(os.path.join(r,f), os.path.relpath(os.path.join(r,f),'.')) for r,d,fs in os.walk('.next') if 'cache' not in r.split(os.sep) for f in fs]; z.close()"
+   python -c "import os, zipfile; z=zipfile.ZipFile('deploy_next.zip','w',zipfile.ZIP_DEFLATED); [z.write(os.path.join(r,f), os.path.relpath(os.path.join(r,f),'.').replace('\\\\','/')) for r,d,fs in os.walk('.next') if 'cache' not in r.split(os.sep) for f in fs]; z.close()"
    ```
 
 3. **Upload, Extract & Restart Server**:

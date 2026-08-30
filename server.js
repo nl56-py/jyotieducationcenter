@@ -14,15 +14,67 @@ Module.prototype.require = function(modulePath, ...args) {
   return origRequire.call(this, modulePath, ...args);
 };
 
-// Ensure local node_modules is always in module resolution path
+// Ensure both virtual environment and local node_modules are in module resolution path
+const nodeVenvModules = '/home2/jyoti/nodevenv/domains/jyotieducation.edu.np/public_html/20/lib/node_modules';
 const appNodeModules = path.join(__dirname, 'node_modules');
+const paths = [appNodeModules, nodeVenvModules];
 if (process.env.NODE_PATH) {
-  process.env.NODE_PATH = `${appNodeModules}:${process.env.NODE_PATH}`;
-} else {
-  process.env.NODE_PATH = appNodeModules;
+  paths.push(process.env.NODE_PATH);
 }
+process.env.NODE_PATH = paths.join(':');
 process.env.DATABASE_URL = "mysql://jyoti_jecusr:JyotiEducations2026%21%23@localhost:3306/jyoti_jecapp";
 Module._initPaths();
+
+// Pure JS zip extractor supporting standard compression
+function unzipSync(zipPath, destDir) {
+  const buf = fs.readFileSync(zipPath);
+  let pos = 0;
+  let count = 0;
+  while (pos < buf.length - 4) {
+    const sig = buf.readUInt32LE(pos);
+    if (sig !== 0x04034b50) break;
+    const method = buf.readUInt16LE(pos + 8);
+    const compSize = buf.readUInt32LE(pos + 18);
+    const nameLen = buf.readUInt16LE(pos + 26);
+    const extraLen = buf.readUInt16LE(pos + 28);
+    let name = buf.toString('utf8', pos + 30, pos + 30 + nameLen);
+    name = name.replace(/\\/g, '/');
+    const dataStart = pos + 30 + nameLen + extraLen;
+    const compData = buf.slice(dataStart, dataStart + compSize);
+    
+    const outPath = path.join(destDir, name);
+    if (name.endsWith('/') || name.endsWith('\\')) {
+      fs.mkdirSync(outPath, { recursive: true });
+    } else {
+      fs.mkdirSync(path.dirname(outPath), { recursive: true });
+      let outData;
+      if (method === 0) {
+        outData = compData;
+      } else if (method === 8) {
+        outData = zlib.inflateRawSync(compData);
+      } else {
+        outData = compData;
+      }
+      fs.writeFileSync(outPath, outData);
+      count++;
+    }
+    pos = dataStart + compSize;
+  }
+  return count;
+}
+
+// Auto-extract deploy_next.zip if present upon server boot
+const autoZip = path.join(__dirname, 'deploy_next.zip');
+if (fs.existsSync(autoZip)) {
+  try {
+    console.log('> Found deploy_next.zip, extracting...');
+    const count = unzipSync(autoZip, __dirname);
+    console.log(`> Successfully auto-extracted ${count} files!`);
+    try { fs.unlinkSync(autoZip); } catch (_) {}
+  } catch (err) {
+    console.error('> Auto-extract error:', err);
+  }
+}
 
 const MIME_TYPES = {
   '.js': 'application/javascript; charset=utf-8',
@@ -109,12 +161,12 @@ const server = http.createServer(async (req, res) => {
     }
   }
 
-  // 4. Extract any zip in-process
+  // 3. Extract any zip in-process
   if (pathname === '/__unzip__') {
     res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
     try {
       const parsedUrl = parse(req.url, true);
-      const fileName = parsedUrl.query?.file || 'mysql2_full.zip';
+      const fileName = parsedUrl.query?.file || 'deploy_next.zip';
       const zipPath = path.join(__dirname, fileName);
       const count = unzipSync(zipPath, __dirname);
       return res.end(`✅ Extracted ${count} files from ${fileName} successfully!`);
@@ -123,7 +175,7 @@ const server = http.createServer(async (req, res) => {
     }
   }
 
-  // 3. One-click Live Database Seeder
+  // 4. One-click Live Database Seeder
   if (pathname === '/__seed_jyoti_database__') {
     res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
     try {
@@ -135,42 +187,6 @@ const server = http.createServer(async (req, res) => {
       return res.end('❌ Seeding Error:\n' + (e.stack || e.message));
     }
   }
-
-function unzipSync(zipPath, destDir) {
-  const buf = fs.readFileSync(zipPath);
-  let pos = 0;
-  let count = 0;
-  while (pos < buf.length - 4) {
-    const sig = buf.readUInt32LE(pos);
-    if (sig !== 0x04034b50) break;
-    const method = buf.readUInt16LE(pos + 8);
-    const compSize = buf.readUInt32LE(pos + 18);
-    const nameLen = buf.readUInt16LE(pos + 26);
-    const extraLen = buf.readUInt16LE(pos + 28);
-    const name = buf.toString('utf8', pos + 30, pos + 30 + nameLen);
-    const dataStart = pos + 30 + nameLen + extraLen;
-    const compData = buf.slice(dataStart, dataStart + compSize);
-    
-    const outPath = path.join(destDir, name);
-    if (name.endsWith('/') || name.endsWith('\\')) {
-      fs.mkdirSync(outPath, { recursive: true });
-    } else {
-      fs.mkdirSync(path.dirname(outPath), { recursive: true });
-      let outData;
-      if (method === 0) {
-        outData = compData;
-      } else if (method === 8) {
-        outData = zlib.inflateRawSync(compData);
-      } else {
-        outData = compData;
-      }
-      fs.writeFileSync(outPath, outData);
-      count++;
-    }
-    pos = dataStart + compSize;
-  }
-  return count;
-}
 
   // 5. Test DB Connection
   if (pathname === '/__test_db__') {
