@@ -29,7 +29,11 @@ export async function getCurrentUser(): Promise<AuthenticatedUser | null> {
             select: { id: true, email: true, role: true, full_name: true, status: true },
           });
 
-          if (user && user.status === "active") {
+          if (user) {
+            if (user.status !== "active") {
+              // Account is inactive or suspended
+              return null;
+            }
             return {
               id: user.id,
               email: user.email,
@@ -39,21 +43,29 @@ export async function getCurrentUser(): Promise<AuthenticatedUser | null> {
           }
         } catch (dbError) {
           // If DB is temporarily unreachable, fallback to verified JWT payload
-          return {
-            id: payload.id,
-            email: payload.email,
-            role: payload.role,
-            fullName: payload.fullName,
-          };
         }
+
+        // Fallback to verified JWT payload if user record is not yet in Prisma or during setup
+        return {
+          id: payload.id,
+          email: payload.email,
+          role: payload.role,
+          fullName: payload.fullName,
+        };
       }
     }
 
-    // 2. Mock session fallback for testing/dev
+    // 2. Mock session fallback for testing/dev (ONLY if no valid JWT token is present)
     const mockCookie = cookieStore.get("edumark_mock_session") || cookieStore.get("jyoti_mock_session");
     if (mockCookie?.value) {
       try {
-        const session = JSON.parse(mockCookie.value);
+        let rawVal = mockCookie.value;
+        if (rawVal.startsWith("%")) {
+          try {
+            rawVal = decodeURIComponent(rawVal);
+          } catch (e) {}
+        }
+        const session = JSON.parse(rawVal);
         if (session && session.email) {
           return {
             id: session.id || "mock-admin-id-12345",

@@ -42,19 +42,19 @@ export function AdminSidebar({
 
 
   const handleLogout = async () => {
-    // 1. Clear mock cookie if isMock
-    document.cookie = "edumark_mock_session=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    // 1. Clear client cookies
+    document.cookie = "edumark_mock_session=; path=/; max-age=0; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    document.cookie = "jyoti_mock_session=; path=/; max-age=0; expires=Thu, 01 Jan 1970 00:00:00 GMT";
 
-    // 2. Clear real Supabase session if configured
+    // 2. Clear real server session cookies
     try {
-      // We can also call a server action or API route to clear session
       await fetch("/api/auth/logout", { method: "POST" });
     } catch (e) {
       // Ignore
     }
 
-    router.push("/admin/login");
-    router.refresh();
+    // 3. Force hard navigation to purge Next.js in-memory client router cache
+    window.location.href = "/admin/login?logout=true";
   };
 
   interface NavItem {

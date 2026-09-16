@@ -34,7 +34,7 @@ function LoginForm() {
     setError("");
     setLoading(true);
 
-    // 1. Try real login first via API (if configured)
+    // 1. Try real login first via API
     try {
       const response = await fetch("/api/auth/login", {
         method: "POST",
@@ -45,27 +45,38 @@ function LoginForm() {
       const result = await response.json();
 
       if (response.ok && result.success) {
-        // Success redirect
+        // Clear any old mock cookies to prevent role/session clashes
+        document.cookie = "edumark_mock_session=; path=/; max-age=0; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+        document.cookie = "jyoti_mock_session=; path=/; max-age=0; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+
+        // CRITICAL: Hard navigation flush forces Next.js to dump in-memory router cache
+        // and re-render server layouts with the new user's session.
         const nextPath = getSafeRedirectPath(searchParams?.get("next"));
-        router.push(nextPath);
-        router.refresh();
+        window.location.href = nextPath;
         return;
-      } else if (response.ok && !result.success) {
-        setError(result.error || "Invalid login credentials");
+      } else {
+        // Real API responded with auth failure (401, 403, 429, etc.) -> show real error
+        setError(result?.error || "Invalid email or password");
         setLoading(false);
         return;
       }
     } catch (err) {
-      console.warn("API Login failed, attempting local mock login fallback.");
+      console.warn("API Login fetch failed (offline / network error), checking local mock fallback.");
     }
 
-    // 2. Mock Mode Fallback (Allows testing the admin panel immediately!)
-    // If password is 'admin123', log in as super_admin. Otherwise, check formats.
+    // 2. Mock Mode Fallback (ONLY used if the API server was completely unreachable / offline)
     if (email && password) {
       if (password.length < 8) {
         setError("Password must be at least 8 characters.");
         setLoading(false);
         return;
+      }
+
+      // Clear any existing real server session so it doesn't take priority over the mock session
+      try {
+        await fetch("/api/auth/logout", { method: "POST" });
+      } catch (e) {
+        // Ignore offline error
       }
 
       // Determine role from email / password
@@ -93,12 +104,11 @@ function LoginForm() {
         fullName: fullName,
       };
 
-      // Set session cookie (cleared when browser tab/window is closed)
+      // Set session cookie
       document.cookie = `edumark_mock_session=${encodeURIComponent(JSON.stringify(mockSession))}; path=/; SameSite=Lax`;
 
       const nextPath = getSafeRedirectPath(searchParams?.get("next"));
-      router.push(nextPath);
-      router.refresh();
+      window.location.href = nextPath;
     } else {
       setError("Please fill in all fields.");
       setLoading(false);

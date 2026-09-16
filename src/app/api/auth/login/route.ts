@@ -155,7 +155,12 @@ export async function POST(request: NextRequest) {
       secure: isProduction,
       sameSite: "lax" as const,
       path: "/",
+      maxAge: 7 * 24 * 60 * 60,
     };
+
+    // Purge any stale legacy/mock session cookies before setting new tokens
+    response.cookies.delete("jyoti_mock_session");
+    response.cookies.set("jyoti_mock_session", "", { path: "/", maxAge: 0, expires: new Date(0) });
 
     response.cookies.set("auth_token", token, cookieOptions);
     response.cookies.set("jyoti_session", token, cookieOptions);

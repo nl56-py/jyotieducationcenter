@@ -39,7 +39,13 @@ export async function middleware(request: NextRequest) {
         request.cookies.get("edumark_mock_session")?.value;
       if (mockSession) {
         try {
-          const session = JSON.parse(mockSession);
+          let raw = mockSession;
+          if (raw.startsWith("%")) {
+            try {
+              raw = decodeURIComponent(raw);
+            } catch (e) {}
+          }
+          const session = JSON.parse(raw);
           if (session && session.email) {
             isAuthenticated = true;
           }
@@ -51,7 +57,11 @@ export async function middleware(request: NextRequest) {
 
     // Redirect logic
     if (path === "/admin/login") {
-      if (isAuthenticated) {
+      const isSwitching =
+        request.nextUrl.searchParams.get("switch") === "true" ||
+        request.nextUrl.searchParams.get("logout") === "true";
+
+      if (isAuthenticated && !isSwitching) {
         return NextResponse.redirect(new URL("/admin", request.url));
       }
     } else {

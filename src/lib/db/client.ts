@@ -16,6 +16,22 @@ async function initTables(p: mysql.Pool) {
   if (tablesInitialized) return;
   try {
     await p.query(`
+      CREATE TABLE IF NOT EXISTS \`admin_users\` (
+        \`id\` VARCHAR(36) PRIMARY KEY,
+        \`user_id\` VARCHAR(36) UNIQUE,
+        \`full_name\` VARCHAR(255) NOT NULL,
+        \`email\` VARCHAR(255) UNIQUE NOT NULL,
+        \`password_hash\` VARCHAR(255) NULL,
+        \`role\` VARCHAR(50) NOT NULL DEFAULT 'admin',
+        \`status\` VARCHAR(50) NOT NULL DEFAULT 'active',
+        \`mfa_required\` TINYINT(1) NOT NULL DEFAULT 0,
+        \`last_seen_at\` TIMESTAMP NULL,
+        \`created_at\` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        \`updated_at\` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+      );
+    `);
+
+    await p.query(`
       CREATE TABLE IF NOT EXISTS \`leads\` (
         \`id\` VARCHAR(36) PRIMARY KEY,
         \`full_name\` VARCHAR(255) NOT NULL,
@@ -241,6 +257,19 @@ export function getPool(): mysql.Pool {
 }
 
 const TABLE_DDLS: Record<string, string> = {
+  admin_users: `CREATE TABLE IF NOT EXISTS \`admin_users\` (
+    \`id\` VARCHAR(36) PRIMARY KEY,
+    \`user_id\` VARCHAR(36) UNIQUE,
+    \`full_name\` VARCHAR(255) NOT NULL,
+    \`email\` VARCHAR(255) UNIQUE NOT NULL,
+    \`password_hash\` VARCHAR(255) NULL,
+    \`role\` VARCHAR(50) NOT NULL DEFAULT 'admin',
+    \`status\` VARCHAR(50) NOT NULL DEFAULT 'active',
+    \`mfa_required\` TINYINT(1) NOT NULL DEFAULT 0,
+    \`last_seen_at\` TIMESTAMP NULL,
+    \`created_at\` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    \`updated_at\` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  );`,
   leads: `CREATE TABLE IF NOT EXISTS \`leads\` (
     \`id\` VARCHAR(36) PRIMARY KEY,
     \`full_name\` VARCHAR(255) NOT NULL,
