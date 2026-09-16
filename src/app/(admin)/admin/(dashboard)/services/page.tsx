@@ -94,7 +94,12 @@ export default function ServicesPrepPage() {
         setDuration(item.format?.duration || "");
         setCost(item.format?.cost || "");
         setOfficialTestFee(item.format?.official_test_fee || "");
-        setTestCostsList(item.format?.test_costs || []);
+        setTestCostsList((item.format?.test_costs || []).map((c: any) => ({
+          type: c.type || "",
+          fee: c.fee || "",
+          prep_fee: c.prep_fee || item.format?.cost || "",
+          info: c.info || "",
+        })));
         setFeatures((item.features || []).join(", "));
       } else if (activeTab === "entrance") {
         setDuration(item.offer?.duration || "");
@@ -197,6 +202,21 @@ export default function ServicesPrepPage() {
     setLoading(false);
   };
 
+  const handleReseedTestPreps = async () => {
+    if (!window.confirm("Do you want to re-sync all standard exam fees and prep charges across all courses? This ensures all 5 courses (IELTS, PTE, TOEFL, SAT, JLPT) are fully seeded with their official costs.")) return;
+    setLoading(true);
+    try {
+      const res = await fetch("/api/admin/testprep?reseed=true");
+      if (res.ok) {
+        const data = await res.json();
+        setTestPreps(data || []);
+      }
+    } catch (err) {
+      console.error("Reseed error:", err);
+    }
+    setLoading(false);
+  };
+
   const canDelete = currentUser && (currentUser.role === "super_admin" || currentUser.role === "admin");
 
   return (
@@ -230,9 +250,18 @@ export default function ServicesPrepPage() {
         <div className="panel-card">
           <div className="panel-card-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <h3 className="panel-card-title">Language Test Preparations (IELTS, PTE, etc.)</h3>
-            <button className="btn btn-light" style={{ height: "32px", fontSize: "12px" }} onClick={() => handleOpenEditor(null)}>
-              <Plus size={14} /> Add Test Prep
-            </button>
+            <div style={{ display: "flex", gap: "8px" }}>
+              <button 
+                className="btn btn-secondary" 
+                style={{ height: "32px", fontSize: "12px", display: "flex", alignItems: "center", gap: "4px" }}
+                onClick={handleReseedTestPreps}
+              >
+                Re-sync Standard Fee Data
+              </button>
+              <button className="btn btn-light" style={{ height: "32px", fontSize: "12px" }} onClick={() => handleOpenEditor(null)}>
+                <Plus size={14} /> Add Test Prep
+              </button>
+            </div>
           </div>
           <div className="table-responsive">
             <table className="admin-table">
@@ -415,7 +444,7 @@ export default function ServicesPrepPage() {
                         type="button" 
                         className="btn btn-secondary" 
                         style={{ height: "28px", padding: "0 10px", fontSize: "11px", display: "flex", alignItems: "center", gap: "4px" }}
-                        onClick={() => setTestCostsList([...testCostsList, { type: "", fee: "", info: "" }])}
+                        onClick={() => setTestCostsList([...testCostsList, { type: "", fee: "", prep_fee: cost || "", info: "" }])}
                       >
                         <Plus size={12} /> Add Exam Fee Row
                       </button>
@@ -434,14 +463,15 @@ export default function ServicesPrepPage() {
 
                     {testCostsList.length > 0 && (
                       <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                        <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr 1.5fr 30px", gap: "8px", fontSize: "11px", fontWeight: 600, color: "var(--dm-outline)" }}>
+                        <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr 1fr 1.3fr 30px", gap: "8px", fontSize: "11px", fontWeight: 600, color: "var(--dm-outline)" }}>
                           <span>Test Type</span>
-                          <span>Computer Delivered Fee</span>
+                          <span>Official Exam Fee</span>
+                          <span>Preparation Charge</span>
                           <span>Additional Information</span>
                           <span></span>
                         </div>
                         {testCostsList.map((item, idx) => (
-                          <div key={idx} style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr 1.5fr 30px", gap: "8px", alignItems: "center" }}>
+                          <div key={idx} style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr 1fr 1.3fr 30px", gap: "8px", alignItems: "center" }}>
                             <input 
                               type="text" 
                               className="form-input" 
@@ -463,6 +493,18 @@ export default function ServicesPrepPage() {
                               onChange={(e) => {
                                 const next = [...testCostsList];
                                 next[idx].fee = e.target.value;
+                                setTestCostsList(next);
+                              }} 
+                            />
+                            <input 
+                              type="text" 
+                              className="form-input" 
+                              style={{ fontSize: "12px", height: "32px", padding: "0 8px" }}
+                              placeholder="e.g. Rs. 8,000" 
+                              value={item.prep_fee || ""} 
+                              onChange={(e) => {
+                                const next = [...testCostsList];
+                                next[idx].prep_fee = e.target.value;
                                 setTestCostsList(next);
                               }} 
                             />

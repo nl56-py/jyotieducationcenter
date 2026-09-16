@@ -104,6 +104,35 @@ export function TestCoursePage({ course }) {
             </tbody>
           </table>
 
+          {course.testCosts && course.testCosts.length > 0 && (
+            <div style={{ marginTop: "24px", marginBottom: "24px" }}>
+              <h3>Official Exam Fees & Preparation Charges</h3>
+              <table className="course-table" style={{ width: "100%", borderCollapse: "collapse", marginTop: "12px" }}>
+                <thead>
+                  <tr style={{ background: "#f8fafc", textAlign: "left" }}>
+                    <th style={{ padding: "10px 12px", border: "1px solid #ddd" }}>Test Type</th>
+                    <th style={{ padding: "10px 12px", border: "1px solid #ddd" }}>Official Exam Fee</th>
+                    <th style={{ padding: "10px 12px", border: "1px solid #ddd" }}>Preparation Charge</th>
+                    <th style={{ padding: "10px 12px", border: "1px solid #ddd" }}>Additional Information</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {course.testCosts.map((tc, idx) => (
+                    <tr key={idx}>
+                      <td style={{ padding: "10px 12px", border: "1px solid #ddd" }}><strong>{tc.type}</strong></td>
+                      <td style={{ padding: "10px 12px", border: "1px solid #ddd" }}>{tc.fee}</td>
+                      <td style={{ padding: "10px 12px", border: "1px solid #ddd" }}>
+                        <span style={{ color: "#d32f2f", fontWeight: 700 }}>{tc.prep_fee || course.cost}</span>{" "}
+                        <span style={{ fontSize: "12px", color: "#666" }}>({course.duration})</span>
+                      </td>
+                      <td style={{ padding: "10px 12px", border: "1px solid #ddd" }}>{tc.info}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+
           <h3>Course Features</h3>
 
           <ul className="course-list">

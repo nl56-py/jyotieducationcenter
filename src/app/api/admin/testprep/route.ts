@@ -4,7 +4,7 @@ import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { getCurrentUser } from "@/lib/auth/guards";
 import { hasPermission } from "@/lib/auth/roles";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
     const user = await getCurrentUser();
     if (!user) {
@@ -26,82 +26,112 @@ export async function GET() {
       return NextResponse.json({ success: false, error: error.message }, { status: 500 });
     }
 
+    // Allow forcing re-seed via query param ?reseed=true
+    const url = new URL(request.url);
+    const shouldReseed = url.searchParams.get("reseed") === "true";
+
+    const defaultPreps = [
+      {
+        id: "ielts-prep-001",
+        slug: "ielts",
+        name: "IELTS Preparation Classes",
+        summary: "IELTS coaching for academic and general training modules with individualized feedback.",
+        test_type: "language",
+        format: {
+          duration: "6 to 8 weeks",
+          cost: "Rs. 8,000",
+          official_test_fee: "NPR 27,100",
+          test_costs: [
+            { type: "IELTS Academic", fee: "NPR 27,100", prep_fee: "Rs. 8,000", info: "Booked via British Council / IDP Nepal" },
+            { type: "General Training", fee: "NPR 27,100", prep_fee: "Rs. 8,000", info: "Booked via British Council / IDP Nepal" },
+            { type: "IELTS for UKVI (Academic/GT)", fee: "NPR 28,950", prep_fee: "Rs. 8,000", info: "Required for certain UK visa pathways" }
+          ]
+        },
+        features: ["Certified teachers", "Weekly mock tests", "Extra classes for weak students", "Personal feedback"],
+        status: "published"
+      },
+      {
+        id: "pte-prep-002",
+        slug: "pte",
+        name: "PTE Preparation Classes",
+        summary: "Pearson Test of English AI-scored coaching with computer practice lab simulations.",
+        test_type: "language",
+        format: {
+          duration: "4 to 6 weeks",
+          cost: "Rs. 8,000",
+          official_test_fee: "NPR 30,000",
+          test_costs: [
+            { type: "PTE Academic", fee: "NPR 30,000", prep_fee: "Rs. 8,000", info: "Conducted by Pearson PLC Group" },
+            { type: "PTE UKVI", fee: "NPR 30,500", prep_fee: "Rs. 8,000", info: "Approved SELT for UK visa and immigration" }
+          ]
+        },
+        features: ["AI scoring simulator", "Speaking templates", "Daily lab practice", "Repeat sentence drills"],
+        status: "published"
+      },
+      {
+        id: "toefl-prep-003",
+        slug: "toefl",
+        name: "TOEFL Preparation Classes",
+        summary: "Test of English as a Foreign Language for US, Canada, and European universities.",
+        test_type: "language",
+        format: {
+          duration: "6 Weeks",
+          cost: "Rs. 8,500",
+          official_test_fee: "NPR 28,000 (~$205 USD)",
+          test_costs: [
+            { type: "TOEFL iBT", fee: "NPR 28,000 (~$205 USD)", prep_fee: "Rs. 8,500", info: "Booked via ETS authorized testing centers in Nepal" }
+          ]
+        },
+        features: ["Academic lecture practice", "Integrated speaking tasks", "Essay evaluation", "Listening drills"],
+        status: "published"
+      },
+      {
+        id: "sat-prep-004",
+        slug: "sat",
+        name: "SAT Preparation Classes",
+        summary: "College Board Digital SAT training for high-value US university merit scholarships.",
+        test_type: "aptitude",
+        format: {
+          duration: "8 to 10 Weeks",
+          cost: "Rs. 10,000",
+          official_test_fee: "NPR 15,500 (~$111 USD)",
+          test_costs: [
+            { type: "Digital SAT", fee: "NPR 15,500 (~$111 USD)", prep_fee: "Rs. 10,000", info: "Booked directly via College Board website" }
+          ]
+        },
+        features: ["Math shortcuts", "Reading comprehension", "Desmos graphing", "Full digital mock tests"],
+        status: "published"
+      },
+      {
+        id: "jlpt-prep-005",
+        slug: "jlpt",
+        name: "Japanese Language (JLPT / NAT)",
+        summary: "Comprehensive Japanese language instruction and JLPT/NAT-TEST preparation classes designed for students aiming to study in Japan.",
+        test_type: "language",
+        format: {
+          duration: "16 Weeks",
+          cost: "Rs. 12,000",
+          official_test_fee: "NPR 4,000",
+          test_costs: [
+            { type: "JLPT (N5/N4)", fee: "NPR 4,000", prep_fee: "Rs. 12,000", info: "Japanese Language Proficiency Test" },
+            { type: "NAT-TEST", fee: "NPR 4,500", prep_fee: "Rs. 12,000", info: "Recognized for Japanese Student Visa" }
+          ]
+        },
+        features: ["Certified native teachers", "JLPT N5/N4 syllabus", "Weekly audio drills", "Visa interview coaching"],
+        status: "published"
+      }
+    ];
+
+    if (shouldReseed) {
+      for (const p of defaultPreps) {
+        await supabase.from("test_preparations").upsert(p, { onConflict: "slug" });
+      }
+      const { data: updated } = await supabase.from("test_preparations").select("*").order("name", { ascending: true });
+      return NextResponse.json(updated || defaultPreps);
+    }
+
     // If empty, auto-seed defaults so admin panel and frontend have full test cost mappings
     if (!dbPreps || dbPreps.length === 0) {
-      const defaultPreps = [
-        {
-          id: "ielts-prep-001",
-          slug: "ielts",
-          name: "IELTS Preparation Classes",
-          summary: "IELTS coaching for academic and general training modules with individualized feedback.",
-          test_type: "language",
-          format: {
-            duration: "6 to 8 weeks",
-            cost: "Rs. 8,000",
-            official_test_fee: "NPR 27,100",
-            test_costs: [
-              { type: "IELTS Academic", fee: "NPR 27,100", info: "Booked via British Council / IDP Nepal" },
-              { type: "General Training", fee: "NPR 27,100", info: "Booked via British Council / IDP Nepal" },
-              { type: "IELTS for UKVI (Academic/GT)", fee: "NPR 28,950", info: "Required for certain UK visa pathways" }
-            ]
-          },
-          features: ["Certified teachers", "Weekly mock tests", "Extra classes for weak students", "Personal feedback"],
-          status: "published"
-        },
-        {
-          id: "pte-prep-002",
-          slug: "pte",
-          name: "PTE Preparation Classes",
-          summary: "Pearson Test of English AI-scored coaching with computer practice lab simulations.",
-          test_type: "language",
-          format: {
-            duration: "4 to 6 weeks",
-            cost: "Rs. 8,000",
-            official_test_fee: "NPR 30,000",
-            test_costs: [
-              { type: "PTE Academic", fee: "NPR 30,000", info: "Conducted by Pearson PLC Group" },
-              { type: "PTE UKVI", fee: "NPR 30,500", info: "Approved SELT for UK visa and immigration" }
-            ]
-          },
-          features: ["AI scoring simulator", "Speaking templates", "Daily lab practice", "Repeat sentence drills"],
-          status: "published"
-        },
-        {
-          id: "toefl-prep-003",
-          slug: "toefl",
-          name: "TOEFL Preparation Classes",
-          summary: "Test of English as a Foreign Language for US, Canada, and European universities.",
-          test_type: "language",
-          format: {
-            duration: "6 weeks",
-            cost: "Rs. 8,500",
-            official_test_fee: "NPR 28,000",
-            test_costs: [
-              { type: "TOEFL iBT", fee: "NPR 28,000 (~$205 USD)", info: "Booked via ETS official testing centers" }
-            ]
-          },
-          features: ["Academic lecture practice", "Integrated speaking tasks", "Essay evaluation", "Listening drills"],
-          status: "published"
-        },
-        {
-          id: "sat-prep-004",
-          slug: "sat",
-          name: "SAT Preparation Classes",
-          summary: "College Board Digital SAT training for high-value US university merit scholarships.",
-          test_type: "aptitude",
-          format: {
-            duration: "8 to 10 weeks",
-            cost: "Rs. 10,000",
-            official_test_fee: "NPR 15,500",
-            test_costs: [
-              { type: "Digital SAT", fee: "NPR 15,500 (~$111 USD)", info: "Booked via College Board" }
-            ]
-          },
-          features: ["Math shortcuts", "Reading comprehension", "Desmos graphing", "Full digital mock tests"],
-          status: "published"
-        }
-      ];
-
       try {
         for (const p of defaultPreps) {
           await supabase.from("test_preparations").insert(p);

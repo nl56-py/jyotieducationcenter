@@ -1,8 +1,12 @@
 import Link from "next/link";
-
 import "@/styles/pte.css";
+import { getTestPrepData } from "@/lib/services/testprep";
 
-export default function PTEPage() {
+export const dynamic = "force-dynamic";
+
+export default async function PTEPage() {
+    const prepData = await getTestPrepData("pte");
+
     return (
         <main>
 
@@ -117,7 +121,7 @@ export default function PTEPage() {
 
                             <tr>
                                 <td>Duration</td>
-                                <td>4 to 6 weeks</td>
+                                <td>{prepData.duration}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -134,18 +138,17 @@ export default function PTEPage() {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td style={{ padding: "12px 14px", border: "1px solid #ddd" }}><strong>PTE Academic</strong></td>
-                                <td style={{ padding: "12px 14px", border: "1px solid #ddd" }}>NPR 30,000</td>
-                                <td style={{ padding: "12px 14px", border: "1px solid #ddd" }}><span style={{ color: "#d32f2f", fontWeight: 700 }}>Rs. 8,000</span> <span style={{ fontSize: "12px", color: "#666" }}>(4-6 Weeks)</span></td>
-                                <td style={{ padding: "12px 14px", border: "1px solid #ddd" }}>Conducted by Pearson PLC Group</td>
-                            </tr>
-                            <tr>
-                                <td style={{ padding: "12px 14px", border: "1px solid #ddd" }}><strong>PTE UKVI</strong></td>
-                                <td style={{ padding: "12px 14px", border: "1px solid #ddd" }}>NPR 30,500</td>
-                                <td style={{ padding: "12px 14px", border: "1px solid #ddd" }}><span style={{ color: "#d32f2f", fontWeight: 700 }}>Rs. 8,000</span> <span style={{ fontSize: "12px", color: "#666" }}>(4-6 Weeks)</span></td>
-                                <td style={{ padding: "12px 14px", border: "1px solid #ddd" }}>Approved SELT for UK Visa and Immigration</td>
-                            </tr>
+                            {prepData.testCosts.map((tc, idx) => (
+                                <tr key={idx}>
+                                    <td style={{ padding: "12px 14px", border: "1px solid #ddd" }}><strong>{tc.type}</strong></td>
+                                    <td style={{ padding: "12px 14px", border: "1px solid #ddd" }}>{tc.fee}</td>
+                                    <td style={{ padding: "12px 14px", border: "1px solid #ddd" }}>
+                                        <span style={{ color: "#d32f2f", fontWeight: 700 }}>{tc.prep_fee || prepData.cost}</span>{" "}
+                                        <span style={{ fontSize: "12px", color: "#666" }}>({prepData.duration})</span>
+                                    </td>
+                                    <td style={{ padding: "12px 14px", border: "1px solid #ddd" }}>{tc.info}</td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>

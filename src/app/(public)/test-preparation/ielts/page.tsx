@@ -1,8 +1,13 @@
 
 import Link from "next/link";
 import "@/styles/ielts.css";
+import { getTestPrepData } from "@/lib/services/testprep";
 
-export default function IELTSPage() {
+export const dynamic = "force-dynamic";
+
+export default async function IELTSPage() {
+    const prepData = await getTestPrepData("ielts");
+
     return (
         <main>
 
@@ -70,26 +75,21 @@ export default function IELTSPage() {
                         </thead>
 
                         <tbody>
-                            <tr>
-                                <td><strong>IELTS Academic</strong></td>
-                                <td>NPR 27,100</td>
-                                <td><span style={{ color: "#d32f2f", fontWeight: 700 }}>Rs. 8,000</span> <span style={{ fontSize: "12px", color: "#666" }}>(6-8 Weeks)</span></td>
-                                <td>Booked via British Council / IDP Nepal</td>
-                            </tr>
-
-                            <tr>
-                                <td><strong>General Training</strong></td>
-                                <td>NPR 27,100</td>
-                                <td><span style={{ color: "#d32f2f", fontWeight: 700 }}>Rs. 8,000</span> <span style={{ fontSize: "12px", color: "#666" }}>(6-8 Weeks)</span></td>
-                                <td>Booked via British Council / IDP Nepal</td>
-                            </tr>
-
-                            <tr>
-                                <td><strong>IELTS for UKVI (Academic/GT)</strong></td>
-                                <td>NPR 28,950</td>
-                                <td><span style={{ color: "#d32f2f", fontWeight: 700 }}>Rs. 8,000</span> <span style={{ fontSize: "12px", color: "#666" }}>(6-8 Weeks)</span></td>
-                                <td>Required for certain UK visa pathways</td>
-                            </tr>
+                            {prepData.testCosts.map((tc, idx) => (
+                                <tr key={idx}>
+                                    <td><strong>{tc.type}</strong></td>
+                                    <td>{tc.fee}</td>
+                                    <td>
+                                        <span style={{ color: "#d32f2f", fontWeight: 700 }}>
+                                            {tc.prep_fee || prepData.cost}
+                                        </span>{" "}
+                                        <span style={{ fontSize: "12px", color: "#666" }}>
+                                            ({prepData.duration})
+                                        </span>
+                                    </td>
+                                    <td>{tc.info}</td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
 
@@ -157,12 +157,7 @@ export default function IELTSPage() {
                 <h3>Course Features</h3>
 
                 <ul className="ielts-feature-list">
-                    {[
-                        "Certified teachers",
-                        "Weekly mock tests",
-                        "Extra classes for weak students",
-                        "Personal feedback",
-                    ].map((feature) => (
+                    {prepData.features.map((feature) => (
                         <li key={feature}>{feature}</li>
                     ))}
                 </ul>
@@ -208,15 +203,14 @@ export default function IELTSPage() {
                         <tr>
                             <td>Duration</td>
                             <td>
-                                6 to 8 weeks
+                                {prepData.duration}
                             </td>
                         </tr>
 
                         <tr>
                             <td>Types of IELTS Exam</td>
                             <td>
-                                IELTS Academic, IELTS General Training,
-                                IELTS for UKVI, IELTS Life Skills.
+                                {prepData.testCosts.map(tc => tc.type).filter(Boolean).join(", ") || "IELTS Academic, General Training, IELTS for UKVI"}
                             </td>
                         </tr>
 

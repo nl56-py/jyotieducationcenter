@@ -1,8 +1,12 @@
 import Link from "next/link";
-
 import "@/styles/toefl.css";
+import { getTestPrepData } from "@/lib/services/testprep";
 
-export default function TOEFLPage() {
+export const dynamic = "force-dynamic";
+
+export default async function TOEFLPage() {
+    const prepData = await getTestPrepData("toefl");
+
     return (
         <main>
 
@@ -93,12 +97,17 @@ export default function TOEFLPage() {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td style={{ padding: "12px 14px", border: "1px solid #ddd" }}><strong>TOEFL iBT</strong></td>
-                                <td style={{ padding: "12px 14px", border: "1px solid #ddd" }}>NPR 28,000 (~$205 USD)</td>
-                                <td style={{ padding: "12px 14px", border: "1px solid #ddd" }}><span style={{ color: "#d32f2f", fontWeight: 700 }}>Rs. 8,500</span> <span style={{ fontSize: "12px", color: "#666" }}>(6 Weeks)</span></td>
-                                <td style={{ padding: "12px 14px", border: "1px solid #ddd" }}>Booked via ETS authorized testing centers in Nepal</td>
-                            </tr>
+                            {prepData.testCosts.map((tc, idx) => (
+                                <tr key={idx}>
+                                    <td style={{ padding: "12px 14px", border: "1px solid #ddd" }}><strong>{tc.type}</strong></td>
+                                    <td style={{ padding: "12px 14px", border: "1px solid #ddd" }}>{tc.fee}</td>
+                                    <td style={{ padding: "12px 14px", border: "1px solid #ddd" }}>
+                                        <span style={{ color: "#d32f2f", fontWeight: 700 }}>{tc.prep_fee || prepData.cost}</span>{" "}
+                                        <span style={{ fontSize: "12px", color: "#666" }}>({prepData.duration})</span>
+                                    </td>
+                                    <td style={{ padding: "12px 14px", border: "1px solid #ddd" }}>{tc.info}</td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
 
@@ -197,7 +206,7 @@ export default function TOEFLPage() {
 
                         <tr>
                             <td>Duration</td>
-                            <td>6 Weeks</td>
+                            <td>{prepData.duration}</td>
                         </tr>
 
                         <tr>

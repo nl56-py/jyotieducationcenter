@@ -1,8 +1,12 @@
 import Link from "next/link";
-
 import "@/styles/sat.css";
+import { getTestPrepData } from "@/lib/services/testprep";
 
-export default function SATPage() {
+export const dynamic = "force-dynamic";
+
+export default async function SATPage() {
+    const prepData = await getTestPrepData("sat");
+
     return (<main>
 
 
@@ -95,12 +99,17 @@ export default function SATPage() {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td style={{ padding: "12px 14px", border: "1px solid #ddd" }}><strong>Digital SAT</strong></td>
-                            <td style={{ padding: "12px 14px", border: "1px solid #ddd" }}>NPR 15,500 (~$111 USD)</td>
-                            <td style={{ padding: "12px 14px", border: "1px solid #ddd" }}><span style={{ color: "#d32f2f", fontWeight: 700 }}>Rs. 10,000</span> <span style={{ fontSize: "12px", color: "#666" }}>(8-10 Weeks)</span></td>
-                            <td style={{ padding: "12px 14px", border: "1px solid #ddd" }}>Booked directly via College Board website</td>
-                        </tr>
+                        {prepData.testCosts.map((tc, idx) => (
+                            <tr key={idx}>
+                                <td style={{ padding: "12px 14px", border: "1px solid #ddd" }}><strong>{tc.type}</strong></td>
+                                <td style={{ padding: "12px 14px", border: "1px solid #ddd" }}>{tc.fee}</td>
+                                <td style={{ padding: "12px 14px", border: "1px solid #ddd" }}>
+                                    <span style={{ color: "#d32f2f", fontWeight: 700 }}>{tc.prep_fee || prepData.cost}</span>{" "}
+                                    <span style={{ fontSize: "12px", color: "#666" }}>({prepData.duration})</span>
+                                </td>
+                                <td style={{ padding: "12px 14px", border: "1px solid #ddd" }}>{tc.info}</td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
 
