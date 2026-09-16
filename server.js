@@ -224,10 +224,17 @@ const server = http.createServer(async (req, res) => {
         });
         const [results] = await conn.query(body);
         await conn.end();
-        const info = Array.isArray(results)
-          ? results.map((r, i) => ({ statement: i+1, affectedRows: r.affectedRows, changedRows: r.changedRows }))
-          : { affectedRows: results.affectedRows, changedRows: results.changedRows };
-        return res.end(JSON.stringify({ success: true, info }));
+        let payload;
+        if (Array.isArray(results)) {
+          if (results.length > 0 && results[0] && typeof results[0] === 'object' && !('affectedRows' in results[0])) {
+            payload = { rows: results, count: results.length };
+          } else {
+            payload = { info: results.map((r, i) => ({ statement: i+1, affectedRows: r.affectedRows, changedRows: r.changedRows })) };
+          }
+        } else {
+          payload = { affectedRows: results.affectedRows, changedRows: results.changedRows };
+        }
+        return res.end(JSON.stringify({ success: true, ...payload }));
       } catch(e) {
         return res.end(JSON.stringify({ success: false, error: e.message }));
       }

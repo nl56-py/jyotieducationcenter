@@ -549,6 +549,10 @@ export class QueryBuilder {
           row[key] = JSON.parse(row[key]);
         } catch (e) {}
       }
+      const lowerKey = key.toLowerCase();
+      if (lowerKey !== key && row[lowerKey] === undefined) {
+        row[lowerKey] = row[key];
+      }
     }
     return row;
   }

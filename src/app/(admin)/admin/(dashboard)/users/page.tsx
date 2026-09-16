@@ -73,10 +73,14 @@ export default function UsersManagementPage() {
 
   const fetchUsers = async () => {
     try {
-      const usersRes = await fetch("/api/admin/users");
+      const usersRes = await fetch("/api/admin/users", { cache: "no-store" });
       const usersData = await usersRes.json();
       if (Array.isArray(usersData)) {
-        setUsers(usersData);
+        const normalized = usersData.map((u: any) => ({
+          ...u,
+          status: (u.status || u.STATUS || "active").toLowerCase(),
+        }));
+        setUsers(normalized);
       }
     } catch (err) {
       console.error("Failed to fetch users", err);
@@ -154,7 +158,8 @@ export default function UsersManagementPage() {
   const handleStatusToggle = async (userId: string) => {
     const targetUser = users.find(u => u.id === userId);
     if (!targetUser) return;
-    const nextStatus = targetUser.status === "active" ? "suspended" : "active";
+    const currentStatus = (targetUser.status || targetUser.STATUS || "active").toLowerCase();
+    const nextStatus = currentStatus === "active" ? "suspended" : "active";
     try {
       const response = await fetch(`/api/admin/users/${userId}`, {
         method: "PATCH",
@@ -163,7 +168,7 @@ export default function UsersManagementPage() {
       });
       const data = await response.json();
       if (data.success) {
-        setUsers(users.map(u => u.id === userId ? { ...u, status: nextStatus } : u));
+        setUsers(users.map(u => u.id === userId ? { ...u, status: nextStatus, STATUS: nextStatus } : u));
       } else {
         alert(data.error || "Failed to update user status");
       }
@@ -282,8 +287,8 @@ export default function UsersManagementPage() {
                       </select>
                     </td>
                     <td>
-                      <span className={`status-badge ${u.status === "active" ? "booking-confirmed" : "booking-cancelled"}`}>
-                        {u.status}
+                      <span className={`status-badge ${(u.status || u.STATUS || "active").toLowerCase() === "active" ? "booking-confirmed" : "booking-cancelled"}`}>
+                        {(u.status || u.STATUS || "active").toLowerCase() === "active" ? "Active" : "Suspended"}
                       </span>
                     </td>
                     <td>{u.last_seen_at ? new Date(u.last_seen_at).toLocaleString() : "Never"}</td>
@@ -295,7 +300,7 @@ export default function UsersManagementPage() {
                           onClick={() => handleStatusToggle(u.id)}
                           disabled={isSelf}
                         >
-                          {u.status === "active" ? (
+                          {(u.status || u.STATUS || "active").toLowerCase() === "active" ? (
                             <>
                               <UserX size={12} /> Suspend
                             </>

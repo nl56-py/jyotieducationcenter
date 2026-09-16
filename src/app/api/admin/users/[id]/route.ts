@@ -7,6 +7,9 @@ import { safeErrorResponse } from "@/lib/security/api-error";
 const VALID_ROLES = ["super_admin", "admin", "editor", "counselor", "viewer"];
 const VALID_STATUSES = ["active", "suspended", "deleted"];
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }

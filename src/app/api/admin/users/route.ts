@@ -6,6 +6,9 @@ import { safeErrorResponse } from "@/lib/security/api-error";
 
 const VALID_ROLES = ["super_admin", "admin", "editor", "counselor", "viewer"];
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export async function GET() {
   try {
     const user = await getCurrentUser();
@@ -31,7 +34,19 @@ export async function GET() {
       return NextResponse.json({ success: false, error: error.message }, { status: 500 });
     }
 
-    return NextResponse.json(dbUsers || []);
+    const normalizedUsers = (dbUsers || []).map((u: any) => ({
+      ...u,
+      status: (u.status || u.STATUS || "active").toLowerCase(),
+      role: (u.role || u.ROLE || "admin").toLowerCase(),
+    }));
+
+    return NextResponse.json(normalizedUsers, {
+      headers: {
+        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+        Pragma: "no-cache",
+        Expires: "0",
+      },
+    });
   } catch (err: any) {
     return safeErrorResponse(err, { logLabel: "Users API GET" });
   }
