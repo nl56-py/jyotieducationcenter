@@ -64,26 +64,30 @@ export default function IELTSPage() {
                             <tr>
                                 <th>Test Type</th>
                                 <th>Computer Delivered Fee</th>
+                                <th>Preparation Charge (Institution)</th>
                                 <th>Additional Information</th>
                             </tr>
                         </thead>
 
                         <tbody>
                             <tr>
-                                <td>IELTS Academic</td>
+                                <td><strong>IELTS Academic</strong></td>
                                 <td>NPR 27,100</td>
+                                <td><span style={{ color: "#d32f2f", fontWeight: 700 }}>Rs. 8,000</span> <span style={{ fontSize: "12px", color: "#666" }}>(6-8 Weeks)</span></td>
                                 <td>Booked via British Council / IDP Nepal</td>
                             </tr>
 
                             <tr>
-                                <td>General Training</td>
+                                <td><strong>General Training</strong></td>
                                 <td>NPR 27,100</td>
+                                <td><span style={{ color: "#d32f2f", fontWeight: 700 }}>Rs. 8,000</span> <span style={{ fontSize: "12px", color: "#666" }}>(6-8 Weeks)</span></td>
                                 <td>Booked via British Council / IDP Nepal</td>
                             </tr>
 
                             <tr>
-                                <td>IELTS for UKVI (Academic/GT)</td>
+                                <td><strong>IELTS for UKVI (Academic/GT)</strong></td>
                                 <td>NPR 28,950</td>
+                                <td><span style={{ color: "#d32f2f", fontWeight: 700 }}>Rs. 8,000</span> <span style={{ fontSize: "12px", color: "#666" }}>(6-8 Weeks)</span></td>
                                 <td>Required for certain UK visa pathways</td>
                             </tr>
                         </tbody>

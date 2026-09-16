@@ -10,10 +10,10 @@ export function VideosPage({ videos = [] }) {
   const [category, setCategory] = useState("All");
   const [activeVideo, setActiveVideo] = useState(null);
 
-  const displayVideos = videos;
+  const displayVideos = (videos && videos.length > 0) ? videos : videoItems;
 
   const categories = displayVideos.length > 0 
-    ? ["All", ...Array.from(new Set(displayVideos.map((video) => video.category)))]
+    ? ["All", ...Array.from(new Set(displayVideos.map((video) => video.category).filter(Boolean)))]
     : [];
   const filtered = category === "All" ? displayVideos : displayVideos.filter((video) => video.category === category);
 
@@ -73,7 +73,7 @@ export function VideosPage({ videos = [] }) {
               filtered.map((video) => (
                 <article 
                   className="video-card" 
-                  key={video.title}
+                  key={video.id || video.title}
                   style={{
                     background: "var(--white)",
                     borderRadius: "16px",
@@ -96,12 +96,16 @@ export function VideosPage({ videos = [] }) {
                   {/* Inline Video Player Container */}
                   <div style={{ position: "relative", width: "100%", paddingTop: video.isPortrait ? "177.77%" : "56.25%", background: "#000", overflow: "hidden" }}>
                     {video.media === "video" || video.media === "local" ? (
-                      <video controls poster={video.poster} style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", objectFit: "cover" }}>
-                        <source src={video.videoUrl} type="video/mp4" />
+                      <video 
+                        controls 
+                        poster={video.poster || video.image || "/images/generated/study-hero.png"} 
+                        style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", objectFit: "cover" }}
+                      >
+                        <source src={video.videoUrl || video.external_url} type="video/mp4" />
                       </video>
                     ) : (
                       <iframe 
-                        src={video.embedUrl || `https://www.youtube.com/embed/${video.youtubeId}`} 
+                        src={video.embedUrl || (video.youtubeId ? `https://www.youtube.com/embed/${video.youtubeId}` : video.external_url)} 
                         title={video.title}
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         allowFullScreen

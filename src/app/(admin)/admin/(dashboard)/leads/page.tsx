@@ -10,8 +10,12 @@ import {
   Edit3, 
   Trash2, 
   CheckCircle,
-  MessageSquare
+  MessageSquare,
+  FileSpreadsheet,
+  Save,
+  X
 } from "lucide-react";
+import * as XLSX from "xlsx";
 
 export default function LeadsPage() {
   const [currentUser, setCurrentUser] = useState<any>(null);
@@ -27,6 +31,17 @@ export default function LeadsPage() {
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [selectedLead, setSelectedLead] = useState<any | null>(null);
   
+  // Edit Lead state
+  const [isEditingLead, setIsEditingLead] = useState(false);
+  const [editFullName, setEditFullName] = useState("");
+  const [editPhone, setEditPhone] = useState("");
+  const [editEmail, setEditEmail] = useState("");
+  const [editDestination, setEditDestination] = useState("Australia");
+  const [editCourseInterest, setEditCourseInterest] = useState("");
+  const [editStatus, setEditStatus] = useState("new");
+  const [editMessage, setEditMessage] = useState("");
+  const [isSavingLead, setIsSavingLead] = useState(false);
+
   // Form state
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
@@ -48,7 +63,7 @@ export default function LeadsPage() {
         console.error("Failed to load session", err);
       }
 
-      // 2. Fetch Leads (from Supabase)
+      // 2. Fetch Leads (from Supabase/DB)
       try {
         const response = await fetch("/api/admin/leads");
         if (response.ok) {
@@ -66,6 +81,60 @@ export default function LeadsPage() {
 
     loadData();
   }, []);
+
+  const handleOpenLeadDetails = (lead: any, editMode: boolean = false) => {
+    setSelectedLead(lead);
+    setIsEditingLead(editMode);
+    setEditFullName(lead.full_name || "");
+    setEditPhone(lead.phone || "");
+    setEditEmail(lead.email || "");
+    setEditDestination(lead.preferred_destination || "Australia");
+    setEditCourseInterest(lead.course_interest || "");
+    setEditStatus(lead.status || "new");
+    setEditMessage(lead.message || "");
+  };
+
+  const handleSaveLeadDetails = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedLead) return;
+    setIsSavingLead(true);
+    try {
+      const response = await fetch("/api/admin/leads", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: selectedLead.id,
+          full_name: editFullName,
+          phone: editPhone,
+          email: editEmail,
+          preferred_destination: editDestination,
+          course_interest: editCourseInterest,
+          status: editStatus,
+          message: editMessage,
+        }),
+      });
+
+      if (response.ok) {
+        const res = await fetch("/api/admin/leads");
+        if (res.ok) {
+          const data = await res.json();
+          setLeads(data);
+          const updated = data.find((l: any) => l.id === selectedLead.id);
+          if (updated) {
+            setSelectedLead(updated);
+          }
+        }
+        setIsEditingLead(false);
+      } else {
+        alert("Failed to update lead details.");
+      }
+    } catch (err) {
+      console.error("Failed to update lead details:", err);
+      alert("Error updating lead details.");
+    } finally {
+      setIsSavingLead(false);
+    }
+  };
 
   const handleCreateLead = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -134,6 +203,57 @@ export default function LeadsPage() {
       console.error("Failed to add note:", err);
     }
     setNoteText("");
+  };
+
+  const handleExportExcel = () => {
+    const dataToExport = filteredLeads.length > 0 ? filteredLeads : leads;
+    if (dataToExport.length === 0) {
+      alert("No leads available to export.");
+      return;
+    }
+
+    const rows = dataToExport.map((lead, idx) => ({
+      "S.N.": idx + 1,
+      "Lead ID": lead.id,
+      "Student Name": lead.full_name,
+      "Phone Number": lead.phone,
+      "Email Address": lead.email || "N/A",
+      "Preferred Destination": lead.preferred_destination || "N/A",
+      "Course / Field of Interest": lead.course_interest || "General Study",
+      "Lead Status": (lead.status || "").replace("_", " ").toUpperCase(),
+      "Inquiry Source": (lead.source || "").replace("_", " "),
+      "Counselor Assignee": lead.assigned_name || "Unassigned",
+      "Student Inquiry Message": lead.message || "",
+      "Counselor Notes Timeline": (lead.notes || [])
+        .map((n: any) => `[${new Date(n.created_at).toLocaleDateString()} - ${n.author}]: ${n.note}`)
+        .join(" | "),
+      "Date Created": new Date(lead.created_at).toLocaleString(),
+    }));
+
+    const ws = XLSX.utils.json_to_sheet(rows);
+
+    // Set readable column widths
+    ws["!cols"] = [
+      { wch: 6 },  // S.N.
+      { wch: 36 }, // Lead ID
+      { wch: 24 }, // Student Name
+      { wch: 18 }, // Phone
+      { wch: 28 }, // Email
+      { wch: 20 }, // Destination
+      { wch: 25 }, // Course Interest
+      { wch: 16 }, // Status
+      { wch: 16 }, // Source
+      { wch: 20 }, // Counselor
+      { wch: 35 }, // Message
+      { wch: 45 }, // Counselor Notes
+      { wch: 22 }, // Date Created
+    ];
+
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Leads CRM");
+
+    const dateStr = new Date().toISOString().slice(0, 10);
+    XLSX.writeFile(wb, `Jyoti_Education_Leads_${dateStr}.xlsx`);
   };
 
   const handleUpdateStatus = async (leadId: string, newStatus: string) => {
@@ -227,10 +347,8 @@ export default function LeadsPage() {
         </div>
 
         <div style={{ display: "flex", gap: "12px" }}>
-          <button className="btn btn-secondary" onClick={() => {
-            alert("Lead data exported successfully as CSV file!");
-          }}>
-            <Download size={16} /> Export CSV
+          <button className="btn btn-secondary" onClick={handleExportExcel} style={{ display: "flex", alignItems: "center", gap: "6px" }} title="Export leads to Excel spreadsheet">
+            <FileSpreadsheet size={16} color="#107c41" /> Export to Excel (.xlsx)
           </button>
           <button className="btn btn-primary" onClick={() => setIsCreateOpen(true)}>
             <Plus size={16} /> Create Lead
@@ -334,17 +452,26 @@ export default function LeadsPage() {
                       </span>
                     </td>
                     <td>
-                      <div style={{ display: "flex", gap: "8px" }}>
+                      <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
                         <button 
                           className="btn btn-light" 
-                          style={{ height: "30px", padding: "0 10px" }}
-                          onClick={() => setSelectedLead(lead)}
+                          style={{ height: "30px", padding: "0 10px", fontSize: "12px" }}
+                          onClick={() => handleOpenLeadDetails(lead, false)}
+                          title="View Details & Notes"
                         >
                           Details
                         </button>
+                        <button 
+                          className="btn btn-light" 
+                          style={{ height: "30px", padding: "0 8px", fontSize: "12px", display: "flex", alignItems: "center", gap: "4px" }}
+                          onClick={() => handleOpenLeadDetails(lead, true)}
+                          title="Edit Lead Details"
+                        >
+                          <Edit3 size={12} /> Edit
+                        </button>
                         <select 
                           className="form-select" 
-                          style={{ height: "30px", padding: "0 10px", width: "110px", fontSize: "12px" }}
+                          style={{ height: "30px", padding: "0 6px", width: "105px", fontSize: "11px" }}
                           value={lead.status}
                           onChange={(e) => handleUpdateStatus(lead.id, e.target.value)}
                         >
@@ -415,7 +542,7 @@ export default function LeadsPage() {
       {/* Details/Timeline Modal */}
       {selectedLead && (
         <div className="modal-overlay" onClick={() => setSelectedLead(null)}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: "700px" }}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: "750px" }}>
             <div className="modal-header">
               <h3 className="modal-title">Lead Timeline & Counselor Notes</h3>
               <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
@@ -432,40 +559,179 @@ export default function LeadsPage() {
               </div>
             </div>
             
-            <div className="modal-body" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px" }}>
-              {/* Lead Details */}
+            <div className="modal-body" style={{ display: "grid", gridTemplateColumns: "1.1fr 0.9fr", gap: "24px" }}>
+              {/* Lead Details (View or Edit mode) */}
               <div>
-                <h4 style={{ fontSize: "15px", fontWeight: 700, marginBottom: "16px" }}>Student Details</h4>
-                <div style={{ display: "flex", flexDirection: "column", gap: "12px", fontSize: "14px" }}>
-                  <div><strong>Full Name:</strong> {selectedLead.full_name}</div>
-                  <div><strong>Phone:</strong> {selectedLead.phone}</div>
-                  <div><strong>Email:</strong> {selectedLead.email || "N/A"}</div>
-                  <div><strong>Destination:</strong> {selectedLead.preferred_destination}</div>
-                  <div><strong>Course Interest:</strong> {selectedLead.course_interest || "N/A"}</div>
-                  <div><strong>Status:</strong> <span className={`status-badge lead-${selectedLead.status}`}>{selectedLead.status.replace("_", " ")}</span></div>
-                  <div><strong>Source:</strong> {selectedLead.source}</div>
-                  <div style={{ padding: "10px", background: "var(--dm-surface-container-low)", borderRadius: "var(--dm-rounded-md)", marginTop: "8px" }}>
-                    <strong>Message:</strong><br />
-                    <span style={{ fontSize: "13px" }}>{selectedLead.message || "No message attached."}</span>
-                  </div>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
+                  <h4 style={{ fontSize: "15px", fontWeight: 700, margin: 0 }}>
+                    {isEditingLead ? "Edit Student Details" : "Student Details"}
+                  </h4>
+                  {!isEditingLead ? (
+                    <button 
+                      type="button" 
+                      className="btn btn-secondary" 
+                      style={{ height: "28px", padding: "0 10px", fontSize: "12px", display: "flex", alignItems: "center", gap: "4px" }}
+                      onClick={() => handleOpenLeadDetails(selectedLead, true)}
+                    >
+                      <Edit3 size={12} /> Edit Details
+                    </button>
+                  ) : (
+                    <button 
+                      type="button" 
+                      className="btn btn-light" 
+                      style={{ height: "28px", padding: "0 8px", fontSize: "12px" }}
+                      onClick={() => setIsEditingLead(false)}
+                    >
+                      Cancel Edit
+                    </button>
+                  )}
                 </div>
+
+                {isEditingLead ? (
+                  <form onSubmit={handleSaveLeadDetails} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                    <div className="form-group" style={{ marginBottom: "6px" }}>
+                      <label className="form-label" style={{ fontSize: "12px" }}>Full Name</label>
+                      <input 
+                        type="text" 
+                        className="form-input" 
+                        value={editFullName} 
+                        onChange={(e) => setEditFullName(e.target.value)} 
+                        required 
+                      />
+                    </div>
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
+                      <div className="form-group" style={{ marginBottom: "6px" }}>
+                        <label className="form-label" style={{ fontSize: "12px" }}>Phone</label>
+                        <input 
+                          type="text" 
+                          className="form-input" 
+                          value={editPhone} 
+                          onChange={(e) => setEditPhone(e.target.value)} 
+                          required 
+                        />
+                      </div>
+                      <div className="form-group" style={{ marginBottom: "6px" }}>
+                        <label className="form-label" style={{ fontSize: "12px" }}>Email</label>
+                        <input 
+                          type="email" 
+                          className="form-input" 
+                          value={editEmail} 
+                          onChange={(e) => setEditEmail(e.target.value)} 
+                        />
+                      </div>
+                    </div>
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
+                      <div className="form-group" style={{ marginBottom: "6px" }}>
+                        <label className="form-label" style={{ fontSize: "12px" }}>Destination</label>
+                        <select 
+                          className="form-select" 
+                          value={editDestination} 
+                          onChange={(e) => setEditDestination(e.target.value)}
+                        >
+                          <option value="Australia">Australia</option>
+                          <option value="USA">USA</option>
+                          <option value="Canada">Canada</option>
+                          <option value="United Kingdom">United Kingdom</option>
+                          <option value="New Zealand">New Zealand</option>
+                          <option value="Japan">Japan</option>
+                          <option value="Germany">Germany</option>
+                          <option value="South Korea">South Korea</option>
+                        </select>
+                      </div>
+                      <div className="form-group" style={{ marginBottom: "6px" }}>
+                        <label className="form-label" style={{ fontSize: "12px" }}>Status</label>
+                        <select 
+                          className="form-select" 
+                          value={editStatus} 
+                          onChange={(e) => setEditStatus(e.target.value)}
+                        >
+                          <option value="new">New</option>
+                          <option value="contacted">Contacted</option>
+                          <option value="counseling_scheduled">Counseling Scheduled</option>
+                          <option value="in_progress">In Progress</option>
+                          <option value="converted">Converted</option>
+                          <option value="lost">Lost</option>
+                          <option value="spam">Spam</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div className="form-group" style={{ marginBottom: "6px" }}>
+                      <label className="form-label" style={{ fontSize: "12px" }}>Course / Field of Interest</label>
+                      <input 
+                        type="text" 
+                        className="form-input" 
+                        placeholder="e.g. IELTS / Master of IT" 
+                        value={editCourseInterest} 
+                        onChange={(e) => setEditCourseInterest(e.target.value)} 
+                      />
+                    </div>
+                    <div className="form-group" style={{ marginBottom: "10px" }}>
+                      <label className="form-label" style={{ fontSize: "12px" }}>Inquiry Message</label>
+                      <textarea 
+                        className="form-textarea" 
+                        style={{ minHeight: "75px", fontSize: "13px" }}
+                        placeholder="Inquiry note or student message..." 
+                        value={editMessage} 
+                        onChange={(e) => setEditMessage(e.target.value)} 
+                      />
+                    </div>
+                    <div style={{ display: "flex", gap: "8px", justifyContent: "flex-end" }}>
+                      <button 
+                        type="button" 
+                        className="btn btn-light" 
+                        style={{ height: "32px", fontSize: "12px" }}
+                        onClick={() => setIsEditingLead(false)}
+                      >
+                        Cancel
+                      </button>
+                      <button 
+                        type="submit" 
+                        className="btn btn-primary" 
+                        style={{ height: "32px", fontSize: "12px", display: "flex", alignItems: "center", gap: "6px" }}
+                        disabled={isSavingLead}
+                      >
+                        <Save size={13} /> {isSavingLead ? "Saving..." : "Save Changes"}
+                      </button>
+                    </div>
+                  </form>
+                ) : (
+                  <div style={{ display: "flex", flexDirection: "column", gap: "12px", fontSize: "14px" }}>
+                    <div><strong>Full Name:</strong> {selectedLead.full_name}</div>
+                    <div><strong>Phone:</strong> {selectedLead.phone}</div>
+                    <div><strong>Email:</strong> {selectedLead.email || "N/A"}</div>
+                    <div><strong>Destination:</strong> {selectedLead.preferred_destination}</div>
+                    <div><strong>Course Interest:</strong> {selectedLead.course_interest || "N/A"}</div>
+                    <div><strong>Status:</strong> <span className={`status-badge lead-${selectedLead.status}`}>{selectedLead.status.replace("_", " ")}</span></div>
+                    <div><strong>Source:</strong> <span style={{ textTransform: "capitalize" }}>{selectedLead.source?.replace("_", " ")}</span></div>
+                    <div style={{ padding: "10px", background: "var(--dm-surface-container-low)", borderRadius: "var(--dm-rounded-md)", marginTop: "4px" }}>
+                      <strong>Message:</strong><br />
+                      <span style={{ fontSize: "13px", whiteSpace: "pre-wrap" }}>{selectedLead.message || "No message attached."}</span>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Notes Timeline */}
-              <div style={{ display: "flex", flexDirection: "column", height: "350px" }}>
+              <div style={{ display: "flex", flexDirection: "column", height: "370px" }}>
                 <h4 style={{ fontSize: "15px", fontWeight: 700, marginBottom: "16px" }}>Counselor Notes</h4>
                 
                 {/* Notes list */}
-                <div style={{ flex: 1, overflowY: "auto", display: "flex", flexDirection: "column", gap: "12px", marginBottom: "16px", paddingRight: "8px" }}>
-                  {selectedLead.notes.map((note: any) => (
-                    <div key={note.id} style={{ background: "var(--dm-surface-container-low)", padding: "10px", borderRadius: "var(--dm-rounded-md)", fontSize: "13px" }}>
-                      <div style={{ display: "flex", justifyContent: "space-between", color: "var(--dm-outline)", fontSize: "11px", marginBottom: "4px" }}>
-                        <span>{note.author}</span>
-                        <span>{new Date(note.created_at).toLocaleDateString()}</span>
-                      </div>
-                      <div>{note.note}</div>
+                <div style={{ flex: 1, overflowY: "auto", display: "flex", flexDirection: "column", gap: "10px", marginBottom: "16px", paddingRight: "8px" }}>
+                  {(!selectedLead.notes || selectedLead.notes.length === 0) ? (
+                    <div style={{ padding: "20px 10px", textAlign: "center", color: "var(--dm-outline)", fontSize: "13px", background: "var(--dm-surface-container-low)", borderRadius: "var(--dm-rounded-md)" }}>
+                      No counselor notes logged yet.<br />Use the form below to append a note.
                     </div>
-                  ))}
+                  ) : (
+                    selectedLead.notes.map((note: any) => (
+                      <div key={note.id} style={{ background: "var(--dm-surface-container-low)", padding: "10px", borderRadius: "var(--dm-rounded-md)", fontSize: "13px" }}>
+                        <div style={{ display: "flex", justifyContent: "space-between", color: "var(--dm-outline)", fontSize: "11px", marginBottom: "4px" }}>
+                          <span style={{ fontWeight: 600 }}>{note.author}</span>
+                          <span>{new Date(note.created_at).toLocaleDateString()}</span>
+                        </div>
+                        <div style={{ whiteSpace: "pre-wrap" }}>{note.note}</div>
+                      </div>
+                    ))
+                  )}
                 </div>
 
                 {/* Add note form */}
@@ -478,7 +744,7 @@ export default function LeadsPage() {
                     onChange={(e) => setNoteText(e.target.value)}
                     required
                   />
-                  <button type="submit" className="btn btn-primary" style={{ padding: "0 12px" }}>Add</button>
+                  <button type="submit" className="btn btn-primary" style={{ padding: "0 14px" }}>Add</button>
                 </form>
               </div>
             </div>

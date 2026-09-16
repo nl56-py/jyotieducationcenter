@@ -29,6 +29,8 @@ export default function ServicesPrepPage() {
   const [testType, setTestType] = useState("language");
   const [duration, setDuration] = useState("");
   const [cost, setCost] = useState("");
+  const [officialTestFee, setOfficialTestFee] = useState("");
+  const [testCostsList, setTestCostsList] = useState<any[]>([]);
   const [features, setFeatures] = useState("");
 
   // Fetch functions
@@ -91,10 +93,14 @@ export default function ServicesPrepPage() {
         setTestType(item.test_type || "language");
         setDuration(item.format?.duration || "");
         setCost(item.format?.cost || "");
+        setOfficialTestFee(item.format?.official_test_fee || "");
+        setTestCostsList(item.format?.test_costs || []);
         setFeatures((item.features || []).join(", "));
       } else if (activeTab === "entrance") {
         setDuration(item.offer?.duration || "");
         setCost(item.offer?.cost || "");
+        setOfficialTestFee("");
+        setTestCostsList([]);
         setFeatures((item.features || []).join(", "));
       }
     } else {
@@ -106,6 +112,8 @@ export default function ServicesPrepPage() {
       setTestType("language");
       setDuration("");
       setCost("");
+      setOfficialTestFee("");
+      setTestCostsList([]);
       setFeatures("");
     }
     setIsEditorOpen(true);
@@ -124,7 +132,12 @@ export default function ServicesPrepPage() {
           slug,
           summary,
           test_type: testType,
-          format: { duration, cost },
+          format: { 
+            duration, 
+            cost, // Preparation charge taken by institution
+            official_test_fee: officialTestFee, // Official exam fee
+            test_costs: testCostsList // Sub-variants matching screenshot table
+          },
           features: featureArray,
           status
         };
@@ -228,7 +241,8 @@ export default function ServicesPrepPage() {
                   <th>Course Name</th>
                   <th>Type</th>
                   <th>Duration</th>
-                  <th>Fee Cost</th>
+                  <th>Prep Charge (Institution)</th>
+                  <th>Official Exam Cost</th>
                   <th>Status</th>
                   <th>Actions</th>
                 </tr>
@@ -242,7 +256,21 @@ export default function ServicesPrepPage() {
                     </td>
                     <td style={{ textTransform: "capitalize" }}>{tp.test_type || "language"}</td>
                     <td>{tp.format?.duration || "N/A"}</td>
-                    <td>{tp.format?.cost || "N/A"}</td>
+                    <td>
+                      <span style={{ fontWeight: 600, color: "var(--purple)" }}>
+                        {tp.format?.cost || "N/A"}
+                      </span>
+                    </td>
+                    <td>
+                      <div style={{ fontWeight: 600 }}>
+                        {tp.format?.official_test_fee || tp.format?.test_costs?.[0]?.fee || "N/A"}
+                      </div>
+                      {tp.format?.test_costs && tp.format.test_costs.length > 0 && (
+                        <div style={{ fontSize: "11px", color: "var(--dm-outline)" }}>
+                          {tp.format.test_costs.map((tc: any) => tc.type).filter(Boolean).join(", ")}
+                        </div>
+                      )}
+                    </td>
                     <td><span className={`status-badge content-${tp.status}`}>{tp.status}</span></td>
                     <td>
                       <div style={{ display: "flex", gap: "8px" }}>
@@ -317,7 +345,7 @@ export default function ServicesPrepPage() {
       {/* Editor Modal */}
       {isEditorOpen && (
         <div className="modal-overlay" onClick={() => setIsEditorOpen(false)}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: "500px" }}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: "680px" }}>
             <div className="modal-header">
               <h3 className="modal-title">
                 {selectedItem ? "Edit Details" : "Add Details"}
@@ -344,11 +372,9 @@ export default function ServicesPrepPage() {
                   minHeight={110}
                 />
 
-
-
                 {activeTab === "testprep" && (
                   <div className="form-group">
-                    <label className="form-label">Test Type</label>
+                    <label className="form-label">Test Type Category</label>
                     <select className="form-select" value={testType} onChange={(e) => setTestType(e.target.value)}>
                       <option value="language">Language Proficiency (IELTS/PTE/TOEFL)</option>
                       <option value="aptitude">Academic Aptitude (SAT/GRE/GMAT)</option>
@@ -356,22 +382,137 @@ export default function ServicesPrepPage() {
                   </div>
                 )}
 
-                {(activeTab === "testprep" || activeTab === "entrance") && (
-                  <>
-                    <div className="form-group">
-                      <label className="form-label">Course Duration</label>
-                      <input type="text" className="form-input" placeholder="e.g. 6 weeks" value={duration} onChange={(e) => setDuration(e.target.value)} />
+                {activeTab === "testprep" && (
+                  <div style={{ background: "var(--dm-surface-container-low)", padding: "14px", borderRadius: "var(--dm-rounded-md)", marginBottom: "14px" }}>
+                    <h4 style={{ fontSize: "14px", fontWeight: 700, marginBottom: "10px", color: "var(--dm-on-surface)" }}>
+                      1. Institution Preparation Charge (Jyoti Education Center)
+                    </h4>
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
+                      <div className="form-group" style={{ marginBottom: 0 }}>
+                        <label className="form-label" style={{ fontSize: "12px" }}>Class Duration</label>
+                        <input type="text" className="form-input" placeholder="e.g. 6 to 8 weeks" value={duration} onChange={(e) => setDuration(e.target.value)} />
+                      </div>
+                      <div className="form-group" style={{ marginBottom: 0 }}>
+                        <label className="form-label" style={{ fontSize: "12px" }}>Preparation Fee (Institution Charge)</label>
+                        <input type="text" className="form-input" placeholder="e.g. Rs. 8,000" value={cost} onChange={(e) => setCost(e.target.value)} />
+                      </div>
                     </div>
-                    <div className="form-group">
-                      <label className="form-label">Fee Cost</label>
-                      <input type="text" className="form-input" placeholder="e.g. Rs. 8,000" value={cost} onChange={(e) => setCost(e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label">Features / Badges (comma separated)</label>
-                      <input type="text" className="form-input" placeholder="e.g. Certified Tutors, Mock Tests" value={features} onChange={(e) => setFeatures(e.target.value)} />
-                    </div>
-                  </>
+                  </div>
                 )}
+
+                {activeTab === "testprep" && (
+                  <div style={{ background: "var(--dm-surface-container-low)", padding: "14px", borderRadius: "var(--dm-rounded-md)", marginBottom: "14px" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
+                      <div>
+                        <h4 style={{ fontSize: "14px", fontWeight: 700, margin: 0, color: "var(--dm-on-surface)" }}>
+                          2. Official Test Booking Costs (Exam Registration Fees)
+                        </h4>
+                        <div style={{ fontSize: "11px", color: "var(--dm-outline)", marginTop: "2px" }}>
+                          Map official computer-delivered fees as shown on the public exam booking table.
+                        </div>
+                      </div>
+                      <button 
+                        type="button" 
+                        className="btn btn-secondary" 
+                        style={{ height: "28px", padding: "0 10px", fontSize: "11px", display: "flex", alignItems: "center", gap: "4px" }}
+                        onClick={() => setTestCostsList([...testCostsList, { type: "", fee: "", info: "" }])}
+                      >
+                        <Plus size={12} /> Add Exam Fee Row
+                      </button>
+                    </div>
+
+                    <div className="form-group" style={{ marginBottom: "12px" }}>
+                      <label className="form-label" style={{ fontSize: "12px" }}>Primary / Starting Official Exam Fee</label>
+                      <input 
+                        type="text" 
+                        className="form-input" 
+                        placeholder="e.g. NPR 27,100" 
+                        value={officialTestFee} 
+                        onChange={(e) => setOfficialTestFee(e.target.value)} 
+                      />
+                    </div>
+
+                    {testCostsList.length > 0 && (
+                      <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                        <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr 1.5fr 30px", gap: "8px", fontSize: "11px", fontWeight: 600, color: "var(--dm-outline)" }}>
+                          <span>Test Type</span>
+                          <span>Computer Delivered Fee</span>
+                          <span>Additional Information</span>
+                          <span></span>
+                        </div>
+                        {testCostsList.map((item, idx) => (
+                          <div key={idx} style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr 1.5fr 30px", gap: "8px", alignItems: "center" }}>
+                            <input 
+                              type="text" 
+                              className="form-input" 
+                              style={{ fontSize: "12px", height: "32px", padding: "0 8px" }}
+                              placeholder="e.g. IELTS Academic" 
+                              value={item.type || ""} 
+                              onChange={(e) => {
+                                const next = [...testCostsList];
+                                next[idx].type = e.target.value;
+                                setTestCostsList(next);
+                              }} 
+                            />
+                            <input 
+                              type="text" 
+                              className="form-input" 
+                              style={{ fontSize: "12px", height: "32px", padding: "0 8px" }}
+                              placeholder="e.g. NPR 27,100" 
+                              value={item.fee || ""} 
+                              onChange={(e) => {
+                                const next = [...testCostsList];
+                                next[idx].fee = e.target.value;
+                                setTestCostsList(next);
+                              }} 
+                            />
+                            <input 
+                              type="text" 
+                              className="form-input" 
+                              style={{ fontSize: "12px", height: "32px", padding: "0 8px" }}
+                              placeholder="e.g. Booked via British Council / IDP Nepal" 
+                              value={item.info || ""} 
+                              onChange={(e) => {
+                                const next = [...testCostsList];
+                                next[idx].info = e.target.value;
+                                setTestCostsList(next);
+                              }} 
+                            />
+                            <button 
+                              type="button" 
+                              className="btn btn-danger" 
+                              style={{ height: "32px", width: "30px", padding: 0, display: "flex", alignItems: "center", justifyContent: "center" }}
+                              onClick={() => setTestCostsList(testCostsList.filter((_, i) => i !== idx))}
+                              title="Remove item"
+                            >
+                              <Trash2 size={12} />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {activeTab === "entrance" && (
+                  <div style={{ background: "var(--dm-surface-container-low)", padding: "14px", borderRadius: "var(--dm-rounded-md)", marginBottom: "14px" }}>
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
+                      <div className="form-group" style={{ marginBottom: 0 }}>
+                        <label className="form-label" style={{ fontSize: "12px" }}>Course Duration</label>
+                        <input type="text" className="form-input" placeholder="e.g. 12 weeks" value={duration} onChange={(e) => setDuration(e.target.value)} />
+                      </div>
+                      <div className="form-group" style={{ marginBottom: 0 }}>
+                        <label className="form-label" style={{ fontSize: "12px" }}>Fee Cost</label>
+                        <input type="text" className="form-input" placeholder="e.g. Rs. 15,000" value={cost} onChange={(e) => setCost(e.target.value)} />
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                <div className="form-group">
+                  <label className="form-label">Features / Badges (comma separated)</label>
+                  <input type="text" className="form-input" placeholder="e.g. Certified Tutors, Mock Tests" value={features} onChange={(e) => setFeatures(e.target.value)} />
+                </div>
 
                 <div className="form-group">
                   <label className="form-label">Publication Status</label>

@@ -81,7 +81,26 @@ export default function TOEFLPage() {
                         <li>Enhances University Admission Opportunities</li>
                     </ul>
 
+                    <h2>Register Your TOEFL Test Booking</h2>
 
+                    <table className="toefl-table" style={{ width: "100%", borderCollapse: "collapse", marginTop: "16px", marginBottom: "24px" }}>
+                        <thead>
+                            <tr style={{ background: "#f8fafc", textAlign: "left" }}>
+                                <th style={{ padding: "12px 14px", border: "1px solid #ddd" }}>Test Type</th>
+                                <th style={{ padding: "12px 14px", border: "1px solid #ddd" }}>Official Exam Fee</th>
+                                <th style={{ padding: "12px 14px", border: "1px solid #ddd" }}>Preparation Charge (Institution)</th>
+                                <th style={{ padding: "12px 14px", border: "1px solid #ddd" }}>Additional Information</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style={{ padding: "12px 14px", border: "1px solid #ddd" }}><strong>TOEFL iBT</strong></td>
+                                <td style={{ padding: "12px 14px", border: "1px solid #ddd" }}>NPR 28,000 (~$205 USD)</td>
+                                <td style={{ padding: "12px 14px", border: "1px solid #ddd" }}><span style={{ color: "#d32f2f", fontWeight: 700 }}>Rs. 8,500</span> <span style={{ fontSize: "12px", color: "#666" }}>(6 Weeks)</span></td>
+                                <td style={{ padding: "12px 14px", border: "1px solid #ddd" }}>Booked via ETS authorized testing centers in Nepal</td>
+                            </tr>
+                        </tbody>
+                    </table>
 
                 </section>
 

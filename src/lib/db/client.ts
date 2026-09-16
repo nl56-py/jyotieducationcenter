@@ -155,6 +155,45 @@ async function initTables(p: mysql.Pool) {
       );
     `);
 
+    await p.query(`
+      CREATE TABLE IF NOT EXISTS \`lead_notes\` (
+        \`id\` VARCHAR(36) PRIMARY KEY,
+        \`lead_id\` VARCHAR(36) NOT NULL,
+        \`author_admin_id\` VARCHAR(36),
+        \`note\` TEXT NOT NULL,
+        \`created_at\` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    await p.query(`
+      CREATE TABLE IF NOT EXISTS \`test_preparations\` (
+        \`id\` VARCHAR(36) PRIMARY KEY,
+        \`slug\` VARCHAR(255) UNIQUE NOT NULL,
+        \`name\` VARCHAR(255) NOT NULL,
+        \`summary\` TEXT,
+        \`test_type\` VARCHAR(100),
+        \`format\` JSON,
+        \`features\` JSON,
+        \`status\` VARCHAR(50) NOT NULL DEFAULT 'published',
+        \`created_at\` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        \`updated_at\` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+      );
+    `);
+
+    await p.query(`
+      CREATE TABLE IF NOT EXISTS \`entrance_programs\` (
+        \`id\` VARCHAR(36) PRIMARY KEY,
+        \`slug\` VARCHAR(255) UNIQUE NOT NULL,
+        \`name\` VARCHAR(255) NOT NULL,
+        \`summary\` TEXT,
+        \`features\` JSON,
+        \`offer\` JSON,
+        \`status\` VARCHAR(50) NOT NULL DEFAULT 'published',
+        \`created_at\` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        \`updated_at\` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+      );
+    `);
+
     tablesInitialized = true;
   } catch (e: any) {
     initTableError = e.message || String(e);
@@ -162,7 +201,7 @@ async function initTables(p: mysql.Pool) {
   }
 }
 
-function getPool(): mysql.Pool {
+export function getPool(): mysql.Pool {
   if (!pool) {
     const rawUrl = process.env.DATABASE_URL || "mysql://jyoti_jecusr:JyotiEducations2026%21%23@localhost:3306/jyoti_jecapp";
     
@@ -317,6 +356,36 @@ const TABLE_DDLS: Record<string, string> = {
     \`media_id\` VARCHAR(36),
     \`sort_order\` INT NOT NULL DEFAULT 0,
     \`status\` VARCHAR(50) NOT NULL DEFAULT 'published'
+  );`,
+  lead_notes: `CREATE TABLE IF NOT EXISTS \`lead_notes\` (
+    \`id\` VARCHAR(36) PRIMARY KEY,
+    \`lead_id\` VARCHAR(36) NOT NULL,
+    \`author_admin_id\` VARCHAR(36),
+    \`note\` TEXT NOT NULL,
+    \`created_at\` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  );`,
+  test_preparations: `CREATE TABLE IF NOT EXISTS \`test_preparations\` (
+    \`id\` VARCHAR(36) PRIMARY KEY,
+    \`slug\` VARCHAR(255) UNIQUE NOT NULL,
+    \`name\` VARCHAR(255) NOT NULL,
+    \`summary\` TEXT,
+    \`test_type\` VARCHAR(100),
+    \`format\` JSON,
+    \`features\` JSON,
+    \`status\` VARCHAR(50) NOT NULL DEFAULT 'published',
+    \`created_at\` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    \`updated_at\` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  );`,
+  entrance_programs: `CREATE TABLE IF NOT EXISTS \`entrance_programs\` (
+    \`id\` VARCHAR(36) PRIMARY KEY,
+    \`slug\` VARCHAR(255) UNIQUE NOT NULL,
+    \`name\` VARCHAR(255) NOT NULL,
+    \`summary\` TEXT,
+    \`features\` JSON,
+    \`offer\` JSON,
+    \`status\` VARCHAR(50) NOT NULL DEFAULT 'published',
+    \`created_at\` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    \`updated_at\` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
   );`
 };
 
@@ -471,7 +540,7 @@ export class QueryBuilder {
         const supportsMediaJoin = ["team_members", "testimonials", "blog_posts", "services", "homepage_popup_banners", "notices_events", "videos"].includes(this.tableName);
         
         if (wantsMedia && supportsMediaJoin) {
-          const imgCol = this.tableName === "blog_posts" ? "cover_image_id" : "image_id";
+          const imgCol = this.tableName === "blog_posts" ? "cover_image_id" : this.tableName === "videos" ? "poster_id" : "image_id";
           sql = `SELECT t.*, m.path as media_asset_path, m.file_name as media_asset_filename, m.alt_text as media_asset_alt 
                  FROM \`${this.tableName}\` t 
                  LEFT JOIN \`media_assets\` m ON t.\`${imgCol}\` = m.id`;
@@ -709,6 +778,11 @@ function toMysqlDatetime(val: any) {
 export class DatabaseClient {
   from(tableName: string) {
     return new QueryBuilder(tableName);
+  }
+
+  async query(sql: string, params: any[] = []) {
+    const db = getPool();
+    return db.query(sql, params);
   }
 
   async rpc(fnName: string, params: any) {

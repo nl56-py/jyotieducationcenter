@@ -1,6 +1,7 @@
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { VideosPage } from "@/views/VideosPage";
 import { getDriveEmbedUrl, getVideoThumbnail, isPortraitVideo } from "@/lib/utils/media";
+import { videoItems } from "@/data/testimonials";
 
 export const dynamic = "force-dynamic";
 
@@ -69,6 +70,22 @@ export default async function VideosGalleryRoute() {
     }
   } catch (e) {
     console.error("VideosGalleryRoute DB fetch error:", e);
+  }
+
+  if (mappedVideos.length === 0 && videoItems && videoItems.length > 0) {
+    mappedVideos = videoItems.map((v: any, idx: number) => ({
+      id: `fallback-${idx}`,
+      title: v.title,
+      category: v.category || "General",
+      media: v.media || (v.youtubeId ? "youtube" : "video"),
+      videoUrl: v.videoUrl || "",
+      embedUrl: v.youtubeId ? `https://www.youtube.com/embed/${v.youtubeId}` : (v.embedUrl || v.videoUrl),
+      youtubeId: v.youtubeId || "",
+      poster: v.poster || v.image || "/images/generated/study-hero.png",
+      isPortrait: false,
+      duration: v.duration || "",
+      description: v.description || ""
+    }));
   }
 
   return <VideosPage videos={mappedVideos as any} />;

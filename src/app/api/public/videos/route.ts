@@ -25,7 +25,75 @@ export async function GET() {
       return NextResponse.json({ success: false, error: error.message }, { status: 500 });
     }
 
-    const mappedVideos = (dbVideos || []).map((v: any) => {
+    let rawVideos = dbVideos || [];
+    if (rawVideos.length === 0) {
+      const defaultVideos = [
+        {
+          id: "v-001",
+          title: "Jyoti Education Corner counseling and student moments",
+          category: "Office Tours",
+          provider: "local",
+          external_url: "/videos/edumark-campus.mp4",
+          duration_seconds: 85,
+          sort_order: 1,
+          status: "published",
+          description: "Experience the vibrant student community and personalized guidance at Jyoti Education Corner."
+        },
+        {
+          id: "v-002",
+          title: "Study abroad seminar highlights",
+          category: "Destination Guides",
+          provider: "youtube",
+          provider_video_id: "3Uskw8oGg38",
+          external_url: "https://www.youtube.com/watch?v=3Uskw8oGg38",
+          duration_seconds: 220,
+          sort_order: 2,
+          status: "published",
+          description: "Highlights from our international education seminar in Damak featuring university representatives."
+        },
+        {
+          id: "v-003",
+          title: "IELTS classroom practice",
+          category: "Test Preparation",
+          provider: "youtube",
+          provider_video_id: "co1i2881g9A",
+          external_url: "https://www.youtube.com/watch?v=co1i2881g9A",
+          duration_seconds: 140,
+          sort_order: 3,
+          status: "published",
+          description: "Inside look into interactive speaking and writing sessions at our IELTS preparation lab."
+        },
+        {
+          id: "v-004",
+          title: "Visa success story",
+          category: "Testimonials",
+          provider: "youtube",
+          provider_video_id: "W8_N44bE0rA",
+          external_url: "https://www.youtube.com/watch?v=W8_N44bE0rA",
+          duration_seconds: 255,
+          sort_order: 4,
+          status: "published",
+          description: "Inspiring journey of a Jyoti student who achieved their student visa and dream course abroad."
+        },
+        {
+          id: "v-005",
+          title: "Europe route overview",
+          category: "Destination Guides",
+          provider: "local",
+          external_url: "/videos/counseliing video .mp4",
+          duration_seconds: 175,
+          sort_order: 5,
+          status: "published",
+          description: "Detailed overview of affordable, high-quality degree options in Germany, Finland, and Lithuania."
+        }
+      ];
+      for (const v of defaultVideos) {
+        await supabase.from("videos").insert(v);
+      }
+      rawVideos = defaultVideos;
+    }
+
+    const mappedVideos = rawVideos.map((v: any) => {
       let mediaType = v.provider || "video";
       let videoUrl = v.external_url || "";
       let youtubeId = v.provider_video_id || "";

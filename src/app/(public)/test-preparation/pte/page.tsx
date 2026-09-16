@@ -121,6 +121,33 @@ export default function PTEPage() {
                             </tr>
                         </tbody>
                     </table>
+
+                    <h2>Register Your PTE Test Booking</h2>
+
+                    <table className="pte-table" style={{ width: "100%", marginBottom: "24px" }}>
+                        <thead>
+                            <tr style={{ background: "#f8fafc", textAlign: "left" }}>
+                                <th style={{ padding: "12px 14px", border: "1px solid #ddd" }}>Test Type</th>
+                                <th style={{ padding: "12px 14px", border: "1px solid #ddd" }}>Computer Delivered Fee</th>
+                                <th style={{ padding: "12px 14px", border: "1px solid #ddd" }}>Preparation Charge (Institution)</th>
+                                <th style={{ padding: "12px 14px", border: "1px solid #ddd" }}>Additional Information</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style={{ padding: "12px 14px", border: "1px solid #ddd" }}><strong>PTE Academic</strong></td>
+                                <td style={{ padding: "12px 14px", border: "1px solid #ddd" }}>NPR 30,000</td>
+                                <td style={{ padding: "12px 14px", border: "1px solid #ddd" }}><span style={{ color: "#d32f2f", fontWeight: 700 }}>Rs. 8,000</span> <span style={{ fontSize: "12px", color: "#666" }}>(4-6 Weeks)</span></td>
+                                <td style={{ padding: "12px 14px", border: "1px solid #ddd" }}>Conducted by Pearson PLC Group</td>
+                            </tr>
+                            <tr>
+                                <td style={{ padding: "12px 14px", border: "1px solid #ddd" }}><strong>PTE UKVI</strong></td>
+                                <td style={{ padding: "12px 14px", border: "1px solid #ddd" }}>NPR 30,500</td>
+                                <td style={{ padding: "12px 14px", border: "1px solid #ddd" }}><span style={{ color: "#d32f2f", fontWeight: 700 }}>Rs. 8,000</span> <span style={{ fontSize: "12px", color: "#666" }}>(4-6 Weeks)</span></td>
+                                <td style={{ padding: "12px 14px", border: "1px solid #ddd" }}>Approved SELT for UK Visa and Immigration</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </section>
 

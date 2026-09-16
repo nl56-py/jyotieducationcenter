@@ -86,17 +86,28 @@ export default function VideosCMSPage() {
     setIsEditorOpen(true);
   };
 
+  const extractYoutubeId = (val: string): string => {
+    if (!val) return "";
+    const match = val.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+    return match ? match[1] : val.trim();
+  };
+
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     try {
+      const cleanYtId = provider === "youtube" ? extractYoutubeId(providerVideoId) : "";
+      const resolvedExternalUrl = provider === "youtube"
+        ? (cleanYtId ? `https://www.youtube.com/watch?v=${cleanYtId}` : externalUrl)
+        : externalUrl;
+
       const payload = {
         id: selectedVideo?.id,
         title,
         description,
         provider,
-        provider_video_id: provider === "youtube" ? providerVideoId : "",
-        external_url: (provider === "facebook" || provider === "instagram" || provider === "google_drive") ? externalUrl : "",
+        provider_video_id: cleanYtId,
+        external_url: resolvedExternalUrl,
         media_id: provider === "local" ? mediaId : "",
         poster_id: posterId,
         category,
@@ -282,13 +293,19 @@ export default function VideosCMSPage() {
                   </div>
                 )}
                 {provider === "local" && (
-                  <MediaUploadField
-                    label="Upload Video File"
-                    folder="videos"
-                    accept="video/*"
-                    value={mediaId}
-                    onUploaded={(asset) => setMediaId(asset.id)}
-                  />
+                  <>
+                    <MediaUploadField
+                      label="Upload Video File"
+                      folder="videos"
+                      accept="video/*"
+                      value={mediaId}
+                      onUploaded={(asset) => setMediaId(asset.id)}
+                    />
+                    <div className="form-group" style={{ marginTop: "8px" }}>
+                      <label className="form-label" style={{ fontSize: "12px" }}>Or Local Video Path / URL</label>
+                      <input type="text" className="form-input" placeholder="e.g. /videos/edumark-campus.mp4" value={externalUrl} onChange={(e) => setExternalUrl(e.target.value)} />
+                    </div>
+                  </>
                 )}
                 <MediaUploadField
                   label="Poster / Thumbnail"

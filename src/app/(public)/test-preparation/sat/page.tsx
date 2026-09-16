@@ -83,6 +83,27 @@ export default function SATPage() {
                     academic goals.
                 </p>
 
+                <h2>Register Your SAT Test Booking</h2>
+
+                <table className="sat-table" style={{ width: "100%", borderCollapse: "collapse", marginBottom: "24px" }}>
+                    <thead>
+                        <tr style={{ background: "#f8fafc", textAlign: "left" }}>
+                            <th style={{ padding: "12px 14px", border: "1px solid #ddd" }}>Test Type</th>
+                            <th style={{ padding: "12px 14px", border: "1px solid #ddd" }}>Official Exam Fee</th>
+                            <th style={{ padding: "12px 14px", border: "1px solid #ddd" }}>Preparation Charge (Institution)</th>
+                            <th style={{ padding: "12px 14px", border: "1px solid #ddd" }}>Additional Information</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style={{ padding: "12px 14px", border: "1px solid #ddd" }}><strong>Digital SAT</strong></td>
+                            <td style={{ padding: "12px 14px", border: "1px solid #ddd" }}>NPR 15,500 (~$111 USD)</td>
+                            <td style={{ padding: "12px 14px", border: "1px solid #ddd" }}><span style={{ color: "#d32f2f", fontWeight: 700 }}>Rs. 10,000</span> <span style={{ fontSize: "12px", color: "#666" }}>(8-10 Weeks)</span></td>
+                            <td style={{ padding: "12px 14px", border: "1px solid #ddd" }}>Booked directly via College Board website</td>
+                        </tr>
+                    </tbody>
+                </table>
+
                 <div className="why-card">
 
                     <h3>Why Choose Jyoti Educations?</h3>
