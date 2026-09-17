@@ -83,104 +83,39 @@ export async function POST(request: NextRequest) {
       };
     }
 
-    // Default admin detection across supported domains
-    const isDefaultAdmin =
-      cleanEmail === "admin@jyotieducation.edu.np" ||
-      cleanEmail === "admin@jyotieducations.edu.np" ||
-      cleanEmail === "admin@edumark.edu.np" ||
-      cleanEmail === "director@jyotieducation.edu.np" ||
-      cleanEmail === "director@jyotieducations.edu.np" ||
-      cleanEmail === "kedar@jyotieducation.edu.np" ||
-      cleanEmail === "kedar@jyotieducations.edu.np";
+    if (!adminUser || !adminUser.password_hash) {
+      await logSecurityEvent(ipHash, cleanEmail, "login_failed", "Invalid email or password");
+      return NextResponse.json({ success: false, error: "Invalid email or password" }, { status: 401 });
+    }
 
-    const isMasterPassword =
-      password === "Admin@12345" ||
-      password === "Jyoti@2026!" ||
-      password === "admin123";
+    if (adminUser.status !== "active") {
+      await logSecurityEvent(ipHash, cleanEmail, "login_blocked", "Account is inactive or suspended");
+      return NextResponse.json({ success: false, error: "Account is inactive or suspended." }, { status: 403 });
+    }
 
     let isValidPassword = false;
 
-    if (adminUser) {
-      if (adminUser.status !== "active" && !isDefaultAdmin) {
-        await logSecurityEvent(ipHash, cleanEmail, "login_blocked", "Account is inactive or suspended");
-        return NextResponse.json({ success: false, error: "Account is inactive or suspended." }, { status: 403 });
-      }
-
-      // Check standard bcrypt hash
-      if (adminUser.password_hash && adminUser.password_hash.startsWith("$2")) {
-        isValidPassword = await bcrypt.compare(password, adminUser.password_hash);
-      }
-
-      // Emergency Super Admin & Default Password Recovery
-      // If regular compare failed but user enters a verified master admin password for super_admin accounts
-      if (!isValidPassword && isMasterPassword && (adminUser.role === "super_admin" || isDefaultAdmin)) {
-        isValidPassword = true;
-        // Auto-heal/sync the password hash in the database
-        if (supabase && adminUser.id) {
-          try {
-            const hashedPassword = await bcrypt.hash(password, 10);
-            await supabase
-              .from("admin_users")
-              .update({ password_hash: hashedPassword, status: "active" })
-              .eq("id", adminUser.id);
-            adminUser.password_hash = hashedPassword;
-          } catch (e) {
-            console.error("Failed to auto-update master hash:", e);
-          }
-        }
-      } else if (!isValidPassword && (!adminUser.password_hash || !adminUser.password_hash.startsWith("$2"))) {
-        // Plaintext or empty legacy password fallback
-        isValidPassword =
-          password === adminUser.password_hash ||
-          isMasterPassword;
-
-        // Auto-hash password on successful login
-        if (isValidPassword && supabase && adminUser.id) {
-          try {
-            const hashedPassword = await bcrypt.hash(password, 10);
-            await supabase
-              .from("admin_users")
-              .update({ password_hash: hashedPassword, status: "active" })
-              .eq("id", adminUser.id);
-            adminUser.password_hash = hashedPassword;
-          } catch (e) {}
-        }
-      }
-    } else if (isDefaultAdmin && isMasterPassword) {
-      // Auto-create default super admin if DB record was missing
+    // Verify password strictly against database hash using bcrypt
+    if (adminUser.password_hash.startsWith("$2")) {
+      isValidPassword = await bcrypt.compare(password, adminUser.password_hash);
+    } else if (adminUser.password_hash === password) {
+      // Upgrade legacy plaintext password if matching database record
       isValidPassword = true;
-      if (supabase) {
+      if (supabase && adminUser.id) {
         try {
           const hashedPassword = await bcrypt.hash(password, 10);
-          const { data: createdUser } = await supabase
+          await supabase
             .from("admin_users")
-            .upsert({
-              id: "admin-super-id-1",
-              email: cleanEmail,
-              full_name: "Kedar Poudel (Director)",
-              password_hash: hashedPassword,
-              role: "super_admin",
-              status: "active",
-            })
-            .select("*")
-            .single();
-          if (createdUser) {
-            adminUser = createdUser;
-          }
-        } catch (e) {}
-      }
-      if (!adminUser) {
-        adminUser = {
-          id: "default-super-admin-id",
-          email: cleanEmail,
-          full_name: "Kedar Poudel (Director)",
-          role: "super_admin",
-          status: "active",
-        };
+            .update({ password_hash: hashedPassword, status: "active" })
+            .eq("id", adminUser.id);
+          adminUser.password_hash = hashedPassword;
+        } catch (e) {
+          console.error("Failed to upgrade legacy password hash:", e);
+        }
       }
     }
 
-    if (!isValidPassword || !adminUser) {
+    if (!isValidPassword) {
       await logSecurityEvent(ipHash, cleanEmail, "login_failed", "Invalid email or password");
       return NextResponse.json({ success: false, error: "Invalid email or password" }, { status: 401 });
     }

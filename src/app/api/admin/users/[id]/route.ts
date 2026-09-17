@@ -24,7 +24,8 @@ export async function PATCH(
       return NextResponse.json({ success: false, error: "Forbidden: Super Admin access required" }, { status: 403 });
     }
 
-    const { id } = await params;
+    const rawId = (await params).id;
+    const id = decodeURIComponent(rawId).trim();
     const body = await request.json();
     const { role, status, password } = body;
 
@@ -34,21 +35,36 @@ export async function PATCH(
     }
 
     let targetUser: any = null;
+
+    // 1. Lookup by ID
     const { data: byId } = await supabase
       .from("admin_users")
-      .select("id, email, role, status")
+      .select("*")
       .eq("id", id)
       .maybeSingle();
 
     if (byId) {
       targetUser = byId;
     } else {
-      const { data: byEmail } = await supabase
-        .from("admin_users")
-        .select("id, email, role, status")
-        .eq("email", id)
-        .maybeSingle();
-      if (byEmail) targetUser = byEmail;
+      // 2. Lookup by email and domain candidates
+      const candidateEmails = [id.toLowerCase()];
+      if (id.includes("@jyotieducation.edu.np")) {
+        candidateEmails.push(id.toLowerCase().replace("@jyotieducation.edu.np", "@jyotieducations.edu.np"));
+      } else if (id.includes("@jyotieducations.edu.np")) {
+        candidateEmails.push(id.toLowerCase().replace("@jyotieducations.edu.np", "@jyotieducation.edu.np"));
+      }
+
+      for (const cand of candidateEmails) {
+        const { data: byEmail } = await supabase
+          .from("admin_users")
+          .select("*")
+          .eq("email", cand)
+          .maybeSingle();
+        if (byEmail) {
+          targetUser = byEmail;
+          break;
+        }
+      }
     }
 
     if (!targetUser) {
@@ -94,17 +110,38 @@ export async function PATCH(
       return NextResponse.json({ success: false, error: "No fields to update" }, { status: 400 });
     }
 
-    const targetId = targetUser.id || id;
-    const { data: updatedUser, error: updateError } = await supabase
-      .from("admin_users")
-      .update(updates)
-      .eq("id", targetId);
+    let updateSuccess = false;
+    let updateErrorMsg: string | null = null;
 
-    if (updateError) {
-      return NextResponse.json({ success: false, error: updateError.message }, { status: 500 });
+    if (targetUser.id) {
+      const { error: errId } = await supabase
+        .from("admin_users")
+        .update(updates)
+        .eq("id", targetUser.id);
+      if (!errId) {
+        updateSuccess = true;
+      } else {
+        updateErrorMsg = errId.message;
+      }
     }
 
-    return NextResponse.json({ success: true, user: updatedUser });
+    if (targetUser.email) {
+      const { error: errEmail } = await supabase
+        .from("admin_users")
+        .update(updates)
+        .eq("email", targetUser.email);
+      if (!errEmail) {
+        updateSuccess = true;
+      } else if (!updateErrorMsg) {
+        updateErrorMsg = errEmail.message;
+      }
+    }
+
+    if (!updateSuccess) {
+      return NextResponse.json({ success: false, error: updateErrorMsg || "Failed to update user record" }, { status: 500 });
+    }
+
+    return NextResponse.json({ success: true, user: { ...targetUser, ...updates } });
   } catch (err: any) {
     return safeErrorResponse(err, { logLabel: "Users item PATCH" });
   }
@@ -124,7 +161,8 @@ export async function DELETE(
       return NextResponse.json({ success: false, error: "Forbidden: Super Admin access required" }, { status: 403 });
     }
 
-    const { id } = await params;
+    const rawId = (await params).id;
+    const id = decodeURIComponent(rawId).trim();
     const supabase = await createSupabaseServerClient();
     if (!supabase) {
       return NextResponse.json({ success: false, error: "Database client not configured" }, { status: 500 });
@@ -140,12 +178,24 @@ export async function DELETE(
     if (byId) {
       targetUser = byId;
     } else {
-      const { data: byEmail } = await supabase
-        .from("admin_users")
-        .select("id, email")
-        .eq("email", id)
-        .maybeSingle();
-      if (byEmail) targetUser = byEmail;
+      const candidateEmails = [id.toLowerCase()];
+      if (id.includes("@jyotieducation.edu.np")) {
+        candidateEmails.push(id.toLowerCase().replace("@jyotieducation.edu.np", "@jyotieducations.edu.np"));
+      } else if (id.includes("@jyotieducations.edu.np")) {
+        candidateEmails.push(id.toLowerCase().replace("@jyotieducations.edu.np", "@jyotieducation.edu.np"));
+      }
+
+      for (const cand of candidateEmails) {
+        const { data: byEmail } = await supabase
+          .from("admin_users")
+          .select("id, email")
+          .eq("email", cand)
+          .maybeSingle();
+        if (byEmail) {
+          targetUser = byEmail;
+          break;
+        }
+      }
     }
 
     if (!targetUser) {
@@ -163,14 +213,35 @@ export async function DELETE(
       );
     }
 
-    const targetId = targetUser.id || id;
-    const { error: deleteError } = await supabase
-      .from("admin_users")
-      .delete()
-      .eq("id", targetId);
+    let deleteSuccess = false;
+    let deleteErrorMsg: string | null = null;
 
-    if (deleteError) {
-      return NextResponse.json({ success: false, error: deleteError.message }, { status: 500 });
+    if (targetUser.id) {
+      const { error: errId } = await supabase
+        .from("admin_users")
+        .delete()
+        .eq("id", targetUser.id);
+      if (!errId) {
+        deleteSuccess = true;
+      } else {
+        deleteErrorMsg = errId.message;
+      }
+    }
+
+    if (!deleteSuccess && targetUser.email) {
+      const { error: errEmail } = await supabase
+        .from("admin_users")
+        .delete()
+        .eq("email", targetUser.email);
+      if (!errEmail) {
+        deleteSuccess = true;
+      } else if (!deleteErrorMsg) {
+        deleteErrorMsg = errEmail.message;
+      }
+    }
+
+    if (!deleteSuccess) {
+      return NextResponse.json({ success: false, error: deleteErrorMsg || "Failed to delete user" }, { status: 500 });
     }
 
     return NextResponse.json({ success: true, message: "User deleted successfully" });

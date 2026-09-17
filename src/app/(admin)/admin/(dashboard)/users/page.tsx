@@ -50,7 +50,8 @@ export default function UsersManagementPage() {
 
     setResetPasswordSubmitting(true);
     try {
-      const response = await fetch(`/api/admin/users/${resetPasswordUser.id}`, {
+      const targetIdentifier = resetPasswordUser.id || resetPasswordUser.email;
+      const response = await fetch(`/api/admin/users/${encodeURIComponent(targetIdentifier)}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ password: resetPasswordVal }),
@@ -142,7 +143,7 @@ export default function UsersManagementPage() {
 
   const handleRoleChange = async (userId: string, newRole: string) => {
     try {
-      const response = await fetch(`/api/admin/users/${userId}`, {
+      const response = await fetch(`/api/admin/users/${encodeURIComponent(userId)}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ role: newRole })
@@ -165,7 +166,7 @@ export default function UsersManagementPage() {
     const currentStatus = (targetUser.status || targetUser.STATUS || "active").toLowerCase();
     const nextStatus = currentStatus === "active" ? "suspended" : "active";
     try {
-      const response = await fetch(`/api/admin/users/${userId}`, {
+      const response = await fetch(`/api/admin/users/${encodeURIComponent(userId)}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: nextStatus })
@@ -186,7 +187,8 @@ export default function UsersManagementPage() {
     if (!deleteConfirmUser) return;
     setDeleting(true);
     try {
-      const response = await fetch(`/api/admin/users/${deleteConfirmUser.id}`, {
+      const targetIdentifier = deleteConfirmUser.id || deleteConfirmUser.email;
+      const response = await fetch(`/api/admin/users/${encodeURIComponent(targetIdentifier)}`, {
         method: "DELETE",
       });
       const data = await response.json();
