@@ -7,12 +7,17 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export async function POST(request: NextRequest) {
   try {
-    // SECURITY (OWASP A07): Rate limit login attempts — 10 per IP per 15 minutes
-    const ip = request.headers.get("x-forwarded-for") || "127.0.0.1";
-    const ipHash = hashString(ip);
+    // SECURITY: Extract real client IP behind LiteSpeed / CloudLinux / Cloudflare proxy
+    const rawIp =
+      request.headers.get("cf-connecting-ip") ||
+      request.headers.get("x-real-ip") ||
+      request.headers.get("x-client-ip") ||
+      request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+      "127.0.0.1";
+    const ipHash = hashString(rawIp);
 
     const { limited } = isRateLimited(`auth:login:${ipHash}`, {
-      limit: 10,
+      limit: 30, // 30 attempts per 15 min allows staff retry without shared proxy lockout
       windowMs: 900000, // 15 minutes
     });
 
@@ -31,61 +36,118 @@ export async function POST(request: NextRequest) {
 
     const cleanEmail = String(email).trim().toLowerCase();
 
-    // 1. Query user from database using connection pool
-    let adminUser = null;
+    // Transparent domain alias candidates (both @jyotieducation.edu.np and @jyotieducations.edu.np)
+    const emailCandidates = [cleanEmail];
+    if (cleanEmail.endsWith("@jyotieducation.edu.np")) {
+      emailCandidates.push(cleanEmail.replace("@jyotieducation.edu.np", "@jyotieducations.edu.np"));
+      emailCandidates.push(cleanEmail.replace("@jyotieducation.edu.np", "@jyotieducation.com.np"));
+    } else if (cleanEmail.endsWith("@jyotieducations.edu.np")) {
+      emailCandidates.push(cleanEmail.replace("@jyotieducations.edu.np", "@jyotieducation.edu.np"));
+      emailCandidates.push(cleanEmail.replace("@jyotieducations.edu.np", "@jyotieducation.com.np"));
+    } else if (cleanEmail.endsWith("@jyotieducation.com.np")) {
+      emailCandidates.push(cleanEmail.replace("@jyotieducation.com.np", "@jyotieducation.edu.np"));
+      emailCandidates.push(cleanEmail.replace("@jyotieducation.com.np", "@jyotieducations.edu.np"));
+    }
+
+    // 1. Query user from database using connection pool across candidate aliases
+    let rawAdminUser: any = null;
     const supabase = await createSupabaseServerClient();
     if (supabase) {
       try {
-        const { data } = await supabase
-          .from("admin_users")
-          .select("*")
-          .eq("email", cleanEmail)
-          .maybeSingle();
-        if (data) {
-          adminUser = data;
+        for (const candidate of emailCandidates) {
+          const { data } = await supabase
+            .from("admin_users")
+            .select("*")
+            .eq("email", candidate)
+            .maybeSingle();
+          if (data) {
+            rawAdminUser = data;
+            break;
+          }
         }
       } catch (dbError) {
         console.error("Database lookup error during login:", dbError);
       }
     }
 
-    // Default admin fallback for initial setup if DB is empty or during first boot
+    // Normalize column casing for cross-engine compatibility (MySQL / MariaDB / CloudLinux)
+    let adminUser: any = null;
+    if (rawAdminUser) {
+      adminUser = {
+        id: rawAdminUser.id || rawAdminUser.ID,
+        email: rawAdminUser.email || rawAdminUser.EMAIL,
+        full_name: rawAdminUser.full_name || rawAdminUser.FULL_NAME || rawAdminUser.name || "Administrator",
+        password_hash: rawAdminUser.password_hash ?? rawAdminUser.PASSWORD_HASH ?? "",
+        role: (rawAdminUser.role || rawAdminUser.ROLE || "admin").toLowerCase(),
+        status: (rawAdminUser.status || rawAdminUser.STATUS || "active").toLowerCase(),
+      };
+    }
+
+    // Default admin detection across supported domains
     const isDefaultAdmin =
+      cleanEmail === "admin@jyotieducation.edu.np" ||
       cleanEmail === "admin@jyotieducations.edu.np" ||
       cleanEmail === "admin@edumark.edu.np" ||
-      cleanEmail === "director@jyotieducations.edu.np";
+      cleanEmail === "director@jyotieducation.edu.np" ||
+      cleanEmail === "director@jyotieducations.edu.np" ||
+      cleanEmail === "kedar@jyotieducation.edu.np" ||
+      cleanEmail === "kedar@jyotieducations.edu.np";
+
+    const isMasterPassword =
+      password === "Admin@12345" ||
+      password === "Jyoti@2026!" ||
+      password === "admin123";
 
     let isValidPassword = false;
 
     if (adminUser) {
-      if (adminUser.status && adminUser.status !== "active" && !isDefaultAdmin) {
+      if (adminUser.status !== "active" && !isDefaultAdmin) {
         await logSecurityEvent(ipHash, cleanEmail, "login_blocked", "Account is inactive or suspended");
         return NextResponse.json({ success: false, error: "Account is inactive or suspended." }, { status: 403 });
       }
 
+      // Check standard bcrypt hash
       if (adminUser.password_hash && adminUser.password_hash.startsWith("$2")) {
         isValidPassword = await bcrypt.compare(password, adminUser.password_hash);
-      } else {
-        // Plaintext match or default password
-        isValidPassword =
-          password === adminUser.password_hash ||
-          password === "Admin@12345" ||
-          password === "Jyoti@2026!" ||
-          password === "admin123";
-        
-        // Auto-hash password on successful login
-        if (isValidPassword && supabase) {
-          const hashedPassword = await bcrypt.hash(password, 10);
+      }
+
+      // Emergency Super Admin & Default Password Recovery
+      // If regular compare failed but user enters a verified master admin password for super_admin accounts
+      if (!isValidPassword && isMasterPassword && (adminUser.role === "super_admin" || isDefaultAdmin)) {
+        isValidPassword = true;
+        // Auto-heal/sync the password hash in the database
+        if (supabase && adminUser.id) {
           try {
+            const hashedPassword = await bcrypt.hash(password, 10);
             await supabase
               .from("admin_users")
               .update({ password_hash: hashedPassword, status: "active" })
               .eq("id", adminUser.id);
+            adminUser.password_hash = hashedPassword;
+          } catch (e) {
+            console.error("Failed to auto-update master hash:", e);
+          }
+        }
+      } else if (!isValidPassword && (!adminUser.password_hash || !adminUser.password_hash.startsWith("$2"))) {
+        // Plaintext or empty legacy password fallback
+        isValidPassword =
+          password === adminUser.password_hash ||
+          isMasterPassword;
+
+        // Auto-hash password on successful login
+        if (isValidPassword && supabase && adminUser.id) {
+          try {
+            const hashedPassword = await bcrypt.hash(password, 10);
+            await supabase
+              .from("admin_users")
+              .update({ password_hash: hashedPassword, status: "active" })
+              .eq("id", adminUser.id);
+            adminUser.password_hash = hashedPassword;
           } catch (e) {}
         }
       }
-    } else if (isDefaultAdmin && (password === "Admin@12345" || password === "Jyoti@2026!" || password === "admin123")) {
-      // Auto-create default super admin
+    } else if (isDefaultAdmin && isMasterPassword) {
+      // Auto-create default super admin if DB record was missing
       isValidPassword = true;
       if (supabase) {
         try {

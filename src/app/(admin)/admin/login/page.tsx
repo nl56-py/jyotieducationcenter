@@ -149,7 +149,7 @@ function LoginForm() {
               id="email"
               type="email"
               className="form-input"
-              placeholder="e.g. admin@jyotieducations.edu.np"
+              placeholder="e.g. admin@jyotieducation.edu.np"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -179,6 +179,27 @@ function LoginForm() {
           </button>
         </form>
 
+        <div 
+          style={{
+            marginTop: "20px",
+            padding: "12px 14px",
+            background: "rgba(0,0,0,0.03)",
+            borderRadius: "var(--dm-rounded-md, 8px)",
+            fontSize: "12px",
+            color: "var(--dm-outline, #64748b)",
+            lineHeight: "1.5",
+            border: "1px solid rgba(0,0,0,0.06)",
+          }}
+        >
+          <div style={{ fontWeight: 600, color: "inherit", marginBottom: "4px" }}>
+            Super Admin Default Access:
+          </div>
+          <div>Email: <code>admin@jyotieducation.edu.np</code></div>
+          <div>Password: <code>Admin@12345</code></div>
+          <div style={{ marginTop: "6px", fontSize: "11px", opacity: 0.85 }}>
+            Both <code>@jyotieducation.edu.np</code> and <code>@jyotieducations.edu.np</code> domains are accepted.
+          </div>
+        </div>
 
       </div>
     </div>

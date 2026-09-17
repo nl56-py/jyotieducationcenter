@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { AdminRole } from "../supabase/types";
 import { hasPermission, Permission } from "./roles";
 import { verifyJwtToken } from "./jwt";
-import prisma from "../db/prisma";
+import { createSupabaseServerClient } from "../supabase/server";
 
 export interface AuthenticatedUser {
   id: string;
@@ -22,30 +22,52 @@ export async function getCurrentUser(): Promise<AuthenticatedUser | null> {
     if (token) {
       const payload = verifyJwtToken(token);
       if (payload) {
-        // Verify user is still active in database
+        // Verify user is still active in database using native MySQL pool
         try {
-          const user = await prisma.adminUser.findUnique({
-            where: { email: payload.email },
-            select: { id: true, email: true, role: true, full_name: true, status: true },
-          });
-
-          if (user) {
-            if (user.status !== "active") {
-              // Account is inactive or suspended
-              return null;
+          const supabase = await createSupabaseServerClient();
+          if (supabase) {
+            const cleanEmail = payload.email.toLowerCase();
+            const emailCandidates = [cleanEmail];
+            if (cleanEmail.endsWith("@jyotieducation.edu.np")) {
+              emailCandidates.push(cleanEmail.replace("@jyotieducation.edu.np", "@jyotieducations.edu.np"));
+            } else if (cleanEmail.endsWith("@jyotieducations.edu.np")) {
+              emailCandidates.push(cleanEmail.replace("@jyotieducations.edu.np", "@jyotieducation.edu.np"));
             }
-            return {
-              id: user.id,
-              email: user.email,
-              role: user.role as AdminRole,
-              fullName: user.full_name,
-            };
+
+            let dbUser: any = null;
+            for (const candidate of emailCandidates) {
+              const { data } = await supabase
+                .from("admin_users")
+                .select("id, email, role, full_name, status")
+                .eq("email", candidate)
+                .maybeSingle();
+              if (data) {
+                dbUser = data;
+                break;
+              }
+            }
+
+            if (dbUser) {
+              const status = (dbUser.status || dbUser.STATUS || "active").toLowerCase();
+              if (status !== "active") {
+                // Account is inactive or suspended
+                return null;
+              }
+              const role = (dbUser.role || dbUser.ROLE || payload.role).toLowerCase() as AdminRole;
+              const fullName = dbUser.full_name || dbUser.FULL_NAME || payload.fullName;
+              return {
+                id: dbUser.id || dbUser.ID || payload.id,
+                email: dbUser.email || dbUser.EMAIL || payload.email,
+                role,
+                fullName,
+              };
+            }
           }
         } catch (dbError) {
           // If DB is temporarily unreachable, fallback to verified JWT payload
         }
 
-        // Fallback to verified JWT payload if user record is not yet in Prisma or during setup
+        // Fallback to verified JWT payload if user record is during cold-start/setup
         return {
           id: payload.id,
           email: payload.email,

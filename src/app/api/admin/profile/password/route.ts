@@ -23,14 +23,24 @@ export async function POST(request: NextRequest) {
     // Hash new password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const { error } = await supabase
+    let updateError: any = null;
+    const { error: errById } = await supabase
       .from("admin_users")
-      .update({ password_hash: hashedPassword, updated_at: new Date() })
+      .update({ password_hash: hashedPassword })
       .eq("id", user.id);
 
-    if (error) {
-      console.error("Profile password update error:", error);
-      return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    if (errById) updateError = errById;
+
+    if (user.email) {
+      await supabase
+        .from("admin_users")
+        .update({ password_hash: hashedPassword })
+        .eq("email", user.email.toLowerCase());
+    }
+
+    if (updateError) {
+      console.error("Profile password update error:", updateError);
+      return NextResponse.json({ success: false, error: updateError.message }, { status: 500 });
     }
 
     return NextResponse.json({ success: true, message: "Password updated successfully" });

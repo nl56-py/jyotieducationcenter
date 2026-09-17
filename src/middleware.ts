@@ -57,13 +57,8 @@ export async function middleware(request: NextRequest) {
 
     // Redirect logic
     if (path === "/admin/login") {
-      const isSwitching =
-        request.nextUrl.searchParams.get("switch") === "true" ||
-        request.nextUrl.searchParams.get("logout") === "true";
-
-      if (isAuthenticated && !isSwitching) {
-        return NextResponse.redirect(new URL("/admin", request.url));
-      }
+      // Allow accessing login page to permit account switching and credential recovery
+      return response;
     } else {
       if (!isAuthenticated) {
         const loginUrl = new URL("/admin/login", request.url);

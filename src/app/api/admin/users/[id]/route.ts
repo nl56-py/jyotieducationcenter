@@ -33,21 +33,36 @@ export async function PATCH(
       return NextResponse.json({ success: false, error: "Database client not configured" }, { status: 500 });
     }
 
-    const { data: targetUser } = await supabase
+    let targetUser: any = null;
+    const { data: byId } = await supabase
       .from("admin_users")
-      .select("id, email")
+      .select("id, email, role, status")
       .eq("id", id)
-      .single();
+      .maybeSingle();
+
+    if (byId) {
+      targetUser = byId;
+    } else {
+      const { data: byEmail } = await supabase
+        .from("admin_users")
+        .select("id, email, role, status")
+        .eq("email", id)
+        .maybeSingle();
+      if (byEmail) targetUser = byEmail;
+    }
 
     if (!targetUser) {
       return NextResponse.json({ success: false, error: "User not found" }, { status: 404 });
     }
 
-    // Self-modification protection
-    const isSelf = targetUser.id === user.id || targetUser.email === user.email;
-    if (isSelf) {
+    const targetEmail = String(targetUser.email || targetUser.EMAIL || "").toLowerCase();
+    const userEmail = String(user.email || "").toLowerCase();
+    const isSelf = targetUser.id === user.id || targetEmail === userEmail;
+
+    // Self-modification protection: allow changing own password, but block demoting or suspending self
+    if (isSelf && (role !== undefined || status !== undefined)) {
       return NextResponse.json(
-        { success: false, error: "Forbidden: You cannot change your own role, status, or password from here." },
+        { success: false, error: "Forbidden: You cannot change your own role or suspend your own account." },
         { status: 400 }
       );
     }
@@ -79,10 +94,11 @@ export async function PATCH(
       return NextResponse.json({ success: false, error: "No fields to update" }, { status: 400 });
     }
 
+    const targetId = targetUser.id || id;
     const { data: updatedUser, error: updateError } = await supabase
       .from("admin_users")
       .update(updates)
-      .eq("id", id);
+      .eq("id", targetId);
 
     if (updateError) {
       return NextResponse.json({ success: false, error: updateError.message }, { status: 500 });
@@ -91,5 +107,74 @@ export async function PATCH(
     return NextResponse.json({ success: true, user: updatedUser });
   } catch (err: any) {
     return safeErrorResponse(err, { logLabel: "Users item PATCH" });
+  }
+}
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const user = await getCurrentUser();
+    if (!user) {
+      return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
+    }
+
+    if (user.role !== "super_admin") {
+      return NextResponse.json({ success: false, error: "Forbidden: Super Admin access required" }, { status: 403 });
+    }
+
+    const { id } = await params;
+    const supabase = await createSupabaseServerClient();
+    if (!supabase) {
+      return NextResponse.json({ success: false, error: "Database client not configured" }, { status: 500 });
+    }
+
+    let targetUser: any = null;
+    const { data: byId } = await supabase
+      .from("admin_users")
+      .select("id, email")
+      .eq("id", id)
+      .maybeSingle();
+
+    if (byId) {
+      targetUser = byId;
+    } else {
+      const { data: byEmail } = await supabase
+        .from("admin_users")
+        .select("id, email")
+        .eq("email", id)
+        .maybeSingle();
+      if (byEmail) targetUser = byEmail;
+    }
+
+    if (!targetUser) {
+      return NextResponse.json({ success: false, error: "User not found" }, { status: 404 });
+    }
+
+    const targetEmail = String(targetUser.email || targetUser.EMAIL || "").toLowerCase();
+    const userEmail = String(user.email || "").toLowerCase();
+    const isSelf = targetUser.id === user.id || targetEmail === userEmail;
+
+    if (isSelf) {
+      return NextResponse.json(
+        { success: false, error: "Forbidden: You cannot delete your own account." },
+        { status: 400 }
+      );
+    }
+
+    const targetId = targetUser.id || id;
+    const { error: deleteError } = await supabase
+      .from("admin_users")
+      .delete()
+      .eq("id", targetId);
+
+    if (deleteError) {
+      return NextResponse.json({ success: false, error: deleteError.message }, { status: 500 });
+    }
+
+    return NextResponse.json({ success: true, message: "User deleted successfully" });
+  } catch (err: any) {
+    return safeErrorResponse(err, { logLabel: "Users item DELETE" });
   }
 }

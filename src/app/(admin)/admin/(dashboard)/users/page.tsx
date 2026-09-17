@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, ShieldAlert, UserCheck, UserX, Loader2, X, Lock } from "lucide-react";
+import { Plus, ShieldAlert, UserCheck, UserX, Loader2, X, Lock, Trash2, Info, ShieldCheck } from "lucide-react";
 
 export default function UsersManagementPage() {
   const [currentUser, setCurrentUser] = useState<any>(null);
@@ -16,6 +16,10 @@ export default function UsersManagementPage() {
   const [newUserRole, setNewUserRole] = useState("counselor");
   const [submitting, setSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+
+  // Delete User State
+  const [deleteConfirmUser, setDeleteConfirmUser] = useState<any>(null);
+  const [deleting, setDeleting] = useState(false);
 
   // Reset Password States
   const [resetPasswordOpen, setResetPasswordOpen] = useState(false);
@@ -178,6 +182,28 @@ export default function UsersManagementPage() {
     }
   };
 
+  const handleDeleteSubmit = async () => {
+    if (!deleteConfirmUser) return;
+    setDeleting(true);
+    try {
+      const response = await fetch(`/api/admin/users/${deleteConfirmUser.id}`, {
+        method: "DELETE",
+      });
+      const data = await response.json();
+      if (data.success) {
+        setUsers(users.filter(u => u.id !== deleteConfirmUser.id));
+        setDeleteConfirmUser(null);
+      } else {
+        alert(data.error || "Failed to delete user account.");
+      }
+    } catch (err) {
+      console.error("Failed to delete user", err);
+      alert("Failed to delete user due to network error.");
+    } finally {
+      setDeleting(false);
+    }
+  };
+
   const handleInviteSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg("");
@@ -236,6 +262,23 @@ export default function UsersManagementPage() {
         </button>
       </div>
 
+      {/* Role Summary Banner */}
+      <div className="panel-card" style={{ padding: "16px 20px", marginBottom: "20px", background: "var(--dm-surface-variant)", border: "none" }}>
+        <div style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}>
+          <ShieldCheck size={20} style={{ color: "var(--dm-primary)", marginTop: "2px", flexShrink: 0 }} />
+          <div style={{ fontSize: "13px", lineHeight: "1.5" }}>
+            <strong>Role Permissions Summary:</strong>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "16px", marginTop: "8px", color: "var(--dm-on-surface-variant)" }}>
+              <span><strong>Super Admin:</strong> Full unrestricted access + Users management</span>
+              <span><strong>Admin:</strong> CRM, CMS, Security & Settings</span>
+              <span><strong>Editor:</strong> CMS Blogs, Destinations & Media</span>
+              <span><strong>Counselor:</strong> Leads & Bookings Manager</span>
+              <span><strong>Viewer:</strong> Read-only CRM</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div className="panel-card">
         <div className="table-responsive">
           <table className="admin-table">
@@ -250,7 +293,9 @@ export default function UsersManagementPage() {
             </thead>
             <tbody>
               {users.map(u => {
-                const isSelf = u.user_id === currentUser.id || u.email === currentUser.email;
+                const userEmail = String(currentUser?.email || "").toLowerCase();
+                const rowEmail = String(u.email || u.EMAIL || "").toLowerCase();
+                const isSelf = (u.id && currentUser?.id && u.id === currentUser.id) || (userEmail && rowEmail && userEmail === rowEmail);
                 return (
                   <tr key={u.id}>
                     <td>
@@ -314,10 +359,20 @@ export default function UsersManagementPage() {
                           className="btn btn-light" 
                           style={{ height: "30px", padding: "0 10px", gap: "4px", fontSize: "12px" }}
                           onClick={() => handleOpenResetPasswordModal(u)}
-                          disabled={isSelf}
+                          title="Reset Password"
                         >
                           <Lock size={12} /> Password
                         </button>
+                        {!isSelf && (
+                          <button 
+                            className="btn btn-light" 
+                            style={{ height: "30px", padding: "0 8px", gap: "4px", fontSize: "12px", color: "var(--dm-error)" }}
+                            onClick={() => setDeleteConfirmUser(u)}
+                            title="Delete User"
+                          >
+                            <Trash2 size={13} />
+                          </button>
+                        )}
                       </div>
                     </td>
                   </tr>
@@ -532,6 +587,53 @@ export default function UsersManagementPage() {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Delete User Confirmation Modal */}
+      {deleteConfirmUser && (
+        <div className="modal-overlay">
+          <div className="modal-content" style={{ maxWidth: "420px" }}>
+            <div className="modal-header">
+              <h3 className="modal-title" style={{ color: "var(--dm-error)", display: "flex", alignItems: "center", gap: "8px" }}>
+                <Trash2 size={18} /> Delete Administrator
+              </h3>
+              <button 
+                onClick={() => setDeleteConfirmUser(null)} 
+                style={{ background: "none", border: "none", cursor: "pointer", color: "var(--dm-outline)" }}
+              >
+                <X size={20} />
+              </button>
+            </div>
+            <div className="modal-body">
+              <p style={{ fontSize: "14px", lineHeight: "1.5" }}>
+                Are you sure you want to permanently delete <strong>{deleteConfirmUser.full_name}</strong> (<code>{deleteConfirmUser.email}</code>)?
+              </p>
+              <p style={{ fontSize: "13px", color: "var(--dm-outline)", marginTop: "8px" }}>
+                This user will immediately lose all access to the administrative panel. This action cannot be undone.
+              </p>
+            </div>
+            <div className="modal-footer">
+              <button 
+                type="button" 
+                className="btn btn-light" 
+                onClick={() => setDeleteConfirmUser(null)}
+                disabled={deleting}
+              >
+                Cancel
+              </button>
+              <button 
+                type="button" 
+                className="btn btn-primary"
+                style={{ background: "var(--dm-error)", borderColor: "var(--dm-error)" }}
+                onClick={handleDeleteSubmit}
+                disabled={deleting}
+              >
+                {deleting && <Loader2 size={14} className="animate-spin" />}
+                Delete User
+              </button>
+            </div>
           </div>
         </div>
       )}
